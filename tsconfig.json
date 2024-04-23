@@ -24,7 +24,7 @@
       "stripInternal": true,
       "incremental": true,
       "skipLibCheck": true,
-      "baseUrl": "./src",
+      "outDir": "./dist",
     },
     "include": ["./src/**/*", "**/*.ts"],
     "exclude": ["node_modules"]
