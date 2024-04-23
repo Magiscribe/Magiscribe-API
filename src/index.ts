@@ -8,21 +8,20 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+  typeDefs,
+  resolvers,
 });
 
 server.start().then(() => {
-    app.use(
-        '/graphql',
-        express.json(),
-        expressMiddleware(server, {
-            context: async ({ req }) => ({ token: req.headers.token }),
-        }),
-    );
+  app.use(
+    '/graphql',
+    express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+    }),
+  );
 
-    app.listen(PORT, () => {
-        console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`)
-    });
+  app.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+  });
 });
-
