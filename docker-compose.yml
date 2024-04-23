@@ -1,0 +1,35 @@
+# Local Development Environment Setup
+# Written by: [Your Name]
+#
+# Description:
+# This Docker Compose file is used to set up a local development environment
+# for the application including the a Python execution environment, database,
+# and session store.
+
+services:
+  #================= Python Executor =================
+  # Description: This service is responsible for executing Python code in an isolated environment.
+  python-executor:
+    build: ./lambdas/python-executor
+    ports:
+      - '9000:8080'
+
+  #================= MongoDB =================
+  # Description: MongoDB is used to store the application data.
+  database:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  #================= Redis =================
+  # TODO: Uncomment when we add Redis to prod.
+  # Description: Redis is used to handle GraphQL subscriptions and session management.
+  # session-store:
+  #   image: redis:latest
+  #   ports:
+  #     - '6379:6379'
+  #   environment:
+  #     REDIS_PASSWORD: redis_password

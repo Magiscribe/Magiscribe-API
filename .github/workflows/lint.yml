@@ -1,0 +1,35 @@
+name: Lint and Test 🔎
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: ./pnpm-lock.yaml
+
+      - name: 'Install Dependencies'
+        run: pnpm install
+
+      - name: 'Lint'
+        run: pnpm run check
+
+      - name: 'Test'
+        run: pnpm run test

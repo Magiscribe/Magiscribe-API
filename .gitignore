@@ -1,0 +1,13 @@
+*.d.ts
+!src/customTypes/**/*.d.ts
+*.js
+node_modules
+tsconfig.tsbuildinfo
+!jest.config.js
+!setup.js
+**/dist
+.env
+!.env.example
+newrelic_agent.log
+debug.log
+coverage

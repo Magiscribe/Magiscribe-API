@@ -1,0 +1,163 @@
+name: Deploy API 🌠
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: api-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev'}}
+  cancel-in-progress: false
+
+jobs:
+  build-lambda:
+    name: Build Lambda Image
+    uses: ./.github/workflows/build-container.yml
+    with:
+      path: './lambdas/python-executor'
+      repository: 'python-executor'
+      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
+      region: 'us-east-1'
+    secrets: inherit
+  build-api:
+    name: Build API Image
+    uses: ./.github/workflows/build-container.yml
+    with:
+      path: './'
+      repository: 'magiscribe-api'
+      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
+      region: 'us-east-1'
+    secrets: inherit
+
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    needs: [build-api, build-lambda]
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Get Latest Task Definition
+        id: get-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION --query 'taskDefinition' --output json > ${{ github.workspace }}/task-def.json
+          echo "definition=${{ github.workspace }}/task-def.json" >> $GITHUB_OUTPUT
+
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "service=$SERVICE" >> $GITHUB_OUTPUT
+          echo "cluster=$CLUSTER" >> $GITHUB_OUTPUT
+        env:
+          NAME: ${{ secrets.ECS_CONTAINER_NAME }}
+          SERVICE: ${{ secrets.ECS_SERVICE_NAME }}
+          ECS_TASK_DEFINITION: ${{ secrets.ECS_TASK_DEFINITION }}
+          CLUSTER: ${{ secrets.ECS_CLUSTER_NAME }}
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@23e93b6b860a402948c739b0db055bc5dc55dfa9
+        with:
+          task-definition: ${{ steps.get-task-def.outputs.definition }}
+          container-name: ${{ steps.get-task-def.outputs.name }}
+          image: ${{ needs.build-api.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@176bcc0288c49ee545288583859af21ee17f4b2c
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ steps.get-task-def.outputs.service }}
+          cluster: ${{ steps.get-task-def.outputs.cluster }}
+          wait-for-service-stability: true
+
+  database-migrate:
+    name: Database Migrate
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: './pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Get SSM Parameters
+        id: get-ssm-parameters
+        env:
+          AWS_REGION: us-east-1
+        run: |
+          MONGODB_URL=$(aws ssm get-parameter --name MONGODB_CONNECTION_STRING --with-decryption --query 'Parameter.Value' | tr -d '"')
+          MONGODB_USER=$(aws ssm get-parameter --name MONGODB_USER --with-decryption --query 'Parameter.Value' | tr -d '"')
+          MONGODB_PASSWORD=$(aws ssm get-parameter --name MONGODB_PASSWORD --with-decryption --query 'Parameter.Value' | tr -d '"')
+
+          echo "MONGODB_URL=$MONGODB_URL" >> $GITHUB_ENV
+          echo "MONGODB_USER=$MONGODB_USER" >> $GITHUB_ENV
+          echo "MONGODB_PASSWORD=$MONGODB_PASSWORD" >> $GITHUB_ENV
+
+      - name: Get the public IP of this runner
+        id: get_gh_runner_ip
+        shell: bash
+        run: |
+          echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup MongoDB Atlas cli
+        uses: mongodb/atlas-github-action@v0.2.1
+
+      - name: Add runner IP to MongoDB access list
+        shell: bash
+        env:
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
+        run: |
+          atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId $MONGODB_ATLAS_PROJECT_ID --comment "GitHub Actions Runner"
+
+      - name: Wait for MongoDB access list to update
+        shell: bash
+        run: |
+          sleep 30
+
+      - name: Migrate Database
+        run: pnpm run db:import
+        env:
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+          # Add any database-specific environment variables here
+          MONGODB_URL: ${{ env.MONGODB_URL }}
+          MONGODB_USER: ${{ env.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}
+
+      - name: Remove runner IP from MongoDB access list
+        if: always()
+        shell: bash
+        env:
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
+        run: |
+          atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId $MONGODB_ATLAS_PROJECT_ID --force
