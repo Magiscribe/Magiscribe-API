@@ -1,0 +1,29 @@
+{
+  "name": "my-graphql-project",
+  "version": "1.0.0",
+  "description": "A simple GraphQL API with TypeScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" -r tsconfig-paths/register src/index.ts",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luc",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/server": "^4.10.4",
+    "@aws-sdk/client-bedrock-runtime": "^3.556.0",
+    "express": "^4.19.2",
+    "graphql": "^16.8.1",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "packageManager": "pnpm@9.0.2+sha1.2a34aeb80bf8e8435815d14f620ec4ba0eff1604"
+}
