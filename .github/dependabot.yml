@@ -6,12 +6,13 @@
 version: 2
 updates:
   # Root
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-
+      interval: "weekly"
+      
+  # API
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: '/app'
     schedule:
       interval: 'weekly'
