@@ -108,6 +108,23 @@ export class Cluster extends Construct {
                         ],
                     }),
                 },
+                {
+                    name: "invoke-policy",
+                    policy: JSON.stringify({
+                        Version: "2012-10-17",
+                        Statement: [
+                            {
+                                Effect: "Allow",
+                                Action: [
+                                    "lambda:InvokeFunction",
+                                    "lambda:GetFunction",
+                                    "lambda:DescribeFunction",
+                                ],
+                                Resource: "*",
+                            },
+                        ],
+                    }),
+                },
             ],
             assumeRolePolicy: JSON.stringify({
                 Version: "2012-10-17",

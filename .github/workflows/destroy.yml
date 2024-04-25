@@ -1,0 +1,59 @@
+name: Destroy
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'infrastructure'
+  cancel-in-progress: true
+
+jobs:
+  terraform:
+    name: "Terraform CDK Destroy"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: ./infrastructure/pnpm-lock.yaml
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate module and provider bindings
+        run: pnpm run get
+
+      - name: Run Terraform CDK
+        uses: hashicorp/terraform-cdk-action@v4
+        with:
+          mode: auto-approve-destroy
+          stackName: app
+          workingDirectory: ./infrastructure
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          CDKTF_BUCKET_NAME: ${{ vars.CDKTF_BUCKET_NAME }}
+          CDKTF_DYNAMODB_TABLE: ${{ vars.CDKTF_DYNAMODB_TABLE }}
+          CDKTF_REGION: ${{ vars.CDKTF_REGION }}
