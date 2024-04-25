@@ -52,6 +52,8 @@ export default class NetworkStack extends TerraformStack {
     });
 
     /*================= GitHub Container Registry Connection Secret =================*/
+
+    // Ref: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
     this.githubContainerSecret = new SecretsmanagerSecret(this, 'GitHubContainerRegistrySecret', {
       name: 'github-container-registry-connection',
     });

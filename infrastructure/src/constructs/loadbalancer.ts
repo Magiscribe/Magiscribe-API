@@ -155,7 +155,8 @@ export class LoadBalancer extends Construct {
             desiredCount: 1,
             taskDefinition: task.arn,
             networkConfiguration: {
-                subnets: Token.asList(this.vpc.privateSubnetsOutput),
+                subnets: Token.asList(this.vpc.publicSubnetsOutput),
+                // subnets: Token.asList(this.vpc.privateSubnetsOutput),
                 assignPublicIp: true,
                 securityGroups: [serviceSecurityGroup.id],
             },

@@ -40,8 +40,8 @@ export class VPCConstruct extends Construct {
             privateSubnets: azs.map((_az, i) => (`10.0.${i * 16 + 16 * azs.length}.0/20`)),
             databaseSubnets: azs.map((_az, i) => (`10.0.${i * 16 + 32 * azs.length}.0/20`)),
 
-            enableNatGateway: true,
-            singleNatGateway: true,
+            // enableNatGateway: true,
+            // singleNatGateway: true,
         });
     }
 }

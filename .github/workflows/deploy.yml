@@ -76,3 +76,4 @@ jobs:
         env:
           CDKTF_BUCKET_NAME: ${{ vars.CDKTF_BUCKET_NAME }}
           CDKTF_DYNAMODB_TABLE: ${{ vars.CDKTF_DYNAMODB_TABLE }}
+          CDKTF_REGION: ${{ vars.CDKTF_REGION }}
