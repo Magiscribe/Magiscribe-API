@@ -21,6 +21,11 @@ server.start().then(() => {
     }),
   );
 
+  // So that we can check if the server is running.
+  app.get('/health', (_req, res) => {
+    res.status(200).send('🆗');
+  });
+
   app.listen(PORT, () => {
     console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
   });
