@@ -1,8 +1,12 @@
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
+import dotenv from 'dotenv';
 import express from 'express';
 import resolvers from './resolvers';
 import typeDefs from './types';
+
+// Dotenv configuration
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 

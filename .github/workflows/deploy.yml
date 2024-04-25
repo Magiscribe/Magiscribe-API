@@ -8,11 +8,12 @@ on:
 
 permissions:
   id-token: write
+  contents: read
+  packages: write
 
 jobs:
   push-image:
     name: Push Image
-    permissions: write-all
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,3 +33,46 @@ jobs:
         run: |
           docker build . --tag ghcr.io/ai-whiteboard/poc-graphql:latest
           docker push ghcr.io/ai-whiteboard/poc-graphql:latest
+
+  terraform:
+    name: "Terraform CDK Deploy"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infrastructure
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'          
+          cache-dependency-path: ./infrastructure/pnpm-lock.yaml
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate module and provider bindings
+        run: pnpm run get
+
+      - name: Run Terraform CDK
+        uses: hashicorp/terraform-cdk-action@v4
+        with:
+          mode: auto-approve-apply
+          stackName: app network
+          workingDirectory: ./infrastructure
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          CDKTF_BUCKET_NAME: ${{ vars.CDKTF_BUCKET_NAME }}
+          CDKTF_DYNAMODB_TABLE: ${{ vars.CDKTF_DYNAMODB_TABLE }}

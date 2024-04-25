@@ -3,7 +3,7 @@ import { lambdaClient } from "./clients";
 
 export async function executeCode(code: string): Promise<string> {
     const params: InvokeCommandInput = {
-        FunctionName: 'ExecutorFn',
+        FunctionName: process.env.EXECUTOR_LAMBDA_NAME!,
         Payload: JSON.stringify({ code }),
         InvocationType: InvocationType.RequestResponse,
     };

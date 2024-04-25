@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = new App();
 
-const apexDomainName = process.env.DOMAIN || 'magiscribe.com';
+const apexDomainName = process.env.DOMAIN || 'whiteboard.kylelierer.com';
 
 // Stack definitions
 const networkStack = new NetworkStack(app, 'network', {
@@ -17,9 +17,8 @@ const networkStack = new NetworkStack(app, 'network', {
 
 new AppStack(app, 'app', {
   vpc: networkStack.vpc,
-  // domain: networkStack.hostedZone,
-  // zone: networkStack.hostedZone,
-  // authentication: networkStack.authentication,
+  zone: networkStack.hostedZone,
+  githubContainerSecret: networkStack.githubContainerSecret,
 });
 
 app.synth();

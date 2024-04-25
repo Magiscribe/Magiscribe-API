@@ -9,15 +9,18 @@ import { SecurityGroup } from "@cdktf/provider-aws/lib/security-group";
 import { Construct } from "constructs";
 import { Vpc } from "../../.gen/modules/vpc";
 import { Token } from "cdktf";
+import { AcmCertificate } from "@cdktf/provider-aws/lib/acm-certificate";
 
 interface LoadBalancerProps {
     vpc: Vpc;
     cluster: EcsCluster;
+    certificate: AcmCertificate;
 }
 
 export class LoadBalancer extends Construct {
     lb: Lb;
-    lbl: LbListener;
+    httpListener: LbListener;
+    httpsListener: LbListener;
     vpc: Vpc;
     cluster: EcsCluster;
 
@@ -30,7 +33,7 @@ export class LoadBalancer extends Construct {
         const lbSecurityGroup = new SecurityGroup(this, `lb-security-group`, {
             vpcId: this.vpc.vpcIdOutput,
             ingress: [
-                // allow HTTP traffic from everywhere
+                // Allow HTTP traffic from everywhere
                 {
                     protocol: "TCP",
                     fromPort: 80,
@@ -38,9 +41,17 @@ export class LoadBalancer extends Construct {
                     cidrBlocks: ["0.0.0.0/0"],
                     ipv6CidrBlocks: ["::/0"],
                 },
+                // Allow HTTPS traffic from everywhere
+                {
+                    protocol: "TCP",
+                    fromPort: 443,
+                    toPort: 443,
+                    cidrBlocks: ["0.0.0.0/0"],
+                    ipv6CidrBlocks: ["::/0"],
+                },
             ],
             egress: [
-                // allow all traffic to every destination
+                // Allow all traffic to every destination
                 {
                     fromPort: 0,
                     toPort: 0,
@@ -60,10 +71,29 @@ export class LoadBalancer extends Construct {
             subnets: Token.asList(this.vpc.publicSubnetsOutput),
         });
 
-        this.lbl = new LbListener(this, `lb-listener`, {
+        this.httpListener = new LbListener(this, `lb-listener`, {
             loadBalancerArn: this.lb.arn,
             port: 80,
             protocol: "HTTP",
+            defaultAction: [
+                // Redirect HTTP to HTTPS
+                {
+                    type: "redirect",
+                    redirect: {
+                        protocol: "HTTPS",
+                        port: "443",
+                        statusCode: "HTTP_301",
+                    },
+                },
+            ],
+        });
+
+        this.httpsListener = new LbListener(this, `lb-listener-https`, {
+            loadBalancerArn: this.lb.arn,
+            port: 443,
+            protocol: "HTTPS",
+            sslPolicy: "ELBSecurityPolicy-2016-08",
+            certificateArn: props.certificate.arn,
             defaultAction: [
                 // We define a fixed 404 message, just in case
                 {
@@ -86,7 +116,7 @@ export class LoadBalancer extends Construct {
     ) {
         // Define Load Balancer target group with a health check on /ready
         const targetGroup = new LbTargetGroup(this, `target-group`, {
-            dependsOn: [this.lbl],
+            dependsOn: [this.httpsListener],
             name: `${name}-target-group`,
             port: 80,
             protocol: "HTTP",
@@ -94,13 +124,13 @@ export class LoadBalancer extends Construct {
             vpcId: this.vpc.vpcIdOutput,
             healthCheck: {
                 enabled: true,
-                path: "/",
+                path: "/health",
             },
         });
 
         // Makes the listener forward requests from subpath to the target group
         new LbListenerRule(this, `rule`, {
-            listenerArn: this.lbl.arn,
+            listenerArn: this.httpsListener.arn,
             priority: 100,
             action: [
                 {
@@ -118,7 +148,7 @@ export class LoadBalancer extends Construct {
 
         // Ensure the task is running and wired to the target group, within the right security group
         new EcsService(this, `service`, {
-            dependsOn: [this.lbl],
+            dependsOn: [this.httpListener],
             name,
             launchType: "FARGATE",
             cluster: this.cluster.id,

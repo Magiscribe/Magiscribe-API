@@ -95,6 +95,19 @@ export class Cluster extends Construct {
                         ],
                     }),
                 },
+                {
+                    name: "bedrock-policy",
+                    policy: JSON.stringify({
+                        Version: "2012-10-17",
+                        Statement: [
+                            {
+                                Effect: "Allow",
+                                Action: ["bedrock:*"],
+                                Resource: "*",
+                            },
+                        ],
+                    }),
+                },
             ],
             assumeRolePolicy: JSON.stringify({
                 Version: "2012-10-17",
@@ -164,7 +177,6 @@ export class Cluster extends Construct {
                     portMappings: [
                         {
                             containerPort: 80,
-                            hostPort: 80,
                         },
                     ],
                     logConfiguration: {

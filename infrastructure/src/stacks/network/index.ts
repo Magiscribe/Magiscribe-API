@@ -3,15 +3,17 @@ import { VPCConstruct } from '@constructs/vpc';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
+import { HostedZone } from '@constructs/hosted-zone';
+import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
 
 interface NetworkStackProps {
   apexDomainName: string;
 }
 
 export default class NetworkStack extends TerraformStack {
-  // readonly hostedZone: HostedZone;
-  // readonly authentication: Authentication;
+  readonly hostedZone: HostedZone;
   readonly vpc: VPCConstruct;
+  readonly githubContainerSecret: SecretsmanagerSecret;
 
   constructor(scope: Construct, id: string, props: NetworkStackProps) {
     super(scope, id);
@@ -38,17 +40,20 @@ export default class NetworkStack extends TerraformStack {
       key: 'network-container.tfstate',
     });
 
-    // this.hostedZone = new HostedZone(this, 'Zone', {
-    //   domainName,
-    // });
-
-    // this.authentication = new Authentication(this, 'Auth');
+    this.hostedZone = new HostedZone(this, 'Zone', {
+      domainName,
+    });
 
     this.vpc = new VPCConstruct(this, 'VPC', {
       vpcCidrMask: 16,
       publicCidrMask: 20,
       privateCidrMask: 20,
       isolatedCidrMask: 20,
+    });
+
+    /*================= GitHub Container Registry Connection Secret =================*/
+    this.githubContainerSecret = new SecretsmanagerSecret(this, 'GitHubContainerRegistrySecret', {
+      name: 'github-container-registry-connection',
     });
   }
 }

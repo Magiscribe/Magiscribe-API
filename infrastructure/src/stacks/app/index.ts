@@ -1,8 +1,10 @@
 import { EcrRepository } from '@cdktf/provider-aws/lib/ecr-repository';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
+import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
 import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
 import { Cluster } from '@constructs/cluster';
+import { HostedZone } from '@constructs/hosted-zone';
 import { LoadBalancer } from '@constructs/loadbalancer';
 import { PythonFunction } from '@constructs/python-function';
 import { VPCConstruct } from '@constructs/vpc';
@@ -13,9 +15,8 @@ import * as path from 'path';
 
 interface AppStackProps {
   vpc: VPCConstruct;
-  // domain: string;
-  // zone: HostedZone;
-  // authentication: Authentication;
+  zone: HostedZone;
+  githubContainerSecret: SecretsmanagerSecret;
 }
 
 export default class AppStack extends TerraformStack {
@@ -33,7 +34,7 @@ export default class AppStack extends TerraformStack {
       bucket: process.env.CDKTF_BUCKET_NAME!,
       dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE!,
       region: process.env.CDKTF_REGION!,
-      key: 'api.tfstate',
+      key: 'api-container.tfstate',
     });
 
     Aspects.of(this).add(
@@ -60,21 +61,20 @@ export default class AppStack extends TerraformStack {
 
     const cluster = new Cluster(this, 'Cluster');
 
-    // Creates a secret for out image
-    const secret = new SecretsmanagerSecret(this, 'ecs-secret', {
-      name: 'ecs-secret',
-    });
-
     const task = cluster.runDockerImage({
       name: 'executor',
-      image: 'ghcr.io/ai-whiteboard/poc-apollo-graphql-api:latest',
-      env: { SECRET_ARN: secret.arn },
-      secret,
+      image: 'ghcr.io/ai-whiteboard/poc-graphql:latest',
+      env: {
+        PORT: "80",
+        EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
+      },
+      secret: config.githubContainerSecret,
     });
 
     const loadBalancer = new LoadBalancer(this, 'LoadBalancer', {
       vpc: config.vpc.vpc,
       cluster: cluster.cluster,
+      certificate: config.zone.defaultCertificate,
     });
 
     const serviceSecurityGroup = new SecurityGroup(
@@ -105,5 +105,13 @@ export default class AppStack extends TerraformStack {
     );
 
     loadBalancer.exposeService('executor', task, serviceSecurityGroup, '/');
+
+    new Route53Record(this, 'FrontendRecord', {
+      name: 'api',
+      zoneId: config.zone.zone.zoneId,
+      type: 'CNAME',
+      records: [loadBalancer.lb.dnsName],
+      ttl: 60,
+    });
   }
 }
