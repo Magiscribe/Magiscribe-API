@@ -47,7 +47,7 @@ export default class AppStack extends TerraformStack {
 
     /*================= LAMBDAS =================*/
 
-    const executorFn = new PythonFunction(this, 'ExecutorFn', {
+    const executorFn = new PythonFunction(this, 'PythonExecutorFn', {
       handler: 'main.handler',
       path: `${path.resolve(__dirname)}/lambdas/python-executor`,
       timeout: 10,
