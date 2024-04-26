@@ -20,6 +20,9 @@ importers:
       '@cdktf/provider-aws':
         specifier: 19.15.0
         version: 19.15.0(cdktf@0.20.7(constructs@10.3.0))(constructs@10.3.0)
+      '@cdktf/provider-random':
+        specifier: ^11.0.1
+        version: 11.0.1(cdktf@0.20.7(constructs@10.3.0))(constructs@10.3.0)
       '@langchain/anthropic':
         specifier: ^0.1.16
         version: 0.1.16
@@ -431,6 +434,13 @@ packages:
 
   '@cdktf/provider-generator@0.20.7':
     resolution: {integrity: sha512-O3ZyDp/q73Kg2zn/axA4V62c3QvaGEO44G94eiyi4z6GRokTVQ4eOlkpoqp3spejizhMkA8Lzq+OQ2cvsQygeA==}
+
+  '@cdktf/provider-random@11.0.1':
+    resolution: {integrity: sha512-l+W1n6Tn4ROMTta3hHu60WRvlMcgZprC5mdT9qoGt7pAgJ3Fo61s9sNK00qqbLIotlwSMPyHW3TwC/1l8JD3Rw==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      cdktf: ^0.20.0
+      constructs: ^10.3.0
 
   '@cdktf/provider-schema@0.20.7':
     resolution: {integrity: sha512-KVV5YMaMoXgrmT+AsU1y3vCLfyie5/XbSKVVrUnVp5sCrwhsFMl6U59HTDQ52QX3aHWxwTAqEZbljdg6ZUbk9A==}
@@ -3929,8 +3939,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.5.0-dev.20240425:
-    resolution: {integrity: sha512-7Ori11gLEXAm1+iEaoATNgb/VOA5AAL3Q+kUaSColBS12aMGZRMjBcN1K/dJlmOjeViCkvAf+nlyG5ChaCWt5Q==}
+  typescript@5.5.0-dev.20240426:
+    resolution: {integrity: sha512-96cu+y3DrjSNhNSgB3t3nRiesCwBVjZpbjJ6DcQoCgt0crXXPrOMmJQH/E8TZ41U4JzaULD+cB1Z2owh5HANew==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -4998,6 +5008,11 @@ snapshots:
       - constructs
       - debug
       - supports-color
+
+  '@cdktf/provider-random@11.0.1(cdktf@0.20.7(constructs@10.3.0))(constructs@10.3.0)':
+    dependencies:
+      cdktf: 0.20.7(constructs@10.3.0)
+      constructs: 10.3.0
 
   '@cdktf/provider-schema@0.20.7(constructs@10.1.167)':
     dependencies:
@@ -6756,7 +6771,7 @@ snapshots:
     dependencies:
       semver: 7.6.0
       shelljs: 0.8.5
-      typescript: 5.5.0-dev.20240425
+      typescript: 5.5.0-dev.20240426
 
   eastasianwidth@0.2.0: {}
 
@@ -8940,7 +8955,7 @@ snapshots:
 
   typescript@5.4.5: {}
 
-  typescript@5.5.0-dev.20240425: {}
+  typescript@5.5.0-dev.20240426: {}
 
   unbox-primitive@1.0.2:
     dependencies:

@@ -5,6 +5,9 @@ import { Construct } from 'constructs';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { HostedZone } from '@constructs/hosted-zone';
 import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
+import { Id } from "@cdktf/provider-random/lib/id";
+import { RandomProvider } from '@cdktf/provider-random/lib/provider';
+
 
 interface NetworkStackProps {
   apexDomainName: string;
@@ -25,11 +28,13 @@ export default class NetworkStack extends TerraformStack {
       region: 'us-east-1',
     });
 
+    new RandomProvider(this, 'random')
+
     Aspects.of(this).add(
       new TagsAddingAspect({
         createdBy: 'cdktf',
         project: 'whiteboard',
-        stack: 'network',
+        stack: 'network-container',
       }),
     );
 
@@ -53,9 +58,14 @@ export default class NetworkStack extends TerraformStack {
 
     /*================= GitHub Container Registry Connection Secret =================*/
 
+    // Random suffix
+    const randomId = new Id(this, 'GitHubContainerRegistrySecretRandomId', {
+      byteLength: 8,
+    }).id;
+
     // Ref: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
     this.githubContainerSecret = new SecretsmanagerSecret(this, 'GitHubContainerRegistrySecret', {
-      name: 'github-container-registry-connection',
+      name: `github-container-registry-connection-secret-${randomId}`,
     });
   }
 }

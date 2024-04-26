@@ -38,7 +38,7 @@ export default class FrontendStack extends TerraformStack {
       new TagsAddingAspect({
         createdBy: 'cdktf',
         project: 'whiteboard',
-        stack: 'frontend',
+        stack: 'frontend-container',
       }),
     );
 
