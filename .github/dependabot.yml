@@ -16,3 +16,9 @@ updates:
     directory: '/app'
     schedule:
       interval: 'weekly'
+
+  # Infrastructure
+  - package-ecosystem: 'npm'
+    directory: '/infrastructure'
+    schedule:
+      interval: 'weekly'  
