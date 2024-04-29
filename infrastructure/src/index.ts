@@ -1,7 +1,7 @@
 import { App } from 'cdktf';
 import * as dotenv from 'dotenv';
 import AppStack from 'stacks/app';
-import FrontendStack from 'stacks/frontend';
+import FrontendStack from 'stacks/client';
 import NetworkStack from 'stacks/network';
 
 // Dotenv configuration
