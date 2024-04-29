@@ -9,16 +9,16 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
       
   # API
   - package-ecosystem: 'npm'
     directory: '/api'
     schedule:
-      interval: 'weekly'
+      interval: 'daily'
 
   # Infrastructure
   - package-ecosystem: 'npm'
     directory: '/infrastructure'
     schedule:
-      interval: 'weekly'  
+      interval: 'daily'  
