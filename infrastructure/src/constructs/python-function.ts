@@ -59,6 +59,7 @@ export class PythonFunction extends Construct {
       filename: this.asset.path,
       sourceCodeHash: this.asset.assetHash,
       memorySize: props.memorySize,
+      architectures: ['arm64'],
       tracingConfig: {
         mode: 'Active', // Enable X-Ray tracing
       },
