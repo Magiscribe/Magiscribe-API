@@ -21,8 +21,6 @@ const mutations = {
     });
 
     const result = await Promise.all(processedJson.map(async (step) => {
-      console.log('Processing step:', step);
-
       let result = await executePrediction({
         prompt: step.prompt,
         agent: step
@@ -33,8 +31,6 @@ const mutations = {
 
       return result;
     }));
-
-    console.log('Result:', result);
 
     return {
       prompt,
