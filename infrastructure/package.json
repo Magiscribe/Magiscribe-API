@@ -7,6 +7,7 @@
     "build": "tsc",
     "synth": "cdktf synth",
     "deploy:network": "cdktf deploy network",
+    "deploy:lambdas": "cdktf deploy lambdas",
     "deploy:app": "cdktf deploy app",
     "deploy:client": "cdktf deploy client",
     "compile": "tsc --pretty",

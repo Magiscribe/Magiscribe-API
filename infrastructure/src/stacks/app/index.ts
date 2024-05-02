@@ -17,6 +17,7 @@ interface AppStackProps {
   vpc: VPCConstruct;
   zone: HostedZone;
   githubContainerSecret: SecretsmanagerSecret;
+  executorFn: PythonFunction;
 }
 
 export default class AppStack extends TerraformStack {
@@ -45,18 +46,6 @@ export default class AppStack extends TerraformStack {
       }),
     );
 
-    /*================= LAMBDAS =================*/
-
-    const executorFn = new PythonFunction(this, 'PythonExecutorFn', {
-      handler: 'main.handler',
-      path: `${path.resolve(__dirname)}/lambdas/python-executor`,
-      timeout: 10,
-      memorySize: 1024,
-      layers: [
-        'arn:aws:lambda:us-east-1:336392948345:layer:AWSSDKPandas-Python312-Arm64:6',
-      ],
-    });
-
     /*================= ECS =================*/
 
     const cluster = new Cluster(this, 'Cluster');
@@ -66,7 +55,7 @@ export default class AppStack extends TerraformStack {
       image: 'ghcr.io/ai-whiteboard/poc-graphql:latest',
       env: {
         PORT: "80",
-        EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
+        EXECUTOR_LAMBDA_NAME: config.executorFn.function.functionName,
       },
       secret: config.githubContainerSecret,
     });

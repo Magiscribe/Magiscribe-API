@@ -22,7 +22,6 @@ export async function executePrediction({
   agent: Agents;
 }): Promise<string> {
   const promptTemplate = chooseSystemPrompt(agent);
-  console.log('Prompt template:', promptTemplate);
   const result = await makeBedrockRequest({
     system: promptTemplate,
     prompt,

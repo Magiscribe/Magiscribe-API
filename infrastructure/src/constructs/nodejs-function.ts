@@ -106,8 +106,6 @@ export class NodejsFunction extends Construct {
       }),
     });
 
-    console.log('Working directory:', computeMetaHash([workingDirectory]));
-
     this.function = new LambdaFunction(this, id, {
       functionName: id,
       role: this.role.arn,

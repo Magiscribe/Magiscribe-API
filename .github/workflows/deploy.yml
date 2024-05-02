@@ -70,7 +70,7 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v4
         with:
           mode: auto-approve-apply
-          stackName: app network
+          stackName: app lambdas network 
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:

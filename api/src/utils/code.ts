@@ -10,8 +10,6 @@ export async function executeCode(code: string): Promise<string> {
 
     const result = await lambdaClient.send(new InvokeCommand(params));
 
-    console.log('Result:', result);
-
     // Convert the result to a string
     let payload = JSON.parse(Buffer.from(result.Payload!).toString());
 

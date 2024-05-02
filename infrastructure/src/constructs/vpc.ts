@@ -22,8 +22,6 @@ export class VPCConstruct extends Construct {
 
         const azs = ['us-east-1a', 'us-east-1b', 'us-east-1c']
 
-        console.log(azs);
-
         const cidr = `10.0.0.0/${props.vpcCidrMask}`;
 
         this.vpc = new Vpc(this, "vpc", {
