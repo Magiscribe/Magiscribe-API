@@ -12,6 +12,10 @@ const typeDefs = `#graphql
   type Mutation {
     addPrediction(prompt: String!, context: String): Prediction
   }
+
+  type Subscription {
+    timeAlive: Int
+  }
 `;
 
 export default typeDefs;

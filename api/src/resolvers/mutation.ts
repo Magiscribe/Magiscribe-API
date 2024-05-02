@@ -1,4 +1,9 @@
-import { Agents, cleanJsonCode, cleanPythonCode, executePrediction } from '../utils/ai/system';
+import {
+  Agents,
+  cleanJsonCode,
+  cleanPythonCode,
+  executePrediction,
+} from '../utils/ai/system';
 import { executeCode } from '../utils/code';
 
 const mutations = {
@@ -20,17 +25,19 @@ const mutations = {
       };
     });
 
-    const result = await Promise.all(processedJson.map(async (step) => {
-      let result = await executePrediction({
-        prompt: step.prompt,
-        agent: step
-      });
+    const result = await Promise.all(
+      processedJson.map(async (step) => {
+        let result = await executePrediction({
+          prompt: step.prompt,
+          agent: step,
+        });
 
-      const cleanedRes = cleanPythonCode(result);
-      result = await executeCode(cleanedRes);
+        const cleanedRes = cleanPythonCode(result);
+        result = await executeCode(cleanedRes);
 
-      return result;
-    }));
+        return result;
+      }),
+    );
 
     return {
       prompt,
