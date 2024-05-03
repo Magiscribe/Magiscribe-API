@@ -4,8 +4,8 @@ import {
   cleanPythonCode,
   executePrediction,
 } from '../utils/ai/system';
-import { executeCode } from '../utils/code';
-import pubsub from '../utils/pubsub';
+import { pubsubClient } from '../utils/clients';
+import { executePythonCode } from '../utils/code';
 
 const generatePrediction = async (prompt, context) => {
   const res = await executePrediction({
@@ -33,26 +33,23 @@ const generatePrediction = async (prompt, context) => {
       });
 
       const cleanedRes = cleanPythonCode(result);
-      result = await executeCode(cleanedRes);
+      result = await executePythonCode(cleanedRes);
 
       return result;
     }),
   );
 
-  console.log('res', result);
-
-  pubsub.publish('PREDICTION_ADDED', {
+  pubsubClient.publish('PREDICTION_ADDED', {
     predictionAdded: {
       prompt,
       context,
       result: JSON.stringify(result),
     },
   });
-}
+};
 
 const mutations = {
   addPrediction: (_, { prompt, context }) => {
-    console.log('Adding prediction');
     generatePrediction(prompt, context);
 
     return {

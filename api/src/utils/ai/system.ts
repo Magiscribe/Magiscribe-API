@@ -1,16 +1,14 @@
-import { makeBedrockRequest } from './bedrock';
+import { makeRequest } from '.';
 import templates from './templates';
 import templateDrawingElementGeneration from './templates/drawing';
 
 export enum Agents {
   PreprocessingAgent = 'preprocessingAgent',
-  ThinkingAgent = 'thinkingAgent',
   FunctionAgent = 'functionAgent',
   LineAgent = 'lineAgent',
   PointAgent = 'pointAgent',
   TextAgent = 'textAgent',
   LatexAgent = 'latexAgent',
-  StateAgent = 'stateAgent',
   CodeFixAgent = 'codeFixAgent',
 }
 
@@ -22,7 +20,7 @@ export async function executePrediction({
   agent: Agents;
 }): Promise<string> {
   const promptTemplate = chooseSystemPrompt(agent);
-  const result = await makeBedrockRequest({
+  const result = await makeRequest({
     system: promptTemplate,
     prompt,
   });
@@ -34,12 +32,6 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
   switch (systemMessageChoice) {
     case Agents.PreprocessingAgent:
       return templates.preprocessing;
-    case Agents.ThinkingAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.linear
-      );
     case Agents.FunctionAgent:
       return (
         templates.code.write +

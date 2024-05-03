@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts",
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts | pino-pretty",
     "start": "node  dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
@@ -17,9 +17,10 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "@aws-sdk/client-bedrock-runtime": "^3.564.0",
     "@aws-sdk/client-lambda": "^3.564.0",
     "@graphql-tools/schema": "^10.0.3",
+    "@langchain/community": "^0.0.54",
+    "@langchain/core": "^0.1.61",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -30,6 +31,7 @@
     "graphql": "^16.8.1",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.16.0",
+    "pino": "^9.0.0",
     "ws": "^8.17.0"
   },
   "devDependencies": {
@@ -37,6 +39,7 @@
     "@types/node": "^20.12.7",
     "eslint": "^9.1.1",
     "nodemon": "^3.1.0",
+    "pino-pretty": "^11.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
