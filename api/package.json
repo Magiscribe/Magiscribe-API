@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.8",
     "eslint": "^9.1.1",
     "nodemon": "^3.1.0",
     "pino-pretty": "^11.0.0",
