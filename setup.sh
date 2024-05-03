@@ -28,9 +28,9 @@ fi
 
 # Checking that Node is at least version 20
 NODE_VERSION=$(node --version)
-if [[ $NODE_VERSION != v20* ]]; then
+if [[ $NODE_VERSION != v22* ]]; then
   echo -e "${RED}Error: Node version is not at least v20.${NC}" >&2
-  echo 'Please install Node version 20 or higher using your preferred method.' >&2
+  echo 'Please install Node version 22 or higher using your preferred method.' >&2
   exit 1
 fi
 

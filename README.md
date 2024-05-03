@@ -15,7 +15,7 @@
     - [General Setup](#general-setup)
     - [Infrastructure Setup](#infrastructure-setup)
     - [API Local Development Setup](#api-local-development-setup)
-    - [Docker Compose](#docker-compose)
+      - [Docker Compose](#docker-compose)
 
 # Overview
 
@@ -108,7 +108,7 @@ pnpm install
 pnpm dev
 ```
 
-### Docker Compose
+#### Docker Compose
 
 To run the application using Docker Compose, you can run the following command:
 

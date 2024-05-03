@@ -1,6 +1,5 @@
 import { PubSub } from 'graphql-subscriptions';
-
-const pubsub = new PubSub();
+import pubsub from '../utils/pubsub';
 
 // A number that we'll increment over time to simulate subscription events
 let currentNumber = 0;
@@ -19,6 +18,9 @@ const subscription = {
   timeAlive: {
     subscribe: () => pubsub.asyncIterator(['NUMBER_INCREMENTED']),
   },
+  predictionAdded: {
+    subscribe: () => pubsub.asyncIterator(['PREDICTION_ADDED']),
+  }
 };
 
 export default subscription;

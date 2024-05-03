@@ -5,16 +5,21 @@ const typeDefs = `#graphql
     result: String
   }
 
+  type SubscriptionResponse {
+    message: String
+  }
+
   type Query {
-    predictions: [Prediction]
+    hello: String
   }
 
   type Mutation {
-    addPrediction(prompt: String!, context: String): Prediction
+    addPrediction(prompt: String!, context: String): SubscriptionResponse
   }
 
   type Subscription {
     timeAlive: Int
+    predictionAdded: Prediction
   }
 `;
 
