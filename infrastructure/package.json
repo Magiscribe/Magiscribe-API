@@ -25,7 +25,7 @@
     "node": ">=18.0"
   },
   "dependencies": {
-    "@aws-sdk/client-bedrock-runtime": "^3.564.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.569.0",
     "@aws-sdk/client-sfn": "^3.564.0",
     "@aws-sdk/client-sqs": "^3.564.0",
     "@cdktf/provider-aws": "19.16.0",
