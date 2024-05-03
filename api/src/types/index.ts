@@ -18,7 +18,6 @@ const typeDefs = `#graphql
   }
 
   type Subscription {
-    timeAlive: Int
     predictionAdded: Prediction
   }
 `;
