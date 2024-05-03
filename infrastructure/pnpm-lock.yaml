@@ -24,8 +24,8 @@ importers:
         specifier: ^11.0.1
         version: 11.0.1(cdktf@0.20.7(constructs@10.3.0))(constructs@10.3.0)
       '@langchain/anthropic':
-        specifier: ^0.1.16
-        version: 0.1.16
+        specifier: ^0.1.17
+        version: 0.1.17
       '@langchain/community':
         specifier: ^0.0.53
         version: 0.0.53(@aws-crypto/sha256-js@3.0.0)(@aws-sdk/client-bedrock-runtime@3.564.0)(@aws-sdk/client-sfn@3.564.0)(@aws-sdk/credential-provider-node@3.564.0)(@smithy/eventstream-codec@2.2.0)(@smithy/protocol-http@3.3.0)(@smithy/signature-v4@2.3.0)(@smithy/util-utf8@2.3.0)(lodash@4.17.21)(ws@7.5.9)
@@ -779,8 +779,8 @@ packages:
     resolution: {integrity: sha512-5YIq1fgOtToH6eUyTNlqAXuZzUzTD6wBukE7m5DpsxHjQlbR7TVP750FcPqH9qCitCwaePPl5IdCZJ/AS0IwEA==}
     engines: {node: '>= 14.17.0'}
 
-  '@langchain/anthropic@0.1.16':
-    resolution: {integrity: sha512-vCbwkZ3pkMSKf67fBgNlslvuW9f3EZGBbO8Ic2etgX3xFl6L0WuMtfS26P1FCDpRwaKuC1BrCj2aLAeMzMq/Fg==}
+  '@langchain/anthropic@0.1.17':
+    resolution: {integrity: sha512-zbyTXtbFh0P0EEi+Q/AgDJlz/tltAg9ddVptew3IcQM1c6Yc7lG9oUqh14uzFUKPae2kFDKE78jrx1oiV4JMgw==}
     engines: {node: '>=18'}
 
   '@langchain/community@0.0.53':
@@ -3939,8 +3939,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.5.0-dev.20240429:
-    resolution: {integrity: sha512-oaeASmILG5rODErsKfCtOv1mDllgxW7wilw05mHMgm1pzye6YKMsvd0nEHuVdzwql06viXRA3vumjLvtXERngQ==}
+  typescript@5.5.0-dev.20240503:
+    resolution: {integrity: sha512-tOdPPinGIa3zx6xEhbvrNseqE+4ODzcDBLl9cFAnSsOrbjlXaQVMdDRXR2T8pS4GR4mc0aoU5XX+sP61ynHgAQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -5451,7 +5451,7 @@ snapshots:
     dependencies:
       ajv: 8.12.0
 
-  '@langchain/anthropic@0.1.16':
+  '@langchain/anthropic@0.1.17':
     dependencies:
       '@anthropic-ai/sdk': 0.20.7
       '@langchain/core': 0.1.60
@@ -6767,7 +6767,7 @@ snapshots:
     dependencies:
       semver: 7.6.0
       shelljs: 0.8.5
-      typescript: 5.5.0-dev.20240429
+      typescript: 5.5.0-dev.20240503
 
   eastasianwidth@0.2.0: {}
 
@@ -8951,7 +8951,7 @@ snapshots:
 
   typescript@5.4.5: {}
 
-  typescript@5.5.0-dev.20240429: {}
+  typescript@5.5.0-dev.20240503: {}
 
   unbox-primitive@1.0.2:
     dependencies:

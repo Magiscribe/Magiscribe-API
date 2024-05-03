@@ -30,7 +30,7 @@
     "@aws-sdk/client-sqs": "^3.564.0",
     "@cdktf/provider-aws": "19.16.0",
     "@cdktf/provider-random": "^11.0.1",
-    "@langchain/anthropic": "^0.1.16",
+    "@langchain/anthropic": "^0.1.17",
     "@langchain/community": "^0.0.53",
     "aws-lambda": "^1.0.7",
     "aws-xray-sdk": "^3.6.0",
