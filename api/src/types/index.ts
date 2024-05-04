@@ -14,11 +14,13 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    addPrediction(prompt: String!, context: String): SubscriptionResponse
+    addVisualPrediction(prompt: String!, context: String): SubscriptionResponse
+    addTextPrediction(prompt: String!): SubscriptionResponse
   }
 
   type Subscription {
-    predictionAdded: Prediction
+    visualPredictionAdded: Prediction
+    textPredictionAdded: Prediction
   }
 `;
 

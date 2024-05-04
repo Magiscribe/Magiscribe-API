@@ -1,4 +1,4 @@
-import { makeRequest } from '.';
+import { makeSyncRequest } from '.';
 import templates from './templates';
 import templateDrawingElementGeneration from './templates/drawing';
 
@@ -20,7 +20,7 @@ export async function executePrediction({
   agent: Agents;
 }): Promise<string> {
   const promptTemplate = chooseSystemPrompt(agent);
-  const result = await makeRequest({
+  const result = await makeSyncRequest({
     system: promptTemplate,
     prompt,
   });

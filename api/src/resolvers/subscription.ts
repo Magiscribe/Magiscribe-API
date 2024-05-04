@@ -1,8 +1,11 @@
 import { pubsubClient } from '../utils/clients';
 
 const subscription = {
-  predictionAdded: {
-    subscribe: () => pubsubClient.asyncIterator(['PREDICTION_ADDED']),
+  visualPredictionAdded: {
+    subscribe: () => pubsubClient.asyncIterator(['VISUAL_PREDICTION_ADDED']),
+  },
+  textPredictionAdded: {
+    subscribe: () => pubsubClient.asyncIterator(['TEXT_PREDICTION_ADDED']),
   },
 };
 
