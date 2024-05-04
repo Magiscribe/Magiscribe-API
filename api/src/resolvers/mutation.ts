@@ -1,7 +1,7 @@
 import {
   generateTextPredictionStreaming,
   generateVisualPrediction,
-} from '../controllers/prediction';
+} from '@controllers/prediction';
 
 const mutations = {
   addVisualPrediction: (_, { prompt, context }) => {

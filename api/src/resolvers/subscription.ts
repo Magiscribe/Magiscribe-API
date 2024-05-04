@@ -1,4 +1,4 @@
-import { pubsubClient } from '../utils/clients';
+import { pubsubClient } from '@utils/clients';
 
 const subscription = {
   visualPredictionAdded: {

@@ -1,9 +1,8 @@
 import dotenv from 'dotenv';
 import startServer from './server';
+import config from '@config';
 
 // Dotenv configuration
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
-
-startServer(+PORT);
+startServer(config.port);

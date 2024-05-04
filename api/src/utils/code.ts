@@ -4,7 +4,7 @@ import {
   InvokeCommandInput,
 } from '@aws-sdk/client-lambda';
 import { lambdaClient } from './clients';
-import log from '../log';
+import log from '@log';
 
 /**
  * Executes Python code on the executor Lambda function.

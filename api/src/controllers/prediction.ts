@@ -1,13 +1,13 @@
-import log from '../log';
-import { makeStreamingRequest } from '../utils/ai';
+import logger from '@log';
+import { makeStreamingRequest } from '@utils/ai';
 import {
   Agents,
   cleanJsonCode,
   cleanPythonCode,
   executePrediction,
-} from '../utils/ai/system';
-import { pubsubClient as subscriptionClient } from '../utils/clients';
-import { executePythonCode } from '../utils/code';
+} from '@utils/ai/system';
+import { pubsubClient as subscriptionClient } from '@utils/clients';
+import { executePythonCode } from '@utils/code';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -35,7 +35,7 @@ export async function generateVisualPrediction(
       cleanedPreprocessingResponse,
     ).processingSteps;
 
-    log.debug({
+    logger.debug({
       msg: 'Prediction preprocessing completed',
       processingSteps,
     });
@@ -57,7 +57,7 @@ export async function generateVisualPrediction(
       }),
     );
 
-    log.debug({
+    logger.debug({
       msg: 'Prediction generated',
       results,
     });
@@ -72,7 +72,7 @@ export async function generateVisualPrediction(
 
     return results;
   } catch (error) {
-    log.warn({
+    logger.warn({
       msg: 'Prediction generation failed',
       error,
     });
@@ -84,7 +84,7 @@ export async function generateTextPredictionStreaming(
   prompt: string,
 ): Promise<void> {
   try {
-    log.debug({
+    logger.debug({
       msg: 'Prediction generation started',
       prompt,
     });
@@ -103,7 +103,7 @@ export async function generateTextPredictionStreaming(
       },
     );
   } catch (error) {
-    log.warn({
+    logger.warn({
       msg: 'Prediction generation failed',
       error,
     });

@@ -1,5 +1,5 @@
+import log from '@log';
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
-import log from '../../log';
 
 const MODEL_ID = 'anthropic.claude-3-haiku-20240307-v1:0';
 

@@ -8,9 +8,9 @@ import express from 'express';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import log from './log';
-import resolvers from './resolvers';
-import typeDefs from './types';
+import log from '@log';
+import resolvers from '@resolvers';
+import typeDefs from '@types';
 
 export default async function startServer(port: number) {
   // Create schema, which will be used separately by ApolloServer and
@@ -98,6 +98,8 @@ export default async function startServer(port: number) {
   // Now that our HTTP server is fully set up, actually listen.
   httpServer.listen(port, () => {
     log.info(`Query endpoint ready at http://localhost:${port}/graphql`);
-    log.info(`Subscription endpoint ready at ws://localhost:${port}/graphql`);
+    log.info(
+      `Subscription endpoint ready at ws://localhost:${port}/graphql`,
+    );
   });
 }
