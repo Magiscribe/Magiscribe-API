@@ -1,5 +1,12 @@
 const config = {
   /**
+   * The environment the application is running in.
+   * Possible values: 'development', 'production'
+   * @default 'development'
+   */
+  environment: process.env.NODE_ENV || 'development',
+
+  /**
    * The port the application will run on.
    * @default 3000
    */

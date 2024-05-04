@@ -11,6 +11,8 @@ import { WebSocketServer } from 'ws';
 import log from '@log';
 import resolvers from '@resolvers';
 import typeDefs from '@types';
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
+import config from '@config';
 
 export default async function startServer(port: number) {
   // Create schema, which will be used separately by ApolloServer and
@@ -48,6 +50,11 @@ export default async function startServer(port: number) {
     httpServer,
   });
 
+  const pluginDisableLandingPage =
+    config.environment === 'production'
+      ? ApolloServerPluginLandingPageDisabled()
+      : {};
+
   // Logging plugin.
   const pluginLogging = {
     // Fires whenever a GraphQL request is received from a client.
@@ -76,7 +83,19 @@ export default async function startServer(port: number) {
   // Set up ApolloServer.
   const server = new ApolloServer({
     schema,
-    plugins: [pluginDrainWebSocketServer, pluginDraiHttpServer, pluginLogging],
+    plugins: [
+      pluginDrainWebSocketServer,
+      pluginDraiHttpServer,
+      pluginLogging,
+      pluginDisableLandingPage,
+    ],
+
+    // We do not want to enable introspection in production.
+    // introspection enables you to query a GraphQL server for information about the underlying schema.
+    // This is useful for debugging, but can be a security risk in production as it can reveal
+    // implementation details about your schema.
+    // For more information, see https://www.apollographql.com/blog/why-you-should-disable-graphql-introspection-in-production.
+    introspection: config.environment !== 'production',
   });
 
   await server.start();
@@ -98,8 +117,6 @@ export default async function startServer(port: number) {
   // Now that our HTTP server is fully set up, actually listen.
   httpServer.listen(port, () => {
     log.info(`Query endpoint ready at http://localhost:${port}/graphql`);
-    log.info(
-      `Subscription endpoint ready at ws://localhost:${port}/graphql`,
-    );
+    log.info(`Subscription endpoint ready at ws://localhost:${port}/graphql`);
   });
 }
