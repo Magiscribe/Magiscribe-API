@@ -4,5 +4,5 @@
   "editor.formatOnPaste": false,
   "prettier.useEditorConfig": false,
   "prettier.useTabs": false,
-  "prettier.configPath": ".prettierrc.json"
+  "prettier.configPath": "./api/prettierrc.json"
 }

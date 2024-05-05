@@ -1,68 +1,64 @@
 import logger from '@log';
-import { makeStreamingRequest } from '@utils/ai';
-import {
-  Agents,
-  cleanJsonCode,
-  cleanPythonCode,
-  executePrediction,
-} from '@utils/ai/system';
+import { SubscriptionEvents } from '@resolvers/subscription';
+import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
+import { Agents, chooseSystemPrompt } from '@utils/ai/system';
+import { cleanCodeBlock } from '@utils/clean';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { executePythonCode } from '@utils/code';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
- * @param prompt {string} The prompt to generate the prediction for.
- * @param context {string} The context to generate the prediction with.
- * @returns The generated prediction.
+ *
+ * @param {string} prompt - The prompt to generate the prediction for.
+ * @param {string} context - The context to generate the prediction with.
+ * @returns {Promise<any[]>} The generated prediction as an array of results.
  */
 export async function generateVisualPrediction(
   prompt: string,
   context: string,
 ) {
   try {
-    console.log({
-      msg: 'Prediction generation started',
-      prompt,
-      context,
-    });
+    logger.info({ msg: 'Prediction generation started', prompt, context });
 
-    const preprocessingResponse = await executePrediction({
+    // Preprocess the prompt
+    const promptTemplate = chooseSystemPrompt(Agents.PreprocessingAgent);
+    const preprocessingResponse = await makeSyncRequest({
+      system: promptTemplate,
       prompt,
-      agent: Agents.PreprocessingAgent,
     });
-    const cleanedPreprocessingResponse = cleanJsonCode(preprocessingResponse);
+    const cleanedPreprocessingResponse = cleanCodeBlock(
+      preprocessingResponse,
+      'json',
+    );
     const processingSteps = JSON.parse(
       cleanedPreprocessingResponse,
     ).processingSteps;
-
     logger.debug({
       msg: 'Prediction preprocessing completed',
       processingSteps,
     });
 
+    // Process the steps with the context
     const processedSteps = processingSteps.map((step) => ({
       ...step,
       context,
     }));
 
+    // Execute the processed steps and generate the results
     const results = await Promise.all(
       processedSteps.map(async (step: { prompt: string; agent: Agents }) => {
-        let result = await executePrediction({
+        let result = await makeSyncRequest({
           prompt: step.prompt,
-          agent: step.agent,
+          system: chooseSystemPrompt(step.agent),
         });
-        const cleanedResult = cleanPythonCode(result);
+        const cleanedResult = cleanCodeBlock(result, 'python');
         result = await executePythonCode(cleanedResult);
         return result;
       }),
     );
 
-    logger.debug({
-      msg: 'Prediction generated',
-      results,
-    });
-
-    subscriptionClient.publish('VISUAL_PREDICTION_ADDED', {
+    logger.debug({ msg: 'Prediction generated', results });
+    subscriptionClient.publish(SubscriptionEvents.VISUAL_PREDICTION_ADDED, {
       visualPredictionAdded: {
         prompt,
         context,
@@ -72,41 +68,31 @@ export async function generateVisualPrediction(
 
     return results;
   } catch (error) {
-    logger.warn({
-      msg: 'Prediction generation failed',
-      error,
-    });
+    logger.warn({ msg: 'Prediction generation failed', error });
     throw error;
   }
 }
 
+/**
+ * Generates a text prediction in a streaming manner and publishes the result chunks to a subscription.
+ *
+ * @param {string} prompt - The prompt to generate the prediction for.
+ * @returns {Promise<void>}
+ */
 export async function generateTextPredictionStreaming(
   prompt: string,
 ): Promise<void> {
   try {
-    logger.debug({
-      msg: 'Prediction generation started',
-      prompt,
-    });
+    logger.debug({ msg: 'Prediction generation started', prompt });
 
-    makeStreamingRequest(
-      {
-        prompt,
-      },
-      async (chunk) => {
-        subscriptionClient.publish('TEXT_PREDICTION_ADDED', {
-          textPredictionAdded: {
-            prompt,
-            result: chunk,
-          },
-        });
-      },
-    );
-  } catch (error) {
-    logger.warn({
-      msg: 'Prediction generation failed',
-      error,
+    // Generate the prediction in a streaming manner
+    await makeStreamingRequest({ prompt }, async (chunk) => {
+      subscriptionClient.publish(SubscriptionEvents.TEXT_PREDICTION_ADDED, {
+        textPredictionAdded: { prompt, result: chunk },
+      });
     });
+  } catch (error) {
+    logger.warn({ msg: 'Prediction generation failed', error });
     throw error;
   }
 }
