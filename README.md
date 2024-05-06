@@ -29,7 +29,7 @@ This repository contains a Node.js application that uses Expresses and Apollo Se
 
 ### Pre-requisites
 
-- [ ] [Node.js](https://nodejs.org/en) (version 20.x or later)
+- [ ] [Node.js](https://nodejs.org/en) (version 22.x or later)
 - [ ] [AWS CLI](https://aws.amazon.com/cli)
 - [ ] [Terraform CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install)
 - [ ] [Docker](https://www.docker.com/get-started)
