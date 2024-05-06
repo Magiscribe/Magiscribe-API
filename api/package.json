@@ -22,7 +22,7 @@
     "@aws-sdk/client-lambda": "^3.569.0",
     "@graphql-tools/schema": "^10.0.3",
     "@langchain/community": "^0.0.54",
-    "@langchain/core": "^0.1.61",
+    "@langchain/core": "^0.1.62",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

@@ -24,8 +24,8 @@ importers:
         specifier: ^0.0.54
         version: 0.0.54(@aws-crypto/sha256-js@3.0.0)(@aws-sdk/client-bedrock-runtime@3.569.0)(@aws-sdk/client-lambda@3.569.0)(@aws-sdk/credential-provider-node@3.569.0(@aws-sdk/client-sso-oidc@3.569.0(@aws-sdk/client-sts@3.569.0))(@aws-sdk/client-sts@3.569.0))(@smithy/eventstream-codec@2.2.0)(@smithy/protocol-http@3.3.0)(@smithy/signature-v4@2.3.0)(@smithy/util-utf8@2.3.0)(openai@4.40.1)(ws@8.17.0)
       '@langchain/core':
-        specifier: ^0.1.61
-        version: 0.1.61(openai@4.40.1)
+        specifier: ^0.1.62
+        version: 0.1.62(openai@4.40.1)
       body-parser:
         specifier: ^1.20.2
         version: 1.20.2
@@ -680,8 +680,8 @@ packages:
       ws:
         optional: true
 
-  '@langchain/core@0.1.61':
-    resolution: {integrity: sha512-C8OkAly+ugvXsL8TACCmFv9WTTcT4gvQaG6NbrXCOzibBCywfxxcTqEMOyg3zIKpxHEmR0DHqh0OiJRHocnsCg==}
+  '@langchain/core@0.1.62':
+    resolution: {integrity: sha512-PsBM/x0wxVvVPawKak2MFjxEneogipf212yO+rLf+2M3RDepCpYCdn1NBWgfmC+AWpmBYx/8zM7Y4QW7Kg2Wjw==}
     engines: {node: '>=18'}
 
   '@langchain/openai@0.0.28':
@@ -3268,7 +3268,7 @@ snapshots:
 
   '@langchain/community@0.0.54(@aws-crypto/sha256-js@3.0.0)(@aws-sdk/client-bedrock-runtime@3.569.0)(@aws-sdk/client-lambda@3.569.0)(@aws-sdk/credential-provider-node@3.569.0(@aws-sdk/client-sso-oidc@3.569.0(@aws-sdk/client-sts@3.569.0))(@aws-sdk/client-sts@3.569.0))(@smithy/eventstream-codec@2.2.0)(@smithy/protocol-http@3.3.0)(@smithy/signature-v4@2.3.0)(@smithy/util-utf8@2.3.0)(openai@4.40.1)(ws@8.17.0)':
     dependencies:
-      '@langchain/core': 0.1.61(openai@4.40.1)
+      '@langchain/core': 0.1.62(openai@4.40.1)
       '@langchain/openai': 0.0.28
       expr-eval: 2.0.2
       flat: 5.0.2
@@ -3290,7 +3290,7 @@ snapshots:
       - encoding
       - openai
 
-  '@langchain/core@0.1.61(openai@4.40.1)':
+  '@langchain/core@0.1.62(openai@4.40.1)':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
@@ -3309,7 +3309,7 @@ snapshots:
 
   '@langchain/openai@0.0.28':
     dependencies:
-      '@langchain/core': 0.1.61(openai@4.40.1)
+      '@langchain/core': 0.1.62(openai@4.40.1)
       js-tiktoken: 1.0.11
       openai: 4.40.1
       zod: 3.23.6
