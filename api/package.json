@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "@aws-sdk/client-bedrock-runtime": "^3.569.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.572.0",
     "@aws-sdk/client-lambda": "^3.569.0",
     "@graphql-tools/schema": "^10.0.3",
     "@langchain/community": "^0.0.55",
