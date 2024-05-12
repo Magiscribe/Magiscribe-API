@@ -2,7 +2,11 @@
 
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
-![Dependabot](https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white)
+![Apollo Server](https://img.shields.io/badge/-Apollo%20Server-311C87?style=for-the-badge&logo=apollo-graphql)
+![Express](https://img.shields.io/badge/-Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Terraform](https://img.shields.io/badge/-Terraform-623CE4?style=for-the-badge&logo=terraform&logoColor=white)
+![AWS](https://img.shields.io/badge/-AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 ---
 
@@ -50,10 +54,10 @@ corepack enable pnpm
 git clone git@github.com:AI-Whiteboard/PoC-Apollo-GraphQL-API.git
 ```
 
-4. Run the setup script. This will check for all required dependencies and the install Node dependencies.
+4. Run the install script. This will install the dependencies for the API and Infrastructure projects.
 
 ```bash
-sh setup.sh
+pnpm i
 ```
 
 ### Infrastructure Setup
@@ -64,13 +68,7 @@ sh setup.sh
 cd infrastructure
 ```
 
-2. Install the dependencies
-
-```bash
-pnpm install
-```
-
-3. Deploy the networking layer. Note, the first time you run this, it will create a new Hosted Zone in Route 53. You will need to point your domain registrar to the name servers provided by Route 53 so that it can manage the DNS records and auto-verify the SSL certificates created by this project.
+1. Deploy the networking layer. Note, the first time you run this, it will create a new Hosted Zone in Route 53. You will need to point your domain registrar to the name servers provided by Route 53 so that it can manage the DNS records and auto-verify the SSL certificates created by this project.
 
 ```bash
 pnpm deploy:networking

@@ -1,0 +1,23 @@
+{
+  "name": "container",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "concurrently \"husky install\" \"cd api && pnpm install\" \"cd infrastructure && pnpm install\"",
+    "clean": "concurrently \"cd api && pnpm run clean\" \"cd infrastructure && pnpm run clean\"",
+    "lint": "concurrently \"cd api && pnpm run lint\" \"cd infrastructure && pnpm run lint\"",
+    "lint:fix": "concurrently \"cd api && pnpm run lint:fix\" \"cd infrastructure && pnpm run lint:fix\"",
+    "format": "concurrently \"cd api && pnpm run format\" \"cd infrastructure && pnpm run format\"",
+    "check": "concurrently \"cd api && pnpm run check\" \"cd infrastructure && pnpm run check\"",
+    "fix": "concurrently \"cd api && pnpm run fix\" \"cd infrastructure && pnpm run fix\"",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.11"
+  }
+}

@@ -1,4 +1,3 @@
-import { EcrRepository } from '@cdktf/provider-aws/lib/ecr-repository';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
@@ -11,7 +10,6 @@ import { VPCConstruct } from '@constructs/vpc';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
-import * as path from 'path';
 
 interface AppStackProps {
   vpc: VPCConstruct;
@@ -54,7 +52,7 @@ export default class AppStack extends TerraformStack {
       name: 'executor',
       image: 'ghcr.io/ai-whiteboard/poc-graphql:latest',
       env: {
-        PORT: "80",
+        PORT: '80',
         EXECUTOR_LAMBDA_NAME: config.executorFn.function.functionName,
       },
       secret: config.githubContainerSecret,
@@ -74,7 +72,7 @@ export default class AppStack extends TerraformStack {
         // Only allow incoming traffic from our load balancer
         ingress: [
           {
-            protocol: "TCP",
+            protocol: 'TCP',
             fromPort: 80,
             toPort: 80,
             securityGroups: loadBalancer.lb.securityGroups,
@@ -85,12 +83,12 @@ export default class AppStack extends TerraformStack {
           {
             fromPort: 0,
             toPort: 0,
-            protocol: "-1",
-            cidrBlocks: ["0.0.0.0/0"],
-            ipv6CidrBlocks: ["::/0"],
+            protocol: '-1',
+            cidrBlocks: ['0.0.0.0/0'],
+            ipv6CidrBlocks: ['::/0'],
           },
         ],
-      }
+      },
     );
 
     loadBalancer.exposeService('executor', task, serviceSecurityGroup, '/');

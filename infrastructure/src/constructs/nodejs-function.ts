@@ -6,9 +6,9 @@ import { AssetType, TerraformAsset } from 'cdktf';
 import { Construct } from 'constructs';
 import { buildSync } from 'esbuild';
 import * as path from 'path';
-import { Hash, createHash } from "node:crypto";
-import { readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { Hash, createHash } from 'node:crypto';
+import { readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 
 export interface NodejsFunctionProps {
   handler: string;
@@ -26,7 +26,7 @@ export interface NodejsFunctionProps {
  * resources depending if source files have changed
  */
 export function computeMetaHash(paths: string[], inputHash?: Hash) {
-  const hash = inputHash ? inputHash : createHash("sha1");
+  const hash = inputHash ? inputHash : createHash('sha1');
   for (const path of paths) {
     const statInfo = statSync(path);
     if (statInfo.isDirectory()) {
@@ -43,7 +43,7 @@ export function computeMetaHash(paths: string[], inputHash?: Hash) {
   }
   // if not being called recursively, get the digest and return it as the hash result
   if (!inputHash) {
-    return hash.digest().toString("base64");
+    return hash.digest().toString('base64');
   }
   return;
 }
