@@ -1,14 +1,11 @@
 {
-  "name": "infrastructure",
+  "name": "bootstrap",
   "version": "1.0.0",
   "scripts": {
     "get": "cdktf get",
     "build": "tsc",
     "synth": "cdktf synth",
-    "deploy:network": "cdktf deploy network",
-    "deploy:lambdas": "cdktf deploy lambdas",
-    "deploy:app": "cdktf deploy app",
-    "deploy:client": "cdktf deploy client",
+    "deploy": "cdktf deploy",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
     "test": "jest",
@@ -27,8 +24,6 @@
   },
   "dependencies": {
     "@cdktf/provider-aws": "19.18.0",
-    "@cdktf/provider-random": "^11.0.1",
-    "aws-lambda": "^1.0.7",
     "cdktf": "^0.20.7",
     "cdktf-cli": "^0.20.7",
     "constructs": "^10.3.0",

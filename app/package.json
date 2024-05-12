@@ -1,7 +1,6 @@
 {
-  "name": "my-graphql-project",
+  "name": "apollo-graphql-api",
   "version": "1.0.0",
-  "description": "A simple GraphQL API with TypeScript",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
@@ -14,14 +13,15 @@
     "check": "pnpm run lint && pnpm run format",
     "fix": "pnpm run lint:fix && pnpm run format"
   },
-  "author": "Luc",
-  "license": "MIT",
+  "engines": {
+    "node": ">=20.0"
+  },
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "@aws-sdk/client-bedrock-runtime": "^3.572.0",
-    "@aws-sdk/client-lambda": "^3.572.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.574.0",
+    "@aws-sdk/client-lambda": "^3.574.0",
     "@graphql-tools/schema": "^10.0.3",
-    "@langchain/community": "^0.0.55",
+    "@langchain/community": "^0.0.56",
     "@langchain/core": "^0.1.62",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -47,6 +47,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"
-  },
-  "packageManager": "pnpm@9.0.2+sha1.2a34aeb80bf8e8435815d14f620ec4ba0eff1604"
+  }
 }

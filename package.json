@@ -1,21 +1,17 @@
 {
-  "name": "container",
+  "name": "graphql-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "concurrently \"husky install\" \"cd api && pnpm install\" \"cd infrastructure && pnpm install\"",
-    "clean": "concurrently \"cd api && pnpm run clean\" \"cd infrastructure && pnpm run clean\"",
-    "lint": "concurrently \"cd api && pnpm run lint\" \"cd infrastructure && pnpm run lint\"",
-    "lint:fix": "concurrently \"cd api && pnpm run lint:fix\" \"cd infrastructure && pnpm run lint:fix\"",
-    "format": "concurrently \"cd api && pnpm run format\" \"cd infrastructure && pnpm run format\"",
-    "check": "concurrently \"cd api && pnpm run check\" \"cd infrastructure && pnpm run check\"",
-    "fix": "concurrently \"cd api && pnpm run fix\" \"cd infrastructure && pnpm run fix\"",
+    "postinstall": "concurrently \"husky install\" \"cd app && pnpm install\" \"cd infrastructure && pnpm install\" \"cd bootstrap && pnpm install\"",
+    "lint": "concurrently \"cd app && pnpm run lint\" \"cd infrastructure && pnpm run lint\" \"cd bootstrap && pnpm run lint\"",
+    "lint:fix": "concurrently \"cd app && pnpm run lint:fix\" \"cd infrastructure && pnpm run lint:fix\" \"cd bootstrap && pnpm run lint:fix\"",
+    "format": "concurrently \"cd app && pnpm run format\" \"cd infrastructure && pnpm run format\" \"cd bootstrap && pnpm run format\"",
+    "check": "concurrently \"cd app && pnpm run check\" \"cd infrastructure && pnpm run check\" \"cd bootstrap && pnpm run check\"",
+    "fix": "concurrently \"cd app && pnpm run fix\" \"cd infrastructure && pnpm run fix\" \"cd bootstrap && pnpm run fix\"",
     "prepare": "husky"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "concurrently": "^8.2.2",
     "husky": "^9.0.11"
