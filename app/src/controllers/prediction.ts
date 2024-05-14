@@ -65,11 +65,8 @@ export async function generateVisualPrediction(
         result: JSON.stringify(results),
       },
     });
-
-    return results;
-  } catch (error) {
-    logger.warn({ msg: 'Prediction generation failed', error });
-    throw error;
+  } catch (error: any) {
+    logger.warn({ msg: 'Prediction generation failed', error: JSON.stringify(error) });
   }
 }
 
