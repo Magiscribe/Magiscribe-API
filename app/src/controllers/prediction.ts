@@ -52,8 +52,7 @@ export async function generateVisualPrediction(
           system: chooseSystemPrompt(step.agent),
         });
         const cleanedResult = cleanCodeBlock(result, 'python');
-        result = await executePythonCode(cleanedResult);
-        return result;
+        return executePythonCode(cleanedResult);
       }),
     );
 

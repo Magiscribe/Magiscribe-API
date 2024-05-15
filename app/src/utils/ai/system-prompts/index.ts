@@ -7,7 +7,6 @@ import functionTemplate from './function'; //Because function itself is a keywor
 import line from './line';
 import point from './point';
 import text from './text';
-import state from './state';
 import preprocessing from './preprocessing';
 
 const output = {
@@ -20,7 +19,6 @@ const output = {
   line,
   point,
   text,
-  state,
   preprocessing,
 };
 
