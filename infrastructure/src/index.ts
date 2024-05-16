@@ -21,13 +21,19 @@ const lambdas = new LambdaStack(app, 'lambdas');
 
 new AppStack(app, 'app', {
   vpc: network.vpc,
+  domainName: `api.${apexDomainName}`,
   zone: network.hostedZone,
   githubContainerSecret: network.githubContainerSecret,
   executorFn: lambdas.executorFn,
 });
 
-new FrontendStack(app, 'frontend', {
-  domainName: apexDomainName,
+new FrontendStack(app, 'client-app', {
+  domainName: `*.${apexDomainName}`,
+  zone: network.hostedZone,
+});
+
+new FrontendStack(app, 'client-landing', {
+  domainName: `${apexDomainName}`,
   zone: network.hostedZone,
 });
 

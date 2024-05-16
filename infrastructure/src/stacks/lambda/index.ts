@@ -27,9 +27,7 @@ export default class LambdaStack extends TerraformStack {
 
     Aspects.of(this).add(
       new TagsAddingAspect({
-        createdBy: 'cdktf',
-        project: 'whiteboard',
-        stack: 'lambdas',
+        stack: id,
       }),
     );
 

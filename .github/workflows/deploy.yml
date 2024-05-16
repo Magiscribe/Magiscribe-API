@@ -31,8 +31,8 @@ jobs:
 
       - name: 'Build Inventory Image'
         run: |
-          docker build . --tag ghcr.io/ai-whiteboard/poc-graphql:latest
-          docker push ghcr.io/ai-whiteboard/poc-graphql:latest
+          docker build . --tag ghcr.io/magiscribe/poc-graphql:latest
+          docker push ghcr.io/magiscribe/poc-graphql:latest
 
   terraform:
     name: "Terraform CDK Deploy"
@@ -70,7 +70,7 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v4
         with:
           mode: auto-approve-apply
-          stackName: app lambdas network 
+          stackName: app lambdas network client-app client-landing
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:

@@ -18,7 +18,11 @@ export class TagsAddingAspect implements IAspect {
   visit(node: IConstruct) {
     if (isTaggableConstruct(node)) {
       // We need to take the input value to not create a circular reference
-      const currentTags = node.tagsInput || {};
+      const currentTags = {
+        createdBy: 'cdktf',
+        project: process.env.PROJECT_NAME || 'cdktf',
+        ...node.tagsInput,
+      };
       node.tags = { ...this.tagsToAdd, ...currentTags };
     }
   }

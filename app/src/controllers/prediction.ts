@@ -11,12 +11,12 @@ import { executePythonCode } from '@utils/code';
  *
  * @param {string} prompt - The prompt to generate the prediction for.
  * @param {string} context - The context to generate the prediction with.
- * @returns {Promise<any[]>} The generated prediction as an array of results.
+ * @returns {Promise<void>} The generated prediction as an array of results.
  */
 export async function generateVisualPrediction(
   prompt: string,
   context: string,
-) {
+): Promise<void> {
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
@@ -65,8 +65,11 @@ export async function generateVisualPrediction(
         result: JSON.stringify(results),
       },
     });
-  } catch (error: any) {
-    logger.warn({ msg: 'Prediction generation failed', error: JSON.stringify(error) });
+  } catch (error) {
+    logger.warn({
+      msg: 'Prediction generation failed',
+      error: JSON.stringify(error),
+    });
   }
 }
 

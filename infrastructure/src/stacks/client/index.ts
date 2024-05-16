@@ -31,22 +31,20 @@ export default class FrontendStack extends TerraformStack {
       bucket: process.env.CDKTF_BUCKET_NAME!,
       dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE!,
       region: process.env.CDKTF_REGION!,
-      key: 'frontend.tfstate',
+      key: `${id}.tfstate`,
     });
 
     Aspects.of(this).add(
       new TagsAddingAspect({
-        createdBy: 'cdktf',
-        project: 'whiteboard',
-        stack: 'frontend-container',
+        stack: id,
       }),
     );
 
-    const cloudfrontOAI = new CloudfrontOriginAccessControl(
+    const cloudfrontOAC = new CloudfrontOriginAccessControl(
       this,
       'CloudFrontOAC',
       {
-        name: 'whiteboard-cloudfront-oac',
+        name: `${id}-oac`,
         description: 'Allow CloudFront to access the bucket',
         originAccessControlOriginType: 's3',
         signingBehavior: 'always',
@@ -55,10 +53,10 @@ export default class FrontendStack extends TerraformStack {
     );
 
     const frontendBucket = new S3Bucket(this, 'FrontendBucket', {
-      bucketPrefix: 'frontend',
+      bucketPrefix: `${id}-bucket-`,
     });
 
-    const cloudfrontDistirbution = new CloudfrontDistribution(
+    const cloudfrontDistribution = new CloudfrontDistribution(
       this,
       'CloudFront',
       {
@@ -90,7 +88,7 @@ export default class FrontendStack extends TerraformStack {
           {
             originId: frontendBucket.bucketDomainName,
             domainName: frontendBucket.bucketRegionalDomainName,
-            originAccessControlId: cloudfrontOAI.id,
+            originAccessControlId: cloudfrontOAC.id,
           },
         ],
 
@@ -124,7 +122,7 @@ export default class FrontendStack extends TerraformStack {
             Resource: `${frontendBucket.arn}/*`,
             Condition: {
               StringEquals: {
-                'AWS:SourceArn': cloudfrontDistirbution.arn,
+                'AWS:SourceArn': cloudfrontDistribution.arn,
               },
             },
           },
@@ -137,8 +135,8 @@ export default class FrontendStack extends TerraformStack {
       zoneId: zone.zone.zoneId,
       type: 'A',
       alias: {
-        name: cloudfrontDistirbution.domainName,
-        zoneId: cloudfrontDistirbution.hostedZoneId,
+        name: cloudfrontDistribution.domainName,
+        zoneId: cloudfrontDistribution.hostedZoneId,
         evaluateTargetHealth: true,
       },
     });

@@ -31,9 +31,7 @@ export default class NetworkStack extends TerraformStack {
 
     Aspects.of(this).add(
       new TagsAddingAspect({
-        createdBy: 'cdktf',
-        project: 'whiteboard',
-        stack: 'network-container',
+        stack: id,
       }),
     );
 
@@ -41,7 +39,7 @@ export default class NetworkStack extends TerraformStack {
       bucket: process.env.CDKTF_BUCKET_NAME!,
       dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE!,
       region: process.env.CDKTF_REGION!,
-      key: 'network-container.tfstate',
+      key: `${id}.tfstate`,
     });
 
     this.hostedZone = new HostedZone(this, 'Zone', {
@@ -61,7 +59,7 @@ export default class NetworkStack extends TerraformStack {
     const randomId = new Id(this, 'GitHubContainerRegistrySecretRandomId', {
       byteLength: 8,
     }).id;
-    0;
+
     // Ref: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/private-auth.html
     this.githubContainerSecret = new SecretsmanagerSecret(
       this,

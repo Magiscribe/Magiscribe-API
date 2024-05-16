@@ -13,6 +13,7 @@ import { Construct } from 'constructs';
 
 interface AppStackProps {
   vpc: VPCConstruct;
+  domainName: string;
   zone: HostedZone;
   githubContainerSecret: SecretsmanagerSecret;
   executorFn: PythonFunction;
@@ -33,14 +34,12 @@ export default class AppStack extends TerraformStack {
       bucket: process.env.CDKTF_BUCKET_NAME!,
       dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE!,
       region: process.env.CDKTF_REGION!,
-      key: 'api-container.tfstate',
+      key: `${id}.tfstate`,
     });
 
     Aspects.of(this).add(
       new TagsAddingAspect({
-        createdBy: 'cdktf',
-        project: 'whiteboard',
-        stack: 'app',
+        stack: id,
       }),
     );
 
@@ -50,7 +49,7 @@ export default class AppStack extends TerraformStack {
 
     const task = cluster.runDockerImage({
       name: 'executor',
-      image: 'ghcr.io/ai-whiteboard/poc-graphql:latest',
+      image: 'ghcr.io/magiscribe/poc-graphql:latest',
       env: {
         PORT: '80',
         EXECUTOR_LAMBDA_NAME: config.executorFn.function.functionName,
@@ -94,7 +93,7 @@ export default class AppStack extends TerraformStack {
     loadBalancer.exposeService('executor', task, serviceSecurityGroup, '/');
 
     new Route53Record(this, 'FrontendRecord', {
-      name: 'api',
+      name: config.domainName,
       zoneId: config.zone.zone.zoneId,
       type: 'CNAME',
       records: [loadBalancer.lb.dnsName],
