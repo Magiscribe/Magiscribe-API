@@ -47,7 +47,7 @@ export async function generateVisualPrediction(
     // Execute the processed steps and generate the results
     const results = await Promise.all(
       processedSteps.map(async (step: { prompt: string; agent: Agents }) => {
-        let result = await makeSyncRequest({
+        const result = await makeSyncRequest({
           prompt: step.prompt,
           system: chooseSystemPrompt(step.agent),
         });

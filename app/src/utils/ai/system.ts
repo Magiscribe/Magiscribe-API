@@ -23,9 +23,7 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
       );
     case Agents.LineAgent:
       return (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
-        templates.line
+        templates.code.write + templateDrawingElementGeneration + templates.line
       );
     case Agents.PointAgent:
       return (
@@ -35,9 +33,7 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
       );
     case Agents.TextAgent:
       return (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
-        templates.text
+        templates.code.write + templateDrawingElementGeneration + templates.text
       );
     case Agents.CodeFixAgent:
       return templates.code.write + templates.code.fix;
