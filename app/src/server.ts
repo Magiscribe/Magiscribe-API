@@ -12,6 +12,7 @@ import express from 'express';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
+import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 
 /**
  * Starts the GraphQL server.
@@ -125,6 +126,7 @@ export default async function startServer() {
 
   app.use(
     '/graphql',
+    ClerkExpressRequireAuth(),
     cors<cors.CorsRequest>(),
     express.json(),
     expressMiddleware(server),

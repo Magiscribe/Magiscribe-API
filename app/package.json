@@ -26,6 +26,7 @@
     "@aws-sdk/client-sts": "^3.583.0",
     "@aws-sdk/client-transcribe": "^3.583.0",
     "@aws-sdk/s3-request-presigner": "^3.583.0",
+    "@clerk/clerk-sdk-node": "^5.0.7",
     "@graphql-tools/schema": "^10.0.3",
     "@langchain/community": "^0.2.2",
     "@langchain/core": "^0.2.0",
