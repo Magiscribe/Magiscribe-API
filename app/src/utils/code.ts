@@ -38,7 +38,9 @@ export async function executePythonCode(code: string): Promise<string> {
     throw new Error(`Python code execution error: ${result.FunctionError}`);
   }
 
-  const payload = Buffer.from(result.Payload!).toString();
+  const payload = JSON.parse(
+    JSON.parse(Buffer.from(result.Payload!).toString()),
+  );
   log.debug({
     msg: 'Python code execution response received',
     result: payload,
