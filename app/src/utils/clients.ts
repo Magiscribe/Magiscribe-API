@@ -1,5 +1,6 @@
 import { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
 import { LambdaClient } from '@aws-sdk/client-lambda';
+import config from '@config';
 import { PubSub } from 'graphql-subscriptions';
 
 // GraphQL Client
@@ -8,6 +9,9 @@ const pubsubClient = new PubSub();
 
 // AWS Clients
 const bedrockClient = new BedrockRuntimeClient({ region: 'us-east-1' });
-const lambdaClient = new LambdaClient({ region: 'us-east-1' });
+const lambdaClient = new LambdaClient({
+  region: 'us-east-1',
+  endpoint: config.lambda.endpoint,
+});
 
 export { bedrockClient, lambdaClient, pubsubClient };

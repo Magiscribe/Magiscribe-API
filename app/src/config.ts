@@ -18,6 +18,33 @@ const config = {
    * @default 'debug'
    */
   logLevel: process.env.LOG_LEVEL || 'debug',
+
+  lambda: {
+    /**
+     * The endpoint used by the Lambda client.
+     */
+    endpoint: process.env.LAMBDA_ENDPOINT,
+  },
+
+  /**
+   * The database configuration for MongoDB.
+   */
+  database: {
+    /**
+     * The MongoDB connection string.
+     */
+    url: process.env.MONGODB_URL || 'mongodb://localhost:27017',
+
+    /**
+     * The MongoDB username.
+     */
+    username: process.env.MONGODB_USERNAME || 'root',
+
+    /**
+     * The MongoDB password.
+     */
+    password: process.env.MONGODB_PASSWORD || 'password',
+  },
 };
 
 export default config;

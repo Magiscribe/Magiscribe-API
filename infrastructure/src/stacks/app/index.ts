@@ -5,7 +5,7 @@ import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
 import { Cluster } from '@constructs/cluster';
 import { HostedZone } from '@constructs/hosted-zone';
 import { LoadBalancer } from '@constructs/loadbalancer';
-import { PythonFunction } from '@constructs/python-function';
+import { PythonFunction } from '@constructs/function';
 import { VPCConstruct } from '@constructs/vpc';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
@@ -15,8 +15,7 @@ interface AppStackProps {
   vpc: VPCConstruct;
   domainName: string;
   zone: HostedZone;
-  githubContainerSecret: SecretsmanagerSecret;
-  executorFn: PythonFunction;
+  repositoryCredentials: SecretsmanagerSecret;
 }
 
 export default class AppStack extends TerraformStack {
@@ -43,6 +42,14 @@ export default class AppStack extends TerraformStack {
       }),
     );
 
+    /*================= LAMBDAS =================*/
+
+    const executorFn = new PythonFunction(this, 'PythonExecutorFn', {
+      imageUri:  'ghcr.io/magiscribe/poc-graphql:latest',
+      timeout: 10,
+      memorySize: 1024,
+    });
+
     /*================= ECS =================*/
 
     const cluster = new Cluster(this, 'Cluster');
@@ -52,9 +59,9 @@ export default class AppStack extends TerraformStack {
       image: 'ghcr.io/magiscribe/poc-graphql:latest',
       env: {
         PORT: '80',
-        EXECUTOR_LAMBDA_NAME: config.executorFn.function.functionName,
+        EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
       },
-      secret: config.githubContainerSecret,
+      secret: config.repositoryCredentials,
     });
 
     const loadBalancer = new LoadBalancer(this, 'LoadBalancer', {
