@@ -31,5 +31,4 @@ services:
     ports:
       - '6379:6379'
     environment:
-      # Password for Redis authentication
       REDIS_PASSWORD: redis_password

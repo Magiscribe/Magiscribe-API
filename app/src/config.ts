@@ -22,6 +22,7 @@ const config = {
   lambda: {
     /**
      * The endpoint used by the Lambda client.
+     * @note This can be used to emulate Lambda functions locally.
      */
     endpoint: process.env.LAMBDA_ENDPOINT,
   },
