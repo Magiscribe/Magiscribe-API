@@ -3,7 +3,6 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import config from '@config';
-import db from '@database';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
@@ -88,11 +87,6 @@ export default async function startServer() {
       };
     },
   };
-
-  /*=============================== DATABASE ============================*/
-
-  // Initialize the database connection using a Singleton pattern.
-  await db.init();
 
   /*=============================== SERVER ==============================*/
 

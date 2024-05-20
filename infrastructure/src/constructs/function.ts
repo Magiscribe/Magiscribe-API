@@ -36,6 +36,7 @@ export class PythonFunction extends Construct {
     this.function = new LambdaFunction(this, id, {
       functionName: id,
       role: this.role.arn,
+      packageType: 'Image',
       imageUri: props.imageUri,
       timeout: props.timeout,
       memorySize: props.memorySize,

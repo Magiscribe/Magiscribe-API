@@ -42,7 +42,7 @@ export default class AppStack extends TerraformStack {
     /*================= LAMBDAS =================*/
 
     const executorFn = new PythonFunction(this, 'PythonExecutorFn', {
-      imageUri: props.repositoryPythonExecutor.repository.repositoryUrl,
+      imageUri: `${props.repositoryPythonExecutor.repository.repositoryUrl}:latest`,
       timeout: 10,
       memorySize: 1024,
     });
@@ -52,8 +52,8 @@ export default class AppStack extends TerraformStack {
     const cluster = new Cluster(this, 'Cluster');
 
     const task = cluster.runDockerImage({
-      name: 'executor',
-      image: props.repositoryApp.repository.repositoryUrl,
+      name: 'graphql-api',
+      image:`${props.repositoryApp.repository.repositoryUrl}:latest`,
       env: {
         PORT: '80',
         EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
@@ -93,7 +93,7 @@ export default class AppStack extends TerraformStack {
       },
     );
 
-    loadBalancer.exposeService('executor', task, serviceSecurityGroup, '/');
+    loadBalancer.exposeService('graphql-api', task, serviceSecurityGroup, '/');
 
     new Route53Record(this, 'FrontendRecord', {
       name: props.domainName,

@@ -29,8 +29,12 @@ export default class DataStack extends TerraformStack {
 
     /*================= ECR =================*/
 
-    this.repositoryPythonExecutor = new Repository(this, 'PythonExecutor');
+    this.repositoryPythonExecutor = new Repository(this, 'PythonExecutor', {
+      name: 'python-executor',
+    });
 
-    this.repositoryApp = new Repository(this, 'App');
+    this.repositoryApp = new Repository(this, 'App', {
+      name: 'graphql-api',
+    });
   }
 }
