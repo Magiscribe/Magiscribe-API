@@ -33,6 +33,7 @@
     "express": "^4.19.2",
     "globals": "^15.3.0",
     "graphql": "^16.8.1",
+    "graphql-redis-subscriptions": "^2.6.1",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.16.0",
     "mongodb": "^6.6.2",

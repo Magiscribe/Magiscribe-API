@@ -1,17 +1,23 @@
 import { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
 import { LambdaClient } from '@aws-sdk/client-lambda';
 import config from '@config';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { PubSub } from 'graphql-subscriptions';
 
-// GraphQL Client
-// TODO: Replace with Redis PubSub so that it can be used in a distributed environment.
-const pubsubClient = new PubSub();
+// Sets up the pub sub client to use Redis if the configuration is set,
+// otherwise it uses the default PubSub client.
+const pubsubClient = config.redis ? new RedisPubSub({
+  connection: {
+    host: config.redis.host,
+    port: config.redis.port,
+  },
+}): new PubSub();
 
 // AWS Clients
-const bedrockClient = new BedrockRuntimeClient({ region: 'us-east-1' });
+const bedrockClient = new BedrockRuntimeClient();
 const lambdaClient = new LambdaClient({
-  region: 'us-east-1',
   endpoint: config.lambda.endpoint,
+  logger: console,
 });
 
 export { bedrockClient, lambdaClient, pubsubClient };

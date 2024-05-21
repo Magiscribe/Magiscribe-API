@@ -18,7 +18,7 @@
     - [Pre-requisites](#pre-requisites)
     - [General Setup](#general-setup)
     - [API Development Setup](#api-development-setup)
-      - [Docker Compose](#docker-compose)
+      - [Docker Build and Run](#docker-build-and-run)
     - [Infrastructure Deployment](#infrastructure-deployment)
       - [Bootstrap Deployment](#bootstrap-deployment)
       - [Infrastructure Deployment](#infrastructure-deployment-1)
@@ -78,18 +78,25 @@ cd app
 pnpm install
 ```
 
+3. Start the Docker container for the database and Python execution environment.
+
+```bash
+pnpm docker:up
+```
+
 3. Start the application in development mode
 
 ```bash
 pnpm dev
 ```
 
-#### Docker Compose
+#### Docker Build and Run
 
-To run the application using Docker Compose, you can run the following command:
+To run the application using Docker, you can run the following command:
 
 ```bash
-docker-compose up
+docker build -t graphql-api .
+docker run -p 3000:3000 graphql-api -e PORT=3000 -d
 ```
 
 ### Infrastructure Deployment

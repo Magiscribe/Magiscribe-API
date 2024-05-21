@@ -6,16 +6,16 @@ let database: mongoose.Connection;
 
 const connect = () => {
   // add your own uri below
-  const uri = config.database.url;
+  const uri = config.mongodb.url;
 
   if (database) {
     return;
   }
 
   mongoose.connect(uri, {
-    authSource: 'admin', //
-    user: config.database.username,
-    pass: config.database.password,
+    authSource: 'admin', // The admin table is the default table for authentication.
+    user: config.mongodb.username,
+    pass: config.mongodb.password,
   });
 
   database = mongoose.connection;
@@ -33,13 +33,13 @@ const init = async () => {
 
   return new Promise((resolve, reject) => {
     database.on('open', () => {
-      log.info(`Connected to MongoDB at ${config.database.url}`);
+      log.info(`Connected to MongoDB at ${config.mongodb.url}`);
       resolve(undefined);
     });
 
     database.on('error', (error) => {
       log.error(
-        `Error connecting to MongoDB at ${config.database.url}: ${error.message}`,
+        `Error connecting to MongoDB at ${config.mongodb.url}: ${error.message}`,
       );
       reject(error);
     });

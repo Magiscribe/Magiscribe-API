@@ -12,7 +12,7 @@ services:
   python-executor:
     build: ./lambdas/python-executor
     ports:
-      - '8080:8080'
+      - '9000:8080'
 
   #================= MongoDB =================
   # Description: MongoDB is used to store the application data.

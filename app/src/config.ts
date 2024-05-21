@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config()
+
 const config = {
   /**
    * The environment the application is running in.
@@ -21,16 +25,21 @@ const config = {
 
   lambda: {
     /**
+     * The name of the Lambda function used to execute Python code.
+     */
+    pythonExecutorName: process.env.LAMBDA_PYTHON_EXECUTOR_NAME,
+
+    /**
      * The endpoint used by the Lambda client.
      * @note This can be used to emulate Lambda functions locally.
      */
-    endpoint: process.env.LAMBDA_ENDPOINT,
+    endpoint: process.env.LAMBDA_ENDPOINT
   },
 
   /**
    * The database configuration for MongoDB.
    */
-  database: {
+  mongodb: {
     /**
      * The MongoDB connection string.
      */
@@ -46,6 +55,18 @@ const config = {
      */
     password: process.env.MONGODB_PASSWORD || 'password',
   },
+
+  redis: process.env.REDIS_HOST && {
+    /**
+     * The Redis host.
+     */
+    host: process.env.REDIS_HOST,
+
+    /**
+     * The Redis port.
+     */
+    port: parseInt(process.env.REDIS_PORT || '6379'),
+  }
 };
 
 export default config;
