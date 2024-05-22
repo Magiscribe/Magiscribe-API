@@ -15,9 +15,7 @@ import config from '@config';
 export async function executePythonCode(code: string): Promise<string> {
   // Base case: No Executor Lambda function is defined.
   if (!config.lambda.pythonExecutorName) {
-    throw new Error(
-      'No executor Lambda function defined.',
-    );
+    throw new Error('No executor Lambda function defined.');
   }
 
   try {
@@ -49,6 +47,7 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     log.error({
       msg: 'Python code execution error',
@@ -56,5 +55,4 @@ export async function executePythonCode(code: string): Promise<string> {
     });
     throw new Error(`Python code execution error: ${error.name}`);
   }
-
 }

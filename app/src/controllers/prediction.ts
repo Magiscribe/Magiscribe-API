@@ -64,7 +64,7 @@ export async function generateVisualPrediction(
         result: JSON.stringify(results),
       },
     });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.warn({
       msg: 'Prediction generation failed',

@@ -18,6 +18,10 @@ import { WebSocketServer } from 'ws';
  * Starts the GraphQL server.
  */
 export default async function startServer() {
+  log.debug(
+    'Preparing thrusters, getting ready to launch (setting up schema and resolvers)...',
+  );
+
   // Create schema, which will be used separately by ApolloServer and
   // the WebSocket server.
   const schema = makeExecutableSchema({ typeDefs, resolvers });
@@ -36,6 +40,8 @@ export default async function startServer() {
   const serverCleanup = useServer({ schema }, websocketServer);
 
   /*================================ PLUGINS ==============================*/
+
+  log.debug('Plugging in power converters (adding plugins)...');
 
   // Proper shutdown for the WebSocket server.
   // This is so that we cleanup websocket connections when the server is shut down.
@@ -90,6 +96,8 @@ export default async function startServer() {
 
   /*=============================== SERVER ==============================*/
 
+  log.debug('Starting the engines (setting up ApolloServer)...');
+
   // Set up ApolloServer.
   const server = new ApolloServer({
     schema,
@@ -108,9 +116,13 @@ export default async function startServer() {
     introspection: config.environment !== 'production',
   });
 
+  log.debug('Engines started, ready to launch (starting ApolloServer)...');
+
   await server.start();
 
   /*=============================== ROUTES ==============================*/
+
+  log.debug('Blasting off (setting up routes)...');
 
   app.use(
     '/graphql',
@@ -126,6 +138,7 @@ export default async function startServer() {
 
   // Now that our HTTP server is fully set up, actually listen.
   httpServer.listen(config.port, () => {
+    log.info('We have lift off! (Server is now running)');
     log.info(`Query endpoint ready at http://localhost:${config.port}/graphql`);
     log.info(
       `Subscription endpoint ready at ws://localhost:${config.port}/graphql`,

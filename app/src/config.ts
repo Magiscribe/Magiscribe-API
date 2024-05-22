@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 const config = {
   /**
@@ -40,7 +40,7 @@ const config = {
      * The endpoint used by the Lambda client.
      * @note This can be used to emulate Lambda functions locally.
      */
-    endpoint: process.env.LAMBDA_ENDPOINT
+    endpoint: process.env.LAMBDA_ENDPOINT,
   },
 
   /**
@@ -73,7 +73,7 @@ const config = {
      * The Redis port.
      */
     port: parseInt(process.env.REDIS_PORT || '6379'),
-  }
+  },
 };
 
 export default config;

@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" src/index.ts",
+    "dev": "pnpm docker:up && nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" src/index.ts",
     "start": "node  dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -36,7 +36,6 @@
     "graphql-redis-subscriptions": "^2.6.1",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.16.0",
-    "mongodb": "^6.6.2",
     "mongoose": "^8.4.0",
     "pino": "^9.0.0",
     "tsconfig-paths": "^4.2.0",

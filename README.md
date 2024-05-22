@@ -72,6 +72,12 @@ pnpm i
 cd app
 ```
 
+2. Copy the `.env.example` file to `.env` and update the values as needed.
+
+```bash
+cp .env.example .env
+```
+
 2. Install the dependencies
 
 ```bash
