@@ -17,6 +17,7 @@ const pubsubClient = config.redis ? new RedisPubSub({
 const bedrockClient = new BedrockRuntimeClient();
 const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
+  region: config.aws.region,
   logger: console,
 });
 

@@ -53,7 +53,7 @@ export default class AppStack extends TerraformStack {
 
     const task = cluster.runDockerImage({
       name: 'graphql-api',
-      image:`${props.repositoryApp.repository.repositoryUrl}:latest`,
+      image: `${props.repositoryApp.repository.repositoryUrl}:latest`,
       env: {
         PORT: '80',
         EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,

@@ -23,6 +23,13 @@ const config = {
    */
   logLevel: process.env.LOG_LEVEL || 'debug',
 
+  aws: {
+    /**
+     * The region the application is running in.
+     */
+    region: process.env.AWS_REGION || 'us-east-1',
+  },
+
   lambda: {
     /**
      * The name of the Lambda function used to execute Python code.

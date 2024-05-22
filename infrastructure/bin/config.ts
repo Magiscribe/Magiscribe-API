@@ -12,12 +12,15 @@ const config = {
     /**
      * The S3 bucket name to store the Terraform state file.
      */
-    bucket: process.env.CDKTF_BUCKET_NAME || 'remote-terraform-state20240520152449090900000001',
+    bucket:
+      process.env.CDKTF_BUCKET_NAME ||
+      'remote-terraform-state20240520152449090900000001',
 
     /**
      * The DynamoDB table name to store the Terraform state lock.
      */
-    dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE || 'remote-terraform-state-lock',
+    dynamodbTable:
+      process.env.CDKTF_DYNAMODB_TABLE || 'remote-terraform-state-lock',
 
     /**
      * The AWS region the S3 bucket and DynamoDB table will be created in.
