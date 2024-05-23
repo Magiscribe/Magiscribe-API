@@ -28,6 +28,16 @@ const config = {
      * The region the application is running in.
      */
     region: process.env.AWS_REGION || 'us-east-1',
+
+    /**
+     * The AWS access key ID to use for authentication with AWS services.
+     */
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+
+    /**
+     * The AWS secret access key to use for authentication with AWS services.
+     */
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 
   lambda: {

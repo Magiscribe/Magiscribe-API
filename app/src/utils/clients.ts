@@ -16,8 +16,16 @@ const pubsubClient = config.redis
   : new PubSub();
 
 // AWS Clients
-const bedrockClient = new BedrockRuntimeClient();
+const credentials = config.aws.accessKeyId && config.aws.secretAccessKey ? {
+  accessKeyId: config.aws.accessKeyId,
+  secretAccessKey: config.aws.secretAccessKey,
+} : undefined;
+
+const bedrockClient = new BedrockRuntimeClient({
+  credentials
+});
 const lambdaClient = new LambdaClient({
+  credentials,
   endpoint: config.lambda.endpoint,
   region: config.aws.region,
 });
