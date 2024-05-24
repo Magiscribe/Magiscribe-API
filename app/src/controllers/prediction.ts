@@ -6,6 +6,13 @@ import { cleanCodeBlock } from '@utils/clean';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { executePythonCode } from '@utils/code';
 
+export interface IVisualPredictionAddedResult {
+  prompt: string;
+  context: string;
+  whiteBoardId: string;
+  result: string;
+}
+
 /**
  * Generates a visual prediction based on the given prompt and context.
  *
@@ -56,13 +63,16 @@ export async function generateVisualPrediction(
       }),
     );
 
+    const visualPredictionAddedResult: IVisualPredictionAddedResult = {
+      prompt,
+        context,
+        whiteBoardId: "1",
+        result: JSON.stringify(results),
+    }
+
     logger.debug({ msg: 'Prediction generated', results });
     subscriptionClient.publish(SubscriptionEvents.VISUAL_PREDICTION_ADDED, {
-      visualPredictionAdded: {
-        prompt,
-        context,
-        result: JSON.stringify(results),
-      },
+      visualPredictionAdded: visualPredictionAddedResult
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
