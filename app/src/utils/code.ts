@@ -5,6 +5,7 @@ import {
 } from '@aws-sdk/client-lambda';
 import { lambdaClient } from './clients';
 import log from '@log';
+import config from '@config';
 
 /**
  * Executes Python code on the executor Lambda function.
@@ -13,39 +14,45 @@ import log from '@log';
  */
 export async function executePythonCode(code: string): Promise<string> {
   // Base case: No Executor Lambda function is defined.
-  const executorLambdaName = process.env.EXECUTOR_LAMBDA_NAME;
-  if (!executorLambdaName) {
-    throw new Error(
-      'No executor Lambda function defined. Use EXECUTOR_LAMBDA_NAME environment variable.',
-    );
+  if (!config.lambda.pythonExecutorName) {
+    throw new Error('No executor Lambda function defined.');
   }
 
-  const params: InvokeCommandInput = {
-    FunctionName: executorLambdaName,
-    Payload: JSON.stringify({ code }),
-    InvocationType: InvocationType.RequestResponse,
-  };
+  try {
+    const params: InvokeCommandInput = {
+      FunctionName: config.lambda.pythonExecutorName,
+      Payload: JSON.stringify({ code }),
+      InvocationType: InvocationType.RequestResponse,
+    };
 
-  log.debug({ msg: 'Python code execution request sent', params });
+    log.debug({ msg: 'Python code execution request sent', params });
 
-  const result = await lambdaClient.send(new InvokeCommand(params));
+    const result = await lambdaClient.send(new InvokeCommand(params));
 
-  if (result.FunctionError) {
+    if (result.FunctionError) {
+      log.error({
+        msg: 'Python code execution error',
+        error: result.FunctionError,
+      });
+      throw new Error(`Python code execution error: ${result.FunctionError}`);
+    }
+
+    // Lambdas return an array of bytes, so we need to convert it to a string.
+    const payload = JSON.parse(
+      JSON.parse(Buffer.from(result.Payload!).toString()),
+    );
+    log.debug({
+      msg: 'Python code execution response received',
+      result: payload,
+    });
+
+    return payload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     log.error({
       msg: 'Python code execution error',
-      error: result.FunctionError,
+      error,
     });
-    throw new Error(`Python code execution error: ${result.FunctionError}`);
+    throw new Error(`Python code execution error: ${error.name}`);
   }
-
-  const payload = JSON.parse(
-    JSON.parse(Buffer.from(result.Payload!).toString()),
-  );
-  log.debug({
-    msg: 'Python code execution response received',
-    result: payload,
-  });
-
-  // Lambdas return an array of bytes, so we need to convert it to a string.
-  return payload;
 }

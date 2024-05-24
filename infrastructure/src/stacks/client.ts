@@ -7,6 +7,7 @@ import { S3BucketPolicy } from '@cdktf/provider-aws/lib/s3-bucket-policy';
 import { HostedZone } from '@constructs/hosted-zone';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
+import config from '../../bin/config';
 import { Construct } from 'constructs';
 
 interface FrontendStackProps {
@@ -15,23 +16,13 @@ interface FrontendStackProps {
 }
 
 export default class FrontendStack extends TerraformStack {
-  constructor(scope: Construct, id: string, config: FrontendStackProps) {
+  constructor(scope: Construct, id: string, props: FrontendStackProps) {
     super(scope, id);
 
-    const { zone, domainName } = config;
+    const { zone, domainName } = props;
 
-    const region = 'us-east-1';
-
-    // AWS Provider
     new AwsProvider(this, 'aws', {
-      region,
-    });
-
-    new S3Backend(this, {
-      bucket: process.env.CDKTF_BUCKET_NAME!,
-      dynamodbTable: process.env.CDKTF_DYNAMODB_TABLE!,
-      region: process.env.CDKTF_REGION!,
-      key: `${id}.tfstate`,
+      region: config.region,
     });
 
     Aspects.of(this).add(
@@ -39,6 +30,11 @@ export default class FrontendStack extends TerraformStack {
         stack: id,
       }),
     );
+
+    new S3Backend(this, {
+      ...config.terraformBackend,
+      key: `${id}.tfstate`,
+    });
 
     const cloudfrontOAC = new CloudfrontOriginAccessControl(
       this,

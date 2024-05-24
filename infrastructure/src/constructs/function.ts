@@ -2,37 +2,21 @@ import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { IamRolePolicyAttachment } from '@cdktf/provider-aws/lib/iam-role-policy-attachment';
 import { LambdaFunction } from '@cdktf/provider-aws/lib/lambda-function';
 import { LambdaPermission } from '@cdktf/provider-aws/lib/lambda-permission';
-import { AssetType, TerraformAsset } from 'cdktf';
 import { Construct } from 'constructs';
-import * as path from 'path';
 
 export interface PythonFunctionProps {
-  handler: string;
-  path: string;
+  imageUri: string;
   timeout?: number;
-  entrypoints?: string[];
   environmentVariables?: { [key: string]: string };
-  layers?: string[];
   memorySize?: number;
 }
 
 export class PythonFunction extends Construct {
-  public readonly handler: string;
-  public readonly asset: TerraformAsset;
   public readonly function: LambdaFunction;
   public readonly role: IamRole;
 
   constructor(scope: Construct, id: string, props: PythonFunctionProps) {
     super(scope, id);
-
-    this.handler = props.handler;
-
-    const workingDirectory = path.resolve(props.path);
-
-    this.asset = new TerraformAsset(this, 'lambda-asset', {
-      path: workingDirectory,
-      type: AssetType.ARCHIVE, // if left empty it infers directory and file
-    });
 
     this.role = new IamRole(this, 'lambda-role', {
       assumeRolePolicy: JSON.stringify({
@@ -52,14 +36,10 @@ export class PythonFunction extends Construct {
     this.function = new LambdaFunction(this, id, {
       functionName: id,
       role: this.role.arn,
-      handler: this.handler,
-      runtime: 'python3.12',
+      packageType: 'Image',
+      imageUri: props.imageUri,
       timeout: props.timeout,
-      layers: props.layers,
-      filename: this.asset.path,
-      sourceCodeHash: this.asset.assetHash,
       memorySize: props.memorySize,
-      architectures: ['arm64'],
       tracingConfig: {
         mode: 'Active', // Enable X-Ray tracing
       },

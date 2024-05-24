@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -12,8 +13,42 @@ permissions:
   packages: write
 
 jobs:
-  push-image:
-    name: Push Image
+  build-lambdas:
+    name: Build Python Executor Image
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './app/lambdas/python-executor'
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
+          aws-region: us-east-1
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: "true"
+
+      - name: Build, tag, and push image to Amazon ECR
+        shell: bash
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: python-executor
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG 
+          docker push $REGISTRY/$REPOSITORY:latest
+
+  build-api:
+    name: Push API Image
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,21 +57,34 @@ jobs:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
 
-      - name: 'Login to GitHub Container Registry'
-        uses: docker/login-action@v3
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          registry: ghcr.io
-          username: ${{github.actor}}
-          password: ${{secrets.GITHUB_TOKEN}}
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
+          aws-region: us-east-1
 
-      - name: 'Build Inventory Image'
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          mask-password: "true"
+
+      - name: Build, tag, and push image to Amazon ECR
+        shell: bash
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: graphql-api
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build . --tag ghcr.io/magiscribe/poc-graphql:latest
-          docker push ghcr.io/magiscribe/poc-graphql:latest
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:latest
 
   terraform:
     name: "Terraform CDK Deploy"
     runs-on: ubuntu-latest
+    needs: [build-lambdas, build-api]
     defaults:
       run:
         working-directory: ./infrastructure
@@ -57,7 +105,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
           aws-region: us-east-1
 
       - name: Install dependencies
@@ -70,10 +118,8 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v4
         with:
           mode: auto-approve-apply
-          stackName: app lambdas network client-app client-landing
+          stackName: network data app client-app client-landing
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
-          CDKTF_BUCKET_NAME: ${{ vars.CDKTF_BUCKET_NAME }}
-          CDKTF_DYNAMODB_TABLE: ${{ vars.CDKTF_DYNAMODB_TABLE }}
-          CDKTF_REGION: ${{ vars.CDKTF_REGION }}
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development'}}

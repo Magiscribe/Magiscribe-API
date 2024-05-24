@@ -11,4 +11,4 @@ tsconfig.tsbuildinfo
 !setup.js
 **/dist
 .env
-!.env.example
+!.env.!*

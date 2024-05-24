@@ -2,7 +2,6 @@
   "name": "graphql-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "postinstall": "concurrently \"husky install\" \"cd app && pnpm install\" \"cd infrastructure && pnpm install\" \"cd bootstrap && pnpm install\"",
     "lint": "concurrently \"cd app && pnpm run lint\" \"cd infrastructure && pnpm run lint\" \"cd bootstrap && pnpm run lint\"",
@@ -10,7 +9,8 @@
     "format": "concurrently \"cd app && pnpm run format\" \"cd infrastructure && pnpm run format\" \"cd bootstrap && pnpm run format\"",
     "check": "concurrently \"cd app && pnpm run check\" \"cd infrastructure && pnpm run check\" \"cd bootstrap && pnpm run check\"",
     "fix": "concurrently \"cd app && pnpm run fix\" \"cd infrastructure && pnpm run fix\" \"cd bootstrap && pnpm run fix\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev": "cd app && pnpm dev"
   },
   "dependencies": {
     "concurrently": "^8.2.2",

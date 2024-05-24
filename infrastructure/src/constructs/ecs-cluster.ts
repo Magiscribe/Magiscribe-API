@@ -2,10 +2,7 @@ import { CloudwatchLogGroup } from '@cdktf/provider-aws/lib/cloudwatch-log-group
 import { EcsCluster } from '@cdktf/provider-aws/lib/ecs-cluster';
 import { EcsClusterCapacityProviders } from '@cdktf/provider-aws/lib/ecs-cluster-capacity-providers';
 import { EcsTaskDefinition } from '@cdktf/provider-aws/lib/ecs-task-definition';
-import { IamPolicy } from '@cdktf/provider-aws/lib/iam-policy';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
-import { IamRolePolicyAttachment } from '@cdktf/provider-aws/lib/iam-role-policy-attachment';
-import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
 import { Construct } from 'constructs';
 
 export class Cluster extends Construct {
@@ -27,12 +24,10 @@ export class Cluster extends Construct {
   public runDockerImage({
     name,
     image,
-    secret,
     env,
   }: {
     name: string;
     image: string;
-    secret?: SecretsmanagerSecret;
     env: Record<string, string | undefined>;
   }) {
     // Role that allows us to get the Docker image
@@ -145,30 +140,6 @@ export class Cluster extends Construct {
       retentionInDays: 30,
     });
 
-    if (secret) {
-      const secretPolicy = new IamPolicy(this, `secret-policy`, {
-        name: `${name}-secret-policy`,
-        policy: JSON.stringify({
-          Version: '2012-10-17',
-          Statement: [
-            {
-              Effect: 'Allow',
-              Action: ['secretsmanager:GetSecretValue', 'kms:Decrypt'],
-              Resource: [
-                secret.arn,
-                `arn:aws:secretsmanager:${process.env.CDKTF_REGION}:${process.env.CDKTF_ACCOUNT_ID}:secret:*`,
-              ],
-            },
-          ],
-        }),
-      });
-
-      new IamRolePolicyAttachment(this, `secret-policy-attachment`, {
-        policyArn: secretPolicy.arn,
-        role: executionRole.name,
-      });
-    }
-
     // Creates a task that runs the docker container
     const task = new EcsTaskDefinition(this, `task`, {
       cpu: '256',
@@ -181,11 +152,6 @@ export class Cluster extends Construct {
         {
           name,
           image,
-          repositoryCredentials: secret
-            ? {
-                credentialsParameter: secret.arn,
-              }
-            : undefined,
           cpu: 256,
           memory: 512,
           environment: Object.entries(env).map(([name, value]) => ({
