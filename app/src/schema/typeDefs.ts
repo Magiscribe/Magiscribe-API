@@ -19,7 +19,7 @@ const typeDefs = `#graphql
   }
 
   type Subscription {
-    visualPredictionAdded: Prediction
+    visualPredictionAdded(whiteBoardId: String!): Prediction
     textPredictionAdded: Prediction
   }
 `;
