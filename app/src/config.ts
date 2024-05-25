@@ -40,6 +40,8 @@ const config = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 
+  mediaAssetsBucketName: process.env.MEDIA_ASSETS_BUCKET_NAME || 'media-assets',
+
   lambda: {
     /**
      * The name of the Lambda function used to execute Python code.

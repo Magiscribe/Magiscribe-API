@@ -7,7 +7,6 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
 import typeDefs from '@schema/typeDefs';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import { useServer } from 'graphql-ws/lib/use/ws';
@@ -127,7 +126,7 @@ export default async function startServer() {
   app.use(
     '/graphql',
     cors<cors.CorsRequest>(),
-    bodyParser.json(),
+    express.json(),
     expressMiddleware(server),
   );
 

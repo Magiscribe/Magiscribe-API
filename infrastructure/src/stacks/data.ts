@@ -4,8 +4,10 @@ import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import config from '../../bin/config';
 import { Construct } from 'constructs';
+import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 
 export default class DataStack extends TerraformStack {
+  readonly s3Bucket: S3Bucket;
   readonly repositoryPythonExecutor: Repository;
   readonly repositoryApp: Repository;
 
@@ -25,6 +27,12 @@ export default class DataStack extends TerraformStack {
     new S3Backend(this, {
       ...config.terraformBackend,
       key: `${id}.tfstate`,
+    });
+
+    /*================= S3 =================*/
+
+    this.s3Bucket = new S3Bucket(this, 'MediaAssets', {
+      bucketPrefix: 'media-assets-',
     });
 
     /*================= ECR =================*/

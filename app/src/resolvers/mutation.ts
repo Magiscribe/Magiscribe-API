@@ -1,7 +1,9 @@
+import { uploadMediaAsset } from '@controllers/assets';
 import {
   generateTextPredictionStreaming,
   generateVisualPrediction,
 } from '@controllers/prediction';
+import { generateTranscription } from '@controllers/transcription';
 
 const mutations = {
   addVisualPrediction: (_, { prompt, context }) => {
@@ -19,6 +21,11 @@ const mutations = {
       message: 'Prediction added',
     };
   },
+
+  // Experimental
+  addMediaAsset: async (_, { fileType, fileName }) =>
+    uploadMediaAsset(fileType, fileName),
+  transcribeAudio: async (_, { fileName }) => generateTranscription(fileName),
 };
 
 export default mutations;

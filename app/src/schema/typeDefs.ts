@@ -9,6 +9,11 @@ const typeDefs = `#graphql
     message: String
   }
 
+  type AddMediaAssetResponse {
+    message: String
+    url: String
+  }
+
   type Query {
     hello: String
   }
@@ -16,6 +21,9 @@ const typeDefs = `#graphql
   type Mutation {
     addVisualPrediction(prompt: String!, context: String): SubscriptionResponse
     addTextPrediction(prompt: String!): SubscriptionResponse
+
+    addMediaAsset(fileType: String!, fileName: String!): AddMediaAssetResponse
+    transcribeAudio(fileName: String!): String
   }
 
   type Subscription {
