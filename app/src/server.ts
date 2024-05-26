@@ -6,7 +6,7 @@ import config from '@config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
-import typeDefs from '@schema/typeDefs';
+import typeDefs from '@schema';
 import cors from 'cors';
 import express from 'express';
 import { useServer } from 'graphql-ws/lib/use/ws';

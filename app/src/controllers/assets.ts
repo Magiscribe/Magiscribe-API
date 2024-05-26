@@ -8,21 +8,17 @@ import { uuid } from 'uuidv4';
  * Uploads a media asset to the media assets bucket.
  * @param {string} fileExtension - The extension of the file to upload.
  * @param {string} fileType - The type of the file to upload.
- * @returns {Promise{ message: string, url: string }
+ * @returns {Promise<string>} The URL of the uploaded asset.
  */
-export async function uploadMediaAsset(
+export async function uploadAsset(
   fileExtension: string,
   fileType: 'audio' | 'image',
-): Promise<{ message: string; url: string }> {
+): Promise<string> {
   const s3Key = `${fileType}/${uuid()}.${fileExtension}`;
 
   const command = new PutObjectCommand({
     Bucket: config.mediaAssetsBucketName,
     Key: s3Key,
   });
-  const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-  return {
-    message: 'Media asset upload url generated',
-    url,
-  };
+  return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 }

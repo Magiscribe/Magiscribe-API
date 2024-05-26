@@ -1,0 +1,29 @@
+type Prediction {
+  prompt: String
+  context: String
+  result: String
+}
+
+type TemporaryCredentials {
+  accessKeyId: String
+  secretAccessKey: String
+  sessionToken: String
+}
+
+type Query {
+  hello: String
+}
+
+type Mutation {
+  addVisualPrediction(prompt: String!, context: String): String
+  addTextPrediction(prompt: String!): String
+
+  addMediaAsset(fileType: String!, fileName: String!): String
+  transcribeAudio(fileName: String!): String
+  generateTranscriptionStreamingCredentials: TemporaryCredentials
+}
+
+type Subscription {
+  visualPredictionAdded(whiteBoardId: String!): Prediction
+  textPredictionAdded: Prediction
+}

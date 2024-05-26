@@ -1,10 +1,9 @@
 import logger from '@log';
-import { SubscriptionEvents } from '@resolvers/subscription';
+import { SubscriptionEvent } from '@resolvers/subscription';
 import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
 import { Agents, chooseSystemPrompt } from '@utils/ai/system';
-import { cleanCodeBlock } from '@utils/clean';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
-import { executePythonCode } from '@utils/code';
+import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
 export interface IVisualPredictionAddedResult {
   prompt: string;
@@ -71,7 +70,7 @@ export async function generateVisualPrediction(
     }
 
     logger.debug({ msg: 'Prediction generated', results });
-    subscriptionClient.publish(SubscriptionEvents.VISUAL_PREDICTION_ADDED, {
+    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
       visualPredictionAdded: visualPredictionAddedResult
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,7 +96,7 @@ export async function generateTextPredictionStreaming(
 
     // Generate the prediction in a streaming manner
     await makeStreamingRequest({ prompt }, async (chunk) => {
-      subscriptionClient.publish(SubscriptionEvents.TEXT_PREDICTION_ADDED, {
+      subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
         textPredictionAdded: { prompt, result: chunk },
       });
     });
