@@ -9,6 +9,7 @@ import point from './point';
 import text from './text';
 import preprocessing from './preprocessing';
 import rectangle from './rectangle';
+import ellipse from './ellipse';
 
 const output = {
   code: {
@@ -22,6 +23,7 @@ const output = {
   text,
   preprocessing,
   rectangle,
+  ellipse,
 };
 
 export default output;

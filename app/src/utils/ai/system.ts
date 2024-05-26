@@ -2,6 +2,7 @@ import templates from './system-prompts';
 import templateDrawingElementGeneration from './system-prompts/drawing';
 
 export enum Agents {
+  EllipseAgent = 'ellipseAgent',
   RectangleAgent = 'rectangleAgent',
   PreprocessingAgent = 'preprocessingAgent',
   FunctionAgent = 'functionAgent',
@@ -14,6 +15,12 @@ export enum Agents {
 
 export function chooseSystemPrompt(systemMessageChoice: Agents) {
   switch (systemMessageChoice) {
+    case Agents.EllipseAgent:
+      return  (
+        templates.code.write + 
+        templateDrawingElementGeneration + 
+        templates.ellipse
+      );
     case Agents.RectangleAgent:
       return  (
         templates.code.write + 
