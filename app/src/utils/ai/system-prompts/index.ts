@@ -10,6 +10,7 @@ import text from './text';
 import preprocessing from './preprocessing';
 import rectangle from './rectangle';
 import ellipse from './ellipse';
+import diamond from './diamond';
 
 const output = {
   code: {
@@ -24,6 +25,7 @@ const output = {
   preprocessing,
   rectangle,
   ellipse,
+  diamond,
 };
 
 export default output;
