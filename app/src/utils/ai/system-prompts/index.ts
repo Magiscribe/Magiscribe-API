@@ -8,6 +8,10 @@ import line from './line';
 import point from './point';
 import text from './text';
 import preprocessing from './preprocessing';
+import rectangle from './rectangle';
+import ellipse from './ellipse';
+import diamond from './diamond';
+import arrow from './arrow';
 
 const output = {
   code: {
@@ -20,6 +24,10 @@ const output = {
   point,
   text,
   preprocessing,
+  rectangle,
+  ellipse,
+  diamond,
+  arrow,
 };
 
 export default output;
