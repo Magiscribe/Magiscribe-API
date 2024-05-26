@@ -8,6 +8,7 @@ import line from './line';
 import point from './point';
 import text from './text';
 import preprocessing from './preprocessing';
+import rectangle from './rectangle';
 
 const output = {
   code: {
@@ -20,6 +21,7 @@ const output = {
   point,
   text,
   preprocessing,
+  rectangle,
 };
 
 export default output;
