@@ -11,6 +11,7 @@ import preprocessing from './preprocessing';
 import rectangle from './rectangle';
 import ellipse from './ellipse';
 import diamond from './diamond';
+import arrow from './arrow';
 
 const output = {
   code: {
@@ -26,6 +27,7 @@ const output = {
   rectangle,
   ellipse,
   diamond,
+  arrow,
 };
 
 export default output;
