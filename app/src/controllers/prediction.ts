@@ -8,7 +8,6 @@ import { cleanCodeBlock, executePythonCode } from '@utils/code';
 export interface IVisualPredictionAddedResult {
   prompt: string;
   context: string;
-  whiteBoardId: string;
   result: string;
 }
 
@@ -65,7 +64,6 @@ export async function generateVisualPrediction(
     const visualPredictionAddedResult: IVisualPredictionAddedResult = {
       prompt,
       context,
-      whiteBoardId: '1',
       result: JSON.stringify(results),
     };
 

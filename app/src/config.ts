@@ -23,6 +23,23 @@ const config = {
    */
   logLevel: process.env.LOG_LEVEL || 'debug',
 
+  auth: {
+    /**
+     * Enables a sandbox mode bypass for authorization to allow for easier development.
+     */
+    sandboxBypass: process.env.APOLLO_SANDBOX_BYPASS === 'false',
+
+    /**
+     * The Clerk publishable key.
+     */
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+
+    /**
+     * The Clerk secret key.
+     */
+    secretKey: process.env.CLERK_SECRET_KEY,
+  },
+
   aws: {
     /**
      * The region the application is running in.

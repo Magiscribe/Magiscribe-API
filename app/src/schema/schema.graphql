@@ -19,8 +19,6 @@ type Mutation {
   addTextPrediction(prompt: String!): String
 
   addMediaAsset(fileType: String!, fileName: String!): String
-  transcribeAudio(fileName: String!): String
-  generateTranscriptionStreamingCredentials: TemporaryCredentials
 }
 
 type Subscription {
