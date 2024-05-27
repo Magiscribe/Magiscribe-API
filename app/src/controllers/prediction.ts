@@ -64,14 +64,14 @@ export async function generateVisualPrediction(
 
     const visualPredictionAddedResult: IVisualPredictionAddedResult = {
       prompt,
-        context,
-        whiteBoardId: "1",
-        result: JSON.stringify(results),
-    }
+      context,
+      whiteBoardId: '1',
+      result: JSON.stringify(results),
+    };
 
     logger.debug({ msg: 'Prediction generated', results });
     subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
-      visualPredictionAdded: visualPredictionAddedResult
+      visualPredictionAdded: visualPredictionAddedResult,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

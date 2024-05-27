@@ -1,5 +1,2 @@
 # Check if on the main branch. Exit if on main branch.
-if [ $(git rev-parse --abbrev-ref HEAD) = "main" ]; then
-  echo "Cannot commit to main branch. Please create a new branch."
-  exit 1
-fi
+pnpm run check

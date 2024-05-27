@@ -2,6 +2,7 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { clerkClient, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 import config from '@config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
@@ -9,10 +10,10 @@ import resolvers from '@resolvers';
 import typeDefs from '@schema';
 import cors from 'cors';
 import express from 'express';
+import { GraphQLError } from 'graphql';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node';
 
 /**
  * Starts the GraphQL server.
@@ -37,7 +38,23 @@ export default async function startServer() {
   });
 
   // Clean up the WebSocket server when the HTTP server is shut down.
-  const serverCleanup = useServer({ schema }, websocketServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+      onConnect: async ({ connectionParams }) => {
+        log.debug('Client connected to WebSocket server');
+        if (!connectionParams?.authToken) {
+          log.warn('Missing auth authToken');
+          throw new Error('Missing auth authToken!');
+        }
+        const token = connectionParams.authToken as string;
+        const user = await clerkClient.verifyToken(token);
+        log.debug('Client connected to WebSocket server');
+        return { user };
+      },
+    },
+    websocketServer,
+  );
 
   /*================================ PLUGINS ==============================*/
 
@@ -126,10 +143,24 @@ export default async function startServer() {
 
   app.use(
     '/graphql',
-    ClerkExpressRequireAuth(),
     cors<cors.CorsRequest>(),
+    ClerkExpressWithAuth(),
     express.json(),
-    expressMiddleware(server),
+    expressMiddleware(server, {
+      context: async ({ req }: { req: express.Request }) => {
+        const auth = req.auth;
+        log.debug('Checking the user is authorized...');
+        if (!auth.userId) {
+          log.warn('User is not authorized');
+          throw new GraphQLError('User is not authorized');
+        } else {
+          log.debug('User is authorized');
+        }
+        return {
+          auth: auth.auth,
+        };
+      },
+    }),
   );
 
   // So that we can check if the server is running.
