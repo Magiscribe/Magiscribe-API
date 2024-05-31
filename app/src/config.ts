@@ -27,7 +27,7 @@ const config = {
     /**
      * Enables a sandbox mode bypass for authorization to allow for easier development.
      */
-    sandboxBypass: process.env.APOLLO_SANDBOX_BYPASS === 'false',
+    sandboxBypass: process.env.APOLLO_SANDBOX_BYPASS === 'true',
 
     /**
      * The Clerk publishable key.

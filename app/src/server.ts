@@ -35,18 +35,18 @@ export default async function startServer() {
       'Starship docked at the station (Client websocket connection established)',
     );
 
-    if (!token) {
-      log.warn(
-        'Starship denied entry (Missing authorization token in WebSocket connection)',
-      );
-      throw new Error('Missing authorization token in WebSocket connection');
-    }
-
     if (config.auth.sandboxBypass && token === 'Sandbox') {
       log.warn(
         'Station security detail is asleep (Sandbox mode enabled, skipping authorization check for WebSocket connection)',
       );
       return {};
+    }
+
+    if (!token) {
+      log.warn(
+        'Starship denied entry (Missing authorization token in WebSocket connection)',
+      );
+      throw new Error('Missing authorization token in WebSocket connection');
     }
 
     const user = await clerkClient.verifyToken(token);
@@ -64,18 +64,18 @@ export default async function startServer() {
 
     log.debug('Inbound transmission detected (Client HTTP request received)');
 
-    if (!auth?.userId) {
-      log.warn(
-        'Transmission blocked (Missing authorization token in HTTP request)',
-      );
-      throw new GraphQLError('Missing authorization token in HTTP request');
-    }
-
     if (config.auth.sandboxBypass && token === 'Sandbox') {
       log.warn(
         'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
       );
       return {};
+    }
+
+    if (!auth?.userId) {
+      log.warn(
+        'Transmission blocked (Missing authorization token in HTTP request)',
+      );
+      throw new GraphQLError('Missing authorization token in HTTP request');
     }
 
     log.debug('Transmission authorized (Client HTTP request authorized)');
