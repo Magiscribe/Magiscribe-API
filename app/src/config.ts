@@ -92,7 +92,7 @@ const config = {
     password: process.env.MONGODB_PASSWORD || 'password',
   },
 
-  redis: process.env.REDIS_HOST && {
+  redis: {
     /**
      * The Redis host.
      */

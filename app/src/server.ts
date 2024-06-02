@@ -28,6 +28,13 @@ export default async function startServer() {
 
   // WebSocket authorization check.
   const onConnect = async (ctx: Context<Record<string, unknown>>) => {
+    if (!ctx.connectionParams) {
+      log.warn(
+        'Starship denied entry (Missing connection parameters in WebSocket connection)',
+      );
+      throw new Error('Missing connection parameters in WebSocket connection');
+    }
+
     const connectionParams = ctx.connectionParams;
     const token = connectionParams.authorization as string;
 

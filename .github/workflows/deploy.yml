@@ -12,6 +12,11 @@ permissions:
   contents: read
   packages: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: infrastructure-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev'}}
+  cancel-in-progress: true
+
 jobs:
   build-lambdas:
     name: Build Python Executor Image
@@ -26,7 +31,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
           aws-region: us-east-1
 
       - name: Login to AWS ECR
@@ -105,7 +110,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
           aws-region: us-east-1
 
       - name: Install dependencies
@@ -122,4 +127,4 @@ jobs:
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
-          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development'}}
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev'}}

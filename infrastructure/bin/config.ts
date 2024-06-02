@@ -1,3 +1,8 @@
+import * as dotenv from 'dotenv';
+
+const path = `.env.${process.env.NODE_ENV || 'dev'}`;
+dotenv.config({ path });
+
 const config = {
   /**
    * The AWS region the CDKTF stack will be deployed to (e.g. us-east-1)
@@ -12,9 +17,7 @@ const config = {
     /**
      * The S3 bucket name to store the Terraform state file.
      */
-    bucket:
-      process.env.CDKTF_BUCKET_NAME ||
-      'remote-terraform-state20240520152449090900000001',
+    bucket: process.env.CDKTF_BUCKET_NAME || '',
 
     /**
      * The DynamoDB table name to store the Terraform state lock.
