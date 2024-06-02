@@ -25,35 +25,55 @@ export async function generateVisualPrediction({
     const preprocessingResponse = await makeSyncRequest({
       system: promptTemplate,
       prompt,
+      context,
     });
+
+    logger.debug({
+      msg: 'Preprocessing response received',
+      preprocessingResponse,
+    });
+
     const cleanedPreprocessingResponse = cleanCodeBlock(
       preprocessingResponse,
       'json',
     );
-    const processingSteps = JSON.parse(
+
+    logger.debug({
+      msg: 'Cleaned preprocessing response',
       cleanedPreprocessingResponse,
-    ).processingSteps;
+    });
+
+    // Validate cleaned JSON response
+    let processingSteps;
+    try {
+      const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
+      processingSteps = parsedResponse.processingSteps;
+    } catch (parseError) {
+      logger.error({
+        msg: 'Failed to parse cleaned preprocessing response',
+        error: parseError,
+      });
+      throw new Error('Invalid JSON response from preprocessing');
+    }
+
     logger.debug({
       msg: 'Prediction preprocessing completed',
       processingSteps,
     });
 
-    // Process the steps with the context
-    const processedSteps = processingSteps.map((step) => ({
-      ...step,
-      context,
-    }));
-
     // Execute the processed steps and generate the results
     const results = await Promise.all(
-      processedSteps.map(async (step: { prompt: string; agent: Agents }) => {
-        const result = await makeSyncRequest({
-          prompt: step.prompt,
-          system: chooseSystemPrompt(step.agent),
-        });
-        const cleanedResult = cleanCodeBlock(result, 'python');
-        return executePythonCode(cleanedResult);
-      }),
+      processingSteps.map(
+        async (step: { prompt: string; agent: Agents; context: string }) => {
+          const result = await makeSyncRequest({
+            prompt: step.prompt,
+            system: chooseSystemPrompt(step.agent),
+            context: step.context,
+          });
+          const cleanedResult = cleanCodeBlock(result, 'python');
+          return executePythonCode(cleanedResult);
+        },
+      ),
     );
 
     const visualPredictionAddedResult = {

@@ -97,7 +97,12 @@ pnpm dev
 ```
 
 5. Open the browser and navigate to `http://localhost:3000/graphql` to access the GraphQL playground.
-  - If you are   
+  - Important Note: To bypass Clerk authentication, you can use the following header in the GraphQL playground:
+    ```json
+    {
+      "Authorization": "Sandbox"
+    }
+    ```
 
 #### Docker Build and Run
 
