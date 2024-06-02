@@ -29,6 +29,18 @@ const config = {
     region: process.env.CDKTF_REGION || 'us-east-1',
   },
 
+  auth: {
+    /**
+     * The Clerk publishable key.
+     */
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+
+    /**
+     * The Clerk secret key.
+     */
+    secretKey: process.env.CLERK_SECRET_KEY,
+  },
+
   dns: {
     apexDomainName: process.env.APEX_DOMAIN || 'dev.magiscribe.com',
   },

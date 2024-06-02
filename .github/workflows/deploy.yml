@@ -60,7 +60,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GithubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GithubAssumeRole' }}
           aws-region: us-east-1
 
       - name: Login to AWS ECR

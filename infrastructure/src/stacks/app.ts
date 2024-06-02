@@ -57,6 +57,8 @@ export default class AppStack extends TerraformStack {
       env: {
         PORT: '80',
         EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
+        CLERK_PUBLISHABLE_KEY: config.auth.publishableKey,
+        CLERK_SECRET_KEY: config.auth.secretKey,
       },
     });
 
