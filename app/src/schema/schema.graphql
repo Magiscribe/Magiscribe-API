@@ -15,13 +15,17 @@ type Query {
 }
 
 type Mutation {
-  addVisualPrediction(prompt: String!, context: String): String
-  addTextPrediction(prompt: String!): String
+  addVisualPrediction(
+    subscriptionId: String!
+    prompt: String!
+    context: String
+  ): String
+  addTextPrediction(subscriptionId: String!, prompt: String!): String
 
   addMediaAsset(fileType: String!, fileName: String!): String
 }
 
 type Subscription {
-  visualPredictionAdded(whiteBoardId: String!): Prediction
-  textPredictionAdded: Prediction
+  visualPredictionAdded(subscriptionId: String!): Prediction
+  textPredictionAdded(subscriptionId: String!): Prediction
 }

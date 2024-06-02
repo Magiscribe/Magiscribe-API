@@ -90,11 +90,14 @@ pnpm install
 pnpm docker:up
 ```
 
-3. Start the application in development mode
+4. Start the application in development mode
 
 ```bash
 pnpm dev
 ```
+
+5. Open the browser and navigate to `http://localhost:3000/graphql` to access the GraphQL playground.
+  - If you are   
 
 #### Docker Build and Run
 

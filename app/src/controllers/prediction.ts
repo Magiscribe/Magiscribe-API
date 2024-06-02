@@ -5,12 +5,6 @@ import { Agents, chooseSystemPrompt } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
-export interface IVisualPredictionAddedResult {
-  prompt: string;
-  context: string;
-  result: string;
-}
-
 /**
  * Generates a visual prediction based on the given prompt and context.
  *
@@ -18,10 +12,11 @@ export interface IVisualPredictionAddedResult {
  * @param {string} context - The context to generate the prediction with.
  * @returns {Promise<void>} The generated prediction as an array of results.
  */
-export async function generateVisualPrediction(
-  prompt: string,
-  context: string,
-): Promise<void> {
+export async function generateVisualPrediction({
+  subscriptionId,
+  prompt,
+  context,
+}): Promise<void> {
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
@@ -61,7 +56,8 @@ export async function generateVisualPrediction(
       }),
     );
 
-    const visualPredictionAddedResult: IVisualPredictionAddedResult = {
+    const visualPredictionAddedResult = {
+      subscriptionId,
       prompt,
       context,
       result: JSON.stringify(results),
@@ -86,16 +82,17 @@ export async function generateVisualPrediction(
  * @param {string} prompt - The prompt to generate the prediction for.
  * @returns {Promise<void>}
  */
-export async function generateTextPredictionStreaming(
-  prompt: string,
-): Promise<void> {
+export async function generateTextPredictionStreaming({
+  subscriptionId,
+  prompt,
+}): Promise<void> {
   try {
     logger.debug({ msg: 'Prediction generation started', prompt });
 
     // Generate the prediction in a streaming manner
     await makeStreamingRequest({ prompt }, async (chunk) => {
       subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
-        textPredictionAdded: { prompt, result: chunk },
+        textPredictionAdded: { subscriptionId, prompt, result: chunk },
       });
     });
   } catch (error) {

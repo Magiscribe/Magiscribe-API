@@ -4,14 +4,14 @@ import {
   generateVisualPrediction,
 } from '@controllers/prediction';
 const mutations = {
-  addVisualPrediction: (_, { prompt, context }) => {
-    generateVisualPrediction(prompt, context);
+  addVisualPrediction: (_, props) => {
+    generateVisualPrediction(props);
 
     return 'Prediction added';
   },
 
-  addTextPrediction: (_, { prompt }) => {
-    generateTextPredictionStreaming(prompt);
+  addTextPrediction: (_, props) => {
+    generateTextPredictionStreaming(props);
 
     return 'Prediction added';
   },
