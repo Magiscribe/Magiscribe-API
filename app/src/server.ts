@@ -2,14 +2,16 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { clerkClient, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 import config from '@config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
-import typeDefs from '@schema/typeDefs';
-import bodyParser from 'body-parser';
+import typeDefs from '@schema';
 import cors from 'cors';
 import express from 'express';
+import { GraphQLError } from 'graphql';
+import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
@@ -21,6 +23,68 @@ export default async function startServer() {
   log.debug(
     'Preparing thrusters, getting ready to launch (setting up schema and resolvers)...',
   );
+
+  /*=============================== Auth ==============================*/
+
+  // WebSocket authorization check.
+  const onConnect = async (ctx: Context<Record<string, unknown>>) => {
+    const connectionParams = ctx.connectionParams;
+    const token = connectionParams.authorization as string;
+
+    log.debug(
+      'Starship docked at the station (Client websocket connection established)',
+    );
+
+    if (config.auth.sandboxBypass && token === 'Sandbox') {
+      log.warn(
+        'Station security detail is asleep (Sandbox mode enabled, skipping authorization check for WebSocket connection)',
+      );
+      return {};
+    }
+
+    if (!token) {
+      log.warn(
+        'Starship denied entry (Missing authorization token in WebSocket connection)',
+      );
+      throw new Error('Missing authorization token in WebSocket connection');
+    }
+
+    const user = await clerkClient.verifyToken(token);
+
+    log.debug(
+      'Starship granted entry into the station (Client websocket connection authorized)',
+    );
+    return { user };
+  };
+
+  // HTTP authorization check.
+  const context = async ({ req }: { req: express.Request }) => {
+    const auth = req.auth;
+    const token = req.headers.authorization;
+
+    log.debug('Inbound transmission detected (Client HTTP request received)');
+
+    if (config.auth.sandboxBypass && token === 'Sandbox') {
+      log.warn(
+        'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
+      );
+      return {};
+    }
+
+    if (!auth?.userId) {
+      log.warn(
+        'Transmission blocked (Missing authorization token in HTTP request)',
+      );
+      throw new GraphQLError('Missing authorization token in HTTP request');
+    }
+
+    log.debug('Transmission authorized (Client HTTP request authorized)');
+    return {
+      auth: auth.auth,
+    };
+  };
+
+  /*================================ SCHEMA ==============================*/
 
   // Create schema, which will be used separately by ApolloServer and
   // the WebSocket server.
@@ -37,7 +101,13 @@ export default async function startServer() {
   });
 
   // Clean up the WebSocket server when the HTTP server is shut down.
-  const serverCleanup = useServer({ schema }, websocketServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+      onConnect,
+    },
+    websocketServer,
+  );
 
   /*================================ PLUGINS ==============================*/
 
@@ -127,8 +197,11 @@ export default async function startServer() {
   app.use(
     '/graphql',
     cors<cors.CorsRequest>(),
-    bodyParser.json(),
-    expressMiddleware(server),
+    ClerkExpressWithAuth(),
+    express.json(),
+    expressMiddleware(server, {
+      context,
+    }),
   );
 
   // So that we can check if the server is running.

@@ -90,11 +90,19 @@ pnpm install
 pnpm docker:up
 ```
 
-3. Start the application in development mode
+4. Start the application in development mode
 
 ```bash
 pnpm dev
 ```
+
+5. Open the browser and navigate to `http://localhost:3000/graphql` to access the GraphQL playground.
+  - Important Note: To bypass Clerk authentication, you can use the following header in the GraphQL playground:
+    ```json
+    {
+      "Authorization": "Sandbox"
+    }
+    ```
 
 #### Docker Build and Run
 

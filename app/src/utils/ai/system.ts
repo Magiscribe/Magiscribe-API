@@ -18,27 +18,27 @@ export enum Agents {
 export function chooseSystemPrompt(systemMessageChoice: Agents) {
   switch (systemMessageChoice) {
     case Agents.ArrowAgent:
-      return  (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
+      return (
+        templates.code.write +
+        templateDrawingElementGeneration +
         templates.arrow
       );
     case Agents.DiamondAgent:
-      return  (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
+      return (
+        templates.code.write +
+        templateDrawingElementGeneration +
         templates.diamond
       );
     case Agents.EllipseAgent:
-      return  (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
+      return (
+        templates.code.write +
+        templateDrawingElementGeneration +
         templates.ellipse
       );
     case Agents.RectangleAgent:
-      return  (
-        templates.code.write + 
-        templateDrawingElementGeneration + 
+      return (
+        templates.code.write +
+        templateDrawingElementGeneration +
         templates.rectangle
       );
     case Agents.PreprocessingAgent:

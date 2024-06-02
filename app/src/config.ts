@@ -23,6 +23,23 @@ const config = {
    */
   logLevel: process.env.LOG_LEVEL || 'debug',
 
+  auth: {
+    /**
+     * Enables a sandbox mode bypass for authorization to allow for easier development.
+     */
+    sandboxBypass: process.env.APOLLO_SANDBOX_BYPASS === 'true',
+
+    /**
+     * The Clerk publishable key.
+     */
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+
+    /**
+     * The Clerk secret key.
+     */
+    secretKey: process.env.CLERK_SECRET_KEY,
+  },
+
   aws: {
     /**
      * The region the application is running in.
@@ -39,6 +56,8 @@ const config = {
      */
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
+
+  mediaAssetsBucketName: process.env.MEDIA_ASSETS_BUCKET_NAME || 'media-assets',
 
   lambda: {
     /**

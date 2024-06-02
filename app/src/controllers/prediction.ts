@@ -1,17 +1,9 @@
 import logger from '@log';
-import { SubscriptionEvents } from '@resolvers/subscription';
+import { SubscriptionEvent } from '@resolvers/subscription';
 import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
 import { Agents, chooseSystemPrompt } from '@utils/ai/system';
-import { cleanCodeBlock } from '@utils/clean';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
-import { executePythonCode } from '@utils/code';
-
-export interface IVisualPredictionAddedResult {
-  prompt: string;
-  context: string;
-  whiteBoardId: string;
-  result: string;
-}
+import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -20,10 +12,11 @@ export interface IVisualPredictionAddedResult {
  * @param {string} context - The context to generate the prediction with.
  * @returns {Promise<void>} The generated prediction as an array of results.
  */
-export async function generateVisualPrediction(
-  prompt: string,
-  context: string,
-): Promise<void> {
+export async function generateVisualPrediction({
+  subscriptionId,
+  prompt,
+  context,
+}): Promise<void> {
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
@@ -32,47 +25,67 @@ export async function generateVisualPrediction(
     const preprocessingResponse = await makeSyncRequest({
       system: promptTemplate,
       prompt,
+      context,
     });
+
+    logger.debug({
+      msg: 'Preprocessing response received',
+      preprocessingResponse,
+    });
+
     const cleanedPreprocessingResponse = cleanCodeBlock(
       preprocessingResponse,
       'json',
     );
-    const processingSteps = JSON.parse(
+
+    logger.debug({
+      msg: 'Cleaned preprocessing response',
       cleanedPreprocessingResponse,
-    ).processingSteps;
+    });
+
+    // Validate cleaned JSON response
+    let processingSteps;
+    try {
+      const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
+      processingSteps = parsedResponse.processingSteps;
+    } catch (parseError) {
+      logger.error({
+        msg: 'Failed to parse cleaned preprocessing response',
+        error: parseError,
+      });
+      throw new Error('Invalid JSON response from preprocessing');
+    }
+
     logger.debug({
       msg: 'Prediction preprocessing completed',
       processingSteps,
     });
 
-    // Process the steps with the context
-    const processedSteps = processingSteps.map((step) => ({
-      ...step,
-      context,
-    }));
-
     // Execute the processed steps and generate the results
     const results = await Promise.all(
-      processedSteps.map(async (step: { prompt: string; agent: Agents }) => {
-        const result = await makeSyncRequest({
-          prompt: step.prompt,
-          system: chooseSystemPrompt(step.agent),
-        });
-        const cleanedResult = cleanCodeBlock(result, 'python');
-        return executePythonCode(cleanedResult);
-      }),
+      processingSteps.map(
+        async (step: { prompt: string; agent: Agents; context: string }) => {
+          const result = await makeSyncRequest({
+            prompt: step.prompt,
+            system: chooseSystemPrompt(step.agent),
+            context: step.context,
+          });
+          const cleanedResult = cleanCodeBlock(result, 'python');
+          return executePythonCode(cleanedResult);
+        },
+      ),
     );
 
-    const visualPredictionAddedResult: IVisualPredictionAddedResult = {
+    const visualPredictionAddedResult = {
+      subscriptionId,
       prompt,
-        context,
-        whiteBoardId: "1",
-        result: JSON.stringify(results),
-    }
+      context,
+      result: JSON.stringify(results),
+    };
 
     logger.debug({ msg: 'Prediction generated', results });
-    subscriptionClient.publish(SubscriptionEvents.VISUAL_PREDICTION_ADDED, {
-      visualPredictionAdded: visualPredictionAddedResult
+    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+      visualPredictionAdded: visualPredictionAddedResult,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -89,16 +102,17 @@ export async function generateVisualPrediction(
  * @param {string} prompt - The prompt to generate the prediction for.
  * @returns {Promise<void>}
  */
-export async function generateTextPredictionStreaming(
-  prompt: string,
-): Promise<void> {
+export async function generateTextPredictionStreaming({
+  subscriptionId,
+  prompt,
+}): Promise<void> {
   try {
     logger.debug({ msg: 'Prediction generation started', prompt });
 
     // Generate the prediction in a streaming manner
     await makeStreamingRequest({ prompt }, async (chunk) => {
-      subscriptionClient.publish(SubscriptionEvents.TEXT_PREDICTION_ADDED, {
-        textPredictionAdded: { prompt, result: chunk },
+      subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
+        textPredictionAdded: { subscriptionId, prompt, result: chunk },
       });
     });
   } catch (error) {

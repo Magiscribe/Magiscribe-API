@@ -4,8 +4,8 @@ import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 const modelProps = {
   region: 'us-east-1',
   model: 'anthropic.claude-3-haiku-20240307-v1:0',
-  maxTokens: 1024,
-  temperature: 0.7,
+  maxTokens: 4096,
+  temperature: 0,
 };
 
 const model = new BedrockChat(modelProps);
@@ -16,17 +16,20 @@ const model = new BedrockChat(modelProps);
  * @param {object} params - An object containing the system and prompt strings.
  * @param {string} params.system - The system string to provide context to the model.
  * @param {string} params.prompt - The prompt string to send to the model.
+ * @param {string} [params.context] - Additional context provided to the model
  * @returns {Promise<string>} The response from the model.
  */
 export async function makeSyncRequest({
   system,
   prompt,
+  context = '',
 }: {
   system: string;
   prompt: string;
+  context?: string;
 }): Promise<string> {
-  log.debug({ msg: 'Bedrock request sent', system, prompt });
-  const completion = await model.invoke(`${system}\n${prompt}`);
+  log.debug({ msg: 'Bedrock request sent', system, prompt, context });
+  const completion = await model.invoke(`${system}\n${prompt}\n${context}`);
   log.debug({ msg: 'Bedrock response received', content: completion.content });
   return completion.content as string;
 }

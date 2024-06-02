@@ -1,24 +1,24 @@
+import { uploadAsset } from '@controllers/assets';
 import {
   generateTextPredictionStreaming,
   generateVisualPrediction,
 } from '@controllers/prediction';
-
 const mutations = {
-  addVisualPrediction: (_, { prompt, context }) => {
-    generateVisualPrediction(prompt, context);
+  addVisualPrediction: (_, props) => {
+    generateVisualPrediction(props);
 
-    return {
-      message: 'Prediction added',
-    };
+    return 'Prediction added';
   },
 
-  addTextPrediction: (_, { prompt }) => {
-    generateTextPredictionStreaming(prompt);
+  addTextPrediction: (_, props) => {
+    generateTextPredictionStreaming(props);
 
-    return {
-      message: 'Prediction added',
-    };
+    return 'Prediction added';
   },
+
+  // Experimental
+  addMediaAsset: async (_, { fileType, fileName }) =>
+    uploadAsset(fileType, fileName),
 };
 
 export default mutations;
