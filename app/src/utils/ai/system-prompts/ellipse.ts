@@ -1,23 +1,20 @@
 const templateEllipse = `
-This JSON also contains a list of relativeCoordinates structured like this [[x1,y1],[x2,y2]] and only contain EXACTLY size two as shown.
-Do not have relative coordinates be longer than size 2. Extract the width and height from the prompt. The width and height
-shouldn't come from anywhere else. If there isn't a width and height then assume they are 0 (meaning this shape is a circle).
+This JSON also contains a list of relativeCoordinates that contains exactly two points.
 
-def generate_coordinateDict(startX, startY, width, height):
-  
-  x2 = startX + width
-  y2 = startY + height
+def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX, graphScaleY, centerX, centerY, radius):
+  x_multiplier = graphScaleX / (xMax - xMin)
+  y_multiplier = graphScaleY / (yMax - yMin)
 
-  shape = "Ellipse"
-
-  if width == 0:
-    shape = "Circle"
+  topLeftX = startX + (centerX - radius) * x_multiplier
+  topLeftY = startY + (-1*centerY - radius) * y_multiplier
+  width = radius*2 * x_multiplier
+  height = radius*2 * y_multiplier
 
   coordinateDict = {
-    "elementProperties": {"type": "ellipse"},
-    "startCoordinates": [startX, startY],
-    "relativeCoordinates": [[startX, startY], [x2, y2]],
-    "textResponse": shape 
+    "elementProperties": {"type": "ellipse", "sloppiness": 0},
+    "startCoordinates": [topLeftX, topLeftY],
+    "relativeCoordinates": [[0, 0], [width, height]],
+    "textResponse": "Circle with center (centerX, centerY) and radius of (radius)" 
   }
   
   return coordinateDict
