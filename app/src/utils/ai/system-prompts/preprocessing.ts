@@ -14,7 +14,8 @@ Based on your prompts another model will be able to draw elements to a whiteboar
 # Example 1:
 "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-100, yMax=100, graphScaleX=1000, graphScaleY=1000"
 # Prompt: "I want to see a full coordinate axis with the x and y axes labeled" 
-# Note: The x axis is a line from (xMin,0) to (xMax,0), the y axis is a line from (0,yMin) to (0,yMax), the text labels are also derived from the context. In other scenarios use the provided context to generalize, not just this specific example.
+# Note: The x axis is a line from (xMin,0) to (xMax,0), the y axis is a line from (0,yMin) to (0,yMax), 
+# Note 2: The text labels are also derived from the context. xMin at (xMin,0), xMax at (xMax,0), yMin at (0,yMin), yMax at (0,yMax)
 \`\`\`json
   {"processingSteps": [
     { "prompt": "Draw a line from (-10,0) to (10,0)", "agent": "lineAgent", "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-100, yMax=100, graphScaleX=1000, graphScaleY=1000"},

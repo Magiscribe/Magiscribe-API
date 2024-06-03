@@ -11,7 +11,7 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
   height = radius*2 * y_multiplier
 
   coordinateDict = {
-    "elementProperties": {"type": "ellipse", "sloppiness": 0},
+    "elementProperties": {"type": "ellipse", "roughness": 0},
     "startCoordinates": [topLeftX, topLeftY],
     "relativeCoordinates": [[0, 0], [width, height]],
     "textResponse": "Circle with center (centerX, centerY) and radius of (radius)" 

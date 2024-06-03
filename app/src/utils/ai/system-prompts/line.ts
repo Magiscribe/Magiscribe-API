@@ -14,7 +14,7 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
     "elementProperties": {"type": "line"},
     "startCoordinates": [startX, startY],
     "relativeCoordinates": [[scaled_x1, scaled_y1], [scaled_x2, scaled_y2]],
-    "textResponse": "Line between (x1,y1) and (x2,y2)"
+    "textResponse": "Line between (x1,y1) and (x2,y2)" #Where x1,y1,x2,y2 are directly pulled from the function parameters
   }
   
   return coordinateDict

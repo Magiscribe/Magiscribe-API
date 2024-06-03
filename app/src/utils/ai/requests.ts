@@ -4,7 +4,7 @@ import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 const modelProps = {
   region: 'us-east-1',
   model: 'anthropic.claude-3-haiku-20240307-v1:0',
-  maxTokens: 4096,
+  maxTokens: 1024,
   temperature: 0,
 };
 
