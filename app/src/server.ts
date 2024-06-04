@@ -7,7 +7,6 @@ import config from '@config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
-import typeDefs from '@schema';
 import cors from 'cors';
 import express from 'express';
 import { GraphQLError } from 'graphql';
@@ -15,6 +14,7 @@ import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
+import typeDefs from './schema';
 
 /**
  * Starts the GraphQL server.

@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "declaration": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
-    "lib": ["esnext"],
-    "target": "esnext",
-    "module": "commonjs",
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
@@ -31,6 +30,6 @@
       "@*": ["src/*"]
     }
   },
-  "include": ["./src/**/*", "**/*.ts"],
+  "include": ["./src/**/*", "./**/*.ts", "./**/*.graphql"],
   "exclude": ["node_modules", "dist"]
 }
