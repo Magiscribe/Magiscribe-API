@@ -9,8 +9,8 @@ Example coordinateDict Structure:
     "elementProperties": {
       "type": "freedraw" | "line" | "text" | "rectangle" | "ellipse" | "diamond" | "arrow", #required
       "opacity": number, #optional, from 0 (perfectly transparent) to 100 (perfectly opaque)
-      "strokeWidth": number, #optional, from 0 (impossibly thin) to 3 (very thick), default to 1 if not specified
-      "strokeColor": string, #optional, 6 digit HTML Hex code starting with a # example #000000
+      "strokeWidth": number, #optional, from 0 (impossibly thin) to 4 (very thick), default to 1 if not specified
+      "strokeColor": string, #optional, 6 digit HTML Hex code starting with a #, please include if the user specifies a color in their prompt
       "roughness": 0 #required only for ellipse
     },
     "startCoordinates": [number, number], #required for freedraw, line, text, arrow, rectangle, ellipse, and diamond
