@@ -4,7 +4,7 @@ import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
 import { Cluster } from '@constructs/ecs-cluster';
 import { Repository } from '@constructs/ecs-repository';
 import { PythonFunction } from '@constructs/function';
-import { HostedZone } from '@constructs/hosted-zone';
+import { DNSZone } from '@constructs/dns-zone';
 import { LoadBalancer } from '@constructs/loadbalancer';
 import { VPCConstruct } from '@constructs/vpc';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
@@ -15,7 +15,7 @@ import { Construct } from 'constructs';
 interface AppStackProps {
   vpc: VPCConstruct;
   domainName: string;
-  zone: HostedZone;
+  zone: DNSZone;
   repositoryPythonExecutor: Repository;
   repositoryApp: Repository;
 }

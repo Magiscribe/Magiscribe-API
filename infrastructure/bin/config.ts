@@ -1,13 +1,13 @@
-import * as dotenv from 'dotenv';
+enum Environment {
+  Development = 'dev',
+  Production = 'prod',
+}
 
-const path = `.env.${process.env.NODE_ENV || 'dev'}`;
-dotenv.config({ path });
-
-const config = {
+interface Config {
   /**
    * The AWS region the CDKTF stack will be deployed to (e.g. us-east-1)
    */
-  region: process.env.CDKTF_REGION || 'us-east-1',
+  region: string;
 
   /**
    * The Terraform backend configuration.
@@ -17,36 +17,127 @@ const config = {
     /**
      * The S3 bucket name to store the Terraform state file.
      */
-    bucket: process.env.CDKTF_BUCKET_NAME || '',
+    bucket: string;
 
     /**
      * The DynamoDB table name to store the Terraform state lock.
      */
-    dynamodbTable:
-      process.env.CDKTF_DYNAMODB_TABLE || 'remote-terraform-state-lock',
+    dynamodbTable: string;
 
     /**
      * The AWS region the S3 bucket and DynamoDB table will be created in.
      * @default 'us-east-1'
      */
-    region: process.env.CDKTF_REGION || 'us-east-1',
-  },
+    region: string;
+  };
 
   auth: {
     /**
      * The Clerk publishable key.
      */
-    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    publishableKey: string;
 
     /**
      * The Clerk secret key.
      */
-    secretKey: process.env.CLERK_SECRET_KEY,
-  },
+    secretKey: string;
+  };
 
   dns: {
-    apexDomainName: process.env.APEX_DOMAIN || 'dev.magiscribe.com',
+    apexDomainName: string;
+
+    records?: {
+      name: string;
+      type: string;
+      records: string[];
+    }[];
+  };
+}
+
+const config: Record<Environment, Config> = {
+  dev: {
+    region: 'us-east-1',
+    terraformBackend: {
+      bucket: 'remote-terraform-state20240520152449090900000001',
+      dynamodbTable: 'remote-terraform-state-lock',
+      region: 'us-east-1',
+    },
+    auth: {
+      publishableKey:
+        'pk_test_cm9tYW50aWMtaW5zZWN0LTUxLmNsZXJrLmFjY291bnRzLmRldiQ',
+      secretKey: 'sk_test_sPR7HV6vs4y71XdEUFhq00LpNfLizrEXAmfntQsrUn',
+    },
+    dns: {
+      apexDomainName: 'dev.magiscribe.com',
+    },
+  },
+  prod: {
+    region: 'us-east-1',
+    terraformBackend: {
+      bucket: 'remote-terraform-state20240516031320666400000001',
+      dynamodbTable: 'remote-terraform-state-lock',
+      region: 'us-east-1',
+    },
+    auth: {
+      publishableKey: 'pk_live_Y2xlcmsubWFnaXNjcmliZS5jb20k',
+      secretKey: 'sk_live_UCIF9TxfUrNqnb2mUZR8pZL773GtSbeQqS8TRbBczE',
+    },
+    dns: {
+      apexDomainName: 'magiscribe.com',
+      records: [
+        // Zoho
+        {
+          name: '5d9t1nn3h9',
+          records: ['zmverify.zoho.com'],
+          type: 'CNAME',
+        },
+        {
+          name: 'magiscribe.com',
+          records: ['10 mx.zoho.com', '20 mx2.zoho.com', '50 mx3.zoho.com'],
+          type: 'MX',
+        },
+        {
+          name: 'zb34522179',
+          records: ['zmverify.zoho.com'],
+          type: 'CNAME',
+        },
+        {
+          name: 'magiscribe.com',
+          records: ['v=spf1 include:zohomail.com -all'],
+          type: 'TXT',
+        },
+        {
+          name: 'zmail._domainkey',
+          records: [
+            'v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCGtPphJ3um+g5eozujCFObJPrmUHtn+vKCj6K+XZRVtigLKwdlf5DYrsqX2cddAO65SJxc0OBzur++xFi8lf6+iC3ZQHLNggjJGcj2qt3xUvJKJcHG/Eo+y//sh1BWyL3ZIvm+c7Qqxcv7pqr/Qspbinq0M9rcLzlqXeBR2rFzFQIDAQAB',
+          ],
+          type: 'TXT',
+        },
+
+        // Clerk
+        {
+          name: 'clerk',
+          records: ['frontend-api.clerk.services'],
+          type: 'CNAME',
+        },
+        {
+          name: 'clk2._domainkey',
+          records: ['dkim2.ykui03l9x0ov.clerk.services'],
+          type: 'CNAME',
+        },
+        {
+          name: 'clk._domainkey',
+          records: ['dkim1.ykui03l9x0ov.clerk.services'],
+          type: 'CNAME',
+        },
+        {
+          name: 'clkmail',
+          records: ['mail.ykui03l9x0ov.clerk.services'],
+          type: 'CNAME',
+        },
+      ],
+    },
   },
 };
 
-export default config;
+export default config[(process.env.NODE_ENV || 'dev') as Environment];

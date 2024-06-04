@@ -3,35 +3,33 @@ import AppStack from 'stacks/app';
 import FrontendStack from 'stacks/client';
 import DataStack from 'stacks/data';
 import NetworkStack from 'stacks/network';
-
-interface StageProps {
-  apexDomainName: string;
-}
+import config from '../bin/config';
 
 export default class Stage {
-  constructor(scope: Construct, props: StageProps) {
+  constructor(scope: Construct) {
     const network = new NetworkStack(scope, 'network', {
-      apexDomainName: props.apexDomainName,
+      apexDomainName: config.dns.apexDomainName,
+      records: config.dns.records,
     });
 
     const data = new DataStack(scope, 'data');
 
     new AppStack(scope, 'app', {
       vpc: network.vpc,
-      domainName: `api.${props.apexDomainName}`,
-      zone: network.hostedZone,
+      domainName: `api.${config.dns.apexDomainName}`,
+      zone: network.dnsZone,
       repositoryPythonExecutor: data.repositoryPythonExecutor,
       repositoryApp: data.repositoryApp,
     });
 
     new FrontendStack(scope, 'client-app', {
-      domainName: `*.${props.apexDomainName}`,
-      zone: network.hostedZone,
+      domainName: `*.${config.dns.apexDomainName}`,
+      zone: network.dnsZone,
     });
 
     new FrontendStack(scope, 'client-landing', {
-      domainName: `${props.apexDomainName}`,
-      zone: network.hostedZone,
+      domainName: `${config.dns.apexDomainName}`,
+      zone: network.dnsZone,
     });
   }
 }

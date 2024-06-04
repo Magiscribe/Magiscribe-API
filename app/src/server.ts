@@ -203,7 +203,7 @@ export default async function startServer() {
 
   app.use(
     '/graphql',
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({ origin: config.networking.corsOrigins }),
     ClerkExpressWithAuth(),
     express.json(),
     expressMiddleware(server, {
@@ -217,11 +217,11 @@ export default async function startServer() {
   });
 
   // Now that our HTTP server is fully set up, actually listen.
-  httpServer.listen(config.port, () => {
+  httpServer.listen(config.networking.port, () => {
     log.info('We have lift off! (Server is now running)');
-    log.info(`Query endpoint ready at http://localhost:${config.port}/graphql`);
+    log.info(`Query endpoint ready at http://localhost:${config.networking.port}/graphql`);
     log.info(
-      `Subscription endpoint ready at ws://localhost:${config.port}/graphql`,
+      `Subscription endpoint ready at ws://localhost:${config.networking.port}/graphql`,
     );
   });
 }

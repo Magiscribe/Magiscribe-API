@@ -4,7 +4,7 @@ import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { S3BucketPolicy } from '@cdktf/provider-aws/lib/s3-bucket-policy';
-import { HostedZone } from '@constructs/hosted-zone';
+import { DNSZone } from '@constructs/dns-zone';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import config from '../../bin/config';
@@ -12,7 +12,7 @@ import { Construct } from 'constructs';
 
 interface FrontendStackProps {
   domainName: string;
-  zone: HostedZone;
+  zone: DNSZone;
 }
 
 export default class FrontendStack extends TerraformStack {
