@@ -12,7 +12,9 @@ export default class Stage {
       records: config.dns.records,
     });
 
-    const data = new DataStack(scope, 'data');
+    const data = new DataStack(scope, 'data', {
+      vpc: network.vpc,
+    });
 
     new AppStack(scope, 'app', {
       vpc: network.vpc,
@@ -20,6 +22,7 @@ export default class Stage {
       zone: network.dnsZone,
       repositoryPythonExecutor: data.repositoryPythonExecutor,
       repositoryApp: data.repositoryApp,
+      redis: data.redis,
     });
 
     new FrontendStack(scope, 'client-app', {

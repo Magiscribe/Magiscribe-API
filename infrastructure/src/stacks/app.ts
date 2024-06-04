@@ -1,16 +1,17 @@
+import { ElasticacheReplicationGroup } from '@cdktf/provider-aws/lib/elasticache-replication-group';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
+import { DNSZone } from '@constructs/dns-zone';
 import { Cluster } from '@constructs/ecs-cluster';
 import { Repository } from '@constructs/ecs-repository';
 import { PythonFunction } from '@constructs/function';
-import { DNSZone } from '@constructs/dns-zone';
 import { LoadBalancer } from '@constructs/loadbalancer';
 import { VPCConstruct } from '@constructs/vpc';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
-import config from '../../bin/config';
 import { Construct } from 'constructs';
+import config from '../../bin/config';
 
 interface AppStackProps {
   vpc: VPCConstruct;
@@ -18,6 +19,7 @@ interface AppStackProps {
   zone: DNSZone;
   repositoryPythonExecutor: Repository;
   repositoryApp: Repository;
+  redis: ElasticacheReplicationGroup;
 }
 
 export default class AppStack extends TerraformStack {
@@ -56,9 +58,13 @@ export default class AppStack extends TerraformStack {
       image: `${props.repositoryApp.repository.repositoryUrl}:latest`,
       env: {
         PORT: '80',
-        EXECUTOR_LAMBDA_NAME: executorFn.function.functionName,
+        LAMBDA_PYTHON_EXECUTOR_NAME: executorFn.function.functionName,
         CLERK_PUBLISHABLE_KEY: config.auth.publishableKey,
         CLERK_SECRET_KEY: config.auth.secretKey,
+        REDIS_HOST: props.redis.primaryEndpointAddress,
+        REDIS_PORT: props.redis.port.toString(),
+        CORS_ORIGINS:
+          'https://api.magiscribe.com,https://*.magiscribe.com,https://app.magiscribe.com',
       },
     });
 
