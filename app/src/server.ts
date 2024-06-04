@@ -219,7 +219,9 @@ export default async function startServer() {
   // Now that our HTTP server is fully set up, actually listen.
   httpServer.listen(config.networking.port, () => {
     log.info('We have lift off! (Server is now running)');
-    log.info(`Query endpoint ready at http://localhost:${config.networking.port}/graphql`);
+    log.info(
+      `Query endpoint ready at http://localhost:${config.networking.port}/graphql`,
+    );
     log.info(
       `Subscription endpoint ready at ws://localhost:${config.networking.port}/graphql`,
     );

@@ -16,15 +16,16 @@ const config = {
      * @default 3000
      */
     port: parseInt(process.env.PORT || '3000'),
-    
+
     /**
      * The origins to allow for CORS.
      * @default []
      * @example ['https://magiscribe.com']
      */
-    corsOrigins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : [],
+    corsOrigins: process.env.CORS_ORIGINS
+      ? process.env.CORS_ORIGINS.split(',')
+      : [],
   },
-
 
   /**
    * The log level for the application.
