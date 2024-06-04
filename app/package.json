@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "@aws-sdk/client-bedrock-runtime": "^3.583.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.588.0",
     "@aws-sdk/client-lambda": "^3.577.0",
     "@aws-sdk/client-s3": "^3.583.0",
     "@aws-sdk/s3-request-presigner": "^3.583.0",
