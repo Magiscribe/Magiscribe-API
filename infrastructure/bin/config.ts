@@ -77,8 +77,8 @@ const config: Record<Environment, Config> = {
       apexDomainName: 'dev.magiscribe.com',
     },
     db: {
-      publicKey: 'slzoewvp',
-      privateKey: 'a34c1033-f4dd-492a-9d56-003ccca32576',
+      publicKey: 'tywsqgup',
+      privateKey: '62e2857c-72bf-43b7-abb4-c6a2c8fea359',
       projectId: '665caf78bdea6c1a9ef26d7c'
     }
   },
