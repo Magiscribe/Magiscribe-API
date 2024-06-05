@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@cdktf/provider-aws": "19.21.0",
+    "@cdktf/provider-mongodbatlas": "^7.2.2",
     "@cdktf/provider-random": "^11.0.1",
     "aws-lambda": "^1.0.7",
     "cdktf": "^0.20.7",
