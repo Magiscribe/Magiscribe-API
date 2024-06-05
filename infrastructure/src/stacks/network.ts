@@ -5,6 +5,7 @@ import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
 import config from '../../bin/config';
+import { SecretsmanagerSecret } from '@cdktf/provider-aws/lib/secretsmanager-secret';
 
 interface NetworkStackProps {
   apexDomainName: string;

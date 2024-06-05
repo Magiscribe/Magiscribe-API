@@ -52,6 +52,12 @@ interface Config {
       records: string[];
     }[];
   };
+
+  db: {
+    publicKey: string;
+    privateKey: string;
+    projectId: string;
+  }
 }
 
 const config: Record<Environment, Config> = {
@@ -70,6 +76,11 @@ const config: Record<Environment, Config> = {
     dns: {
       apexDomainName: 'dev.magiscribe.com',
     },
+    db: {
+      publicKey: 'slzoewvp',
+      privateKey: 'a34c1033-f4dd-492a-9d56-003ccca32576',
+      projectId: '665caf78bdea6c1a9ef26d7c'
+    }
   },
   prod: {
     region: 'us-east-1',
@@ -137,6 +148,12 @@ const config: Record<Environment, Config> = {
         },
       ],
     },
+
+    db: {
+      publicKey: 'aoajfedt',
+      privateKey: '1ff1b1ab-3d43-461f-80ae-1b5fa61904b8',
+      projectId: '665fbb59b0b7bf7406fc2b0e'
+    }
   },
 };
 
