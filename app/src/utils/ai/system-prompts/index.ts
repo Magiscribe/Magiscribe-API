@@ -8,9 +8,8 @@ import line from './line';
 import point from './point';
 import text from './text';
 import preprocessing from './preprocessing';
-import rectangle from './rectangle';
 import ellipse from './ellipse';
-import diamond from './diamond';
+import polygon from './polygon';
 import arrow from './arrow';
 
 const output = {
@@ -24,9 +23,8 @@ const output = {
   point,
   text,
   preprocessing,
-  rectangle,
+  polygon,
   ellipse,
-  diamond,
   arrow,
 };
 

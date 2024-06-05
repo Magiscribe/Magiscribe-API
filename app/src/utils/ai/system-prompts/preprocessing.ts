@@ -4,8 +4,8 @@ Give me back a JSON object surrounded by three backticks and the word json.
 The top of the JSON object should contain a key called processingSteps that is an array of objects.
 Structure: The processingSteps JSON is an array of objects that contain a message, an agent, and context. The message, agent, and context are all strings.
 message contains simple commands for a particular agent. These commands will later be executed in order.
-selected agents can ONLY be one of the following: lineAgent, functionAgent, textAgent, rectangleAgent, ellipseAgent, diamondAgent, arrowAgent, or pointAgent. Do NOT include any other agents.
-lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, rectangleAgent draws rectangles, ellipseAgent draws ellipses and circles, diamondAgent draws diamonds, arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points.
+selected agents can ONLY be one of the following: lineAgent, functionAgent, textAgent, ellipseAgent, arrowAgent, polygonAgent or pointAgent. Do NOT include any other agents.
+lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, ellipseAgent draws ellipses and circles, polygonAgent draws triangles, quadrilaterals, pentagons, hexagons, octagons, etc., arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points.
 context will contain startX, startY, xMin, xMax, yMin, yMax, graphScaleX, and graphScaleY
 You need to include every relevant concept in the prompt so that the user gets what they want including color and specific attributes for each object.
 Based on your prompts another model will be able to draw elements to a whiteboard intelligently.
