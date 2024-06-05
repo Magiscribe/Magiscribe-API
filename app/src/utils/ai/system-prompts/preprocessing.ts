@@ -28,11 +28,11 @@ Based on your prompts another model will be able to draw elements to a whiteboar
 
 # Example 2:
 "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"
-# Prompt when rectangleAgent and ellipseAgent will be relevant: "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40) and a thick ellipse centered at (50,50) with a radius of 20 units."
+# Prompt when polygonAgent and ellipseAgent will be relevant: "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40) and a thick ellipse centered at (50,50) with a radius of 20 units."
 # Note: The graph scales do not
 \`\`\`json
   {"processingSteps": [
-    { "prompt": "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40)", "agent": "rectangleAgent", "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"},
+    { "prompt": "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40)", "agent": "polygonAgent", "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"},
     { "prompt": "Draw a thick circle centered at (50,50) with radius 20", "agent": "ellipseAgent", "startX=90, startY=280, xMin=0, xMax=100, yMin=0, yMax=60, graphScaleX=420, graphScaleY=750"}
   ]}
 \`\`\`
@@ -59,6 +59,47 @@ Based on your prompts another model will be able to draw elements to a whiteboar
     { "prompt": "Draw a thick bidirectional magenta arrow between (4,20) and (6,9)", "agent": "arrowAgent", "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-100, yMax=100, graphScaleX=500, graphScaleY=2500" }
   ]}
 \`\`\`
+
+
+# Prompt when abstract reasoning will be needed to more precisely specify a vague user request using polygonAgent
+# Example 5: "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+# Prompt: "Draw a hexagon in the first quadrant with side length 3. 
+Then, draw a square in the third quadrant, followed by an equilateral triangle above it, sharing the top side. 
+Finally, add a pentagram inscribed in a circle of radius 4 at (2, -6)."
+Note: "Explanation" won't be passed along to the next agent. Use this as an internal thought process to reason step by step about how to create the points coherently
+{"processingSteps": [
+  {
+    "explanation": "For the hexagon, I need to choose a starting point in the first quadrant (0 < x < xMax, 0 < y < yMax). (5, 5) is a good choice given the available context, leaving room for the shape. For my first side I'll go three units across the bottom to (8,5), then I'll go up and to the right to (10, 7), then I'll go up and to the left to (8,9) then I'll go across to (5,9) then down and to the left to (3,7) and finally down and to the right back to (5,5). I don't need to specify the return to the final homepoint, polygonAgent takes care of that for me
+    "prompt": "Draw a regular hexagon using points [(5, 5), (8, 5), (10, 7), (8, 9), (5, 9), (3, 7)]",
+    "agent": "polygonAgent",
+    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+  },
+  {
+    "explanation": "Next, a square in the third quadrant (x < 0, y < 0). Center at (-5, -5) works well. Side length is 4, so vertices are 2 units from the center in each direction: (-7, -7), (-3, -7), (-3, -3), (-7, -3) in clockwise order.",
+    "prompt": "Draw a square using points [(-7, -7), (-3, -7), (-3, -3), (-7, -3)]",
+    "agent": "polygonAgent",
+    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+  },
+  {
+    "explanation": "An equilateral triangle above the square, sharing its top side. The shared side is (-7, -3) to (-3, -3), length 4. For 60° angles, the height is 4 * sin(60°) ≈ 3.464. So, the top vertex is at (-5, -3 + 3.464) = (-5, 0.464)",
+    "prompt": "Draw an equilateral triangle above the square, sharing its top side, using points [(-7, -3), (-3, -3), (-5, 0.464)]",
+    "agent": "polygonAgent",
+    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+  },
+  {
+    "explanation": "Now, a circle at (2, -6) with radius 4. This is a perfect job for the ellipseAgent, as it specializes in drawing circles and ellipses.",
+    "prompt": "Draw a circle centered at (2, -6) with radius 4",
+    "agent": "ellipseAgent",
+    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+  },
+  {
+    "explanation": "Finally, a pentagram inscribed in the circle. A pentagram connects every other point of a regular pentagon. So, I'll place 5 points on the circle, each 72° (360°/5) apart. Using polar coordinates (r, θ): (4, 0°), (4, 72°), (4, 144°), (4, 216°), (4, 288°). Converting to Cartesian (x, y): (2+4*cos(θ), -6+4*sin(θ)). Connecting in star pattern: 0 → 2 → 4 → 1 → 3 → 0.",
+    "prompt": "Draw a pentagram using points [(2, -2), (5.472, -7.236), (-0.472, -4.764), (4.472, -4.764), (-1.472, -7.236), (2, -2)]",
+    "agent": "polygonAgent",
+    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
+  }
+]}
+
 </System>
 `;
 

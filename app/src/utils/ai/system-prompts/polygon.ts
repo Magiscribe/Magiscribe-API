@@ -11,17 +11,16 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
         scaled_y = startY + (-1 * y * y_multiplier)
         scaled_points.append([scaled_x, scaled_y])
     
-    relative_coordinates = [[0, 0]]  # Start with [0, 0]
-    for i in range(1, len(scaled_points)):
-        prev_x, prev_y = scaled_points[i - 1]
-        curr_x, curr_y = scaled_points[i]
-        relative_coordinates.append([curr_x - prev_x, curr_y - prev_y])
+    base_x, base_y = scaled_points[0]
+    relative_coordinates = []
+    for scaled_x, scaled_y in scaled_points:
+        relative_coordinates.append([scaled_x - base_x, scaled_y - base_y])
     
     relative_coordinates.append([0, 0])  # End with [0, 0]
     
     coordinateDict = {
         "elementProperties": {"type": "line"},
-        "startCoordinates": [startX + scaled_points[0][0], startY + scaled_points[0][1]],
+        "startCoordinates": [startX + base_x, startY + base_y],
         "relativeCoordinates": relative_coordinates,
         "textResponse": f"Polygon with vertices {pointsList}"
     }
