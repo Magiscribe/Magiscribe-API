@@ -30,7 +30,7 @@ export class LoadBalancer extends Construct {
     this.vpc = props.vpc;
     this.cluster = props.cluster;
 
-    const lbSecurityGroup = new SecurityGroup(this, `lb-security-group`, {
+    const lbSecurityGroup = new SecurityGroup(this, `SecurityGroup`, {
       vpcId: this.vpc.vpcIdOutput,
       ingress: [
         // Allow HTTP traffic from everywhere
@@ -62,16 +62,15 @@ export class LoadBalancer extends Construct {
       ],
     });
 
-    this.lb = new Lb(this, `lb`, {
+    this.lb = new Lb(this, `LoadBalancer`, {
       name,
-      // we want this to be our public load balancer so that cloudfront can access it
       internal: false,
       loadBalancerType: 'application',
       securityGroups: [lbSecurityGroup.id],
       subnets: Token.asList(this.vpc.publicSubnetsOutput),
     });
 
-    this.httpListener = new LbListener(this, `lb-listener`, {
+    this.httpListener = new LbListener(this, `HttpListener`, {
       loadBalancerArn: this.lb.arn,
       port: 80,
       protocol: 'HTTP',
@@ -88,7 +87,7 @@ export class LoadBalancer extends Construct {
       ],
     });
 
-    this.httpsListener = new LbListener(this, `lb-listener-https`, {
+    this.httpsListener = new LbListener(this, `HttpsListener`, {
       loadBalancerArn: this.lb.arn,
       port: 443,
       protocol: 'HTTPS',
@@ -115,7 +114,7 @@ export class LoadBalancer extends Construct {
     path: string,
   ) {
     // Define Load Balancer target group with a health check on /ready
-    const targetGroup = new LbTargetGroup(this, `target-group`, {
+    const targetGroup = new LbTargetGroup(this, `TargetGroup`, {
       dependsOn: [this.httpsListener],
       name: `${name}-target-group`,
       port: 80,
@@ -147,7 +146,7 @@ export class LoadBalancer extends Construct {
     });
 
     // Ensure the task is running and wired to the target group, within the right security group
-    new EcsService(this, `service`, {
+    new EcsService(this, `Service`, {
       dependsOn: [this.httpListener],
       name,
       launchType: 'FARGATE',

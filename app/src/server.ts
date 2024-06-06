@@ -7,7 +7,6 @@ import config from '@config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import log from '@log';
 import resolvers from '@resolvers';
-import typeDefs from '@schema';
 import cors from 'cors';
 import express from 'express';
 import { GraphQLError } from 'graphql';
@@ -15,6 +14,7 @@ import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
+import typeDefs from './schema';
 
 /**
  * Starts the GraphQL server.
@@ -28,6 +28,13 @@ export default async function startServer() {
 
   // WebSocket authorization check.
   const onConnect = async (ctx: Context<Record<string, unknown>>) => {
+    if (!ctx.connectionParams) {
+      log.warn(
+        'Starship denied entry (Missing connection parameters in WebSocket connection)',
+      );
+      throw new Error('Missing connection parameters in WebSocket connection');
+    }
+
     const connectionParams = ctx.connectionParams;
     const token = connectionParams.authorization as string;
 
@@ -196,7 +203,7 @@ export default async function startServer() {
 
   app.use(
     '/graphql',
-    cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>({ origin: config.networking.corsOrigins }),
     ClerkExpressWithAuth(),
     express.json(),
     expressMiddleware(server, {
@@ -210,11 +217,13 @@ export default async function startServer() {
   });
 
   // Now that our HTTP server is fully set up, actually listen.
-  httpServer.listen(config.port, () => {
+  httpServer.listen(config.networking.port, () => {
     log.info('We have lift off! (Server is now running)');
-    log.info(`Query endpoint ready at http://localhost:${config.port}/graphql`);
     log.info(
-      `Subscription endpoint ready at ws://localhost:${config.port}/graphql`,
+      `Query endpoint ready at http://localhost:${config.networking.port}/graphql`,
+    );
+    log.info(
+      `Subscription endpoint ready at ws://localhost:${config.networking.port}/graphql`,
     );
   });
 }

@@ -4,19 +4,24 @@ import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { Route53Zone } from '@cdktf/provider-aws/lib/route53-zone';
 import { Construct } from 'constructs';
 
-export interface HostedZoneProps {
+export interface DNSZoneProps {
   domainName: string;
   subjectAlternativeNames?: string[];
+  records?: {
+    name: string;
+    type: string;
+    records: string[];
+  }[];
 }
 
-export class HostedZone extends Construct {
+export class DNSZone extends Construct {
   readonly zone: Route53Zone;
   readonly defaultCertificate: AcmCertificate;
 
-  constructor(scope: Construct, id: string, props: HostedZoneProps) {
+  constructor(scope: Construct, id: string, props: DNSZoneProps) {
     super(scope, id);
 
-    const { domainName, subjectAlternativeNames } = props;
+    const { domainName, subjectAlternativeNames, records } = props;
 
     // Certificate
     this.defaultCertificate = new AcmCertificate(this, 'certificate', {
@@ -53,6 +58,21 @@ export class HostedZone extends Construct {
             }
           }`,
     );
+
+    records?.forEach((staticRecord, i) => {
+      new Route53Record(
+        this,
+        `static-record-${staticRecord.name}-${staticRecord.type}-${i}`,
+        {
+          name: staticRecord.name,
+          type: staticRecord.type,
+          records: staticRecord.records,
+          zoneId: this.zone.zoneId,
+          ttl: 60,
+          allowOverwrite: true,
+        },
+      );
+    });
 
     const certValidation = new AcmCertificateValidation(
       this,

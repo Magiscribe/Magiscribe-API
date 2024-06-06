@@ -22,13 +22,13 @@
     "node": ">=20.0"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "19.20.1",
+    "@cdktf/provider-aws": "19.21.0",
+    "@cdktf/provider-mongodbatlas": "^7.2.2",
     "@cdktf/provider-random": "^11.0.1",
     "aws-lambda": "^1.0.7",
     "cdktf": "^0.20.7",
     "cdktf-cli": "^0.20.7",
     "constructs": "^10.3.0",
-    "dotenv": "^16.4.5",
     "esbuild": "^0.21.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

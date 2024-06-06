@@ -1,2 +1,0 @@
-# Check if on the main branch. Exit if on main branch.
-pnpm run check

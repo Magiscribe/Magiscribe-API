@@ -1,10 +1,6 @@
 # Ignore temporary files and directories
 dist
 
-# Terraform CKDTF
-.terraform
-.gen
-cdktf.out
-
 # Node
 node_modules
+pnpm-lock.yaml

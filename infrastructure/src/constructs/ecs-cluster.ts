@@ -4,6 +4,7 @@ import { EcsClusterCapacityProviders } from '@cdktf/provider-aws/lib/ecs-cluster
 import { EcsTaskDefinition } from '@cdktf/provider-aws/lib/ecs-task-definition';
 import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { Construct } from 'constructs';
+import config from '../../bin/config';
 
 export class Cluster extends Construct {
   readonly cluster: EcsCluster;
@@ -168,7 +169,7 @@ export class Cluster extends Construct {
             options: {
               // Defines the log
               'awslogs-group': logGroup.name,
-              'awslogs-region': process.env.CDKTF_REGION,
+              'awslogs-region': config.region,
               'awslogs-stream-prefix': name,
             },
           },

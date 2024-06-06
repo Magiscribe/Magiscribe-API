@@ -1,5 +1,5 @@
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
-import { HostedZone } from '@constructs/hosted-zone';
+import { DNSZone } from '@constructs/dns-zone';
 import { VPCConstruct } from '@constructs/vpc';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
@@ -8,16 +8,21 @@ import config from '../../bin/config';
 
 interface NetworkStackProps {
   apexDomainName: string;
+  records?: {
+    name: string;
+    type: string;
+    records: string[];
+  }[];
 }
 
 export default class NetworkStack extends TerraformStack {
-  readonly hostedZone: HostedZone;
+  readonly dnsZone: DNSZone;
   readonly vpc: VPCConstruct;
 
   constructor(scope: Construct, id: string, props: NetworkStackProps) {
     super(scope, id);
 
-    const { apexDomainName: domainName } = props;
+    const { apexDomainName: domainName, records } = props;
 
     new AwsProvider(this, 'aws', {
       region: config.region,
@@ -34,8 +39,9 @@ export default class NetworkStack extends TerraformStack {
       key: `${id}.tfstate`,
     });
 
-    this.hostedZone = new HostedZone(this, 'Zone', {
+    this.dnsZone = new DNSZone(this, 'Zone', {
       domainName,
+      records,
     });
 
     this.vpc = new VPCConstruct(this, 'VPC', {

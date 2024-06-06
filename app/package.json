@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",
-    "@aws-sdk/client-bedrock-runtime": "^3.583.0",
+    "@aws-sdk/client-bedrock-runtime": "^3.588.0",
     "@aws-sdk/client-lambda": "^3.577.0",
     "@aws-sdk/client-s3": "^3.583.0",
     "@aws-sdk/s3-request-presigner": "^3.583.0",
@@ -37,6 +37,7 @@
     "graphql-ws": "^5.16.0",
     "mongoose": "^8.4.0",
     "pino": "^9.1.0",
+    "tscpaths": "^0.0.9",
     "uuidv4": "^6.2.13",
     "ws": "^8.17.0"
   },
