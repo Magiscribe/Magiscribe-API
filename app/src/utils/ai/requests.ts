@@ -1,9 +1,15 @@
 import log from '@log';
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 
+const models = {
+  haiku: 'anthropic.claude-3-haiku-20240307-v1:0',
+  sonnet: 'anthropic.claude-3-sonnet-20240229-v1:0',
+  opus: 'anthropic.claude-3-opus-20240229-v1:0', //Currently not available for use in our region
+};
+
 const modelProps = {
   region: 'us-east-1',
-  model: 'anthropic.claude-3-haiku-20240307-v1:0',
+  model: models.haiku,
   maxTokens: 4096,
   temperature: 0,
 };

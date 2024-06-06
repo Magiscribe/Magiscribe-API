@@ -3,9 +3,8 @@ import templateDrawingElementGeneration from './system-prompts/drawing';
 
 export enum Agents {
   ArrowAgent = 'arrowAgent',
-  DiamondAgent = 'diamondAgent',
   EllipseAgent = 'ellipseAgent',
-  RectangleAgent = 'rectangleAgent',
+  PolygonAgent = 'polygonAgent',
   PreprocessingAgent = 'preprocessingAgent',
   FunctionAgent = 'functionAgent',
   LineAgent = 'lineAgent',
@@ -23,23 +22,17 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
         templateDrawingElementGeneration +
         templates.arrow
       );
-    case Agents.DiamondAgent:
+    case Agents.PolygonAgent:
       return (
         templates.code.write +
         templateDrawingElementGeneration +
-        templates.diamond
+        templates.polygon
       );
     case Agents.EllipseAgent:
       return (
         templates.code.write +
         templateDrawingElementGeneration +
         templates.ellipse
-      );
-    case Agents.RectangleAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.rectangle
       );
     case Agents.PreprocessingAgent:
       return templates.preprocessing;
