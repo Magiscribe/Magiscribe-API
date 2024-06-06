@@ -5,7 +5,7 @@ The top of the JSON object should contain a key called processingSteps that is a
 Structure: The processingSteps JSON is an array of objects that contain a message, an agent, and context. The message, agent, and context are all strings.
 message contains simple commands for a particular agent. These commands will later be executed in order.
 selected agents can ONLY be one of the following: lineAgent, functionAgent, textAgent, ellipseAgent, arrowAgent, polygonAgent or pointAgent. Do NOT include any other agents.
-lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, ellipseAgent draws ellipses and circles, polygonAgent draws triangles, quadrilaterals, pentagons, hexagons, octagons, etc., arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points.
+lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, ellipseAgent draws ellipses and circles, polygonAgent draws triangles, quadrilaterals, pentagons, hexagons, octagons, etc.. To use polygonAgent describe the points in counterclockwise or clockwsie order, arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points.
 context will contain startX, startY, xMin, xMax, yMin, yMax, graphScaleX, and graphScaleY
 You need to include every relevant concept in the prompt so that the user gets what they want including color and specific attributes for each object.
 Based on your prompts another model will be able to draw elements to a whiteboard intelligently.
@@ -65,7 +65,7 @@ Based on your prompts another model will be able to draw elements to a whiteboar
 # Example 5: "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
 # Prompt: "Draw a hexagon in the first quadrant with side length 3. 
 Then, draw a square in the third quadrant, followed by an equilateral triangle above it, sharing the top side. 
-Finally, add a pentagram inscribed in a circle of radius 4 at (2, -6)."
+Finally, Draw a circle of radius 4 centered at (2, -6)."
 Note: "Explanation" won't be passed along to the next agent. Use this as an internal thought process to reason step by step about how to create the points coherently
 {"processingSteps": [
   {
@@ -90,12 +90,6 @@ Note: "Explanation" won't be passed along to the next agent. Use this as an inte
     "explanation": "Now, a circle at (2, -6) with radius 4. This is a perfect job for the ellipseAgent, as it specializes in drawing circles and ellipses.",
     "prompt": "Draw a circle centered at (2, -6) with radius 4",
     "agent": "ellipseAgent",
-    "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
-  },
-  {
-    "explanation": "Finally, a pentagram inscribed in the circle. A pentagram connects every other point of a regular pentagon. So, I'll place 5 points on the circle, each 72° (360°/5) apart. Using polar coordinates (r, θ): (4, 0°), (4, 72°), (4, 144°), (4, 216°), (4, 288°). Converting to Cartesian (x, y): (2+4*cos(θ), -6+4*sin(θ)). Connecting in star pattern: 0 → 2 → 4 → 1 → 3 → 0.",
-    "prompt": "Draw a pentagram using points [(2, -2), (5.472, -7.236), (-0.472, -4.764), (4.472, -4.764), (-1.472, -7.236), (2, -2)]",
-    "agent": "polygonAgent",
     "context": "startX=0, startY=0, xMin=-10, xMax=10, yMin=-10, yMax=10, graphScaleX=500, graphScaleY=500"
   }
 ]}

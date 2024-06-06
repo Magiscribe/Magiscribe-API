@@ -2,8 +2,8 @@ const templatePolygon = `
 This JSON also contains a list of relativeCoordinates that contains exactly an arbitrary number of points.
 
 def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX, graphScaleY, pointsList):
-    x_multiplier = graphScaleX / (xMax - xMin)
-    y_multiplier = graphScaleY / (yMax - yMin)
+    x_multiplier = graphScaleX / (xMax - xMin) #This is the ONLY place xMax, xMin, and graphScaleX should be used
+    y_multiplier = graphScaleY / (yMax - yMin) #This is the ONLY place yMax, yMin, and graphScaleY should be used
     
     scaled_points = []
     for x, y in pointsList:
@@ -20,7 +20,7 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
     
     coordinateDict = {
         "elementProperties": {"type": "line"}, #Type is always line, this might seem counterintuitive, but we are connecting lines to draw a shape which is why we want line, color/width/opacity attributes can be added here as well if necessary
-        "startCoordinates": [startX + base_x, startY + base_y],
+        "startCoordinates": [startX + base_x, startY + base_y], #Always do startX + base_x, startY + base_y
         "relativeCoordinates": relative_coordinates,
         "textResponse": f"Polygon with vertices {pointsList}"
     }
