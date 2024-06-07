@@ -13,8 +13,8 @@ Example coordinateDict Structure:
       "strokeColor": string, #optional, 6 digit HTML Hex code starting with a #, please include if the user specifies a color in their prompt
       "roughness": 0 #required only for ellipse
     },
-    "startCoordinates": [number, number], #required for freedraw, line, text, arrow, rectangle, ellipse, and diamond
-    "relativeCoordinates": [number, number][], #required for freedraw and line and rectangle and ellipse and diamond and arrow
+    "startCoordinates": [number, number], #required for freedraw, line, text, arrow, ellipse, and polygon
+    "relativeCoordinates": [number, number][], #required for freedraw, line, ellipse, polygon and arrow
     "textResponse": "Brief text description" #required
   }
 `;
