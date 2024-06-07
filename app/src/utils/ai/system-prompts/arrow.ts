@@ -1,4 +1,4 @@
-const templateEllipse = `
+const templateArrow = `
 This JSON also contains a list of relativeCoordinates that contains exactly two points.
 
 def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX, graphScaleY, x1, y1, x2, y2):
@@ -18,4 +18,4 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
   return coordinateDict
 `;
 
-export default templateEllipse;
+export default templateArrow;
