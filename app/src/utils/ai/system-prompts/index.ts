@@ -11,6 +11,7 @@ import preprocessing from './preprocessing';
 import ellipse from './ellipse';
 import polygon from './polygon';
 import arrow from './arrow';
+import scroll from './scroll'
 
 const output = {
   code: {
@@ -26,6 +27,7 @@ const output = {
   polygon,
   ellipse,
   arrow,
+  scroll
 };
 
 export default output;

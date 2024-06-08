@@ -3,15 +3,16 @@ import templateDrawingElementGeneration from './system-prompts/drawing';
 
 export enum Agents {
   ArrowAgent = 'arrowAgent',
+  CodeFixAgent = 'codeFixAgent',
   EllipseAgent = 'ellipseAgent',
-  PolygonAgent = 'polygonAgent',
-  PreprocessingAgent = 'preprocessingAgent',
   FunctionAgent = 'functionAgent',
+  LatexAgent = 'latexAgent', //To do: Decide if we want to support this agent on the frontend or delete it.
   LineAgent = 'lineAgent',
   PointAgent = 'pointAgent',
+  PolygonAgent = 'polygonAgent',
+  PreprocessingAgent = 'preprocessingAgent',
+  ScrollAgent = 'scrollAgent',
   TextAgent = 'textAgent',
-  LatexAgent = 'latexAgent',
-  CodeFixAgent = 'codeFixAgent',
 }
 
 export function chooseSystemPrompt(systemMessageChoice: Agents) {
@@ -22,20 +23,14 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
         templateDrawingElementGeneration +
         templates.arrow
       );
-    case Agents.PolygonAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.polygon
-      );
+    case Agents.CodeFixAgent:
+      return templates.code.write + templates.code.fix;
     case Agents.EllipseAgent:
       return (
         templates.code.write +
         templateDrawingElementGeneration +
         templates.ellipse
       );
-    case Agents.PreprocessingAgent:
-      return templates.preprocessing;
     case Agents.FunctionAgent:
       return (
         templates.code.write +
@@ -52,12 +47,23 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
         templateDrawingElementGeneration +
         templates.point
       );
+    case Agents.PolygonAgent:
+      return (
+        templates.code.write +
+        templateDrawingElementGeneration +
+        templates.polygon
+      );
+    case Agents.PreprocessingAgent:
+      return templates.preprocessing;
+    case Agents.ScrollAgent:
+      return (
+        templates.code.write +
+        templates.scroll
+      );
     case Agents.TextAgent:
       return (
         templates.code.write + templateDrawingElementGeneration + templates.text
       );
-    case Agents.CodeFixAgent:
-      return templates.code.write + templates.code.fix;
     default:
       return templates.code.write + templateDrawingElementGeneration;
   }

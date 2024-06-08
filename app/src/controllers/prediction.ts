@@ -33,10 +33,7 @@ export async function generateVisualPrediction({
       preprocessingResponse,
     });
 
-    const cleanedPreprocessingResponse = cleanCodeBlock(
-      preprocessingResponse,
-      'json',
-    );
+    const cleanedPreprocessingResponse = cleanCodeBlock(preprocessingResponse);
 
     logger.debug({
       msg: 'Cleaned preprocessing response',
@@ -70,7 +67,7 @@ export async function generateVisualPrediction({
             system: chooseSystemPrompt(step.agent),
             context: step.context,
           });
-          const cleanedResult = cleanCodeBlock(result, 'python');
+          const cleanedResult = cleanCodeBlock(result);
           return executePythonCode(cleanedResult);
         },
       ),
