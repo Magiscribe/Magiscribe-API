@@ -1,37 +1,35 @@
 const templateScroll = `
-The code shall define a function called generate_appStateDict() that creates a variable called appStateDict sets it equal to a JSON and returns it.
-The code should also call the function with the provided parameters and set the returned value equal to appStateDict. This will be the only variable because the written function can only be called once. Do NOT print(appStateDict), do NOT JSON.dumps(appStateDict), the very last line of code should always be: appStateDict = generate_appStateDict(currentScrollX, currentScrollY, canvasWidth, canvasHeight, scrollFractionX, scrollFractionY).
-The JSON should only contain the necessary properties to modify the scroll position
 The appStateDict should have the following structure:
 {
   "scrollX": <new_scroll_x_value>,
   "scrollY": <new_scroll_y_value>
 }
 
-To calculate the new scroll positions, you will receive the following information as part of the context:
-- currentScrollX: The current scroll position on the x-axis.
-- currentScrollY: The current scroll position on the y-axis.
-- width: The width of the canvas.
-- height: The height of the canvas.
-- scrollFractionX: The fraction of the canvas width to scroll horizontally (between -1 and 1).
-- scrollFractionY: The fraction of the canvas height to scroll vertically (between 1-1and 1).
-
+You will need to define scrollFractionX and scrollFractionY yourself based on the sentiment of the user request.
 For scrollFractionX:
-- A value of -1 means scrolling all the way to the right edge of the canvas.
-- A value of 0 means no horizontal scrolling.
-- A value of 1 means scrolling all the way to the left edge of the canvas.
+  - "Scroll all the way over to the right" is -0.8
+  - "Scroll to the right" is -0.5
+  - "A little bit to the right" is -0.2
+  - 0 represents no reference to horizontal scrolling
+  - Flip the values for the left direction similarly:
+    - "Scroll all the way over to the left" is 0.8
+    - "Scroll to the left" is 0.5
+    - "A little bit to the left" is 0.2
 
 For scrollFractionY:
-- A value of -1 means scrolling all the way up to the top edge of the canvas.
-- A value of 0 means no vertical scrolling.
-- A value of 1 means scrolling all the way down to the bottom edge of the canvas.
-
-You will get to choose the scrollFractions depending on the request, scroll a little bit to the left should be less than scroll to the left should be less than scroll all the way to the left
+  - "Scroll all the way down" is -1
+  - "Scroll down" is -0.5
+  - "A little bit down" is -0.2
+  - 0 represents no reference to vertical scrolling
+  - Flip the values for the up direction similarly:
+    - "Scroll all the way up" is 1
+    - "Scroll up" is 0.5
+    - "A little bit up" is 0.2
 
 def generate_appStateDict(currentScrollX, currentScrollY, width, height, scrollFractionX, scrollFractionY):
     # Calculate the new scroll positions
-    new_scrollX = currentScrollX + scrollFractionX * canvasWidth
-    new_scrollY = currentScrollY + scrollFractionY * canvasHeight
+    new_scrollX = currentScrollX + scrollFractionX * width
+    new_scrollY = currentScrollY + scrollFractionY * height
     
     # Create the appStateDict JSON
     appStateDict = {

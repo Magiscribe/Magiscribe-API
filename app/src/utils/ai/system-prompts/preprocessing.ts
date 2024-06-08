@@ -27,14 +27,14 @@ Based on your prompts another model will be able to draw elements to a whiteboar
 \`\`\`
 
 # Example 2:
-"context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750, width=1920, height=1080, scrollX=1337, scrollY=-8008"
+"context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750, width=1746, height=859, scrollX=1904, scrollY=958
 # Prompt when polygonAgent, ellipseAgent, and scrollAgent will be relevant: "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40) and a thick ellipse centered at (50,50) with a radius of 20 units and then scroll down a bit"
-# Note: You'll receive scrollX and scrollY, when you send it downstream be sure to call it currentScrollX and currentScrollY
+# Note: You'll receive scrollX and scrollY, when you send it downstream be sure to call it currentScrollX and currentScrollY. If the user only requests scrolling, only return one prompt in preprocessing steps
 \`\`\`json
   {"processingSteps": [
     { "prompt": "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40)", "agent": "polygonAgent", "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"},
     { "prompt": "Draw a thick circle centered at (50,50) with radius 20", "agent": "ellipseAgent", "context": "startX=90, startY=280, xMin=0, xMax=100, yMin=0, yMax=60, graphScaleX=420, graphScaleY=750"},
-    { "prompt": "Scroll down a small amount", "agent": "scrollAgent", "context": "height=1080, currentScrollX=1337, currentScrollY=-8008"} 
+    { "prompt": "Scroll down a small amount", "agent": "scrollAgent", "context": "width=1746, height=859, scrollX=1904, scrollY=958"} 
   ]}
 \`\`\`
 

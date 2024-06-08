@@ -1,47 +1,135 @@
 const templateAppState = `
 The code shall define a function called generate_appStateDict() that creates a variable called appStateDict sets it equal to a JSON and returns it.
-The code should also call the function with the provided parameters and set the returned value equal to appStateDict. This will be the only variable because the written function can only be called once. Do NOT print(appStateDict), do NOT JSON.dumps(appStateDict), the very last line of code should always be: appStateDict = generate_appStateDict(currentScrollX, currentScrollY, canvasWidth, canvasHeight, scrollFractionX, scrollFractionY).
-The JSON should only contain the necessary properties to modify the scroll position
-The appStateDict should have the following structure:
-{
-  "scrollX": <new_scroll_x_value>,
-  "scrollY": <new_scroll_y_value>
+The code should also call the function with the provided parameters and set the returned value equal to appStateDict. 
+This will be the only variable because the written function can only be called once. 
+Do NOT print(appStateDict), do NOT JSON.dumps(appStateDict), the very last line of code should always be: 
+  appStateDict = generate_appStateDict() #Possibly with parameters
+The appStateDict JSON that gets returned should only contain the necessary properties to satisfy the user request
+
+The Type Definition of appState is: 
+export interface AppState {
+  contextMenu: {
+    items: ContextMenuItems;
+    top: number;
+    left: number;
+  } | null;
+  showWelcomeScreen: boolean;
+  isLoading: boolean;
+  errorMessage: React.ReactNode;
+  activeEmbeddable: {
+    element: NonDeletedExcalidrawElement;
+    state: "hover" | "active";
+  } | null;
+  draggingElement: NonDeletedExcalidrawElement | null;
+  resizingElement: NonDeletedExcalidrawElement | null;
+  multiElement: NonDeleted<ExcalidrawLinearElement> | null;
+  selectionElement: NonDeletedExcalidrawElement | null;
+  isBindingEnabled: boolean;
+  startBoundElement: NonDeleted<ExcalidrawBindableElement> | null;
+  suggestedBindings: SuggestedBinding[];
+  frameToHighlight: NonDeleted<ExcalidrawFrameLikeElement> | null;
+  frameRendering: {
+    enabled: boolean;
+    name: boolean;
+    outline: boolean;
+    clip: boolean;
+  };
+  editingFrame: string | null;
+  elementsToHighlight: NonDeleted<ExcalidrawElement>[] | null;
+  editingElement: NonDeletedExcalidrawElement | null;
+  editingLinearElement: LinearElementEditor | null;
+  activeTool: {
+    lastActiveTool: ActiveTool | null;
+    locked: boolean;
+  } & ActiveTool;
+  penMode: boolean;
+  penDetected: boolean;
+  exportBackground: boolean;
+  exportEmbedScene: boolean;
+  exportWithDarkMode: boolean;
+  exportScale: number;
+  currentItemStrokeColor: string;
+  currentItemBackgroundColor: string;
+  currentItemFillStyle: ExcalidrawElement["fillStyle"];
+  currentItemStrokeWidth: number;
+  currentItemStrokeStyle: ExcalidrawElement["strokeStyle"];
+  currentItemRoughness: number;
+  currentItemOpacity: number;
+  currentItemFontFamily: FontFamilyValues;
+  currentItemFontSize: number;
+  currentItemTextAlign: TextAlign;
+  currentItemStartArrowhead: Arrowhead | null;
+  currentItemEndArrowhead: Arrowhead | null;
+  currentItemRoundness: StrokeRoundness;
+  viewBackgroundColor: string;
+  scrollX: number;
+  scrollY: number;
+  cursorButton: "up" | "down";
+  scrolledOutside: boolean;
+  name: string | null;
+  isResizing: boolean;
+  isRotating: boolean;
+  zoom: Zoom;
+  openMenu: "canvas" | "shape" | null;
+  openPopup: "canvasBackground" | "elementBackground" | "elementStroke" | null;
+  openSidebar: { name: SidebarName; tab?: SidebarTabName } | null;
+  openDialog:
+    | null
+    | { name: "imageExport" | "help" | "jsonExport" }
+    | {
+        name: "settings";
+        source:
+          | "tool" 
+          | "generation" 
+          | "settings"; 
+        tab: "text-to-diagram" | "diagram-to-code";
+      }
+    | { name: "ttd"; tab: "text-to-diagram" | "mermaid" }
+    | { name: "commandPalette" };
+  defaultSidebarDockedPreference: boolean;
+  lastPointerDownWith: PointerType;
+  selectedElementIds: Readonly<{ [id: string]: true }>;
+  previousSelectedElementIds: { [id: string]: true };
+  selectedElementsAreBeingDragged: boolean;
+  shouldCacheIgnoreZoom: boolean;
+  toast: { message: string; closable?: boolean; duration?: number } | null;
+  zenModeEnabled: boolean;
+  theme: Theme;
+  gridSize: number | null;
+  viewModeEnabled: boolean;
+  selectedGroupIds: { [groupId: string]: boolean };
+  editingGroupId: GroupId | null;
+  width: number;
+  height: number;
+  offsetTop: number;
+  offsetLeft: number;
+  fileHandle: FileSystemHandle | null;
+  collaborators: Map<SocketId, Collaborator>;
+  showStats: boolean;
+  currentChartType: ChartType;
+  pasteDialog:
+    | {
+        shown: false;
+        data: null;
+      }
+    | {
+        shown: true;
+        data: Spreadsheet;
+      };
+  pendingImageElementId: ExcalidrawImageElement["id"] | null;
+  showHyperlinkPopup: false | "info" | "editor";
+  selectedLinearElement: LinearElementEditor | null;
+  snapLines: readonly SnapLine[];
+  originSnapOffset: {
+    x: number;
+    y: number;
+  } | null;
+  objectsSnapModeEnabled: boolean;
+  userToFollow: UserToFollow | null;
+  followedBy: Set<SocketId>;
 }
 
-To calculate the new scroll positions, you will receive the following information as part of the context:
-- currentScrollX: The current scroll position on the x-axis.
-- currentScrollY: The current scroll position on the y-axis.
-- width: The width of the canvas.
-- height: The height of the canvas.
-- scrollFractionX: The fraction of the canvas width to scroll horizontally (between -1 and 1).
-- scrollFractionY: The fraction of the canvas height to scroll vertically (between 1-1and 1).
-
-For scrollFractionX:
-- A value of -1 means scrolling all the way to the right edge of the canvas.
-- A value of 0 means no horizontal scrolling.
-- A value of 1 means scrolling all the way to the left edge of the canvas.
-
-For scrollFractionY:
-- A value of -1 means scrolling all the way up to the top edge of the canvas.
-- A value of 0 means no vertical scrolling.
-- A value of 1 means scrolling all the way down to the bottom edge of the canvas.
-
-You will get to choose the scrollFractions depending on the request, scroll a little bit to the left should be less than scroll to the left should be less than scroll all the way to the left
-
-def generate_appStateDict(currentScrollX, currentScrollY, width, height, scrollFractionX, scrollFractionY):
-    # Calculate the new scroll positions
-    new_scrollX = currentScrollX + scrollFractionX * canvasWidth
-    new_scrollY = currentScrollY + scrollFractionY * canvasHeight
-    
-    # Create the appStateDict JSON
-    appStateDict = {
-        "scrollX": new_scrollX,
-        "scrollY": new_scrollY
-    }
-    return appStateDict
-
-# Call the function
-appStateDict = generate_appStateDict(current_scroll_x, current_scroll_y, canvas_width, canvas_height, scrollFractionX, scrollFractionY)
 `;
+
 
 export default templateAppState;
