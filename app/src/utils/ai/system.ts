@@ -1,5 +1,4 @@
 import templates from './system-prompts';
-import templateDrawingElementGeneration from './system-prompts/drawing';
 
 export enum Agents {
   ArrowAgent = 'arrowAgent',
@@ -20,7 +19,7 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
     case Agents.ArrowAgent:
       return (
         templates.code.write +
-        templateDrawingElementGeneration +
+        templates.drawing +
         templates.arrow
       );
     case Agents.CodeFixAgent:
@@ -28,29 +27,29 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
     case Agents.EllipseAgent:
       return (
         templates.code.write +
-        templateDrawingElementGeneration +
+        templates.drawing +
         templates.ellipse
       );
     case Agents.FunctionAgent:
       return (
         templates.code.write +
-        templateDrawingElementGeneration +
+        templates.drawing +
         templates.functionTemplate
       );
     case Agents.LineAgent:
       return (
-        templates.code.write + templateDrawingElementGeneration + templates.line
+        templates.code.write + templates.drawing + templates.line
       );
     case Agents.PointAgent:
       return (
         templates.code.write +
-        templateDrawingElementGeneration +
+        templates.drawing +
         templates.point
       );
     case Agents.PolygonAgent:
       return (
         templates.code.write +
-        templateDrawingElementGeneration +
+        templates.drawing +
         templates.polygon
       );
     case Agents.PreprocessingAgent:
@@ -58,13 +57,14 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
     case Agents.ScrollAgent:
       return (
         templates.code.write +
+        templates.appState +
         templates.scroll
       );
     case Agents.TextAgent:
       return (
-        templates.code.write + templateDrawingElementGeneration + templates.text
+        templates.code.write + templates.drawing + templates.text
       );
     default:
-      return templates.code.write + templateDrawingElementGeneration;
+      return templates.code.write + templates.drawing;
   }
 }

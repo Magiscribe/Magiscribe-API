@@ -1,3 +1,4 @@
+import appState from './appState';
 import {
   templatePythonCode as write,
   templatePythonCodeFix as fix,
@@ -14,6 +15,7 @@ import arrow from './arrow';
 import scroll from './scroll'
 
 const output = {
+  appState,
   code: {
     write,
     fix,
