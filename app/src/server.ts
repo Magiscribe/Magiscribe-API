@@ -4,17 +4,15 @@ import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/dis
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import { clerkClient, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
 import config from '@config';
-import { makeExecutableSchema } from '@graphql-tools/schema';
+import database from '@database';
+import { schema } from '@graphql';
 import log from '@log';
-import resolvers from '@resolvers';
 import cors from 'cors';
 import express from 'express';
-import { GraphQLError } from 'graphql';
 import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import typeDefs from './schema';
 
 /**
  * Starts the GraphQL server.
@@ -38,15 +36,16 @@ export default async function startServer() {
     const connectionParams = ctx.connectionParams;
     const token = connectionParams.authorization as string;
 
-    log.debug(
-      'Starship docked at the station (Client websocket connection established)',
-    );
+    log.debug('Inbound transmission detected (Client HTTP request received)');
 
     if (config.auth.sandboxBypass && token === 'Sandbox') {
       log.warn(
-        'Station security detail is asleep (Sandbox mode enabled, skipping authorization check for WebSocket connection)',
+        'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
       );
-      return {};
+      return {
+        roles: [{ role: 'org:admin' }],
+        auth: { sub: 'Sandbox' },
+      };
     }
 
     if (!token) {
@@ -56,17 +55,23 @@ export default async function startServer() {
       throw new Error('Missing authorization token in WebSocket connection');
     }
 
-    const user = await clerkClient.verifyToken(token);
+    try {
+      const auth = await clerkClient.verifyToken(token);
+      log.debug('Starship authorized (WebSocket connection authorized)');
 
-    log.debug(
-      'Starship granted entry into the station (Client websocket connection authorized)',
-    );
-    return { user };
+      return {
+        auth,
+      };
+    } catch (error) {
+      log.warn(
+        'Starship denied entry (Invalid authorization token in WebSocket connection)',
+      );
+      throw new Error('Invalid authorization token in WebSocket connection');
+    }
   };
 
   // HTTP authorization check.
   const context = async ({ req }: { req: express.Request }) => {
-    const auth = req.auth;
     const token = req.headers.authorization;
 
     log.debug('Inbound transmission detected (Client HTTP request received)');
@@ -75,27 +80,42 @@ export default async function startServer() {
       log.warn(
         'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
       );
-      return {};
+      return {
+        roles: [{ role: 'org:admin' }],
+        auth: { sub: 'Sandbox' },
+      };
     }
 
-    if (!auth?.userId) {
+    if (!token) {
       log.warn(
-        'Transmission blocked (Missing authorization token in HTTP request)',
+        'Transmission denied (Missing authorization token in HTTP connection)',
       );
-      throw new GraphQLError('Missing authorization token in HTTP request');
+      throw new Error('Missing authorization token in WebSocket connection');
     }
 
-    log.debug('Transmission authorized (Client HTTP request authorized)');
-    return {
-      auth: auth.auth,
-    };
+    try {
+      const auth = await clerkClient.verifyToken(token);
+      const roles = (
+        await clerkClient.users.getOrganizationMembershipList({
+          userId: auth.sub,
+        })
+      ).data;
+      log.debug('Transmission authorized (Client HTTP request authorized)');
+
+      return {
+        auth,
+        roles,
+      };
+    } catch (error) {
+      log.warn(error);
+      log.warn(
+        'Transmission denied (Invalid authorization token in HTTP connection)',
+      );
+      throw new Error('Invalid authorization token in HTTP connection');
+    }
   };
 
   /*================================ SCHEMA ==============================*/
-
-  // Create schema, which will be used separately by ApolloServer and
-  // the WebSocket server.
-  const schema = makeExecutableSchema({ typeDefs, resolvers });
 
   // Http server for queries and mutations.
   const app = express();
@@ -171,6 +191,10 @@ export default async function startServer() {
     },
   };
 
+  /*=============================== DATABASE ==============================*/
+
+  await database.init();
+
   /*=============================== SERVER ==============================*/
 
   log.debug('Starting the engines (setting up ApolloServer)...');
@@ -204,11 +228,11 @@ export default async function startServer() {
   app.use(
     '/graphql',
     cors<cors.CorsRequest>({ origin: config.networking.corsOrigins }),
-    ClerkExpressWithAuth(),
     express.json(),
     expressMiddleware(server, {
       context,
     }),
+    ClerkExpressWithAuth(),
   );
 
   // So that we can check if the server is running.

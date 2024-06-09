@@ -7,15 +7,6 @@ const models = {
   opus: 'anthropic.claude-3-opus-20240229-v1:0', //Currently not available for use in our region
 };
 
-const modelProps = {
-  region: 'us-east-1',
-  model: models.haiku,
-  maxTokens: 4096,
-  temperature: 0,
-};
-
-const model = new BedrockChat(modelProps);
-
 /**
  * Sends a synchronous request to the Bedrock model and returns the response.
  *
@@ -28,15 +19,24 @@ const model = new BedrockChat(modelProps);
 export async function makeSyncRequest({
   system,
   prompt,
+  model,
   context = '',
 }: {
   system: string;
   prompt: string;
+  model?: string;
   context?: string;
 }): Promise<string> {
-  log.debug({ msg: 'Bedrock request sent', system, prompt, context });
-  const completion = await model.invoke(`${system}\n${prompt}\n${context}`);
-  log.debug({ msg: 'Bedrock response received', content: completion.content });
+  const chat = new BedrockChat({
+    region: 'us-east-1',
+    model: model ?? models.haiku,
+    maxTokens: 4096,
+    temperature: 0,
+  });
+
+  log.debug({ msg: 'Sending AI request...', system, prompt, context });
+  const completion = await chat.invoke(`${system}\n${prompt}\n${context}`);
+  log.debug({ msg: 'AI response recieved', content: completion.content });
   return completion.content as string;
 }
 
@@ -49,16 +49,23 @@ export async function makeSyncRequest({
  * @returns {Promise<string>} The full response from the model.
  */
 export async function makeStreamingRequest(
-  { prompt }: { prompt: string },
+  { prompt, model }: { prompt: string; model?: string },
   callback: (content: string) => Promise<void>,
 ): Promise<string> {
-  log.debug({ msg: 'Bedrock request sent', prompt });
-  const stream = await model.stream(prompt);
+  const chat = new BedrockChat({
+    region: 'us-east-1',
+    model: model ?? models.haiku,
+    maxTokens: 4096,
+    temperature: 0,
+  });
+
+  log.debug({ msg: 'Sending AI request...', prompt });
+  const stream = await chat.stream(prompt);
   let buffer = '';
   for await (const chunk of stream) {
     buffer += chunk.content;
     await callback(buffer);
-    log.debug({ msg: 'Bedrock response received', content: buffer });
+    log.debug({ msg: 'AI response recieved', content: buffer });
   }
   return buffer;
 }

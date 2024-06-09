@@ -21,7 +21,7 @@ export default class DataStack extends TerraformStack {
 
     new mongodb.provider.MongodbatlasProvider(this, 'mongodb', {
       publicKey: config.db.publicKey,
-      privateKey: config.db.privateKey
+      privateKey: config.db.privateKey,
     });
 
     /*  Aspects.of(this).add(
@@ -51,12 +51,16 @@ export default class DataStack extends TerraformStack {
       name: 'graphql-api',
     });
 
-    this.instance = new mongodb.serverlessInstance.ServerlessInstance(this, 'MongoDBInstance', {
-      name: 'mongodb-instance',
-      projectId: config.db.projectId,
-      providerSettingsBackingProviderName: 'AWS',
-      providerSettingsProviderName: 'SERVERLESS',
-      providerSettingsRegionName: 'US_EAST_1'
-    })
+    this.instance = new mongodb.serverlessInstance.ServerlessInstance(
+      this,
+      'MongoDBInstance',
+      {
+        name: 'mongodb-instance',
+        projectId: config.db.projectId,
+        providerSettingsBackingProviderName: 'AWS',
+        providerSettingsProviderName: 'SERVERLESS',
+        providerSettingsRegionName: 'US_EAST_1',
+      },
+    );
   }
 }

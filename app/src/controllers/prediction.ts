@@ -1,7 +1,7 @@
+import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
-import { SubscriptionEvent } from '@resolvers/subscription';
 import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
-import { Agents, chooseSystemPrompt } from '@utils/ai/system';
+import { getAgentPrompt } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
@@ -21,9 +21,20 @@ export async function generateVisualPrediction({
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
     // Preprocess the prompt
-    const promptTemplate = chooseSystemPrompt(Agents.PreprocessingAgent);
+    // TODO: Refactor this to use a more generic preprocessing system
+    const preprocessingAgent = 'preprocessingAgent';
+    const { prompt: systemPrompt, model } =
+      await getAgentPrompt(preprocessingAgent);
+
+    if (!systemPrompt) {
+      throw new Error(
+        `No system prompt found for agent: ${preprocessingAgent}`,
+      );
+    }
+
     const preprocessingResponse = await makeSyncRequest({
-      system: promptTemplate,
+      system: systemPrompt,
+      model,
       prompt,
       context,
     });
@@ -33,10 +44,7 @@ export async function generateVisualPrediction({
       preprocessingResponse,
     });
 
-    const cleanedPreprocessingResponse = cleanCodeBlock(
-      preprocessingResponse,
-      'json',
-    );
+    const cleanedPreprocessingResponse = cleanCodeBlock(preprocessingResponse);
 
     logger.debug({
       msg: 'Cleaned preprocessing response',
@@ -64,13 +72,22 @@ export async function generateVisualPrediction({
     // Execute the processed steps and generate the results
     const results = await Promise.all(
       processingSteps.map(
-        async (step: { prompt: string; agent: Agents; context: string }) => {
+        async (step: { prompt: string; agent: string; context: string }) => {
+          const { prompt: systemPrompt, model } = await getAgentPrompt(
+            step.agent,
+          );
+
+          if (!systemPrompt) {
+            throw new Error(`No system prompt found for agent: ${step.agent}`);
+          }
+
           const result = await makeSyncRequest({
             prompt: step.prompt,
-            system: chooseSystemPrompt(step.agent),
+            system: systemPrompt,
+            model,
             context: step.context,
           });
-          const cleanedResult = cleanCodeBlock(result, 'python');
+          const cleanedResult = cleanCodeBlock(result);
           return executePythonCode(cleanedResult);
         },
       ),

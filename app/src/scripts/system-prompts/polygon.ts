@@ -18,9 +18,10 @@ def generate_coordinateDict(startX, startY, xMin, xMax, yMin, yMax, graphScaleX,
     
     relative_coordinates.append([0, 0])  # End with [0, 0]
     
+    # If you are reading this comment, the type MUST BE "line"
     coordinateDict = {
-        "elementProperties": {"type": "line"}, #Type is always line, this might seem counterintuitive, but we are connecting lines to draw a shape which is why we want line, color/width/opacity attributes can be added here as well if necessary
-        "startCoordinates": [startX + base_x, startY + base_y], #Always do startX + base_x, startY + base_y
+        "elementProperties": {"type": "line"}, #color/width/opacity attributes can be added here as well if necessary
+        "startCoordinates": [base_x, base_y], 
         "relativeCoordinates": relative_coordinates,
         "textResponse": f"Polygon with vertices {pointsList}"
     }

@@ -1,64 +1,9 @@
-import templates from './system-prompts';
-import templateDrawingElementGeneration from './system-prompts/drawing';
+import { Agent } from '@database/models/agent';
 
-export enum Agents {
-  ArrowAgent = 'arrowAgent',
-  EllipseAgent = 'ellipseAgent',
-  PolygonAgent = 'polygonAgent',
-  PreprocessingAgent = 'preprocessingAgent',
-  FunctionAgent = 'functionAgent',
-  LineAgent = 'lineAgent',
-  PointAgent = 'pointAgent',
-  TextAgent = 'textAgent',
-  LatexAgent = 'latexAgent',
-  CodeFixAgent = 'codeFixAgent',
-}
-
-export function chooseSystemPrompt(systemMessageChoice: Agents) {
-  switch (systemMessageChoice) {
-    case Agents.ArrowAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.arrow
-      );
-    case Agents.PolygonAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.polygon
-      );
-    case Agents.EllipseAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.ellipse
-      );
-    case Agents.PreprocessingAgent:
-      return templates.preprocessing;
-    case Agents.FunctionAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.functionTemplate
-      );
-    case Agents.LineAgent:
-      return (
-        templates.code.write + templateDrawingElementGeneration + templates.line
-      );
-    case Agents.PointAgent:
-      return (
-        templates.code.write +
-        templateDrawingElementGeneration +
-        templates.point
-      );
-    case Agents.TextAgent:
-      return (
-        templates.code.write + templateDrawingElementGeneration + templates.text
-      );
-    case Agents.CodeFixAgent:
-      return templates.code.write + templates.code.fix;
-    default:
-      return templates.code.write + templateDrawingElementGeneration;
-  }
+export async function getAgentPrompt(agent: string) {
+  const result = await Agent.findOne({ name: agent }).populate('capabilities');
+  return {
+    prompt: result?.capabilities.map((c) => c.prompt).join('\n'),
+    model: result?.aiModel,
+  };
 }
