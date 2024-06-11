@@ -10,7 +10,9 @@ export enum Agents {
   PointAgent = 'pointAgent',
   PolygonAgent = 'polygonAgent',
   PreprocessingAgent = 'preprocessingAgent',
+  AppStateAgent = 'appStateAgent',
   ScrollAgent = 'scrollAgent',
+  ZoomAgent = 'zoomAgent',
   TextAgent = 'textAgent',
 }
 
@@ -38,7 +40,9 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
       );
     case Agents.LineAgent:
       return (
-        templates.code.write + templates.drawing + templates.line
+        templates.code.write + 
+        templates.drawing + 
+        templates.line
       );
     case Agents.PointAgent:
       return (
@@ -57,9 +61,15 @@ export function chooseSystemPrompt(systemMessageChoice: Agents) {
     case Agents.ScrollAgent:
       return (
         templates.code.write +
-        templates.appState +
+        templates.appState + 
         templates.scroll
       );
+      case Agents.ZoomAgent:
+        return (
+          templates.code.write +
+          templates.appState + 
+          templates.zoom 
+        );
     case Agents.TextAgent:
       return (
         templates.code.write + templates.drawing + templates.text

@@ -12,7 +12,8 @@ import preprocessing from './preprocessing';
 import ellipse from './ellipse';
 import polygon from './polygon';
 import arrow from './arrow';
-import scroll from './scroll'
+import scroll from './scroll';
+import zoom from './zoom';
 
 const output = {
   appState,
@@ -29,7 +30,8 @@ const output = {
   polygon,
   ellipse,
   arrow,
-  scroll
+  scroll,
+  zoom
 };
 
 export default output;

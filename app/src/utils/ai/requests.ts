@@ -9,7 +9,7 @@ const models = {
 
 const modelProps = {
   region: 'us-east-1',
-  model: models.sonnet,
+  model: models.haiku,
   maxTokens: 4096,
   temperature: 0,
 };
