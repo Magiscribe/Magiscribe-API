@@ -1,6 +1,7 @@
+import appState from './appState';
 import {
-  templatePythonCode as write,
-  templatePythonCodeFix as fix,
+  templatePythonCode as writePython,
+  templatePythonCodeFix as fixPython,
 } from './code';
 import drawing from './drawing';
 import functionTemplate from './function'; //Because function itself is a keyword
@@ -11,12 +12,13 @@ import preprocessing from './preprocessing';
 import ellipse from './ellipse';
 import polygon from './polygon';
 import arrow from './arrow';
+import scroll from './scroll';
+import zoom from './zoom';
 
 const output = {
-  code: {
-    write,
-    fix,
-  },
+  appState,
+  writePython,
+  fixPython,
   drawing,
   functionTemplate,
   line,
@@ -26,6 +28,8 @@ const output = {
   polygon,
   ellipse,
   arrow,
+  scroll,
+  zoom,
 };
 
 export default output;

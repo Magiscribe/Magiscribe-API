@@ -16,7 +16,5 @@
     }
   ],
   "context": {},
-  "watchPattern": [
-    "./**/*.ts"
-  ]
+  "watchPattern": ["./**/*.ts"]
 }

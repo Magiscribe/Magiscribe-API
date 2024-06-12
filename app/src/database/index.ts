@@ -2,42 +2,34 @@ import mongoose from 'mongoose';
 import config from '@config';
 import log from '@log';
 
-let database: mongoose.Connection;
+let connection: mongoose.Connection;
 
-const connect = () => {
+const init = async () => {
   // add your own uri below
   const uri = config.mongodb.url;
 
-  if (database) {
+  if (connection) {
     return;
   }
 
+  log.debug(
+    `Establishing neural link to hive mind (Connecting to MongoDB at ${uri})`,
+  );
   mongoose.connect(uri, {
     authSource: 'admin', // The admin table is the default table for authentication.
     user: config.mongodb.username,
     pass: config.mongodb.password,
   });
 
-  database = mongoose.connection;
-};
-
-const disconnect = () => {
-  if (!database) {
-    return;
-  }
-  mongoose.disconnect();
-};
-
-const init = async () => {
-  connect();
+  connection = mongoose.connection;
 
   return new Promise((resolve, reject) => {
-    database.on('open', () => {
+    connection.on('open', () => {
       log.info(`Connected to MongoDB at ${config.mongodb.url}`);
       resolve(undefined);
     });
 
-    database.on('error', (error) => {
+    connection.on('error', (error) => {
       log.error(
         `Error connecting to MongoDB at ${config.mongodb.url}: ${error.message}`,
       );
@@ -46,16 +38,18 @@ const init = async () => {
   });
 };
 
-const connection = () => {
-  if (!database) {
-    connect();
-  }
-  return database;
-};
+// Creates a database object that automatically connects to the database using closure
+export const database = (() => {
+  return {
+    init,
 
-export default {
-  connect,
-  disconnect,
-  init,
-  connection,
-};
+    get connection() {
+      if (!connection) {
+        init();
+      }
+      return connection;
+    },
+  };
+})();
+
+export default database;

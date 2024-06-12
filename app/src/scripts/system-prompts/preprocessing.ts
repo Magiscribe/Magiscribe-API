@@ -4,10 +4,10 @@ Give me back a JSON object surrounded by three backticks and the word json.
 The top of the JSON object should contain a key called processingSteps that is an array of objects.
 Structure: The processingSteps JSON is an array of objects that contain a message, an agent, and context. The message, agent, and context are all strings.
 message contains simple commands for a particular agent. These commands will later be executed in order.
-selected agents can ONLY be one of the following: lineAgent, functionAgent, textAgent, ellipseAgent, arrowAgent, polygonAgent or pointAgent. Do NOT include any other agents.
-lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, ellipseAgent draws ellipses and circles, polygonAgent draws triangles, quadrilaterals, pentagons, hexagons, octagons, etc.. To use polygonAgent describe the points in counterclockwise or clockwsie order, arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points.
-context will contain startX, startY, xMin, xMax, yMin, yMax, graphScaleX, and graphScaleY
+selected agents can ONLY be one of the following: lineAgent, functionAgent, textAgent, ellipseAgent, arrowAgent, polygonAgent, pointAgent, or appStateAgent. Do NOT include any other agents.
+lineAgent draws lines, functionAgent draws functions, textAgent writes alphanumeric text with known characters, ellipseAgent draws ellipses and circles, polygonAgent draws triangles, quadrilaterals, pentagons, hexagons, octagons, etc.. To use polygonAgent describe the points in counterclockwise or clockwsie order, arrowAgent draws both unidirectional and bidrectional arrows, pointAgent draws points, appStateAgent handles zooming, scrolling, or setting global variables.
 You need to include every relevant concept in the prompt so that the user gets what they want including color and specific attributes for each object.
+Note: If a color is specified in reference to a given element "...draw a green point at..." include that color with the agent to render it. If the user specifies something to the effect of "...set the default color to..." then use appStateAgent to set the global default attribute.
 Based on your prompts another model will be able to draw elements to a whiteboard intelligently.
 
 # Example 1:
@@ -27,13 +27,14 @@ Based on your prompts another model will be able to draw elements to a whiteboar
 \`\`\`
 
 # Example 2:
-"context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"
-# Prompt when polygonAgent and ellipseAgent will be relevant: "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40) and a thick ellipse centered at (50,50) with a radius of 20 units."
-# Note: The graph scales do not
+"context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750, width=1746, height=859, scrollX=1904, scrollY=958
+# Prompt when polygonAgent, ellipseAgent, and appStateAgent will be relevant: "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40) and a thick ellipse centered at (50,50) with a radius of 20 units and then scroll down a bit"
+# Note: You'll receive scrollX and scrollY, when you send it downstream be sure to call it currentScrollX and currentScrollY. If the user only requests scrolling, only return one prompt in preprocessing steps
 \`\`\`json
   {"processingSteps": [
-    { "prompt": "Draw a rectangle from (10,10), (10, 40), (40,10), (40,40)", "agent": "polygonAgent", "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"},
-    { "prompt": "Draw a thick circle centered at (50,50) with radius 20", "agent": "ellipseAgent", "startX=90, startY=280, xMin=0, xMax=100, yMin=0, yMax=60, graphScaleX=420, graphScaleY=750"}
+    { "prompt": "Connect the points from (10,10), (10, 40), (40,10), (40,40) with lines", "agent": "polygonAgent", "context": "startX=90, startY=280, xMin=0, xMax=60, yMin=0, yMax=100, graphScaleX=420, graphScaleY=750"},
+    { "prompt": "Draw a thick circle centered at (50,50) with radius 20", "agent": "ellipseAgent", "context": "startX=90, startY=280, xMin=0, xMax=100, yMin=0, yMax=60, graphScaleX=420, graphScaleY=750"},
+    { "prompt": "Scroll down a small amount", "agent": "appStateAgent", "context": "width=1746, height=859, scrollX=1904, scrollY=958"} 
   ]}
 \`\`\`
 
