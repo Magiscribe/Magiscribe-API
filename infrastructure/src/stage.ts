@@ -27,7 +27,7 @@ export default class Stage {
       zone: network.dnsZone,
     });
 
-    new FrontendStack(scope, 'client-landing', {
+    new FrontendStack(scope, 'client-dashboard', {
       domainName: `${config.dns.apexDomainName}`,
       zone: network.dnsZone,
     });

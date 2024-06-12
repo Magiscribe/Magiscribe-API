@@ -88,6 +88,13 @@ export default class FrontendStack extends TerraformStack {
           },
         ],
 
+        // Redirect to index.html on 403 for React routing.
+        customErrorResponse: [{
+          errorCode: 403,
+          responseCode: 200,
+          responsePagePath: '/index.html',
+        }],
+
         aliases: [domainName],
 
         viewerCertificate: {
