@@ -146,6 +146,11 @@ const config: Record<Environment, Config> = {
           records: ['mail.ykui03l9x0ov.clerk.services'],
           type: 'CNAME',
         },
+        {
+          name: 'accounts',
+          records: ['accounts.clerk.services'],
+          type: 'CNAME',
+        }
       ],
     },
 
