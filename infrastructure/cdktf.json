@@ -12,7 +12,11 @@
     {
       "name": "vpc",
       "source": "terraform-aws-modules/vpc/aws",
-      "version": "~> 5.8.0"
+      "version": "~> 5.8.1"
+    },
+    {
+      "name": "FckNat",
+      "source": "github.com/RaJiska/terraform-aws-fck-nat.git"
     }
   ],
   "context": {},

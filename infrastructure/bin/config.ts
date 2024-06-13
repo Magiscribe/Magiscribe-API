@@ -150,7 +150,19 @@ const config: Record<Environment, Config> = {
           name: 'accounts',
           records: ['accounts.clerk.services'],
           type: 'CNAME',
-        }
+        },
+
+        // dev.magiscribe.com
+        {
+          name: 'dev',
+          records: [
+            'ns-187.awsdns-23.com.',
+            'ns-919.awsdns-50.net.',
+            'ns-1664.awsdns-16.co.uk.',
+            'ns-1113.awsdns-11.org.',
+          ],
+          type: 'NS',
+        },
       ],
     },
 

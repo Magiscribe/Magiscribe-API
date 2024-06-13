@@ -54,10 +54,16 @@ corepack enable pnpm
 3. Download the repository
 
 ```bash
-git clone git@github.com:AI-Whiteboard/PoC-Apollo-GraphQL-API.git
+git clone git@github.com:Magiscribe/Apollo-GraphQL-API.git
 ```
 
-4. Run the install script. This will install the dependencies for the API and Infrastructure projects.
+4. Change directory to the project root
+
+```bash
+cd Apollo-GraphQL-API
+```
+
+5. Run the install script. This will install the dependencies for the API and Infrastructure projects.
 
 ```bash
 pnpm i
@@ -131,10 +137,16 @@ The bootstrap setup is a one-time setup that will create the necessary resources
 cd bootstrap
 ```
 
-2. Deploy the bootstrap stack
+2. Specify the environment you want to deploy to. This can be done by setting the `NODE_ENV` environment variable. The default value is `development`.
 
 ```bash
-pnpm deploy
+export NODE_ENV=production
+```
+
+3. Deploy the bootstrap stack
+
+```bash
+cdktf deploy
 ```
 
 #### Infrastructure Deployment
@@ -145,20 +157,32 @@ pnpm deploy
 cd infrastructure
 ```
 
-1. Deploy the networking layer. Note, the first time you run this, it will create a new Hosted Zone in Route 53. You will need to point your domain registrar to the name servers provided by Route 53 so that it can manage the DNS records and auto-verify the SSL certificates created by this project.
+2. Specify the environment you want to deploy to. This can be done by setting the `NODE_ENV` environment variable. The default value is `development`.
 
 ```bash
-pnpm deploy:networking
+export NODE_ENV=production
 ```
 
-4. Deploy the App layer
+3. Deploy the networking stack. Note, the first time you run this, it will create a new Hosted Zone in Route 53. You will need to point your domain registrar to the name servers provided by Route 53 so that it can manage the DNS records and auto-verify the SSL certificates created by this project.
 
 ```bash
-pnpm deploy:apps
+cdktf deploy network
 ```
 
-5. Deploy the client layer
+2. Deploy the database stack
 
 ```bash
-pnpm deploy:client
+cdktf deploy network data
+```
+
+3. Deploy the app stack
+
+```bash
+cdktf deploy network data app
+```
+
+4. Deploy the client stacks
+
+```bash
+cdktf deploy network data app client-app client-dashboard
 ```

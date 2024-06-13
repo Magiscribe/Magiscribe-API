@@ -4,22 +4,24 @@ import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { S3BucketPolicy } from '@cdktf/provider-aws/lib/s3-bucket-policy';
-import { DNSZone } from '@constructs/dns-zone';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
-import config from '../../bin/config';
 import { Construct } from 'constructs';
+import config from '../../bin/config';
+import NetworkStack from './network';
 
 interface FrontendStackProps {
   domainName: string;
-  zone: DNSZone;
+  network: NetworkStack;
 }
 
 export default class FrontendStack extends TerraformStack {
   constructor(scope: Construct, id: string, props: FrontendStackProps) {
     super(scope, id);
 
-    const { zone, domainName } = props;
+    const { network, domainName } = props;
+
+    /*================= PROVIDERS =================*/
 
     new AwsProvider(this, 'aws', {
       region: config.region,
@@ -89,16 +91,18 @@ export default class FrontendStack extends TerraformStack {
         ],
 
         // Redirect to index.html on 403 for React routing.
-        customErrorResponse: [{
-          errorCode: 403,
-          responseCode: 200,
-          responsePagePath: '/index.html',
-        }],
+        customErrorResponse: [
+          {
+            errorCode: 403,
+            responseCode: 200,
+            responsePagePath: '/index.html',
+          },
+        ],
 
         aliases: [domainName],
 
         viewerCertificate: {
-          acmCertificateArn: zone.defaultCertificate.arn,
+          acmCertificateArn: network.dns.defaultCertificate.arn,
           sslSupportMethod: 'sni-only',
           minimumProtocolVersion: 'TLSv1.2_2019',
         },
@@ -135,7 +139,7 @@ export default class FrontendStack extends TerraformStack {
 
     new Route53Record(this, 'FrontendRecord', {
       name: domainName,
-      zoneId: zone.zone.zoneId,
+      zoneId: network.dns.zone.zoneId,
       type: 'A',
       alias: {
         name: cloudfrontDistribution.domainName,

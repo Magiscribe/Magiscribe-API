@@ -50,7 +50,7 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v4
         with:
           mode: auto-approve-destroy
-          stackName: app
+          stackName: api
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
         env:
