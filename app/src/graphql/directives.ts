@@ -45,6 +45,7 @@ function authDirective(
               return fieldConfig;
             }
           }
+          return undefined;
         },
       }),
   };
