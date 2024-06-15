@@ -1,7 +1,7 @@
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
 import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
-import { getAgentPrompt } from '@utils/ai/system';
+import { getCapabilityPrompt, getReasoningPrompt } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
@@ -20,21 +20,16 @@ export async function generateVisualPrediction({
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
-    // Preprocess the prompt
-    // TODO: Refactor this to use a more generic preprocessing system
-    const preprocessingAgent = 'preprocessingAgent';
-    const { prompt: systemPrompt, model } =
-      await getAgentPrompt(preprocessingAgent);
+    const reasoningPrompt = await getReasoningPrompt();
 
-    if (!systemPrompt) {
+    if (!reasoningPrompt) {
       throw new Error(
-        `No system prompt found for agent: ${preprocessingAgent}`,
+        `No reasoning prompt found for agent: ${reasoningPrompt}`,
       );
     }
 
     const preprocessingResponse = await makeSyncRequest({
-      system: systemPrompt,
-      model,
+      system: reasoningPrompt,
       prompt,
       context,
     });
@@ -72,19 +67,22 @@ export async function generateVisualPrediction({
     // Execute the processed steps and generate the results
     const results = await Promise.all(
       processingSteps.map(
-        async (step: { prompt: string; agent: string; context: string }) => {
-          const { prompt: systemPrompt, model } = await getAgentPrompt(
-            step.agent,
-          );
+        async (step: {
+          prompt: string;
+          capability: string;
+          context: string;
+        }) => {
+          const system = await getCapabilityPrompt(step.capability);
 
-          if (!systemPrompt) {
-            throw new Error(`No system prompt found for agent: ${step.agent}`);
+          if (!system) {
+            throw new Error(
+              `No system prompt found for capability: ${step.capability}`,
+            );
           }
 
           const result = await makeSyncRequest({
             prompt: step.prompt,
-            system: systemPrompt,
-            model,
+            system,
             context: step.context,
           });
           const cleanedResult = cleanCodeBlock(result);

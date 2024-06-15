@@ -1,38 +1,37 @@
 import database from '@database';
-import { Agent, Capability } from '@database/models/agent';
+import { Agent, Capability, Prompt } from '@database/models/agent';
 import log from '@log';
 import templates from './system-prompts';
 
-export enum Agents {
-  ArrowAgent = 'arrowAgent',
-  CodeFixAgent = 'codeFixAgent',
-  EllipseAgent = 'ellipseAgent',
-  FunctionAgent = 'functionAgent',
-  LatexAgent = 'latexAgent', //To do: Decide if we want to support this agent on the frontend or delete it.
-  LineAgent = 'lineAgent',
-  PointAgent = 'pointAgent',
-  PolygonAgent = 'polygonAgent',
-  PreprocessingAgent = 'preprocessingAgent',
-  AppStateAgent = 'appStateAgent',
-  ScrollAgent = 'scrollAgent',
-  ZoomAgent = 'zoomAgent',
-  TextAgent = 'textAgent',
+export enum Capabilities {
+  ArrowCapability = 'ArrowCapability',
+  CodeFixCapability = 'CodeFixCapability',
+  EllipseCapability = 'EllipseCapability',
+  FunctionCapability = 'FunctionCapability',
+  LatexCapability = 'LatexCapability',
+  LineCapability = 'LineCapability',
+  PointCapability = 'PointCapability',
+  PolygonCapability = 'PolygonCapability',
+  AppStateCapability = 'AppStateCapability',
+  ScrollCapability = 'ScrollCapability',
+  ZoomCapability = 'ZoomCapability',
+  TextCapability = 'TextCapability',
 }
 
 /**
  * Initializes the database with the default agents and capabilities.
  * This function should be called only once, when the server is started.
  */
-export async function initializeAgents() {
+export async function initialize() {
   await Agent.deleteMany({});
   await Capability.deleteMany({});
+  await Prompt.deleteMany({});
 
   await Promise.all(
-    Object.entries(templates).map(([key, prompt]) =>
-      Capability.create({
+    Object.entries(templates).map(([key, text]) =>
+      Prompt.create({
         name: key,
-        description: `This is a description for ${key} capability.`,
-        prompt,
+        text,
       }),
     ),
   );
@@ -42,81 +41,85 @@ export async function initializeAgents() {
     return str.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase());
   }
 
-  const agents = [
+  const capabilities = [
     {
-      name: camelToTitleCase(Agents.ArrowAgent),
-      alias: Agents.ArrowAgent,
-      caps: ['drawing', 'writePython', 'arrow'],
+      name: camelToTitleCase(Capabilities.ArrowCapability),
+      alias: Capabilities.ArrowCapability,
+      prompts: ['drawing', 'writePython', 'arrow'],
     },
     {
-      name: camelToTitleCase(Agents.EllipseAgent),
-      alias: Agents.EllipseAgent,
-      caps: ['drawing', 'writePython', 'ellipse'],
+      name: camelToTitleCase(Capabilities.EllipseCapability),
+      alias: Capabilities.EllipseCapability,
+      prompts: ['drawing', 'writePython', 'ellipse'],
     },
     {
-      name: camelToTitleCase(Agents.PolygonAgent),
-      alias: Agents.PolygonAgent,
-      caps: ['drawing', 'writePython', 'polygon'],
+      name: camelToTitleCase(Capabilities.PolygonCapability),
+      alias: Capabilities.PolygonCapability,
+      prompts: ['drawing', 'writePython', 'polygon'],
     },
     {
-      name: camelToTitleCase(Agents.PreprocessingAgent),
-      alias: Agents.PreprocessingAgent,
-      caps: ['preprocessing'],
+      name: camelToTitleCase(Capabilities.FunctionCapability),
+      alias: Capabilities.FunctionCapability,
+      prompts: ['drawing', 'functionTemplate', 'writePython'],
     },
     {
-      name: camelToTitleCase(Agents.FunctionAgent),
-      alias: Agents.FunctionAgent,
-      caps: ['drawing', 'functionTemplate', 'writePython'],
+      name: camelToTitleCase(Capabilities.LineCapability),
+      alias: Capabilities.LineCapability,
+      prompts: ['drawing', 'writePython', 'line'],
     },
     {
-      name: camelToTitleCase(Agents.LineAgent),
-      alias: Agents.LineAgent,
-      caps: ['drawing', 'writePython', 'line'],
+      name: camelToTitleCase(Capabilities.PointCapability),
+      alias: Capabilities.PointCapability,
+      prompts: ['drawing', 'writePython', 'point'],
     },
     {
-      name: camelToTitleCase(Agents.PointAgent),
-      alias: Agents.PointAgent,
-      caps: ['drawing', 'writePython', 'point'],
+      name: camelToTitleCase(Capabilities.TextCapability),
+      alias: Capabilities.TextCapability,
+      prompts: ['drawing', 'writePython', 'text'],
     },
     {
-      name: camelToTitleCase(Agents.TextAgent),
-      alias: Agents.TextAgent,
-      caps: ['drawing', 'writePython', 'text'],
+      name: camelToTitleCase(Capabilities.CodeFixCapability),
+      alias: Capabilities.CodeFixCapability,
+      prompts: ['writePython', 'fixPython'],
     },
     {
-      name: camelToTitleCase(Agents.CodeFixAgent),
-      alias: Agents.CodeFixAgent,
-      caps: ['writePython', 'fixPython'],
+      name: camelToTitleCase(Capabilities.ScrollCapability),
+      alias: Capabilities.ScrollCapability,
+      prompts: ['writePython', 'appState', 'scroll'],
     },
     {
-      name: camelToTitleCase(Agents.ScrollAgent),
-      alias: Agents.ScrollAgent,
-      caps: ['writePython', 'appState', 'scroll'],
-    },
-    {
-      name: camelToTitleCase(Agents.ZoomAgent),
-      alias: Agents.ZoomAgent,
-      caps: ['writePython', 'appState', 'zoom'],
+      name: camelToTitleCase(Capabilities.ZoomCapability),
+      alias: Capabilities.ZoomCapability,
+      prompts: ['writePython', 'appState', 'zoom'],
     },
   ];
 
   await Promise.all(
-    agents.map(async (agent) => {
-      await Agent.create({
-        name: agent.name,
-        alias: agent.alias,
-        description: `This is a description for ${agent.name} agent.`,
-        capabilities: await Promise.all(
-          agent.caps.map(async (cap) => Capability.findOne({ name: cap })),
+    capabilities.map(async (capability) => {
+      await Capability.create({
+        name: capability.name,
+        alias: capability.alias,
+        description: `This is a description for ${capability.name} agent.`,
+        prompts: await Promise.all(
+          capability.prompts.map(async (prompt) =>
+            Prompt.findOne({ name: prompt }),
+          ),
         ),
       });
     }),
   );
+
+  await Agent.create({
+    name: 'Default Agent',
+    description: 'This is a description for the default agent.',
+    reasoningPrompt: templates.preprocessing,
+    capabilities: await Capability.find({}),
+  });
 }
 
 async function seed() {
   await database.init();
-  await initializeAgents();
+  await initialize();
 }
 
 log.info('Starting seeding...');

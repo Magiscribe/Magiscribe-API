@@ -227,15 +227,8 @@ export default async function startServer() {
   log.debug('Blasting off (setting up routes)...');
   app.use(
     '/graphql',
-    cors<cors.CorsRequest>({ 
-      origin: function (origin, callback) {
-        if (config.networking.corsOrigins.includes(origin)) {
-          callback(null, true)
-        } else {
-          log.warn(`Origin ${origin} not allowed by CORS`)
-          callback(new Error('Not allowed by CORS'))
-        }
-      }
+    cors<cors.CorsRequest>({
+      origin: config.networking.corsOrigins,
     }),
     express.json(),
     expressMiddleware(server, {

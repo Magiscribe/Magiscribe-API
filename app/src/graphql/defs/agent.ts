@@ -1,43 +1,58 @@
-import { Agent, Capability } from '@database/models/agent';
+import { Agent, Capability, Prompt } from '@database/models/agent';
 import { StaticGraphQLModule } from '@graphql';
 
 export const AgentModule: StaticGraphQLModule = {
   schema: `#graphql
     union Capability = Capability
 
+    input PromptInput {
+      id: String
+      name: String!
+      text: String!
+    }
+
+    type Prompt {
+      id: String!
+      name: String!
+      text: String!
+    }
+
     input CapabilityInput {
       id: String
       name: String!
+      alias: String!
       description: String!
-      prompt: String!
+      prompts: [String]
     }
 
     type Capability {
       id: String!
       name: String!
+      alias: String!
       description: String!
-      prompt: String!
+      prompts: [Prompt]
     }
 
     input AgentInput {
       id: String
-      alias: String!
       name: String!
       description: String!
-      aiModel: String
+      reasoningPrompt: String
       capabilities: [String]
     }
 
     type Agent {
       id: String!
-      alias: String!
       name: String!
       description: String!
-      aiModel: String
+      reasoningPrompt: String
       capabilities: [Capability]
     }   
 
     type Mutation {
+      addUpdatePrompt(prompt: PromptInput!): Prompt @auth(requires: admin)
+      deletePrompt(promptId: String!): Prompt @auth(requires: admin)
+
       addUpdateCapability(capability: CapabilityInput!): Capability @auth(requires: admin)
       deleteCapability(capabilityId: String!): Capability @auth(requires: admin)
 
@@ -46,6 +61,9 @@ export const AgentModule: StaticGraphQLModule = {
     }
 
     type Query {
+      getPrompt(promptId: String!): Prompt @auth(requires: admin)
+      getAllPrompts: [Prompt] @auth(requires: admin)
+
       getCapability(capabilityId: String!): Capability @auth(requires: admin)
       getAllCapabilities: [Capability] @auth(requires: admin)
 
@@ -56,16 +74,30 @@ export const AgentModule: StaticGraphQLModule = {
 
   resolvers: {
     Mutation: {
+      addUpdatePrompt: async (_, { prompt }: { prompt }) => {
+        if (!prompt.id) {
+          return await Prompt.create(prompt);
+        }
+
+        return await Prompt.findOneAndUpdate({ _id: prompt.id }, prompt, {
+          upsert: true,
+          new: true,
+          setDefaultsOnInsert: true,
+        });
+      },
+      deletePrompt: async (_, { promptId }: { promptId: string }) => {
+        return await Prompt.findOneAndDelete({ _id: promptId });
+      },
       addUpdateCapability: async (_, { capability }: { capability }) => {
         if (!capability.id) {
-          return await Capability.create(capability);
+          return (await Capability.create(capability)).populate('prompts');
         }
 
         return await Capability.findOneAndUpdate(
           { _id: capability.id },
           capability,
           { upsert: true, new: true, setDefaultsOnInsert: true },
-        );
+        ).populate('prompts');
       },
       deleteCapability: async (
         _,
@@ -75,7 +107,7 @@ export const AgentModule: StaticGraphQLModule = {
       },
       addUpdateAgent: async (_, { agent }: { agent }) => {
         if (!agent.id) {
-          return await Agent.create(agent);
+          return (await Agent.create(agent)).populate('capabilities');
         }
 
         return await Agent.findOneAndUpdate(
@@ -83,7 +115,7 @@ export const AgentModule: StaticGraphQLModule = {
             _id: agent.id,
           },
           agent,
-          { upsert: true, new: true },
+          { upsert: true, new: true, setDefaultsOnInsert: true },
         ).populate('capabilities');
       },
       deleteAgent: async (_, { agentId }: { agentId: string }) => {
@@ -91,11 +123,17 @@ export const AgentModule: StaticGraphQLModule = {
       },
     },
     Query: {
+      getPrompt: async (_, { promptId }: { promptId: string }) => {
+        return await Prompt.findOne({ _id: promptId });
+      },
+      getAllPrompts: async () => {
+        return await Prompt.find();
+      },
       getCapability: async (_, { capabilityId }: { capabilityId: string }) => {
-        return Capability.findOne({ _id: capabilityId });
+        return Capability.findOne({ _id: capabilityId }).populate('prompts');
       },
       getAllCapabilities: async () => {
-        return await Capability.find();
+        return await Capability.find().populate('prompts');
       },
       getAgent: async (_, { agentId }: { agentId: string }) => {
         return await Agent.findOne({ _id: agentId }).populate('capabilities');
