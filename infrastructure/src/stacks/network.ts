@@ -16,7 +16,7 @@ interface NetworkStackProps {
 }
 
 export default class NetworkStack extends TerraformStack {
-  readonly dnsZone: DNSZone;
+  readonly dns: DNSZone;
   readonly vpc: VPCConstruct;
 
   constructor(scope: Construct, id: string, props: NetworkStackProps) {
@@ -39,7 +39,7 @@ export default class NetworkStack extends TerraformStack {
       key: `${id}.tfstate`,
     });
 
-    this.dnsZone = new DNSZone(this, 'Zone', {
+    this.dns = new DNSZone(this, 'Zone', {
       domainName,
       records,
     });

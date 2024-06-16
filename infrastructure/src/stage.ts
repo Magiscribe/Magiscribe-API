@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import AppStack from 'stacks/app';
+import ApiStack from 'stacks/api';
 import FrontendStack from 'stacks/client';
 import DataStack from 'stacks/data';
 import NetworkStack from 'stacks/network';
@@ -12,24 +12,28 @@ export default class Stage {
       records: config.dns.records,
     });
 
-    const data = new DataStack(scope, 'data');
+    const data = new DataStack(scope, 'data', {
+      network,
+    });
 
-    new AppStack(scope, 'app', {
-      vpc: network.vpc,
+    new ApiStack(scope, 'api', {
       domainName: `api.${config.dns.apexDomainName}`,
-      zone: network.dnsZone,
-      repositoryPythonExecutor: data.repositoryPythonExecutor,
-      repositoryApp: data.repositoryApp,
+      corsOrigins: [
+        `https://app.${config.dns.apexDomainName}`,
+        `https://${config.dns.apexDomainName}`,
+      ],
+      network,
+      data,
     });
 
     new FrontendStack(scope, 'client-app', {
-      domainName: `*.${config.dns.apexDomainName}`,
-      zone: network.dnsZone,
+      domainName: `app.${config.dns.apexDomainName}`,
+      network,
     });
 
     new FrontendStack(scope, 'client-dashboard', {
       domainName: `${config.dns.apexDomainName}`,
-      zone: network.dnsZone,
+      network,
     });
   }
 }

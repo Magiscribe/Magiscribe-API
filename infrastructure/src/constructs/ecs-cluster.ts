@@ -26,15 +26,18 @@ export class Cluster extends Construct {
     name,
     image,
     env,
+    secrets,
   }: {
     name: string;
     image: string;
-    env: Record<string, string | undefined>;
+    env: Record<string, string> | undefined;
+    secrets?: Record<string, string> | undefined;
   }) {
     // Role that allows us to get the Docker image
     const executionRole = new IamRole(this, `execution-role`, {
       name: `${name}-execution-role`,
       inlinePolicy: [
+        // Grants access to ECR
         {
           name: 'allow-ecr-pull',
           policy: JSON.stringify({
@@ -50,6 +53,20 @@ export class Cluster extends Construct {
                   'logs:CreateLogStream',
                   'logs:PutLogEvents',
                 ],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+        // Grants access to SSM
+        {
+          name: 'ssm-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['ssm:*'],
                 Resource: '*',
               },
             ],
@@ -155,15 +172,24 @@ export class Cluster extends Construct {
           image,
           cpu: 256,
           memory: 512,
-          environment: Object.entries(env).map(([name, value]) => ({
-            name,
-            value,
-          })),
+          environment: env
+            ? Object.entries(env).map(([name, value]) => ({
+                name,
+                value,
+              }))
+            : undefined,
+          secrets: secrets
+            ? Object.entries(secrets).map(([name, valueFrom]) => ({
+                name,
+                valueFrom,
+              }))
+            : undefined,
           portMappings: [
             {
               containerPort: 80,
             },
           ],
+
           logConfiguration: {
             logDriver: 'awslogs',
             options: {

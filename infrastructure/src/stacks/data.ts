@@ -1,19 +1,34 @@
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
+import { SsmParameter } from '@cdktf/provider-aws/lib/ssm-parameter';
+import * as mongodb from '@cdktf/provider-mongodbatlas';
 import { Repository } from '@constructs/ecs-repository';
 import { S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
 import config from '../../bin/config';
-import * as mongodb from '@cdktf/provider-mongodbatlas';
+import NetworkStack from './network';
+
+interface DataStackProps {
+  network: NetworkStack;
+}
 
 export default class DataStack extends TerraformStack {
   readonly s3Bucket: S3Bucket;
   readonly repositoryPythonExecutor: Repository;
   readonly repositoryApp: Repository;
-  readonly instance: mongodb.serverlessInstance.ServerlessInstance;
+  readonly database: mongodb.serverlessInstance.ServerlessInstance;
+  readonly databaseParameters: {
+    connectionString: SsmParameter;
+    user: SsmParameter;
+    password: SsmParameter;
+  };
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, props: DataStackProps) {
     super(scope, id);
+
+    const { network } = props;
+
+    /*================= PROVIDERS =================*/
 
     new AwsProvider(this, 'aws', {
       region: config.region,
@@ -51,7 +66,7 @@ export default class DataStack extends TerraformStack {
       name: 'graphql-api',
     });
 
-    this.instance = new mongodb.serverlessInstance.ServerlessInstance(
+    this.database = new mongodb.serverlessInstance.ServerlessInstance(
       this,
       'MongoDBInstance',
       {
@@ -62,5 +77,30 @@ export default class DataStack extends TerraformStack {
         providerSettingsRegionName: 'US_EAST_1',
       },
     );
+
+    // Whitelist the NAT Gateway IP.
+    new mongodb.projectIpAccessList.ProjectIpAccessList(this, 'WhitelistNAT', {
+      projectId: config.db.projectId,
+      ipAddress: network.vpc.natIp.publicIp,
+      comment: 'Allow the NAT Gateway IP to access the database',
+    });
+
+    this.databaseParameters = {
+      connectionString: new SsmParameter(this, 'MongoDBConnectionString', {
+        name: 'MONGODB_CONNECTION_STRING',
+        type: 'SecureString',
+        value: 'mongodb+srv://mongodb-instance.pdodhhx.mongodb.net',
+      }),
+      user: new SsmParameter(this, 'MongoDBUser', {
+        name: 'MONGODB_USER',
+        type: 'SecureString',
+        value: 'admin',
+      }),
+      password: new SsmParameter(this, 'MongoDBPassword', {
+        name: 'MONGODB_PASSWORD',
+        type: 'SecureString',
+        value: 'adminadmin',
+      }),
+    };
   }
 }
