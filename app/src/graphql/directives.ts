@@ -1,4 +1,5 @@
 import { getDirective, MapperKind, mapSchema } from '@graphql-tools/utils';
+import log from '@log';
 import { defaultFieldResolver, GraphQLSchema } from 'graphql';
 
 function authDirective(
@@ -36,6 +37,10 @@ function authDirective(
             if (requires) {
               const { resolve = defaultFieldResolver } = fieldConfig;
               fieldConfig.resolve = function (source, args, context, info) {
+                log.trace({
+                  msg: 'Auth directive check',
+                  context: context,
+                });
                 const user = getUserFn(context);
                 if (!user.hasRole(requires)) {
                   throw new Error('not authorized');
