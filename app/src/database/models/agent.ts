@@ -1,3 +1,4 @@
+import { LLM_MODEL } from '@utils/ai/requests';
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface Prompt extends Document {
@@ -6,19 +7,20 @@ interface Prompt extends Document {
   text: string;
 }
 
-interface Capability extends Document {
+interface Capability {
   id: string;
   name: string;
   description: string;
+  llmModel: string;
   prompts: Prompt[];
 }
 
-interface Agent extends Document {
+interface Agent {
   id: string;
   alias: string;
   name: string;
   description: string;
-  aiModel: string;
+  reasoningLLMModel: string;
   reasoningPrompt: string;
   capabilities: Capability[];
 }
@@ -35,6 +37,11 @@ const CapabilitySchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     alias: { type: String, required: true, unique: true },
+    llmModel: {
+      type: String,
+      enum: Object.keys(LLM_MODEL),
+      default: 'CLAUDE_HAIKU',
+    },
     description: { type: String, required: true },
     prompts: [
       {
@@ -50,6 +57,11 @@ const agentSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
+    reasoningLLMModel: {
+      type: String,
+      enum: Object.keys(LLM_MODEL),
+      default: 'CLAUDE_HAIKU',
+    },
     reasoningPrompt: { type: String },
     capabilities: [
       {

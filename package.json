@@ -4,6 +4,8 @@
   "description": "",
   "scripts": {
     "postinstall": "concurrently \"husky install\" \"cd app && pnpm install\" \"cd infrastructure && pnpm install\" \"cd bootstrap && pnpm install\"",
+    "setup": "pnpm run setup:install && pnpm run setup:env",
+    "setup:install": "pnpm install",
     "setup:env": "cd app && cp .env.example .env",
     "lint": "concurrently \"cd app && pnpm run lint\" \"cd infrastructure && pnpm run lint\" \"cd bootstrap && pnpm run lint\"",
     "lint:fix": "concurrently \"cd app && pnpm run lint:fix\" \"cd infrastructure && pnpm run lint:fix\" \"cd bootstrap && pnpm run lint:fix\"",

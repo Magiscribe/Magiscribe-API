@@ -5,7 +5,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
     "dev": "pnpm docker:up && tsx watch src",
+    "dev:experimental": "sh ./scripts/dev.sh",
     "start": "node  dist/index.js",
+    "start:dev": "tsx watch src",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -14,7 +16,8 @@
     "fix": "pnpm run lint:fix && pnpm run format",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "db:seed": "tsx src/scripts/seed.ts"
+    "db:import": "tsx src/seed/import.ts",
+    "db:export": "tsx src/seed/export.ts"
   },
   "engines": {
     "node": ">=20.0"

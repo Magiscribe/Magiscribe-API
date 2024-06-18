@@ -233,10 +233,10 @@ export default async function startServer() {
         } else if (config.networking.corsOrigins.includes(origin)) {
           callback(null, true);
         } else {
-          log.warn(`Origin ${origin} not allowed by CORS`)
-          callback(new Error('Not allowed by CORS'))
+          log.warn(`Origin ${origin} not allowed by CORS`);
+          callback(new Error('Not allowed by CORS'));
         }
-      }
+      },
     }),
     express.json(),
     expressMiddleware(server, {

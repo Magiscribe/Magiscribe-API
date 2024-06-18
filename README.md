@@ -99,7 +99,7 @@ pnpm docker:up
 4. Run the seed script to populate the database with sample data.
 
 ```bash
-pnpm db:seed
+pnpm db:import
 ```
 
 4. Start the application in development mode

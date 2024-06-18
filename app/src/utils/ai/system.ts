@@ -7,10 +7,16 @@ export async function getReasoningPrompt() {
     'Getting the Default Agent reasoning prompt. Please deprecate this.',
   );
   const result = await Agent.findOne({ name: 'Default Agent' });
-  return result?.reasoningPrompt;
+  return {
+    system: result?.reasoningPrompt,
+    model: result?.reasoningLLMModel,
+  };
 }
 
 export async function getCapabilityPrompt(alias: string) {
   const result = await Capability.findOne({ alias }).populate('prompts');
-  return result?.prompts.map((c) => c.text).join('\n');
+  return {
+    system: result?.prompts.map((c) => c.text).join('\n'),
+    model: result?.llmModel,
+  };
 }

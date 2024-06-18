@@ -3,7 +3,11 @@ import { StaticGraphQLModule } from '@graphql';
 
 export const AgentModule: StaticGraphQLModule = {
   schema: `#graphql
-    union Capability = Capability
+    enum Model {
+      CLAUDE_HAIKU
+      CLAUDE_SONNET
+      CLAUDE_OPUS
+    }
 
     input PromptInput {
       id: String
@@ -21,6 +25,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String
       name: String!
       alias: String!
+      llmModel: Model
       description: String!
       prompts: [String]
     }
@@ -29,6 +34,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String!
       name: String!
       alias: String!
+      llmModel: Model
       description: String!
       prompts: [Prompt]
     }
@@ -37,6 +43,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String
       name: String!
       description: String!
+      reasoningLLMModel: Model
       reasoningPrompt: String
       capabilities: [String]
     }
@@ -45,6 +52,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String!
       name: String!
       description: String!
+      reasoningLLMModel: Model
       reasoningPrompt: String
       capabilities: [Capability]
     }   

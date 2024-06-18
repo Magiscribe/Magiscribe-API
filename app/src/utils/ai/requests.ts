@@ -1,11 +1,17 @@
 import log from '@log';
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 
-const models = {
-  haiku: 'anthropic.claude-3-haiku-20240307-v1:0',
-  sonnet: 'anthropic.claude-3-sonnet-20240229-v1:0',
-  opus: 'anthropic.claude-3-opus-20240229-v1:0', //Currently not available for use in our region
+const LLM_MODELS_VERSION = {
+  CLAUDE_HAIKU: 'anthropic.claude-3-haiku-20240307-v1:0',
+  CLAUDE_SONNET: 'anthropic.claude-3-sonnet-20240229-v1:0',
+  CLAUDE_OPUS: 'anthropic.claude-3-opus-20240229-v1:0', //Currently not available for use in our region
 };
+
+export enum LLM_MODEL {
+  CLAUDE_HAIKU = 'CLAUDE_HAIKU',
+  CLAUDE_SONNET = 'CLAUDE_SONNET',
+  CLAUDE_OPUS = 'CLAUDE_OPUS',
+}
 
 /**
  * Sends a synchronous request to the Bedrock model and returns the response.
@@ -24,12 +30,12 @@ export async function makeSyncRequest({
 }: {
   system: string;
   prompt: string;
-  model?: string;
+  model: string;
   context?: string;
 }): Promise<string> {
   const chat = new BedrockChat({
     region: 'us-east-1',
-    model: model ?? models.haiku,
+    model: LLM_MODELS_VERSION[model],
     maxTokens: 4096,
     temperature: 0,
   });
@@ -49,12 +55,12 @@ export async function makeSyncRequest({
  * @returns {Promise<string>} The full response from the model.
  */
 export async function makeStreamingRequest(
-  { prompt, model }: { prompt: string; model?: string },
+  { prompt, model }: { prompt: string; model: string },
   callback: (content: string) => Promise<void>,
 ): Promise<string> {
   const chat = new BedrockChat({
     region: 'us-east-1',
-    model: model ?? models.haiku,
+    model: LLM_MODELS_VERSION[model],
     maxTokens: 4096,
     temperature: 0,
   });

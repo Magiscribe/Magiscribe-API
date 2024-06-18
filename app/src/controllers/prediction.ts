@@ -20,16 +20,17 @@ export async function generateVisualPrediction({
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
-    const reasoningPrompt = await getReasoningPrompt();
+    const { system, model } = await getReasoningPrompt();
 
-    if (!reasoningPrompt) {
+    if (!system || !model) {
       throw new Error(
-        `No reasoning prompt found for agent: ${reasoningPrompt}`,
+        `No reasoning prompt or model found for system: ${system}`,
       );
     }
 
     const preprocessingResponse = await makeSyncRequest({
-      system: reasoningPrompt,
+      system,
+      model,
       prompt,
       context,
     });
@@ -72,16 +73,17 @@ export async function generateVisualPrediction({
           capability: string;
           context: string;
         }) => {
-          const system = await getCapabilityPrompt(step.capability);
+          const { system, model } = await getCapabilityPrompt(step.capability);
 
-          if (!system) {
+          if (!system || !model) {
             throw new Error(
-              `No system prompt found for capability: ${step.capability}`,
+              `No capability prompt or model found for capability: ${step.capability}`,
             );
           }
 
           const result = await makeSyncRequest({
             prompt: step.prompt,
+            model,
             system,
             context: step.context,
           });
@@ -125,11 +127,14 @@ export async function generateTextPredictionStreaming({
     logger.debug({ msg: 'Prediction generation started', prompt });
 
     // Generate the prediction in a streaming manner
-    await makeStreamingRequest({ prompt }, async (chunk) => {
-      subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
-        textPredictionAdded: { subscriptionId, prompt, result: chunk },
-      });
-    });
+    await makeStreamingRequest(
+      { prompt, model: 'CLAUDE_HAIKU' },
+      async (chunk) => {
+        subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
+          textPredictionAdded: { subscriptionId, prompt, result: chunk },
+        });
+      },
+    );
   } catch (error) {
     logger.warn({ msg: 'Prediction generation failed', error });
     throw error;
