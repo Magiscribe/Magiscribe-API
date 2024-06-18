@@ -1,0 +1,148 @@
+[
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b332e",
+    "name": " Arrow Capability",
+    "alias": "ArrowCapability",
+    "description": "This is a description for  Arrow Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b3300"
+    ],
+    "createdAt": "2024-06-17T21:30:42.597Z",
+    "updatedAt": "2024-06-17T21:30:42.597Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3330",
+    "name": " Function Capability",
+    "alias": "FunctionCapability",
+    "description": "This is a description for  Function Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f9",
+      "6670ab02f446b4f1a67b32f6"
+    ],
+    "createdAt": "2024-06-17T21:30:42.617Z",
+    "updatedAt": "2024-06-17T21:30:42.617Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3332",
+    "name": " Line Capability",
+    "alias": "LineCapability",
+    "description": "This is a description for  Line Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32fa"
+    ],
+    "createdAt": "2024-06-17T21:30:42.625Z",
+    "updatedAt": "2024-06-17T21:30:42.625Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3334",
+    "name": " Point Capability",
+    "alias": "PointCapability",
+    "description": "This is a description for  Point Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32fb"
+    ],
+    "createdAt": "2024-06-17T21:30:42.635Z",
+    "updatedAt": "2024-06-17T21:30:42.635Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3336",
+    "name": " Text Capability",
+    "alias": "TextCapability",
+    "description": "This is a description for  Text Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32fc"
+    ],
+    "createdAt": "2024-06-17T21:30:42.645Z",
+    "updatedAt": "2024-06-17T21:30:42.645Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3338",
+    "name": " Ellipse Capability",
+    "alias": "EllipseCapability",
+    "description": "This is a description for  Ellipse Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32ff"
+    ],
+    "createdAt": "2024-06-17T21:30:42.650Z",
+    "updatedAt": "2024-06-17T21:30:42.650Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b333a",
+    "name": " Polygon Capability",
+    "alias": "PolygonCapability",
+    "description": "This is a description for  Polygon Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32fe"
+    ],
+    "createdAt": "2024-06-17T21:30:42.658Z",
+    "updatedAt": "2024-06-17T21:30:42.658Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b333c",
+    "name": " Zoom Capability",
+    "alias": "ZoomCapability",
+    "description": "This is a description for  Zoom Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f5",
+      "6670ab02f446b4f1a67b3302"
+    ],
+    "createdAt": "2024-06-17T21:30:42.668Z",
+    "updatedAt": "2024-06-17T21:30:42.668Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b333e",
+    "name": " Code Fix Capability",
+    "alias": "CodeFixCapability",
+    "description": "This is a description for  Code Fix Capability agent.",
+    "prompts": ["6670ab02f446b4f1a67b32f6", "6670ab02f446b4f1a67b32f7"],
+    "createdAt": "2024-06-17T21:30:42.688Z",
+    "updatedAt": "2024-06-17T21:30:42.688Z",
+    "__v": 0
+  },
+  {
+    "llmModel": "CLAUDE_HAIKU",
+    "_id": "6670ab02f446b4f1a67b3340",
+    "name": " Scroll Capability",
+    "alias": "ScrollCapability",
+    "description": "This is a description for  Scroll Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f5",
+      "6670ab02f446b4f1a67b3301"
+    ],
+    "createdAt": "2024-06-17T21:30:42.691Z",
+    "updatedAt": "2024-06-17T21:30:42.691Z",
+    "__v": 0
+  }
+]

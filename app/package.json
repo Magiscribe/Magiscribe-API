@@ -16,8 +16,8 @@
     "fix": "pnpm run lint:fix && pnpm run format",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "db:import": "tsx src/seed/import.ts",
-    "db:export": "tsx src/seed/export.ts"
+    "db:import": "tsx seed/import.ts",
+    "db:export": "tsx seed/export.ts"
   },
   "engines": {
     "node": ">=20.0"

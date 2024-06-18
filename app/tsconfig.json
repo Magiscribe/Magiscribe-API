@@ -30,6 +30,6 @@
       "@*": ["src/*"]
     }
   },
-  "include": ["./src/**/*", "./**/*.ts", "./**/*.graphql"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["./src/**/*", "./**/*.ts", "./**/*.graphql", "seed"],
+  "exclude": ["node_modules", "dist", "seed"]
 }
