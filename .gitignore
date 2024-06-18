@@ -1,5 +1,8 @@
 *.d.ts
 *.js
 node_modules
-.env
+
+.env*
+!.env.development
+!.env.production
 !.env.example
