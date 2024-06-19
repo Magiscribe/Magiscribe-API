@@ -1,17 +1,6 @@
 import log from '@log';
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
-
-const LLM_MODELS_VERSION = {
-  CLAUDE_HAIKU: 'anthropic.claude-3-haiku-20240307-v1:0',
-  CLAUDE_SONNET: 'anthropic.claude-3-sonnet-20240229-v1:0',
-  CLAUDE_OPUS: 'anthropic.claude-3-opus-20240229-v1:0', //Currently not available for use in our region
-};
-
-export enum LLM_MODEL {
-  CLAUDE_HAIKU = 'CLAUDE_HAIKU',
-  CLAUDE_SONNET = 'CLAUDE_SONNET',
-  CLAUDE_OPUS = 'CLAUDE_OPUS',
-}
+import { LLM_MODELS_VERSION } from './models';
 
 /**
  * Sends a synchronous request to the Bedrock model and returns the response.

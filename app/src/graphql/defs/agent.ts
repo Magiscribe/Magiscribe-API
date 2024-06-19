@@ -1,12 +1,13 @@
 import { Agent, Capability, Prompt } from '@database/models/agent';
 import { StaticGraphQLModule } from '@graphql';
+import { LLM_MODELS_VERSION } from '@utils/ai/models';
 
 export const AgentModule: StaticGraphQLModule = {
   schema: `#graphql
-    enum Model {
-      CLAUDE_HAIKU
-      CLAUDE_SONNET
-      CLAUDE_OPUS
+    type Model {
+      id: String!
+      name: String!
+      region: String!
     }
 
     input PromptInput {
@@ -25,7 +26,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String
       name: String!
       alias: String!
-      llmModel: Model
+      llmModel: String
       description: String!
       prompts: [String]
     }
@@ -34,7 +35,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String!
       name: String!
       alias: String!
-      llmModel: Model
+      llmModel: String
       description: String!
       prompts: [Prompt]
     }
@@ -43,7 +44,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String
       name: String!
       description: String!
-      reasoningLLMModel: Model
+      reasoningLLMModel: String
       reasoningPrompt: String
       capabilities: [String]
     }
@@ -52,7 +53,7 @@ export const AgentModule: StaticGraphQLModule = {
       id: String!
       name: String!
       description: String!
-      reasoningLLMModel: Model
+      reasoningLLMModel: String
       reasoningPrompt: String
       capabilities: [Capability]
     }   
@@ -69,6 +70,8 @@ export const AgentModule: StaticGraphQLModule = {
     }
 
     type Query {
+      getAllModels: [Model] @auth(requires: admin)
+
       getPrompt(promptId: String!): Prompt @auth(requires: admin)
       getAllPrompts: [Prompt] @auth(requires: admin)
 
@@ -131,6 +134,15 @@ export const AgentModule: StaticGraphQLModule = {
       },
     },
     Query: {
+      getAllModels: async () => {
+        return Object.keys(LLM_MODELS_VERSION).map((key) => {
+          return {
+            id: key,
+            name: LLM_MODELS_VERSION[key].name,
+            region: LLM_MODELS_VERSION[key].region,
+          };
+        });
+      },
       getPrompt: async (_, { promptId }: { promptId: string }) => {
         return await Prompt.findOne({ _id: promptId });
       },
