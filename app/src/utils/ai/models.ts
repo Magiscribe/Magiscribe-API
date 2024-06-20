@@ -1,6 +1,6 @@
 export const LLM_MODELS_VERSION = {
   CLAUDE_HAIKU: {
-    id: 'anthropic.claude-3-haiku-20240229-v1:0',
+    id: 'anthropic.claude-3-haiku-20240307-v1:0',
     name: 'Claude Haiku',
     region: 'us-east-1',
   },

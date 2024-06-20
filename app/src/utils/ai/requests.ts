@@ -24,7 +24,7 @@ export async function makeSyncRequest({
 }): Promise<string> {
   const chat = new BedrockChat({
     region: 'us-east-1',
-    model: LLM_MODELS_VERSION[model],
+    model: LLM_MODELS_VERSION[model].id,
     maxTokens: 4096,
     temperature: 0,
   });
@@ -49,7 +49,7 @@ export async function makeStreamingRequest(
 ): Promise<string> {
   const chat = new BedrockChat({
     region: 'us-east-1',
-    model: LLM_MODELS_VERSION[model],
+    model: LLM_MODELS_VERSION[model].id,
     maxTokens: 4096,
     temperature: 0,
   });
