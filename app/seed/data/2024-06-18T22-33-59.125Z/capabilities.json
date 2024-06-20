@@ -3,7 +3,7 @@
     "_id": "6671ddd059c80137acf15cde",
     "name": " Arrow Capability",
     "alias": "ArrowCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Arrow Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -18,7 +18,7 @@
     "_id": "6671ddd059c80137acf15ce0",
     "name": " Function Capability",
     "alias": "FunctionCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Function Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -33,7 +33,7 @@
     "_id": "6671ddd059c80137acf15ce2",
     "name": " Line Capability",
     "alias": "LineCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Line Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -48,7 +48,7 @@
     "_id": "6671ddd059c80137acf15ce4",
     "name": " Point Capability",
     "alias": "PointCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Point Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -63,7 +63,7 @@
     "_id": "6671ddd059c80137acf15ce6",
     "name": " Ellipse Capability",
     "alias": "EllipseCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Ellipse Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -78,7 +78,7 @@
     "_id": "6671ddd059c80137acf15ce8",
     "name": " Polygon Capability",
     "alias": "PolygonCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Polygon Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -93,7 +93,7 @@
     "_id": "6671ddd059c80137acf15cea",
     "name": " Scroll Capability",
     "alias": "ScrollCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Scroll Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca5",
@@ -108,7 +108,7 @@
     "_id": "6671ddd059c80137acf15cec",
     "name": " Zoom Capability",
     "alias": "ZoomCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Zoom Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca5",
@@ -123,7 +123,7 @@
     "_id": "6671ddd059c80137acf15cee",
     "name": " Text Capability",
     "alias": "TextCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Text Capability agent.",
     "prompts": [
       "6671ddd059c80137acf15ca7",
@@ -138,7 +138,7 @@
     "_id": "6671ddd059c80137acf15cf0",
     "name": " Code Fix Capability",
     "alias": "CodeFixCapability",
-    "llmModel": "CLAUDE_HAIKU",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Code Fix Capability agent.",
     "prompts": ["6671ddd059c80137acf15ca5", "6671ddd059c80137acf15ca6"],
     "createdAt": "2024-06-18T19:19:44.486Z",

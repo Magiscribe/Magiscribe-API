@@ -1,18 +1,23 @@
 export const LLM_MODELS_VERSION = {
-  CLAUDE_HAIKU: {
+  CLAUDE_3_HAIKU: {
     id: 'anthropic.claude-3-haiku-20240307-v1:0',
-    name: 'Claude Haiku',
+    name: 'Claude 3 Haiku',
     region: 'us-east-1',
   },
-  CLAUDE_SONNET: {
+  CLAUDE_3_SONNET: {
     id: 'anthropic.claude-3-sonnet-20240229-v1:0',
-    name: 'Claude Sonnet',
+    name: 'Claude 3 Sonnet',
     region: 'us-east-1',
   },
-  CLAUDE_OPUS: {
+  CLAUDE_3_OPUS: {
     id: 'anthropic.claude-3-opus-20240229-v1:0',
-    name: 'Claude Opus',
+    name: 'Claude 3 Opus',
     region: 'us-west-2',
+  },
+  CLAUDE_3_5_SONNET: {
+    id: 'anthropic.claude-3-5-sonnet-20240620-v1:0',
+    name: 'Claude 3.5 Sonnet',
+    region: 'us-east-1',
   },
   LLAMA_3_8B_INSTRUCT: {
     id: 'meta.llama3-8b-instruct-v1:0',

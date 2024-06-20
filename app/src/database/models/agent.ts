@@ -40,7 +40,7 @@ const CapabilitySchema: Schema = new mongoose.Schema(
     llmModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),
-      default: 'CLAUDE_HAIKU',
+      default: 'CLAUDE_3_HAIKU',
     },
     description: { type: String, required: true },
     prompts: [
@@ -60,7 +60,7 @@ const agentSchema: Schema = new mongoose.Schema(
     reasoningLLMModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),
-      default: 'CLAUDE_HAIKU',
+      default: 'CLAUDE_3_HAIKU',
     },
     reasoningPrompt: { type: String },
     capabilities: [

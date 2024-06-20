@@ -1,6 +1,6 @@
 [
   {
-    "reasoningLLMModel": "CLAUDE_HAIKU",
+    "reasoningLLMModel": "CLAUDE_3_HAIKU",
     "_id": "6670ab02f446b4f1a67b3343",
     "name": "Default Agent",
     "description": "This is a description for the default agent.",

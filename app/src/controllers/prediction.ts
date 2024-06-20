@@ -128,7 +128,7 @@ export async function generateTextPredictionStreaming({
 
     // Generate the prediction in a streaming manner
     await makeStreamingRequest(
-      { prompt, model: 'CLAUDE_HAIKU' },
+      { prompt, model: 'CLAUDE_3_HAIKU' },
       async (chunk) => {
         subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
           textPredictionAdded: { subscriptionId, prompt, result: chunk },
