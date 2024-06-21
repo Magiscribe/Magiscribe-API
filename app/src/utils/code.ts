@@ -31,7 +31,7 @@ export function cleanCodeBlock(code: string): string {
  * @returns {Promise<string>} The result of the Python code execution.
  */
 export async function executePythonCode(code: string): Promise<string> {
-  // Base case: No Executor Lambda function is defined.
+  log.trace("Executing Python code", { msg: code });
   if (!config.lambda.pythonExecutorName) {
     throw new Error('No executor Lambda function defined.');
   }
@@ -48,16 +48,17 @@ export async function executePythonCode(code: string): Promise<string> {
     const result = await lambdaClient.send(new InvokeCommand(params));
 
     if (result.FunctionError) {
-      log.error({
+      log.warn({
         msg: 'Python code execution error',
         error: result.FunctionError,
       });
-      throw new Error(`Python code execution error: ${result.FunctionError}`);
+      const error = new Error(result.FunctionError);
+      error['isPythonExecutionError'] = true;
+      throw error;
     }
 
-    // Lambdas return an array of bytes, so we need to convert it to a string.
     const payload = JSON.parse(
-      JSON.parse(Buffer.from(result.Payload!).toString()),
+      JSON.parse(Buffer.from(result.Payload!).toString())
     );
     log.debug({
       msg: 'Python code execution response received',
@@ -65,12 +66,14 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    log.error({
-      msg: 'Python code execution error',
-      error,
-    });
-    throw new Error(`Python code execution error: ${error.name}`);
-  }
+  } catch (error: unknown) {
+    if (error instanceof Error && !('isPythonExecutionError' in error)) {
+        log.error({
+            msg: 'Python code execution error, trying to autofix for daddy',
+            error,
+        });
+        (error as Error)['isPythonExecutionError'] = true;
+    }
+    throw error;
+}
 }

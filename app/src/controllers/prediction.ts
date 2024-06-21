@@ -66,6 +66,7 @@ export async function generateVisualPrediction({
     });
 
     // Execute the processed steps and generate the results
+
     const results = await Promise.all(
       processingSteps.map(
         async (step: {
@@ -88,9 +89,33 @@ export async function generateVisualPrediction({
             context: step.context,
           });
           const cleanedResult = cleanCodeBlock(result);
-          return executePythonCode(cleanedResult);
-        },
-      ),
+          try {
+            const pythonCodeResult = await executePythonCode(cleanedResult);
+            return pythonCodeResult;
+          } catch (error: unknown) {
+            if (typeof error === 'object' && error !== null && 'isPythonExecutionError' in error) {
+              logger.debug('Python code execution error, trying to autofix');
+              // TODO: Create a formal review process within the agent architecture to handle errors and review multistep progress
+              const { system: codeFixSystemPrompt, model: codeFixModelName } = await getCapabilityPrompt('CodeFixCapability');
+              if (!codeFixSystemPrompt || !codeFixModelName) {
+                throw new Error(
+                  `No capability prompt or model found for capability: CodeFixCapability`,
+                );
+              }
+              const result2 = await makeSyncRequest({
+                prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error}`,
+                model: codeFixModelName,
+                system: codeFixSystemPrompt,
+                context: "Original Context: " + step.context,
+              });
+              const cleanedResult2 = cleanCodeBlock(result2);
+              return await executePythonCode(cleanedResult2);
+            } else {
+              throw error; // Re-throw unexpected errors
+            }
+          }
+        }
+      )
     );
 
     const visualPredictionAddedResult = {

@@ -4,10 +4,9 @@ import { LLM_MODELS_VERSION } from './models';
 
 /**
  * Sends a synchronous request to the Bedrock model and returns the response.
- *
- * @param {object} params - An object containing the system and prompt strings.
  * @param {string} params.system - The system string to provide context to the model.
  * @param {string} params.prompt - The prompt string to send to the model.
+ * @param {string} params.model - The name of the LLM we are using
  * @param {string} [params.context] - Additional context provided to the model
  * @returns {Promise<string>} The response from the model.
  */
