@@ -31,7 +31,7 @@ export function cleanCodeBlock(code: string): string {
  * @returns {Promise<string>} The result of the Python code execution.
  */
 export async function executePythonCode(code: string): Promise<string> {
-  log.debug(code);
+  log.trace("Executing Python code", { msg: code });
   if (!config.lambda.pythonExecutorName) {
     throw new Error('No executor Lambda function defined.');
   }
