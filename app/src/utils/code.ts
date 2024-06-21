@@ -72,7 +72,7 @@ export async function executePythonCode(code: string): Promise<string> {
             msg: 'Python code execution error, trying to autofix for daddy',
             error,
         });
-        (error as any)['isPythonExecutionError'] = true;
+        (error as Error)['isPythonExecutionError'] = true;
     }
     throw error;
 }
