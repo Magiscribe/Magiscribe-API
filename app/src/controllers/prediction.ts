@@ -92,8 +92,8 @@ export async function generateVisualPrediction({
           try {
             const pythonCodeResult = await executePythonCode(cleanedResult);
             return pythonCodeResult;
-          } catch (error: any) {
-            if (error['isPythonExecutionError']) {
+          } catch (error: unknown) {
+            if (typeof error === 'object' && error !== null && 'isPythonExecutionError' in error) {
               logger.debug('Python code execution error, trying to autofix');
               const { system: system2, model: model2 } = await getCapabilityPrompt('CodeFixCapability');
               if (!system2 || !model2) {
@@ -102,7 +102,7 @@ export async function generateVisualPrediction({
                 );
               }
               const result2 = await makeSyncRequest({
-                prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error.message}`,
+                prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error}`,
                 model: model2,
                 system: system2,
                 context: "Original Context: " + step.context,

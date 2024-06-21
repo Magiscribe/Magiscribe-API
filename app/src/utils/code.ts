@@ -25,13 +25,6 @@ export function cleanCodeBlock(code: string): string {
   return code;
 }
 
-class PythonExecutionError extends Error {
-  constructor(message: string, public errorType: string) {
-    super(message);
-    this.name = 'PythonExecutionError';
-  }
-}
-
 /**
  * Executes Python code on the executor Lambda function.
  * @param code {string} The Python code to execute.
@@ -73,14 +66,14 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
-  } catch (error: any) {
-    if (!error['isPythonExecutionError']) {
-      log.error({
-        msg: 'Python code execution error, trying to autofix for daddy',
-        error,
-      });
-      error['isPythonExecutionError'] = true;
+  } catch (error: unknown) {
+    if (error instanceof Error && !('isPythonExecutionError' in error)) {
+        log.error({
+            msg: 'Python code execution error, trying to autofix for daddy',
+            error,
+        });
+        (error as any)['isPythonExecutionError'] = true;
     }
     throw error;
-  }
+}
 }
