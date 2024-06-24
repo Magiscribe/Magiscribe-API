@@ -46,6 +46,7 @@ export class PythonFunction extends Construct {
       environment: {
         variables: props.environmentVariables,
       },
+      architectures: ['arm64']
     });
 
     // Add AWSLambdaBasicExecutionRole

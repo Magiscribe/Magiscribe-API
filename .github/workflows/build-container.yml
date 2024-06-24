@@ -1,0 +1,68 @@
+on:
+  workflow_call:
+    inputs:
+      path:
+        type: string
+        required: true
+        description: 'The path to the Dockerfile to build and push'
+      repository:
+        type: string
+        required: true
+        description: 'The repository to push the image to'
+      role_to_assume:
+        type: string
+        required: true
+        description: 'The ARN of the role to assume'
+      region:
+        type: string
+        required: true
+        description: 'The AWS region to use'
+
+jobs:
+  build-container:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/arm64
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ inputs.role_to_assume }}
+          aws-region: ${{ inputs.region }}
+
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: "true"
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: ${{ matrix.platform }}
+          context: ${{ inputs.path }}
+          push: true
+          provenance: false
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache
+          cache-to: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache,mode=max,image-manifest=true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title=${{ inputs.repository }}
+            org.opencontainers.image.platform=${{ matrix.platform }}

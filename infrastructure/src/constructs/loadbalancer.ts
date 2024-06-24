@@ -1,3 +1,4 @@
+import { AcmCertificate } from '@cdktf/provider-aws/lib/acm-certificate';
 import { EcsCluster } from '@cdktf/provider-aws/lib/ecs-cluster';
 import { EcsService } from '@cdktf/provider-aws/lib/ecs-service';
 import { EcsTaskDefinition } from '@cdktf/provider-aws/lib/ecs-task-definition';
@@ -6,10 +7,9 @@ import { LbListener } from '@cdktf/provider-aws/lib/lb-listener';
 import { LbListenerRule } from '@cdktf/provider-aws/lib/lb-listener-rule';
 import { LbTargetGroup } from '@cdktf/provider-aws/lib/lb-target-group';
 import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
+import { Token } from 'cdktf';
 import { Construct } from 'constructs';
 import { Vpc } from '../../.gen/modules/vpc';
-import { Token } from 'cdktf';
-import { AcmCertificate } from '@cdktf/provider-aws/lib/acm-certificate';
 
 interface LoadBalancerProps {
   vpc: Vpc;
@@ -107,11 +107,17 @@ export class LoadBalancer extends Construct {
     });
   }
 
-  exposeService(
+  exposeService({
+    name,
+    task,
+    serviceSecurityGroup,
+    path,
+  }: {
     name: string,
     task: EcsTaskDefinition,
     serviceSecurityGroup: SecurityGroup,
     path: string,
+  }
   ) {
     // Define Load Balancer target group with a health check on /ready
     const targetGroup = new LbTargetGroup(this, `TargetGroup`, {
@@ -128,7 +134,7 @@ export class LoadBalancer extends Construct {
     });
 
     // Makes the listener forward requests from subpath to the target group
-    new LbListenerRule(this, `rule`, {
+    new LbListenerRule(this, `Rule`, {
       listenerArn: this.httpsListener.arn,
       priority: 100,
       action: [

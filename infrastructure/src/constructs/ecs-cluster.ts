@@ -18,7 +18,9 @@ export class Cluster extends Construct {
 
     new EcsClusterCapacityProviders(this, `ClusterCapacityProviders`, {
       clusterName: this.cluster.name,
-      capacityProviders: ['FARGATE'],
+      capacityProviders: [
+        'FARGATE', 
+      ],
     });
   }
 
@@ -34,8 +36,8 @@ export class Cluster extends Construct {
     secrets?: Record<string, string> | undefined;
   }) {
     // Role that allows us to get the Docker image
-    const executionRole = new IamRole(this, `execution-role`, {
-      name: `${name}-execution-role`,
+    const executionRole = new IamRole(this, `ExecutionRole`, {
+      namePrefix: `${name}-execution-role-`,
       inlinePolicy: [
         // Grants access to ECR
         {
@@ -90,8 +92,8 @@ export class Cluster extends Construct {
     });
 
     // Role that allows us to push logs
-    const taskRole = new IamRole(this, `task-role`, {
-      name: `${name}-task-role`,
+    const taskRole = new IamRole(this, `TaskRole`, {
+      namePrefix: `${name}-task-role-`,
       inlinePolicy: [
         {
           name: 'allow-logs',
@@ -153,16 +155,15 @@ export class Cluster extends Construct {
     });
 
     // Creates a log group for the task
-    const logGroup = new CloudwatchLogGroup(this, `loggroup`, {
+    const logGroup = new CloudwatchLogGroup(this, `LogGroup`, {
       name: `${this.cluster.name}/${name}`,
       retentionInDays: 30,
     });
 
     // Creates a task that runs the docker container
-    const task = new EcsTaskDefinition(this, `task`, {
+    const task = new EcsTaskDefinition(this, `Task`, {
       cpu: '256',
       memory: '512',
-      requiresCompatibilities: ['FARGATE'],
       networkMode: 'awsvpc',
       executionRoleArn: executionRole.arn,
       taskRoleArn: taskRole.arn,
@@ -174,15 +175,15 @@ export class Cluster extends Construct {
           memory: 512,
           environment: env
             ? Object.entries(env).map(([name, value]) => ({
-                name,
-                value,
-              }))
+              name,
+              value,
+            }))
             : undefined,
           secrets: secrets
             ? Object.entries(secrets).map(([name, valueFrom]) => ({
-                name,
-                valueFrom,
-              }))
+              name,
+              valueFrom,
+            }))
             : undefined,
           portMappings: [
             {
@@ -202,6 +203,9 @@ export class Cluster extends Construct {
         },
       ]),
       family: 'service',
+      runtimePlatform: {
+        cpuArchitecture: 'ARM64',
+      }
     });
 
     return task;

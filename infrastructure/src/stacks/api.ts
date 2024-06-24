@@ -4,7 +4,6 @@ import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
 import { Cluster } from '@constructs/ecs-cluster';
 import { PythonFunction } from '@constructs/function';
 import { LoadBalancer } from '@constructs/loadbalancer';
-import { RedisConstruct } from '@constructs/redis';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
@@ -44,7 +43,7 @@ export default class ApiStack extends TerraformStack {
 
     /*================= LAMBDAS =================*/
 
-    const executorFn = new PythonFunction(this, 'PythonExecutorFn', {
+    const executorFn = new PythonFunction(this, 'PythonExecutor', {
       imageUri: `${data.repositoryPythonExecutor.repository.repositoryUrl}:latest`,
       timeout: 10,
       memorySize: 1024,
@@ -55,9 +54,10 @@ export default class ApiStack extends TerraformStack {
     // Note: Redis is being kept in the application stack since it is only used for session management.
     //       If Redis is used for other purposes, it should be moved to a separate stack for better isolation.
 
-    const redis = new RedisConstruct(this, 'Redis', {
-      vpc: network.vpc.vpc,
-    });
+    // TODO: Enable this once we scale beyond a single container.
+    // const redis = new RedisConstruct(this, 'Redis', {
+    //   vpc: network.vpc.vpc,
+    // });
 
     /*================= ECS =================*/
 
@@ -71,9 +71,11 @@ export default class ApiStack extends TerraformStack {
         LAMBDA_PYTHON_EXECUTOR_NAME: executorFn.function.functionName,
         CLERK_PUBLISHABLE_KEY: config.auth.publishableKey,
         CLERK_SECRET_KEY: config.auth.secretKey,
-        REDIS_HOST: redis.replicationGroup.primaryEndpointAddress,
-        REDIS_PORT: redis.replicationGroup.port.toString(),
         CORS_ORIGINS: props.corsOrigins.join(','),
+
+        // TODO: Enable this once we scale beyond a single container.
+        // REDIS_HOST: redis.replicationGroup.primaryEndpointAddress,
+        // REDIS_PORT: redis.replicationGroup.port.toString(),
       },
       secrets: {
         MONGODB_URL: data.databaseParameters.connectionString.arn,
@@ -115,7 +117,11 @@ export default class ApiStack extends TerraformStack {
       },
     );
 
-    loadBalancer.exposeService('graphql-api', task, serviceSecurityGroup, '/');
+    loadBalancer.exposeService({
+      name: 'graphql-api',
+      task, serviceSecurityGroup, 
+      path: '/',
+    });
 
     new Route53Record(this, 'FrontendRecord', {
       name: domainName,
