@@ -57,6 +57,10 @@ export async function executePythonCode(code: string): Promise<string> {
       throw error;
     }
 
+    log.debug({
+      msg: 'Python code execution response received',
+      result: Buffer.from(result.Payload!).toString(),
+    });
     const payload = JSON.parse(
       JSON.parse(Buffer.from(result.Payload!).toString())
     );
@@ -66,11 +70,11 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
-  } catch (error: unknown) {
+  } catch (error: any) {
     if (error instanceof Error && !('isPythonExecutionError' in error)) {
         log.error({
             msg: 'Python code execution error, trying to autofix for daddy',
-            error,
+            error: error.message,
         });
         (error as Error)['isPythonExecutionError'] = true;
     }

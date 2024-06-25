@@ -1,6 +1,5 @@
 import {
-  generateTextPredictionStreaming,
-  generateVisualPrediction,
+  generateVisualPrediction
 } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
@@ -8,24 +7,31 @@ import { pubsubClient } from '@utils/clients';
 
 export const PredictionModule: StaticGraphQLModule = {
   schema: `#graphql
+    enum PredictionType {
+      ERROR
+      DATA
+      SUCCESS
+      RECIEVED
+    }
+
     type Prediction {
       prompt: String
       context: String
       result: String
+      type: String
     }
 
     type Mutation {
       addVisualPrediction(
         subscriptionId: String!
+        agentId: String!
         prompt: String!
         context: String
       ): String
-      addTextPrediction(subscriptionId: String!, prompt: String!): String
     }
 
     type Subscription {
       visualPredictionAdded(subscriptionId: String!): Prediction
-      textPredictionAdded(subscriptionId: String!): Prediction
     }
   `,
 
@@ -36,12 +42,6 @@ export const PredictionModule: StaticGraphQLModule = {
 
         return 'Prediction added';
       },
-
-      addTextPrediction: (_, props) => {
-        generateTextPredictionStreaming(props);
-
-        return 'Prediction added';
-      },
     },
     Subscription: {
       visualPredictionAdded: {
@@ -49,10 +49,6 @@ export const PredictionModule: StaticGraphQLModule = {
           pubsubClient.asyncIterator([
             SubscriptionEvent.VISUAL_PREDICTION_ADDED,
           ]),
-      },
-      textPredictionAdded: {
-        subscribe: () =>
-          pubsubClient.asyncIterator([SubscriptionEvent.TEXT_PREDICTION_ADDED]),
       },
     },
   },

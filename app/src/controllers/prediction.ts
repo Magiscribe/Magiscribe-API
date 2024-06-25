@@ -1,49 +1,54 @@
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
-import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
-import { getCapabilityPrompt, getReasoningPrompt } from '@utils/ai/system';
+import { makeRequest } from '@utils/ai/requests';
+import { getAgent, getCapability } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
  *
- * @param {string} prompt - The prompt to generate the prediction for.
- * @param {string} context - The context to generate the prediction with.
+ * @param {string} params.subscriptionId - The ID of the subscription.
+ * @param {string} params.agentId - The ID of the agent to use for the prediction.
+ * @param {string} params.prompt - The prompt to generate the prediction from.
+ * @param {string} params.context - The context to use for the prediction.
  * @returns {Promise<void>} The generated prediction as an array of results.
  */
 export async function generateVisualPrediction({
   subscriptionId,
+  agentId,
   prompt,
   context,
 }): Promise<void> {
   try {
     logger.info({ msg: 'Prediction generation started', prompt, context });
 
-    const { system, model } = await getReasoningPrompt();
+    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation started',
+        type: 'RECIEVED'
+      }
+    });
 
-    if (!system || !model) {
+    const agent = await getAgent(agentId);
+    if (!agent) {
       throw new Error(
-        `No reasoning prompt or model found for system: ${system}`,
+        `No agent found for ID: ${agentId}`,
       );
     }
 
-    const preprocessingResponse = await makeSyncRequest({
-      system,
-      model,
+    const preprocessingResponse = await makeRequest({
       prompt,
       context,
+      system: agent.reasoningPrompt,
+      model: agent.reasoningLLMModel,
     });
-
-    logger.debug({
-      msg: 'Preprocessing response received',
-      preprocessingResponse,
-    });
-
     const cleanedPreprocessingResponse = cleanCodeBlock(preprocessingResponse);
 
     logger.debug({
-      msg: 'Cleaned preprocessing response',
+      msg: 'Preprocessing response received',
       cleanedPreprocessingResponse,
     });
 
@@ -52,10 +57,10 @@ export async function generateVisualPrediction({
     try {
       const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
       processingSteps = parsedResponse.processingSteps;
-    } catch (parseError) {
+    } catch (error: any) {
       logger.error({
         msg: 'Failed to parse cleaned preprocessing response',
-        error: parseError,
+        error: error.message,
       });
       throw new Error('Invalid JSON response from preprocessing');
     }
@@ -66,7 +71,6 @@ export async function generateVisualPrediction({
     });
 
     // Execute the processed steps and generate the results
-
     const results = await Promise.all(
       processingSteps.map(
         async (step: {
@@ -74,94 +78,110 @@ export async function generateVisualPrediction({
           capability: string;
           context: string;
         }) => {
-          const { system, model } = await getCapabilityPrompt(step.capability);
-
-          if (!system || !model) {
+          const capability = await getCapability(step.capability);
+          if (!capability) {
             throw new Error(
-              `No capability prompt or model found for capability: ${step.capability}`,
+              `No capability found for alias: ${step.capability}`,
             );
           }
 
-          const result = await makeSyncRequest({
+          const result = await makeRequest({
             prompt: step.prompt,
-            model,
-            system,
             context: step.context,
+            model: capability.llmModel,
+            system: capability.prompts.map((prompt) => prompt.text).join('\n'),
+            streaming: capability.outputMode == 'STREAMING_INDIVIDUAL' ? {
+              enabled: true,
+              callback: async (content: string) => {
+                logger.debug({
+                  msg: 'Streaming AI response chunk received',
+                  content,
+                });
+                subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+                  visualPredictionAdded: {
+                    subscriptionId,
+                    prompt: step.prompt,
+                    context: 'Streaming AI response chunk received',
+                    result: content,
+                    type: 'DATA'
+                  }
+                });
+              },
+            } : undefined,
           });
           const cleanedResult = cleanCodeBlock(result);
-          try {
-            const pythonCodeResult = await executePythonCode(cleanedResult);
-            return pythonCodeResult;
-          } catch (error: unknown) {
-            if (typeof error === 'object' && error !== null && 'isPythonExecutionError' in error) {
-              logger.debug('Python code execution error, trying to autofix');
+
+          // Execute the Python code block, if any fails, try to fix it.
+          if (capability.outputMode === 'SYNCHRONOUS_EXECUTION_AGGREGATE') {
+            try {
+              const pythonCodeResult = await executePythonCode(cleanedResult);
+              return pythonCodeResult;
+            } catch (error: any) {
               // TODO: Create a formal review process within the agent architecture to handle errors and review multistep progress
-              const { system: codeFixSystemPrompt, model: codeFixModelName } = await getCapabilityPrompt('CodeFixCapability');
-              if (!codeFixSystemPrompt || !codeFixModelName) {
-                throw new Error(
-                  `No capability prompt or model found for capability: CodeFixCapability`,
-                );
+              if (typeof error === 'object' && error !== null && 'isPythonExecutionError' in error) {
+                logger.warn({
+                  msg: 'Python code execution error, trying to autofix',
+                  error: error.message,
+                });
+                
+                const fixCapability = await getCapability('CodeFixCapability');
+                if (!fixCapability) {
+                  throw new Error(
+                    `No capability found for alias: CodeFixCapability`,
+                  );
+                }
+  
+                const fixedResult = await makeRequest({
+                  prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error}`,
+                  model: fixCapability.llmModel,
+                  system: fixCapability.prompts.map((prompt) => prompt.text).join('\n'),
+                  context: `Original Context: ${step.context}`,
+                });
+                const cleanedResult2 = cleanCodeBlock(fixedResult);
+                return await executePythonCode(cleanedResult2);
+              } else {
+                throw error; // Re-throw unexpected errors
               }
-              const result2 = await makeSyncRequest({
-                prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error}`,
-                model: codeFixModelName,
-                system: codeFixSystemPrompt,
-                context: "Original Context: " + step.context,
-              });
-              const cleanedResult2 = cleanCodeBlock(result2);
-              return await executePythonCode(cleanedResult2);
-            } else {
-              throw error; // Re-throw unexpected errors
             }
           }
         }
       )
     );
 
-    const visualPredictionAddedResult = {
-      subscriptionId,
-      prompt,
-      context,
-      result: JSON.stringify(results),
-    };
-
     logger.debug({ msg: 'Prediction generated', results });
-    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
-      visualPredictionAdded: visualPredictionAddedResult,
+    
+    await subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation completed',
+        result: JSON.stringify(results.filter(item => item !== null)),
+        type: 'DATA'
+      },
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
+    await subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation completed',
+        type: 'SUCCESS'
+      }
+    });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.warn({
       msg: 'Prediction generation failed',
       error: error.message,
     });
-  }
-}
-
-/**
- * Generates a text prediction in a streaming manner and publishes the result chunks to a subscription.
- *
- * @param {string} prompt - The prompt to generate the prediction for.
- * @returns {Promise<void>}
- */
-export async function generateTextPredictionStreaming({
-  subscriptionId,
-  prompt,
-}): Promise<void> {
-  try {
-    logger.debug({ msg: 'Prediction generation started', prompt });
-
-    // Generate the prediction in a streaming manner
-    await makeStreamingRequest(
-      { prompt, model: 'CLAUDE_3_HAIKU' },
-      async (chunk) => {
-        subscriptionClient.publish(SubscriptionEvent.TEXT_PREDICTION_ADDED, {
-          textPredictionAdded: { subscriptionId, prompt, result: chunk },
-        });
-      },
-    );
-  } catch (error) {
-    logger.warn({ msg: 'Prediction generation failed', error });
-    throw error;
+    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation failed',
+        type: 'ERROR'
+      }
+    });
   }
 }

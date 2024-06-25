@@ -1,22 +1,19 @@
-import { Agent, Capability } from '@database/models/agent';
-import log from '@log';
+import { Agent, Capability, IAgent, ICapability } from '@database/models/agent';
 
-export async function getReasoningPrompt() {
-  // TODO: Don't fucking hardcode this.
-  log.warn(
-    'Getting the Default Agent reasoning prompt. Please deprecate this.',
-  );
-  const result = await Agent.findOne({ name: 'Default Agent' });
-  return {
-    system: result?.reasoningPrompt,
-    model: result?.reasoningLLMModel,
-  };
+/**
+ * Retrieves an agent by ID.
+ * @param id {string} - The ID of the agent to retrieve.
+ * @returns {Promise<Agent>} The agent with the provided ID, or null if not found.
+ */
+export async function getAgent(id: string): Promise<IAgent | null> {
+  return await Agent.findOne({ _id: id });
 }
 
-export async function getCapabilityPrompt(alias: string) {
-  const result = await Capability.findOne({ alias }).populate('prompts');
-  return {
-    system: result?.prompts.map((c) => c.text).join('\n'),
-    model: result?.llmModel,
-  };
+/**
+ * Retrieves an agent by alias.
+ * @param alias {string} - The alias of the agent to retrieve.
+ * @returns {Promise<ICapability>} The agent with the provided alias, or null if not found.
+ */
+export async function getCapability(alias: string): Promise<ICapability | null> {
+  return await Capability.findOne({ alias }).populate('prompts');
 }

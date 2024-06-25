@@ -1,28 +1,29 @@
 import { LLM_MODELS_VERSION } from '@utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 
-interface Prompt {
+export interface IPrompt {
   id: string;
   name: string;
   text: string;
 }
 
-interface Capability {
+export interface ICapability {
   id: string;
   name: string;
   description: string;
   llmModel: string;
-  prompts: Prompt[];
+  prompts: IPrompt[];
+  outputMode: string;
 }
 
-interface Agent {
+export interface IAgent {
   id: string;
   alias: string;
   name: string;
   description: string;
   reasoningLLMModel: string;
   reasoningPrompt: string;
-  capabilities: Capability[];
+  capabilities: ICapability[];
 }
 
 const PromptSchema: Schema = new mongoose.Schema(
@@ -49,6 +50,19 @@ const CapabilitySchema: Schema = new mongoose.Schema(
         ref: 'Prompt',
       },
     ],
+    outputMode: {
+      type: String,
+      enum: [
+        'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
+        'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
+
+        'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
+        'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
+
+        'STREAMING_INDIVIDUAL' // The AI response is streamed to the client as it is recieved.
+      ],
+      default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
+    },
   },
   { timestamps: true },
 );
@@ -73,9 +87,9 @@ const agentSchema: Schema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Prompt = mongoose.model<Prompt>('Prompt', PromptSchema);
-export const Capability = mongoose.model<Capability>(
+export const Prompt = mongoose.model<IPrompt>('Prompt', PromptSchema);
+export const Capability = mongoose.model<ICapability>(
   'Capability',
   CapabilitySchema,
 );
-export const Agent = mongoose.model<Agent>('Agent', agentSchema);
+export const Agent = mongoose.model<IAgent>('Agent', agentSchema);

@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import requests
 
 def is_json_serializable(value):
     try:
