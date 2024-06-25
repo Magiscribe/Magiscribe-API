@@ -163,7 +163,7 @@ export default async function startServer() {
   // Proper shutdown for the HTTP server.
   // This is so that we can drain the HTTP server when the server is shut down.
   // Gotta avoid those dangling connections less there be a memory leak.
-  const pluginDraiHttpServer = ApolloServerPluginDrainHttpServer({
+  const pluginDrainHttpServer = ApolloServerPluginDrainHttpServer({
     httpServer,
   });
 
@@ -211,7 +211,7 @@ export default async function startServer() {
     schema,
     plugins: [
       pluginDrainWebSocketServer,
-      pluginDraiHttpServer,
+      pluginDrainHttpServer,
       pluginLogging,
       pluginDisableLandingPage,
     ],
