@@ -33,8 +33,12 @@ export default async function startServer() {
       throw new Error('Missing connection parameters in WebSocket connection');
     }
 
-    const connectionParams = ctx.connectionParams;
-    const token = connectionParams.authorization as string;
+    // Unlike http/2 or http/3, parameters established over a WebSocket connection
+    // can be anycase. Since the Apollo client automatically sends the authorization
+    // in pascal case, we will convert it to lowercase to simplify the check.
+    const token = Object.keys(ctx.connectionParams).find(
+      (key) => key.toLowerCase() === 'authorization',
+    ) as string | undefined;
 
     log.debug('Inbound transmission detected (Client HTTP request received)');
 
