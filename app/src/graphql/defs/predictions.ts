@@ -18,7 +18,7 @@ export const PredictionModule: StaticGraphQLModule = {
       result: String
       type: String
     }
-
+    
     type Mutation {
       addVisualPrediction(
         subscriptionId: String!

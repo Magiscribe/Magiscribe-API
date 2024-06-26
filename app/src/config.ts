@@ -70,6 +70,9 @@ const config = {
 
   mediaAssetsBucketName: process.env.MEDIA_ASSETS_BUCKET_NAME || 'media-assets',
 
+  transcribeStreamingRole:
+    process.env.TRANSRIBE_STREAMING_ROLE || 'transcribe-streaming-role',
+
   lambda: {
     /**
      * The name of the Lambda function used to execute Python code.
