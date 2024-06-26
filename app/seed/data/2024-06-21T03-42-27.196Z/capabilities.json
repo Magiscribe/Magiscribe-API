@@ -125,10 +125,7 @@
     "alias": "CodeFixCapability",
     "llmModel": "CLAUDE_HAIKU",
     "description": "This is a description for  Code Fix Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f7"
-    ],
+    "prompts": ["6670ab02f446b4f1a67b32f6", "6670ab02f446b4f1a67b32f7"],
     "createdAt": "2024-06-17T21:30:42.688Z",
     "updatedAt": "2024-06-21T01:25:10.489Z",
     "__v": 0
@@ -154,9 +151,7 @@
     "alias": "ErrorTestingCapability",
     "llmModel": "CLAUDE_HAIKU",
     "description": "Writes code that intentionally will produce python errors.",
-    "prompts": [
-      "6673943ac233aa7ae4aabac2"
-    ],
+    "prompts": ["6673943ac233aa7ae4aabac2"],
     "createdAt": "2024-06-20T02:09:40.263Z",
     "updatedAt": "2024-06-21T03:18:08.410Z",
     "__v": 0

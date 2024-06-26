@@ -59,7 +59,7 @@ const CapabilitySchema: Schema = new mongoose.Schema(
         'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
         'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
 
-        'STREAMING_INDIVIDUAL' // The AI response is streamed to the client as it is recieved.
+        'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
       ],
       default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
     },

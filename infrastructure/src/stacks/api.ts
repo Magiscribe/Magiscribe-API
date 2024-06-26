@@ -119,7 +119,8 @@ export default class ApiStack extends TerraformStack {
 
     loadBalancer.exposeService({
       name: 'graphql-api',
-      task, serviceSecurityGroup, 
+      task,
+      serviceSecurityGroup,
       path: '/',
     });
 

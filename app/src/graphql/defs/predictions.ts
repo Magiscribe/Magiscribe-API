@@ -1,6 +1,4 @@
-import {
-  generateVisualPrediction
-} from '@controllers/prediction';
+import { generateVisualPrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import { pubsubClient } from '@utils/clients';

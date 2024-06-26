@@ -38,7 +38,13 @@ export async function makeRequest({
 
   const fullPrompt = [system, prompt, context].join('\n');
 
-  log.debug({ msg: 'Sending AI request...', system, prompt, context, streaming });
+  log.debug({
+    msg: 'Sending AI request...',
+    system,
+    prompt,
+    context,
+    streaming,
+  });
 
   if (streaming.enabled) {
     if (!streaming.callback) {

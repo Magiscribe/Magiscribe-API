@@ -27,9 +27,7 @@
     "description": "Lorem ipsum",
     "reasoningLLMModel": "MISTRAL_SMALL",
     "reasoningPrompt": "<System>\nGive me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt, a capability, and context. The prompt, capability, and context are all strings.\nmessage contains simple commands for a particular capability. These commands will later be executed in parallel.\nselected capability can ONLY be one of the following: StreamCapability. Do NOT include any other capabilities.\n\n# Example 1:\n# Prompt: \"What is a Sauterne wine?\" \n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Define what a Sauterne wine is\", \"capability\": \"StreamCapability\", \"context\": \"You are a wine expert\"}\n    ]\n}\n```\n\n# Example 2:\n# Prompt: \"Who is US President\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Tell me about Joe Biden\", \"capability\": \"StreamCapability\", \"context\": \"You are a historian\"}\n    ]\n}\n```\n</System>\n",
-    "capabilities": [
-      "667ae47c6d5e4973f402e1f4"
-    ],
+    "capabilities": ["667ae47c6d5e4973f402e1f4"],
     "createdAt": "2024-06-25T15:35:50.504Z",
     "updatedAt": "2024-06-25T16:06:03.797Z",
     "__v": 0
@@ -40,9 +38,7 @@
     "description": "Scraps websites for information.",
     "reasoningLLMModel": "MISTRAL_SMALL",
     "reasoningPrompt": "<System>\nGive me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt, a capability, and context. The prompt, capability, and context are all strings.\nmessage contains simple commands for a particular capability. These commands will later be executed in parallel.\nselected capability can ONLY be one of the following: ScrapCapability. Do NOT include any other capabilities.\n\n# Example 1:\n# Prompt: Get all links from kylelierer.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Pull all links from the webpage\", \"capability\": \"ScrapCapability\", \"context\": \"The website url is kylelierer.com\"}\n    ]\n}\n```\n\n# Example 2:\n# Prompt: Get all h1 text and links from google.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Get all h1 text\", \"capability\": \"ScrapCapability\", \"context\": \"The website url is google.com\"},\n        { \"prompt\": \"Pull all links from the webpage\", \"capability\": \"ScrapCapability\", \"context\": \"The website url is google.com\"}\n    ]\n}\n```\n</System>\n",
-    "capabilities": [
-      "6670ab02f446b4f1a67b3340"
-    ],
+    "capabilities": ["6670ab02f446b4f1a67b3340"],
     "createdAt": "2024-06-25T16:07:11.045Z",
     "updatedAt": "2024-06-25T16:39:41.389Z",
     "__v": 0

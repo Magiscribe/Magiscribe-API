@@ -1,5 +1,5 @@
 import database from '../database';
-import { IAgent, ICapability, IPrompt } from '../database/models/agent';
+import { Agent, Capability, Prompt } from '../database/models/agent';
 import log from '../log';
 import fs from 'fs';
 import { Model } from 'mongoose';

@@ -31,7 +31,7 @@ export function cleanCodeBlock(code: string): string {
  * @returns {Promise<string>} The result of the Python code execution.
  */
 export async function executePythonCode(code: string): Promise<string> {
-  log.trace("Executing Python code", { msg: code });
+  log.trace('Executing Python code', { msg: code });
   if (!config.lambda.pythonExecutorName) {
     throw new Error('No executor Lambda function defined.');
   }
@@ -62,7 +62,7 @@ export async function executePythonCode(code: string): Promise<string> {
       result: Buffer.from(result.Payload!).toString(),
     });
     const payload = JSON.parse(
-      JSON.parse(Buffer.from(result.Payload!).toString())
+      JSON.parse(Buffer.from(result.Payload!).toString()),
     );
     log.debug({
       msg: 'Python code execution response received',
@@ -70,14 +70,15 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error instanceof Error && !('isPythonExecutionError' in error)) {
-        log.error({
-            msg: 'Python code execution error, trying to autofix for daddy',
-            error: error.message,
-        });
-        (error as Error)['isPythonExecutionError'] = true;
+      log.error({
+        msg: 'Python code execution error, trying to autofix for daddy',
+        error: error.message,
+      });
+      (error as Error)['isPythonExecutionError'] = true;
     }
     throw error;
-}
+  }
 }

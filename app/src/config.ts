@@ -103,17 +103,20 @@ const config = {
     password: process.env.MONGODB_PASSWORD || 'password',
   },
 
-  redis: process.env.REDIS_HOST && process.env.REDIS_PORT ? {
-    /**
-     * The Redis host.
-     */
-    host: process.env.REDIS_HOST,
+  redis:
+    process.env.REDIS_HOST && process.env.REDIS_PORT
+      ? {
+          /**
+           * The Redis host.
+           */
+          host: process.env.REDIS_HOST,
 
-    /**
-     * The Redis port.
-     */
-    port: parseInt(process.env.REDIS_PORT || '6379'),
-  } : undefined,
+          /**
+           * The Redis port.
+           */
+          port: parseInt(process.env.REDIS_PORT || '6379'),
+        }
+      : undefined,
 };
 
 export default config;

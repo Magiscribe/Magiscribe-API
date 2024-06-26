@@ -113,12 +113,11 @@ export class LoadBalancer extends Construct {
     serviceSecurityGroup,
     path,
   }: {
-    name: string,
-    task: EcsTaskDefinition,
-    serviceSecurityGroup: SecurityGroup,
-    path: string,
-  }
-  ) {
+    name: string;
+    task: EcsTaskDefinition;
+    serviceSecurityGroup: SecurityGroup;
+    path: string;
+  }) {
     // Define Load Balancer target group with a health check on /ready
     const targetGroup = new LbTargetGroup(this, `TargetGroup`, {
       dependsOn: [this.httpsListener],

@@ -18,9 +18,7 @@ export class Cluster extends Construct {
 
     new EcsClusterCapacityProviders(this, `ClusterCapacityProviders`, {
       clusterName: this.cluster.name,
-      capacityProviders: [
-        'FARGATE', 
-      ],
+      capacityProviders: ['FARGATE'],
     });
   }
 
@@ -175,15 +173,15 @@ export class Cluster extends Construct {
           memory: 512,
           environment: env
             ? Object.entries(env).map(([name, value]) => ({
-              name,
-              value,
-            }))
+                name,
+                value,
+              }))
             : undefined,
           secrets: secrets
             ? Object.entries(secrets).map(([name, valueFrom]) => ({
-              name,
-              valueFrom,
-            }))
+                name,
+                valueFrom,
+              }))
             : undefined,
           portMappings: [
             {
@@ -205,7 +203,7 @@ export class Cluster extends Construct {
       family: 'service',
       runtimePlatform: {
         cpuArchitecture: 'ARM64',
-      }
+      },
     });
 
     return task;
