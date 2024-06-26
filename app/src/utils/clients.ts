@@ -1,6 +1,8 @@
 import { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
 import { LambdaClient } from '@aws-sdk/client-lambda';
 import { S3Client } from '@aws-sdk/client-s3';
+import { STSClient } from '@aws-sdk/client-sts';
+import { TranscribeClient } from '@aws-sdk/client-transcribe';
 import config from '@config';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { PubSub } from 'graphql-subscriptions';
@@ -37,5 +39,20 @@ const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
   region: config.aws.region,
 });
+const stsClient = new STSClient({
+  credentials,
+  region: config.aws.region,
+});
+const transcribeClient = new TranscribeClient({
+  credentials,
+  region: config.aws.region,
+});
 
-export { bedrockClient, lambdaClient, pubsubClient, s3Client };
+export {
+  bedrockClient,
+  lambdaClient,
+  pubsubClient,
+  s3Client,
+  stsClient,
+  transcribeClient,
+};

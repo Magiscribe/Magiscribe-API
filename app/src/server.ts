@@ -36,9 +36,12 @@ export default async function startServer() {
     // Unlike http/2 or http/3, parameters established over a WebSocket connection
     // can be anycase. Since the Apollo client automatically sends the authorization
     // in pascal case, we will convert it to lowercase to simplify the check.
-    const token = Object.keys(ctx.connectionParams).find(
-      (key) => key.toLowerCase() === 'authorization',
-    ) as string | undefined;
+    const token = Object.fromEntries(
+      Object.entries(ctx.connectionParams).map(([key, value]) => [
+        key.toLowerCase(),
+        value,
+      ]),
+    ).authorization as string;
 
     log.debug('Inbound transmission detected (Client HTTP request received)');
 
