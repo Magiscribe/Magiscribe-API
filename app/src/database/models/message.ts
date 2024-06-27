@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose"
 
 interface IMessage extends Document {
     message: string,
-    response: mongoose.Types.ObjectId | IMessageResponse
+    response: IMessageResponse
 }
 
 interface IMessageResponse extends Document {
@@ -11,9 +11,11 @@ interface IMessageResponse extends Document {
     commandsExecuted: JSON[]
 }
 
-const MessageResponseSchema = new Schema({
+const MessageResponseSchema = new Schema<IMessageResponse>({
     message: String, 
-    status: String,
+    //TO-DO: clarify what this status means. This field tells us whether something is deleted or active but we should just have this on an element object
+    status: String, 
+    commandsExecuted: [Schema.Types.Mixed] 
 });
 
 const MessageSchema = new Schema<IMessage>({
