@@ -4,6 +4,7 @@ import { makeStreamingRequest, makeSyncRequest } from '@utils/ai/requests';
 import { getCapabilityPrompt, getReasoningPrompt } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
+import { Message, MessageResponse } from '@database/models/message';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -129,6 +130,20 @@ export async function generateVisualPrediction({
     subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
       visualPredictionAdded: visualPredictionAddedResult,
     });
+    
+    const messageResponse = await MessageResponse.create({
+      message: visualPredictionAddedResult.result,
+      status: "Active", // TO-DO: Don't hardcode this. Action item in message.ts to clarify what this field means.
+      commandsExecuted: processingSteps
+    });
+    logger.debug({ msg: `Successfully saved ${messageResponse.collection} with ID:${messageResponse._id} to ${messageResponse.db}`, messageResponse });
+
+    const message = await Message.create({
+      message: prompt,
+      response: messageResponse._id,
+    });
+    logger.debug({ msg: `Successfully saved ${message.collection} with ID:${message._id} to ${message.db}`, message });
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.warn({
