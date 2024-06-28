@@ -4,6 +4,7 @@ import { makeRequest } from '@utils/ai/requests';
 import { getAgent, getCapability } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
+import { Message, MessageResponse } from '@database/models/message';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -186,6 +187,18 @@ export async function generateVisualPrediction({
         },
       },
     );
+    
+    const messageResponse = await MessageResponse.create({
+      message: JSON.stringify(results),
+      commandsExecuted: processingSteps
+    });
+    logger.debug({ msg: "Successfully saved: ", messageResponse });
+
+    const message = await Message.create({
+      message: prompt,
+      response: messageResponse._id
+    });
+    logger.debug({ msg: "Successfully saved: ", message });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
