@@ -1,10 +1,11 @@
+import { Thread } from '@database/models/message';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
 import { makeRequest } from '@utils/ai/requests';
 import { getAgent, getCapability } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
-import { Message, MessageResponse } from '@database/models/message';
+import { ObjectId } from 'mongoose';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -15,7 +16,8 @@ import { Message, MessageResponse } from '@database/models/message';
  * @param {string} params.context - The context to use for the prediction.
  * @returns {Promise<void>} The generated prediction as an array of results.
  */
-export async function generateVisualPrediction({
+export async function generatePrediction({
+  user,
   subscriptionId,
   agentId,
   prompt,
@@ -37,6 +39,23 @@ export async function generateVisualPrediction({
     if (!agent) {
       throw new Error(`No agent found for ID: ${agentId}`);
     }
+
+    // Get or create a thread for the subscription ID.
+    const thread = await Thread.findOneAndUpdate(
+      { subscriptionId },
+      { $setOnInsert: { messages: [] } },
+      { upsert: true, new: true }
+    );
+
+    // Add user message to the thread.
+    thread.messages.push({
+      userId: user.sub,
+      response: {
+        type: 'text',
+        response: prompt,
+      },
+    });
+    thread.save();
 
     const preprocessingResponse = await makeRequest({
       prompt,
@@ -163,6 +182,16 @@ export async function generateVisualPrediction({
 
     logger.debug({ msg: 'Prediction generated', results });
 
+    // Add user message to the thread.
+    thread.messages.push({
+      agentId: agentId,
+      response: {
+        type: 'command',
+        response: JSON.stringify(results.filter((item) => item !== null)),
+      },
+    });
+    thread.save();
+
     await subscriptionClient.publish(
       SubscriptionEvent.VISUAL_PREDICTION_ADDED,
       {
@@ -187,18 +216,6 @@ export async function generateVisualPrediction({
         },
       },
     );
-    
-    const messageResponse = await MessageResponse.create({
-      message: JSON.stringify(results),
-      commandsExecuted: processingSteps
-    });
-    logger.debug({ msg: "Successfully saved: ", messageResponse });
-
-    const message = await Message.create({
-      message: prompt,
-      response: messageResponse._id
-    });
-    logger.debug({ msg: "Successfully saved: ", message });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

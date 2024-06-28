@@ -1,6 +1,7 @@
-import { generateVisualPrediction } from '@controllers/prediction';
+import { generatePrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
+import log from '@log';
 import { pubsubClient } from '@utils/clients';
 
 export const PredictionModule: StaticGraphQLModule = {
@@ -20,7 +21,7 @@ export const PredictionModule: StaticGraphQLModule = {
     }
     
     type Mutation {
-      addVisualPrediction(
+      addPrediction(
         subscriptionId: String!
         agentId: String!
         prompt: String!
@@ -35,8 +36,11 @@ export const PredictionModule: StaticGraphQLModule = {
 
   resolvers: {
     Mutation: {
-      addVisualPrediction: (_, props) => {
-        generateVisualPrediction(props);
+      addPrediction: (_, props, context) => {
+        generatePrediction({
+          ...props,
+          user: context.auth,
+        });
 
         return 'Prediction added';
       },
