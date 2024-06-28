@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IThread {
+export interface IThread {
     subscriptionId: string,
     messages: IMessage[]
 }
 
-interface IMessage {
+export interface IMessage {
     userId?: string,
     agentId?: string,
     response: IMessageResponse,

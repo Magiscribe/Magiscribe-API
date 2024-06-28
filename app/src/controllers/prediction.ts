@@ -2,7 +2,7 @@ import { Thread } from '@database/models/message';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
 import { makeRequest } from '@utils/ai/requests';
-import { getAgent, getCapability } from '@utils/ai/system';
+import { getAgent, getCapability, getThreadContext } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
 import { ObjectId } from 'mongoose';
@@ -40,6 +40,7 @@ export async function generatePrediction({
       throw new Error(`No agent found for ID: ${agentId}`);
     }
 
+    const threadContext = await getThreadContext(subscriptionId);
     // Get or create a thread for the subscription ID.
     const thread = await Thread.findOneAndUpdate(
       { subscriptionId },
@@ -59,7 +60,7 @@ export async function generatePrediction({
 
     const preprocessingResponse = await makeRequest({
       prompt,
-      context,
+      context: threadContext,
       system: agent.reasoningPrompt,
       model: agent.reasoningLLMModel,
     });

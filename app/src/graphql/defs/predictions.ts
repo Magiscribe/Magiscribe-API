@@ -21,7 +21,7 @@ export const PredictionModule: StaticGraphQLModule = {
     }
     
     type Mutation {
-      addPrediction(
+      addVisualPrediction(
         subscriptionId: String!
         agentId: String!
         prompt: String!
@@ -36,7 +36,7 @@ export const PredictionModule: StaticGraphQLModule = {
 
   resolvers: {
     Mutation: {
-      addPrediction: (_, props, context) => {
+      addVisualPrediction: (_, props, context) => {
         generatePrediction({
           ...props,
           user: context.auth,
