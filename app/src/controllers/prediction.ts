@@ -39,7 +39,7 @@ export async function generatePrediction({
       throw new Error(`No agent found for ID: ${agentId}`);
     }
 
-    const threadContext = await getThreadContext(subscriptionId);
+    const threadContext = await getThreadContext(subscriptionId, agent.parseInstructions);
     // Get or create a thread for the subscription ID.
     const thread = await Thread.findOneAndUpdate(
       { subscriptionId },

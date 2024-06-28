@@ -23,6 +23,7 @@ export interface IAgent {
   description: string;
   reasoningLLMModel: string;
   reasoningPrompt: string;
+  parseInstructions?: string;
   capabilities: ICapability[];
 }
 
@@ -71,6 +72,7 @@ const agentSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
+    parseInstructions: { type: String },
     reasoningLLMModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),

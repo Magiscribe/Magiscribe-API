@@ -27,7 +27,6 @@ interface CoordinateDict {
     [key: string]: string;
   };
   startCoordinates: number[];
-  relativeCoordinates?: number[][];
   textResponse: string;
 }
 
@@ -35,28 +34,22 @@ interface ResponseItem {
   coordinateDict: CoordinateDict;
 }
 
-function parseMessage(message: IMessage): string {
+function parseMessage(message: IMessage, parseInstructions?: string | null): string {
   if (message.userId) {
     return `User: ${message.response.response}`;
   } else if (message.agentId) {
     if (message.response.type === 'command') {
       try {
         const responseObj = JSON.parse(message.response.response || '');
-        const parsedResponse = responseObj.map((item: ResponseItem) => {
-          const { coordinateDict } = item;
-          const { elementProperties, startCoordinates, relativeCoordinates, textResponse } = coordinateDict;
-          
-          const result: CoordinateDict = {
-            elementProperties,
-            startCoordinates,
-            textResponse,
-            ...(elementProperties.type !== 'freedraw' ? { relativeCoordinates } : {})
-          };
-
-          return JSON.stringify(result);
-        }).join('\n');
-
-        return `Agent: ${parsedResponse}`;
+        
+        if (parseInstructions) {
+          // Use the parsing instructions if provided
+          const parsedResponse = parseWithInstructions(responseObj, parseInstructions);
+          return `Agent: ${JSON.stringify(parsedResponse)}`;
+        } else {
+          // If no instructions, return the full response
+          return `Agent: ${JSON.stringify(responseObj)}`;
+        }
       } catch (error) {
         logger.warn('Failed to parse agent response', error);
         return `Agent: ${message.response.response}`;
@@ -68,18 +61,64 @@ function parseMessage(message: IMessage): string {
   return '';
 }
 
-function parseThread(thread: IThread): string {
-  const threadHistory = "<ThreadHistory>" + thread.messages.map(parseMessage).filter(Boolean).join('\n') + "</ThreadHistory>"
-  return threadHistory;
+// Define utility types for JSON-like structures
+type JSONValue = string | number | boolean | null | JSONValue[] | { [key: string]: JSONValue };
+type JSONObject = { [key: string]: JSONValue };
+
+function parseWithInstructions<T extends JSONObject>(responseObj: T | T[], instructions: string): Partial<T> | Partial<T>[] {
+  const paths = instructions.split(',');
+  
+  if (Array.isArray(responseObj)) {
+    return responseObj.map(item => parseItem(item, paths));
+  } else {
+    return parseItem(responseObj, paths);
+  }
 }
 
-export async function getThreadContext(subscriptionId: string): Promise<string> {
+function parseItem<T extends JSONObject>(item: T, paths: string[]): Partial<T> {
+  const result: Partial<T> = {};
+  
+  paths.forEach(path => {
+    const keys = path.split('.');
+    let value: unknown = item;
+    let currentPath = '';
+    
+    for (const key of keys) {
+      currentPath += (currentPath ? '.' : '') + key;
+      
+      if (typeof value === 'object' && value !== null && key in value) {
+        value = (value as Record<string, unknown>)[key];
+      } else {
+        logger.warn(`Invalid path: ${currentPath}`);
+        value = undefined;
+        break;
+      }
+    }
+    
+    if (value !== undefined) {
+      const lastKey = keys[keys.length - 1] as keyof T;
+      result[lastKey] = value as T[typeof lastKey];
+    }
+  });
+
+  return result;
+}
+
+function parseThread(thread: IThread, parseInstructions?: string | null): string {
+  const threadHistory = thread.messages
+    .map(message => parseMessage(message, parseInstructions))
+    .filter(Boolean)
+    .join('\n');
+  return `<ThreadHistory>${threadHistory}</ThreadHistory>`;
+}
+
+export async function getThreadContext(subscriptionId: string, parseInstructions?: string | null): Promise<string> {
   try {
     const thread = await Thread.findOne({ subscriptionId });
     if (!thread || thread.messages.length === 0) {
       return "<ThreadHistory>This is the first message in the thread</ThreadHistory>";
     }
-    return parseThread(thread);
+    return parseThread(thread, parseInstructions);
   } catch (error) {
     logger.error({
       msg: 'Failed to retrieve thread',
