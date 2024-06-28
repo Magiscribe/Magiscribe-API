@@ -21,6 +21,20 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
+interface CoordinateDict {
+  elementProperties: {
+    type: string;
+    [key: string]: any;
+  };
+  startCoordinates: number[];
+  relativeCoordinates?: number[][];
+  textResponse: string;
+}
+
+interface ResponseItem {
+  coordinateDict: CoordinateDict;
+}
+
 function parseMessage(message: IMessage): string {
   if (message.userId) {
     return `User: ${message.response.response}`;
@@ -28,19 +42,16 @@ function parseMessage(message: IMessage): string {
     if (message.response.type === 'command') {
       try {
         const responseObj = JSON.parse(message.response.response || '');
-        const parsedResponse = responseObj.map((item: any) => {
+        const parsedResponse = responseObj.map((item: ResponseItem) => {
           const { coordinateDict } = item;
           const { elementProperties, startCoordinates, relativeCoordinates, textResponse } = coordinateDict;
           
-          let result: any = {
+          const result: CoordinateDict = {
             elementProperties,
             startCoordinates,
-            textResponse
+            textResponse,
+            ...(elementProperties.type !== 'freedraw' ? { relativeCoordinates } : {})
           };
-
-          if (elementProperties.type !== 'freedraw') {
-            result.relativeCoordinates = relativeCoordinates;
-          }
 
           return JSON.stringify(result);
         }).join('\n');
@@ -58,7 +69,7 @@ function parseMessage(message: IMessage): string {
 }
 
 function parseThread(thread: IThread): string {
-  let threadHistory = "<ThreadHistory>" + thread.messages.map(parseMessage).filter(Boolean).join('\n') + "</ThreadHistory>"
+  const threadHistory = "<ThreadHistory>" + thread.messages.map(parseMessage).filter(Boolean).join('\n') + "</ThreadHistory>"
   return threadHistory;
 }
 
