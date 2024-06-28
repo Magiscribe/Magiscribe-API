@@ -1,25 +1,35 @@
-import mongoose, { Document, Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
-interface IMessage extends Document {
-    message: string,
-    response: IMessageResponse
+interface IThread {
+    subscriptionId: string,
+    messages: IMessage[]
 }
 
-interface IMessageResponse extends Document {
-    message: IMessage,
-    commandsExecuted: JSON[]
+interface IMessage {
+    userId?: string,
+    agentId?: string,
+    response: IMessageResponse,
 }
 
-const MessageResponseSchema = new Schema<IMessageResponse>({
-    message: { type: String, required: true },
-    commandsExecuted: [{ type: Schema.Types.Mixed, required: true}] 
+interface IMessageResponse {
+    type: 'text' | 'command' | 'error',
+    response?: string,
+}
+
+const ThreadSchema = new Schema<IThread>({
+    subscriptionId: String,
+    messages: [{
+        userId: String,
+        agentId: String,
+        response: {
+            type: {
+                type: String,
+                enum: ['text', 'command', 'error']
+            },
+            response: String
+        },
+        createdAt: { type: Date, default: Date.now },
+    }]
 });
 
-const MessageSchema = new Schema<IMessage>({
-    message: { type: String, required: true }, 
-    response: { type: Schema.Types.ObjectId, ref: "MessageResponseSchema", required: true },
-}, {timestamps: true}
-);
-
-export const Message = mongoose.model<IMessage>('Message', MessageSchema);
-export const MessageResponse = mongoose.model<IMessageResponse>('MessageResponse', MessageResponseSchema);
+export const Thread = mongoose.model<IThread>('Thread', ThreadSchema);
