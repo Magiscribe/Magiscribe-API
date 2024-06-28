@@ -133,14 +133,13 @@ export async function generateVisualPrediction({
     
     const messageResponse = await MessageResponse.create({
       message: visualPredictionAddedResult.result,
-      status: "Active", // TO-DO: Don't hardcode this. Action item in message.ts to clarify what this field means.
       commandsExecuted: processingSteps
     });
     logger.debug({ msg: `Successfully saved ${messageResponse.collection} with ID:${messageResponse._id} to ${messageResponse.db}`, messageResponse });
 
     const message = await Message.create({
       message: prompt,
-      response: messageResponse._id,
+      response: messageResponse._id
     });
     logger.debug({ msg: `Successfully saved ${message.collection} with ID:${message._id} to ${message.db}`, message });
 
