@@ -192,13 +192,13 @@ export async function generateVisualPrediction({
       message: JSON.stringify(results),
       commandsExecuted: processingSteps
     });
-    logger.debug({ msg: `Successfully saved ${messageResponse.collection} with ID:${messageResponse._id} to ${messageResponse.db}`, messageResponse });
+    logger.debug({ msg: "Successfully saved: ", messageResponse });
 
     const message = await Message.create({
       message: prompt,
       response: messageResponse._id
     });
-    logger.debug({ msg: `Successfully saved ${message.collection} with ID:${message._id} to ${message.db}`, message });
+    logger.debug({ msg: "Successfully saved: ", message });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
