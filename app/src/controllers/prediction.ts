@@ -5,7 +5,6 @@ import { makeRequest } from '@utils/ai/requests';
 import { getAgent, getCapability, getThreadContext } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
-import { ObjectId } from 'mongoose';
 
 /**
  * Generates a visual prediction based on the given prompt and context.

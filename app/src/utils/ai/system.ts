@@ -24,7 +24,7 @@ export async function getCapability(
 interface CoordinateDict {
   elementProperties: {
     type: string;
-    [key: string]: any;
+    [key: string]: string;
   };
   startCoordinates: number[];
   relativeCoordinates?: number[][];

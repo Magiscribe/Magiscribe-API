@@ -1,7 +1,6 @@
 import { generatePrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
-import log from '@log';
 import { pubsubClient } from '@utils/clients';
 
 export const PredictionModule: StaticGraphQLModule = {
