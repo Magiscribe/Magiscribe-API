@@ -21,15 +21,6 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
-interface CoordinateDict {
-  elementProperties: {
-    type: string;
-    [key: string]: string;
-  };
-  startCoordinates: number[];
-  textResponse: string;
-}
-
 function parseMessage(message: IMessage, parseInstructions?: string | null): string {
   if (message.userId) {
     return `User: ${message.response.response}`;
