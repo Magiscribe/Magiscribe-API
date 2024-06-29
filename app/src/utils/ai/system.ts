@@ -30,10 +30,6 @@ interface CoordinateDict {
   textResponse: string;
 }
 
-interface ResponseItem {
-  coordinateDict: CoordinateDict;
-}
-
 function parseMessage(message: IMessage, parseInstructions?: string | null): string {
   if (message.userId) {
     return `User: ${message.response.response}`;
