@@ -1,35 +1,43 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
+
+export enum MessageResponseTypes {
+  Text = 'text',
+  Command = 'command',
+  Error = 'error',
+}
 
 interface IThread {
-    subscriptionId: string,
-    messages: IMessage[]
+  subscriptionId: string;
+  messages: IMessage[];
 }
 
 interface IMessage {
-    userId?: string,
-    agentId?: string,
-    response: IMessageResponse,
+  userId?: string;
+  agentId?: string;
+  response: IMessageResponse;
 }
 
 interface IMessageResponse {
-    type: 'text' | 'command' | 'error',
-    response?: string,
+  type: MessageResponseTypes;
+  response: string;
 }
 
 const ThreadSchema = new Schema<IThread>({
-    subscriptionId: String,
-    messages: [{
-        userId: String,
-        agentId: String,
-        response: {
-            type: {
-                type: String,
-                enum: ['text', 'command', 'error']
-            },
-            response: String
+  subscriptionId: String,
+  messages: [
+    {
+      userId: String,
+      agentId: String,
+      response: {
+        type: {
+          type: String,
+          enum: ['text', 'command', 'error'],
         },
-        createdAt: { type: Date, default: Date.now },
-    }]
+        response: String,
+      },
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
 });
 
 export const Thread = mongoose.model<IThread>('Thread', ThreadSchema);

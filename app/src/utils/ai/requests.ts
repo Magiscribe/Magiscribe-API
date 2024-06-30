@@ -45,7 +45,7 @@ export async function makeRequest({
     let buffer = '';
     for await (const chunk of stream) {
       buffer += chunk.content;
-      await streaming.callback(buffer);
+      await streaming.callback(chunk.content as string);
       log.debug({ msg: 'AI response chunk received', content: buffer });
     }
     return buffer;

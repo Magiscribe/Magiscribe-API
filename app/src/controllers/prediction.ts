@@ -1,11 +1,12 @@
-import { OutputReturnMode } from '@database/models/agent';
-import { Thread } from '@database/models/message';
+import { ICapability, OutputReturnMode } from '@database/models/agent';
+import { MessageResponseTypes } from '@database/models/message';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
 import { makeRequest } from '@utils/ai/requests';
-import { getAgent, getCapability } from '@utils/ai/system';
+import { findAndCreateThread, getAgent, getCapability } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
+import { uuid } from 'uuidv4';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -24,10 +25,16 @@ export async function generatePrediction({
   context,
 }): Promise<void> {
   try {
-    logger.info({ msg: 'Prediction generation started', user, userPrompt, context });
+    logger.info({
+      msg: 'Prediction generation started',
+      user,
+      userPrompt,
+      context,
+    });
 
-    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+    subscriptionClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
       visualPredictionAdded: {
+        id: uuid(),
         subscriptionId,
         userPrompt,
         context: 'Prediction generation started',
@@ -41,145 +48,188 @@ export async function generatePrediction({
     }
 
     // Get or create a thread for the subscription ID.
-    const thread = await Thread.findOneAndUpdate(
-      { subscriptionId },
-      { $setOnInsert: { messages: [] } },
-      { upsert: true, new: true }
-    );
+    const thread = await findAndCreateThread(subscriptionId);
 
     // Add user message to the thread.
     thread.messages.push({
       userId: user.sub,
       response: {
-        type: 'text',
+        type: MessageResponseTypes.Text,
         response: userPrompt,
       },
     });
     thread.save();
 
-    const prompt = [userPrompt, context, agent.reasoningPrompt].join('\n').trim();
+    const prompt = [userPrompt, context, agent.reasoningPrompt]
+      .join('\n')
+      .trim();
 
-    const preprocessingResponse = await makeRequest({
-      prompt,
-      model: agent.reasoningLLMModel,
-    });
-    const cleanedPreprocessingResponse = cleanCodeBlock(preprocessingResponse);
-
-    logger.debug({
-      msg: 'Preprocessing response received',
-      cleanedPreprocessingResponse,
-    });
-
-    // Validate cleaned JSON response
     let processingSteps;
-    try {
-      const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
-      processingSteps = parsedResponse.processingSteps;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      logger.error({
-        msg: 'Failed to parse cleaned preprocessing response',
-        error: error.message,
+    if (agent.reasoningPrompt) {
+      const preprocessingResponse = await makeRequest({
+        prompt: userPrompt,
+        model: agent.reasoningLLMModel,
       });
-      throw new Error('Invalid JSON response from preprocessing');
-    }
+      const cleanedPreprocessingResponse = cleanCodeBlock(
+        preprocessingResponse,
+      );
 
-    logger.debug({
-      msg: 'Prediction preprocessing completed',
-      processingSteps,
-    });
+      logger.debug({
+        msg: 'Preprocessing response received',
+        cleanedPreprocessingResponse,
+      });
+
+      try {
+        const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
+        processingSteps = parsedResponse.processingSteps;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        logger.error({
+          msg: 'Failed to parse cleaned preprocessing response',
+          error: error.message,
+        });
+        throw new Error('Invalid JSON response from preprocessing');
+      }
+
+      logger.debug({
+        msg: 'Prediction preprocessing completed',
+        processingSteps,
+      });
+
+      processingSteps = await processingSteps.map(async (step) => ({
+        prompt: step.prompt,
+        capability: await getCapability(step.capability),
+        context: step.context,
+      }));
+    } else {
+      processingSteps = agent.capabilities.map((capability) => ({
+        prompt,
+        capability,
+        context,
+      }));
+    }
 
     // Execute the processed steps and generate the results
     const results = await Promise.all(
       processingSteps.map(
         async (step: {
           prompt: string;
-          capability: string;
+          capability: ICapability;
           context: string;
         }) => {
-          const capability = await getCapability(step.capability);
-          if (!capability) {
+          let result: string | null = null;
+
+          if (!step.capability) {
             throw new Error(
               `No capability found for alias: ${step.capability}`,
             );
           }
 
-          const prompt = [step.prompt, step.context, ...capability.prompts.map((prompt) => prompt.text)].join('\n').trim();
+          const prompt = [
+            step.prompt,
+            step.context,
+            ...step.capability.prompts.map((prompt) => prompt.text),
+          ]
+            .join('\n')
+            .trim();
 
-          const result = await makeRequest({
+          const id = uuid();
+          result = await makeRequest({
             prompt,
-            model: capability.llmModel,
+            model: step.capability.llmModel,
             streaming:
-              capability.output.returnMode == OutputReturnMode.STREAMING_INDIVIDUAL
+              step.capability.output.returnMode ===
+              OutputReturnMode.STREAMING_INDIVIDUAL
                 ? {
-                  enabled: true,
-                  callback: async (content: string) => {
-                    logger.debug({
-                      msg: 'Streaming AI response chunk received',
-                      content,
-                    });
-                    subscriptionClient.publish(
-                      SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-                      {
-                        visualPredictionAdded: {
-                          subscriptionId,
-                          prompt: step.prompt,
-                          context: 'Streaming AI response chunk received',
-                          result: content,
-                          type: 'DATA',
+                    enabled: true,
+                    callback: async (content: string) => {
+                      logger.debug({
+                        msg: 'Streaming AI response chunk received',
+                        content,
+                      });
+                      subscriptionClient.publish(
+                        SubscriptionEvent.PREDICTION_ADDED,
+                        {
+                          visualPredictionAdded: {
+                            id,
+                            subscriptionId,
+                            prompt: step.prompt,
+                            context: 'Streaming AI response chunk received',
+                            result: content,
+                            type: 'DATA',
+                          },
                         },
-                      },
-                    );
-                  },
-                }
+                      );
+                    },
+                  }
                 : undefined,
           });
-          const cleanedResult = cleanCodeBlock(result);
 
-          // Execute the Python code block, if any fails, try to fix it.
-          if (capability.output.returnMode === OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE) {
-            return await executePythonCode(cleanedResult);
+          const executionModes = [
+            OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE,
+            OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL,
+          ];
+
+          if (executionModes.includes(step.capability.output.returnMode)) {
+            result = await executePythonCode(cleanCodeBlock(result));
+
+            if (
+              step.capability.output.returnMode ===
+              OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
+            ) {
+              subscriptionClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
+                visualPredictionAdded: {
+                  id: uuid(),
+                  subscriptionId,
+                  prompt: step.prompt,
+                  context: 'Python code execution completed',
+                  result,
+                  type: 'DATA',
+                },
+              });
+            }
           }
+
+          const regex = new RegExp(step.capability.output.returnExpression, 'g');
+          // Only return the first match
+          const matchedResults = result.match(regex);
+          return matchedResults ? matchedResults[0] : '';
         },
       ),
     );
 
     logger.debug({ msg: 'Prediction generated', results });
 
-    // Add user message to the thread.
+    // Add message to the thread with the results.
     thread.messages.push({
       agentId: agentId,
       response: {
-        type: 'command',
+        type: MessageResponseTypes.Command,
         response: JSON.stringify(results.filter((item) => item !== null)),
       },
     });
     thread.save();
 
-    await subscriptionClient.publish(
-      SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-      {
-        visualPredictionAdded: {
-          subscriptionId,
-          prompt,
-          context: 'Prediction generation completed',
-          result: JSON.stringify(results.filter((item) => item !== null)),
-          type: 'DATA',
-        },
+    await subscriptionClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        id: uuid(),
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation completed',
+        result: JSON.stringify(results.filter((item) => item !== null)),
+        type: 'DATA',
       },
-    );
+    });
 
-    await subscriptionClient.publish(
-      SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-      {
-        visualPredictionAdded: {
-          subscriptionId,
-          prompt,
-          context: 'Prediction generation completed',
-          type: 'SUCCESS',
-        },
+    await subscriptionClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
+      visualPredictionAdded: {
+        id: uuid(),
+        subscriptionId,
+        prompt,
+        context: 'Prediction generation completed',
+        type: 'SUCCESS',
       },
-    );
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -187,8 +237,9 @@ export async function generatePrediction({
       msg: 'Prediction generation failed',
       error: error.message,
     });
-    subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
+    subscriptionClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
       visualPredictionAdded: {
+        id: uuid(),
         subscriptionId,
         prompt: userPrompt,
         context: 'Prediction generation failed',

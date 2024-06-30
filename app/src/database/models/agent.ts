@@ -22,9 +22,10 @@ export interface ICapability {
   llmModel: string;
   prompts: IPrompt[];
   output: {
-    expression: string;
+    subscriptionExpression: string;
+    saveExpression: string;
     returnMode: OutputReturnMode;
-  }
+  };
 }
 
 export interface IAgent {
@@ -35,6 +36,10 @@ export interface IAgent {
   reasoningLLMModel: string;
   reasoningPrompt: string;
   capabilities: ICapability[];
+  output: {
+    subscriptionExpression: string;
+    saveExpression: string;
+  };
 }
 
 const PromptSchema: Schema = new mongoose.Schema(
@@ -71,15 +76,15 @@ const CapabilitySchema: Schema = new mongoose.Schema(
         enum: [
           'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
           'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
-  
+
           'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
           'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
-  
+
           'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
         ],
         default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
-      }
-    }
+      },
+    },
   },
   { timestamps: true },
 );
@@ -100,6 +105,12 @@ const agentSchema: Schema = new mongoose.Schema(
         ref: 'Capability',
       },
     ],
+    output: {
+      expression: {
+        type: String,
+        required: false,
+      },
+    },
   },
   { timestamps: true },
 );

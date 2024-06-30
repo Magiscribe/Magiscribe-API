@@ -1,7 +1,6 @@
 import { generatePrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
-import log from '@log';
 import { pubsubClient } from '@utils/clients';
 
 export const PredictionModule: StaticGraphQLModule = {
@@ -14,6 +13,7 @@ export const PredictionModule: StaticGraphQLModule = {
     }
 
     type Prediction {
+      id: String
       prompt: String
       context: String
       result: String
@@ -48,9 +48,7 @@ export const PredictionModule: StaticGraphQLModule = {
     Subscription: {
       visualPredictionAdded: {
         subscribe: () =>
-          pubsubClient.asyncIterator([
-            SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-          ]),
+          pubsubClient.asyncIterator([SubscriptionEvent.PREDICTION_ADDED]),
       },
     },
   },

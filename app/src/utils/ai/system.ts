@@ -1,4 +1,5 @@
 import { Agent, Capability, IAgent, ICapability } from '@database/models/agent';
+import { Thread } from '@database/models/message';
 
 /**
  * Retrieves an agent by ID.
@@ -6,7 +7,10 @@ import { Agent, Capability, IAgent, ICapability } from '@database/models/agent';
  * @returns {Promise<Agent>} The agent with the provided ID, or null if not found.
  */
 export async function getAgent(id: string): Promise<IAgent | null> {
-  return await Agent.findOne({ _id: id });
+  return await Agent.findOne({ _id: id }).populate({
+    path: 'capabilities',
+    populate: { path: 'prompts' },
+  });
 }
 
 /**
@@ -18,4 +22,12 @@ export async function getCapability(
   alias: string,
 ): Promise<ICapability | null> {
   return await Capability.findOne({ alias }).populate('prompts');
+}
+
+export async function findAndCreateThread(subscriptionId: string) {
+  return await Thread.findOneAndUpdate(
+    { subscriptionId },
+    { $setOnInsert: { messages: [] } },
+    { upsert: true, new: true },
+  );
 }
