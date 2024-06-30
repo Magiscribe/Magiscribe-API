@@ -2,6 +2,7 @@ import { generatePrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import { pubsubClient } from '@utils/clients';
+import { withFilter } from 'graphql-subscriptions';
 
 export const PredictionModule: StaticGraphQLModule = {
   schema: `#graphql
@@ -38,7 +39,12 @@ export const PredictionModule: StaticGraphQLModule = {
     Mutation: {
       addPrediction: (_, props, context) => {
         generatePrediction({
-          ...props,
+          variables: {
+            prompt: props.prompt,
+            context: props.context,
+          },
+          subscriptionId: props.subscriptionId,
+          agentId: props.agentId,
           user: context.auth,
         });
 
@@ -47,8 +53,10 @@ export const PredictionModule: StaticGraphQLModule = {
     },
     Subscription: {
       visualPredictionAdded: {
-        subscribe: () =>
-          pubsubClient.asyncIterator([SubscriptionEvent.PREDICTION_ADDED]),
+        subscribe: withFilter(
+          () => pubsubClient.asyncIterator(SubscriptionEvent.PREDICTION_ADDED),
+          (payload, variables) => payload.visualPredictionAdded.subscriptionId === variables.subscriptionId,
+        ),
       },
     },
   },

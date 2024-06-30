@@ -107,7 +107,11 @@ export const AgentModule: StaticGraphQLModule = {
         return await Capability.findOneAndUpdate(
           { _id: capability.id },
           capability,
-          { upsert: true, new: true, setDefaultsOnInsert: true },
+          {
+            upsert: true,
+            new: true,
+            setDefaultsOnInsert: true,
+          },
         ).populate('prompts');
       },
       deleteCapability: async (

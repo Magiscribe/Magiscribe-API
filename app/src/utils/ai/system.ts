@@ -1,5 +1,25 @@
 import { Agent, Capability, IAgent, ICapability } from '@database/models/agent';
-import { Thread } from '@database/models/message';
+import { MessageResponseTypes, Thread } from '@database/models/message';
+import { PromptTemplate } from '@langchain/core/prompts';
+
+/**
+ * Builds a prompt by formatting a template with provided properties.
+ *
+ * @param {string} template - The prompt template string.
+ * @param {Record<string, string>} props - An object containing key-value pairs to fill the template.
+ * @returns {Promise<string>} A promise that resolves to the formatted prompt string.
+ */
+export async function buildPrompt(
+  template: string,
+  props: Record<string, string>,
+): Promise<string> {
+  const prompt = new PromptTemplate({
+    template,
+    inputVariables: Object.keys(props),
+    templateFormat: 'mustache',
+  });
+  return await prompt.format(props);
+}
 
 /**
  * Retrieves an agent by ID.
@@ -24,10 +44,56 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
-export async function findAndCreateThread(subscriptionId: string) {
+export async function findOrCreateThread(subscriptionId: string) {
   return await Thread.findOneAndUpdate(
     { subscriptionId },
     { $setOnInsert: { messages: [] } },
     { upsert: true, new: true },
   );
+}
+
+/**
+ * Adds a user message to a thread in the database.
+ *
+ * @param {mongoose.Document} thread - The mongoose document representing the thread.
+ * @param {string} userId - The ID of the user sending the message.
+ * @param {string} userPrompt - The content of the user's message.
+ * @param {object} MessageResponseTypes - An object containing message response type constants.
+ * @returns {Promise<void>}
+ */
+export async function addUserMessage(thread, userId, userPrompt) {
+  await thread.updateOne({
+    $push: {
+      messages: {
+        userId: userId,
+        response: {
+          type: MessageResponseTypes.Text,
+          response: userPrompt,
+        },
+      },
+    },
+  });
+}
+
+/**
+ * Adds a user message to a thread in the database.
+ *
+ * @param {mongoose.Document} thread - The mongoose document representing the thread.
+ * @param {string} userId - The ID of the user sending the message.
+ * @param {string} userPrompt - The content of the user's message.
+ * @param {object} MessageResponseTypes - An object containing message response type constants.
+ * @returns {Promise<void>}
+ */
+export async function addAgentMessage(thread, agentId, results) {
+  await thread.updateOne({
+    $push: {
+      messages: {
+        agentId: agentId,
+        response: {
+          type: MessageResponseTypes.Command,
+          response: JSON.stringify(results.filter((item) => item !== null)),
+        },
+      },
+    },
+  });
 }

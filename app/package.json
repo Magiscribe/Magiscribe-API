@@ -4,8 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
-    "dev": "pnpm docker:up && tsx watch src",
-    "dev:experimental": "sh ./scripts/start.sh",
+    "dev": "sh ./scripts/start.sh",
     "start": "node  dist/index.js",
     "start:dev": "tsx watch src",
     "lint": "eslint .",
