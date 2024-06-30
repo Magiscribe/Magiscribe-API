@@ -11,9 +11,6 @@ importers:
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
-      graphql-type-json:
-        specifier: ^0.3.2
-        version: 0.3.2(graphql@16.9.0)
 
 packages:
 
@@ -63,15 +60,6 @@ packages:
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-
-  graphql-type-json@0.3.2:
-    resolution: {integrity: sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==}
-    peerDependencies:
-      graphql: '>=0.8.0'
-
-  graphql@16.9.0:
-    resolution: {integrity: sha512-GGTKBX4SD7Wdb8mqeDLni2oaRGYQWjWHGKPQ24ZMnUtKfcsVoiv4uX8+LJr1K6U5VW2Lu1BwJnj7uiori0YtRw==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
@@ -189,12 +177,6 @@ snapshots:
   escalade@3.1.2: {}
 
   get-caller-file@2.0.5: {}
-
-  graphql-type-json@0.3.2(graphql@16.9.0):
-    dependencies:
-      graphql: 16.9.0
-
-  graphql@16.9.0: {}
 
   has-flag@4.0.0: {}
 
