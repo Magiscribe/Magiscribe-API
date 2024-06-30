@@ -174,16 +174,16 @@
   },
   {
     "_id": "667aef4cacf7000556d2ddb3",
-    "name": "Scrap Capability",
-    "alias": "ScrapCapability",
+    "name": "Scrape Capability",
+    "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Scraps a webpage",
+    "description": "Scrapes a webpage",
     "prompts": [
       "667aef8dacf7000556d2ddb9"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-06-25T16:26:58.958Z",
+    "updatedAt": "2024-06-30T05:02:57.255Z",
     "__v": 0
   },
   {

@@ -182,7 +182,7 @@ export async function generatePrediction({
 
     logger.debug({ msg: 'Prediction generated', results });
 
-    // Add user message to the thread.
+    // Add agent response to the thread.
     thread.messages.push({
       agentId: agentId,
       response: {
