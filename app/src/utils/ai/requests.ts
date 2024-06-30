@@ -4,26 +4,20 @@ import { LLM_MODELS_VERSION } from './models';
 
 /**
  * Sends a request to the Bedrock model and returns the response.
- * @param {string} params.system - The system string to provide context to the model.
  * @param {string} params.prompt - The prompt string to send to the model.
  * @param {string} params.model - The name of the LLM we are using
- * @param {string} [params.context] - Additional context provided to the model
  * @param {Object} [params.streaming] - Streaming options
  * @param {boolean} params.streaming.enabled - Whether to use streaming mode
  * @param {Function} params.streaming.callback - Callback function for streaming mode
  * @returns {Promise<string>} The response from the model.
  */
 export async function makeRequest({
-  system,
   prompt,
   model,
-  context = '',
   streaming = { enabled: false },
 }: {
-  system?: string;
   prompt: string;
   model: string;
-  context?: string;
   streaming?: {
     enabled: boolean;
     callback?: (content: string) => Promise<void>;
@@ -36,13 +30,9 @@ export async function makeRequest({
     temperature: 0,
   });
 
-  const fullPrompt = [system, prompt, context].join('\n');
-
   log.debug({
     msg: 'Sending AI request...',
-    system,
     prompt,
-    context,
     streaming,
   });
 
@@ -51,7 +41,7 @@ export async function makeRequest({
       throw new Error('Callback function is required for streaming mode');
     }
 
-    const stream = await chat.stream(fullPrompt);
+    const stream = await chat.stream(prompt);
     let buffer = '';
     for await (const chunk of stream) {
       buffer += chunk.content;
@@ -60,7 +50,7 @@ export async function makeRequest({
     }
     return buffer;
   } else {
-    const completion = await chat.invoke(fullPrompt);
+    const completion = await chat.invoke(prompt);
     log.debug({ msg: 'AI response received', content: completion.content });
     return completion.content as string;
   }

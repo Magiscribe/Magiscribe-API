@@ -1,3 +1,4 @@
+import { OutputReturnMode } from '@database/models/agent';
 import { Thread } from '@database/models/message';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import logger from '@log';
@@ -5,7 +6,6 @@ import { makeRequest } from '@utils/ai/requests';
 import { getAgent, getCapability } from '@utils/ai/system';
 import { pubsubClient as subscriptionClient } from '@utils/clients';
 import { cleanCodeBlock, executePythonCode } from '@utils/code';
-import { ObjectId } from 'mongoose';
 
 /**
  * Generates a visual prediction based on the given prompt and context.
@@ -20,16 +20,16 @@ export async function generatePrediction({
   user,
   subscriptionId,
   agentId,
-  prompt,
+  prompt: userPrompt,
   context,
 }): Promise<void> {
   try {
-    logger.info({ msg: 'Prediction generation started', prompt, context });
+    logger.info({ msg: 'Prediction generation started', user, userPrompt, context });
 
     subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
       visualPredictionAdded: {
         subscriptionId,
-        prompt,
+        userPrompt,
         context: 'Prediction generation started',
         type: 'RECIEVED',
       },
@@ -52,15 +52,15 @@ export async function generatePrediction({
       userId: user.sub,
       response: {
         type: 'text',
-        response: prompt,
+        response: userPrompt,
       },
     });
     thread.save();
 
+    const prompt = [userPrompt, context, agent.reasoningPrompt].join('\n').trim();
+
     const preprocessingResponse = await makeRequest({
       prompt,
-      context,
-      system: agent.reasoningPrompt,
       model: agent.reasoningLLMModel,
     });
     const cleanedPreprocessingResponse = cleanCodeBlock(preprocessingResponse);
@@ -104,77 +104,41 @@ export async function generatePrediction({
             );
           }
 
+          const prompt = [step.prompt, step.context, ...capability.prompts.map((prompt) => prompt.text)].join('\n').trim();
+
           const result = await makeRequest({
-            prompt: step.prompt,
-            context: step.context,
+            prompt,
             model: capability.llmModel,
-            system: capability.prompts.map((prompt) => prompt.text).join('\n'),
             streaming:
-              capability.outputMode == 'STREAMING_INDIVIDUAL'
+              capability.output.returnMode == OutputReturnMode.STREAMING_INDIVIDUAL
                 ? {
-                    enabled: true,
-                    callback: async (content: string) => {
-                      logger.debug({
-                        msg: 'Streaming AI response chunk received',
-                        content,
-                      });
-                      subscriptionClient.publish(
-                        SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-                        {
-                          visualPredictionAdded: {
-                            subscriptionId,
-                            prompt: step.prompt,
-                            context: 'Streaming AI response chunk received',
-                            result: content,
-                            type: 'DATA',
-                          },
+                  enabled: true,
+                  callback: async (content: string) => {
+                    logger.debug({
+                      msg: 'Streaming AI response chunk received',
+                      content,
+                    });
+                    subscriptionClient.publish(
+                      SubscriptionEvent.VISUAL_PREDICTION_ADDED,
+                      {
+                        visualPredictionAdded: {
+                          subscriptionId,
+                          prompt: step.prompt,
+                          context: 'Streaming AI response chunk received',
+                          result: content,
+                          type: 'DATA',
                         },
-                      );
-                    },
-                  }
+                      },
+                    );
+                  },
+                }
                 : undefined,
           });
           const cleanedResult = cleanCodeBlock(result);
 
           // Execute the Python code block, if any fails, try to fix it.
-          if (capability.outputMode === 'SYNCHRONOUS_EXECUTION_AGGREGATE') {
-            try {
-              const pythonCodeResult = await executePythonCode(cleanedResult);
-              return pythonCodeResult;
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } catch (error: any) {
-              // TODO: Create a formal review process within the agent architecture to handle errors and review multistep progress
-              if (
-                typeof error === 'object' &&
-                error !== null &&
-                'isPythonExecutionError' in error
-              ) {
-                logger.warn({
-                  msg: 'Python code execution error, trying to autofix',
-                  error: error.message,
-                });
-
-                const fixCapability = await getCapability('CodeFixCapability');
-                if (!fixCapability) {
-                  throw new Error(
-                    `No capability found for alias: CodeFixCapability`,
-                  );
-                }
-
-                const fixedResult = await makeRequest({
-                  prompt: `This original prompt: "${step.prompt}" led to this code: "${cleanedResult}" which had this error: ${error}`,
-                  model: fixCapability.llmModel,
-                  system: fixCapability.prompts
-                    .map((prompt) => prompt.text)
-                    .join('\n'),
-                  context: `Original Context: ${step.context}`,
-                });
-                const cleanedResult2 = cleanCodeBlock(fixedResult);
-                return await executePythonCode(cleanedResult2);
-              } else {
-                throw error; // Re-throw unexpected errors
-              }
-            }
+          if (capability.output.returnMode === OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE) {
+            return await executePythonCode(cleanedResult);
           }
         },
       ),
@@ -226,7 +190,7 @@ export async function generatePrediction({
     subscriptionClient.publish(SubscriptionEvent.VISUAL_PREDICTION_ADDED, {
       visualPredictionAdded: {
         subscriptionId,
-        prompt,
+        prompt: userPrompt,
         context: 'Prediction generation failed',
         type: 'ERROR',
       },
