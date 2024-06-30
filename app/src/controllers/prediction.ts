@@ -14,11 +14,6 @@ import { pubsubClient } from '@utils/clients';
 import * as utils from '@utils/code';
 import { uuid } from 'uuidv4';
 
-interface IStep {
-  prompt: string;
-  capability: ICapability;
-}
-
 async function publishPredictionEvent(
   subscriptionId: string,
   type: 'RECIEVED' | 'DATA' | 'SUCCESS' | 'ERROR',
@@ -200,21 +195,29 @@ export async function generatePrediction({
     const thread = await findOrCreateThread(subscriptionId);
     await addUserMessage(thread, user.sub, variables.prompt);
 
+    if (agent.memoryEnabled) {
+      const history = thread.messages.map((message) => message.response.response)
+        .join('\n');
+      variables.history = history;
+    }
+
     const steps = await getProcessingSteps(agent, variables);
 
     const results = await Promise.all(
       steps.map((step) => executeStep(step, subscriptionId)),
     );
+    const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
     log.debug({ msg: 'Prediction generated', results });
-    await addAgentMessage(thread, agentId, results);
+    await addAgentMessage(thread, agentId, 
+      utils.applyFilter(finalResult, agent.outputFilter)
+    );
 
-    const finalResult = JSON.stringify(results.filter((item) => item !== null));
     await publishPredictionEvent(
       subscriptionId,
       'DATA',
       variables.prompt,
-      finalResult,
+      utils.applyFilter(finalResult, agent.subscriptionFilter),
     );
     await publishPredictionEvent(subscriptionId, 'SUCCESS', variables.prompt);
   } catch (error) {

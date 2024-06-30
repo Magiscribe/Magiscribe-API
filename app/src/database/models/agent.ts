@@ -36,6 +36,8 @@ export interface IAgent {
   reasoningPrompt: string;
   capabilities: ICapability[];
 
+  memoryEnabled: boolean;
+
   subscriptionFilter: string;
   outputFilter: string;
 }
@@ -77,6 +79,8 @@ const CapabilitySchema: Schema = new mongoose.Schema(
       ],
       default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
     },
+    subscriptionFilter: { type: String },
+    outputFilter: { type: String },
   },
   { timestamps: true },
 );
@@ -97,12 +101,12 @@ const agentSchema: Schema = new mongoose.Schema(
         ref: 'Capability',
       },
     ],
-    output: {
-      expression: {
-        type: String,
-        required: false,
-      },
+    memoryEnabled: {
+      type: Boolean,
+      default: false,
     },
+    subscriptionFilter: { type: String },
+    outputFilter: { type: String },
   },
   { timestamps: true },
 );

@@ -47,6 +47,13 @@ const regex = typeof outputFilter === 'string' ? new RegExp(outputFilter) : outp
 // Find the first match
 const match = result.match(regex);
 
+log.debug({
+  msg: 'Filtering output',
+  outputFilter,
+  result,
+  match: match ? match[0] : null,
+});
+
 // Return the first match if found, otherwise return the original text
 return match ? match[0] : result;
 }

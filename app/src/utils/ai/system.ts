@@ -84,14 +84,14 @@ export async function addUserMessage(thread, userId, userPrompt) {
  * @param {object} MessageResponseTypes - An object containing message response type constants.
  * @returns {Promise<void>}
  */
-export async function addAgentMessage(thread, agentId, results) {
+export async function addAgentMessage(thread, agentId: string, response: string) {
   await thread.updateOne({
     $push: {
       messages: {
         agentId: agentId,
         response: {
           type: MessageResponseTypes.Command,
-          response: JSON.stringify(results.filter((item) => item !== null)),
+          response,
         },
       },
     },
