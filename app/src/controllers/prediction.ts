@@ -29,7 +29,7 @@ async function publishPredictionEvent(
   };
 
   return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
-    visualPredictionAdded: {
+    predictionAdded: {
       id: eventId,
       subscriptionId,
       prompt,
@@ -105,15 +105,14 @@ async function getProcessingSteps(
   // with the prompt and the capability object. This allows agents to be present
   // that do not require preprocessing.
   return agent.capabilities.map((capability: ICapability) => ({
-    variables,
+    ...variables,
     capability,
   }));
 }
 
 async function executeStep(
   step: {
-    variables: { [key: string]: string };
-    capability: ICapability;
+    [key: string]: string | ICapability;
   },
   eventId: string,
   subscriptionId: string,
@@ -122,20 +121,26 @@ async function executeStep(
     throw new Error(`No capability found for alias: ${step.capability}`);
   }
 
+  const capability = step.capability as ICapability;
+  const prompts = capability.prompts.map((prompt) => prompt.text);
+  
+  // Remove capability from the step variables
+  delete step.capability;
+
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
   const prompt = [
-    ...step.capability.prompts.map((prompt) => prompt.text),
-    ...Object.values(step.variables).map((value) => value),
+    ...prompts,
+    ...Object.values(step).map((value) => value),
   ]
     .join('\n')
     .trim();
 
   const result = await makeRequest({
     prompt,
-    model: step.capability.llmModel,
+    model: capability.llmModel,
     streaming:
-      step.capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
+    capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
         ? {
             enabled: true,
             callback: async (content: string) => {
@@ -159,14 +164,14 @@ async function executeStep(
     [
       OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE,
       OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL,
-    ].includes(step.capability.outputMode)
+    ].includes(capability.outputMode)
   ) {
     const executedResult = await utils.executePythonCode(
       utils.cleanCodeBlock(result),
     );
 
     if (
-      step.capability.outputMode ===
+      capability.outputMode ===
       OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
     ) {
       await publishPredictionEvent(
@@ -174,14 +179,14 @@ async function executeStep(
         subscriptionId,
         'DATA',
         '',
-        utils.applyFilter(executedResult, step.capability.subscriptionFilter),
+        utils.applyFilter(executedResult, capability.subscriptionFilter),
       );
     }
 
-    return utils.applyFilter(executedResult, step.capability.outputFilter);
+    return utils.applyFilter(executedResult, capability.outputFilter);
   }
 
-  return utils.applyFilter(result, step.capability.outputFilter);
+  return utils.applyFilter(result, capability.outputFilter);
 }
 
 export async function generatePrediction({
@@ -241,20 +246,20 @@ export async function generatePrediction({
     );
     const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
-    log.debug({
-      msg: 'Response from Hal 9000 received (AI prediction received)',
-      result: finalResult,
-    });
+     await publishPredictionEvent(
+      eventId,
+      subscriptionId,
+      'SUCCESS',
+      finalResult,
+    );
+
     await addAgentMessage(
       thread,
       agentId,
       utils.applyFilter(finalResult, agent.outputFilter),
     );
 
-    await Promise.all([
-      publishPredictionEvent(eventId, subscriptionId, 'DATA', '', finalResult),
-      publishPredictionEvent(eventId, subscriptionId, 'SUCCESS', ''),
-    ]);
+    await publishPredictionEvent(eventId, subscriptionId, 'SUCCESS', finalResult);
   } catch (error) {
     log.warn({
       msg: 'Prediction generation failed',
