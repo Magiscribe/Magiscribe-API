@@ -36,26 +36,20 @@ export function applyFilter(
   result: string,
   outputFilter: RegExp | string | null | undefined,
 ): string {
-// If no pattern is provided, return the original text
-if (!outputFilter) {
-  return result;
-}
+  // If no pattern is provided, return the original text
+  if (!outputFilter) {
+    return result;
+  }
 
-// If pattern is a string, convert it to a RegExp object
-const regex = typeof outputFilter === 'string' ? new RegExp(outputFilter) : outputFilter;
+  // If pattern is a string, convert it to a RegExp object
+  const regex =
+    typeof outputFilter === 'string' ? new RegExp(outputFilter) : outputFilter;
 
-// Find the first match
-const match = result.match(regex);
+  // Find the first match
+  const match = result.match(regex);
 
-log.debug({
-  msg: 'Filtering output',
-  outputFilter,
-  result,
-  match: match ? match[0] : null,
-});
-
-// Return the first match if found, otherwise return the original text
-return match ? match[0] : result;
+  // Return the first match if found, otherwise return the original text
+  return match ? match[0] : result;
 }
 
 /**
@@ -82,7 +76,7 @@ export async function executePythonCode(code: string): Promise<string> {
 
     if (result.FunctionError) {
       log.warn({
-        msg: 'Python code execution error',
+        msg: 'You are dying of a Python bite, please seek help immediately! (Python code execution error)',
         error: result.FunctionError,
       });
       const error = new Error(result.FunctionError);

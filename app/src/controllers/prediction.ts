@@ -15,6 +15,7 @@ import * as utils from '@utils/code';
 import { uuid } from 'uuidv4';
 
 async function publishPredictionEvent(
+  eventId: string,
   subscriptionId: string,
   type: 'RECIEVED' | 'DATA' | 'SUCCESS' | 'ERROR',
   prompt?: string,
@@ -27,9 +28,9 @@ async function publishPredictionEvent(
     ERROR: 'Prediction generation failed',
   };
 
-  await pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
+  return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
     visualPredictionAdded: {
-      id: uuid(),
+      id: eventId,
       subscriptionId,
       prompt,
       result,
@@ -40,10 +41,13 @@ async function publishPredictionEvent(
 }
 
 /**
- * Preprocesses the user prompt to generate a reasoning prompt for the agent.
- * If no reasoning prompt is provided, returns null.
+ * Using the reasoning prompt provided in the agent, this function will preprocess and is aimed at
+ * providing a more structured approach to the reasoning process. The function will return an array
+ * of processing steps, each containing a prompt, capabilityAlias, and any other relevant information
+ * required to execute the reasoning the capability.
+ * If no reasoning prompt is provided in the agent, this function will return null.
  *
- * @param {string} userPrompt - The initial prompt provided by the user.
+ * @param {Object} variables - Any custom variables that need to be passed to the reasoning prompt and help in the reasoning process.
  * @param {IAgent} agent - The agent object containing reasoning prompt and model information.
  * @returns {Promise<Array<any> | null>} - A promise that resolves to an array of processing steps or null if no reasoning prompt is provided.
  * @throws {Error} - Throws an error if the preprocessing response cannot be parsed as valid JSON.
@@ -80,7 +84,10 @@ async function preprocess(
   }
 }
 
-async function getProcessingSteps(agent: IAgent, variables: { [key: string]: string }){
+async function getProcessingSteps(
+  agent: IAgent,
+  variables: { [key: string]: string },
+) {
   const processingSteps = await preprocess(variables, agent);
 
   // If, we have processing steps, we need to return an array of steps
@@ -95,21 +102,31 @@ async function getProcessingSteps(agent: IAgent, variables: { [key: string]: str
   }
 
   // If no processing steps are provided, we need to return an array of steps
-  // with the prompt and the capability object.
+  // with the prompt and the capability object. This allows agents to be present
+  // that do not require preprocessing.
   return agent.capabilities.map((capability: ICapability) => ({
-    ...variables,
+    variables,
     capability,
   }));
 }
 
-async function executeStep(step: any, subscriptionId: string) {
+async function executeStep(
+  step: {
+    variables: { [key: string]: string };
+    capability: ICapability;
+  },
+  eventId: string,
+  subscriptionId: string,
+) {
   if (!step.capability) {
     throw new Error(`No capability found for alias: ${step.capability}`);
   }
 
+  // TODO: Replace with a more structured approach to handling prompts.
+  //       E.g., templating engine.
   const prompt = [
-    step.prompt,
     ...step.capability.prompts.map((prompt) => prompt.text),
+    ...Object.values(step.variables).map((value) => value),
   ]
     .join('\n')
     .trim();
@@ -118,8 +135,7 @@ async function executeStep(step: any, subscriptionId: string) {
     prompt,
     model: step.capability.llmModel,
     streaming:
-      step.capability.outputMode ===
-      OutputReturnMode.STREAMING_INDIVIDUAL
+      step.capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
         ? {
             enabled: true,
             callback: async (content: string) => {
@@ -128,9 +144,10 @@ async function executeStep(step: any, subscriptionId: string) {
                 content,
               });
               await publishPredictionEvent(
+                eventId,
                 subscriptionId,
                 'DATA',
-                step.prompt,
+                '',
                 content,
               );
             },
@@ -153,13 +170,14 @@ async function executeStep(step: any, subscriptionId: string) {
       OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
     ) {
       await publishPredictionEvent(
+        eventId,
         subscriptionId,
         'DATA',
-        step.prompt,
+        '',
         utils.applyFilter(executedResult, step.capability.subscriptionFilter),
       );
     }
-    
+
     return utils.applyFilter(executedResult, step.capability.outputFilter);
   }
 
@@ -177,17 +195,25 @@ export async function generatePrediction({
   agentId: string;
   variables: { [key: string]: string };
 }): Promise<void> {
-  try {
-    if (!variables.prompt) {
-      throw new Error('No user prompt provided');
-    }
+  if (!variables.prompt) {
+    throw new Error('No user prompt provided');
+  }
 
-    log.info({
-      msg: 'Prediction generation started',
-      user,
-      variables,
-    });
-    await publishPredictionEvent(subscriptionId, 'RECIEVED', variables.prompt);
+  log.info({
+    msg: 'Querying Hal 9000 for prediction (AI prediction request)',
+    user,
+    variables,
+  });
+
+  const eventId = uuid();
+
+  try {
+    await publishPredictionEvent(
+      eventId,
+      subscriptionId,
+      'RECIEVED',
+      variables.prompt,
+    );
 
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
@@ -196,7 +222,14 @@ export async function generatePrediction({
     await addUserMessage(thread, user.sub, variables.prompt);
 
     if (agent.memoryEnabled) {
-      const history = thread.messages.map((message) => message.response.response)
+      // TODO: May want to include customizaiton to change the
+      //       username / agent name.
+      const history = thread.messages
+        .map(
+          (message) =>
+            `${message.userId ? 'User' : 'Agent'}:
+      ${message.response.response}`,
+        )
         .join('\n');
       variables.history = history;
     }
@@ -204,27 +237,29 @@ export async function generatePrediction({
     const steps = await getProcessingSteps(agent, variables);
 
     const results = await Promise.all(
-      steps.map((step) => executeStep(step, subscriptionId)),
+      steps.map((step) => executeStep(step, eventId, subscriptionId)),
     );
     const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
-    log.debug({ msg: 'Prediction generated', results });
-    await addAgentMessage(thread, agentId, 
-      utils.applyFilter(finalResult, agent.outputFilter)
+    log.debug({
+      msg: 'Response from Hal 9000 received (AI prediction received)',
+      result: finalResult,
+    });
+    await addAgentMessage(
+      thread,
+      agentId,
+      utils.applyFilter(finalResult, agent.outputFilter),
     );
 
-    await publishPredictionEvent(
-      subscriptionId,
-      'DATA',
-      variables.prompt,
-      utils.applyFilter(finalResult, agent.subscriptionFilter),
-    );
-    await publishPredictionEvent(subscriptionId, 'SUCCESS', variables.prompt);
+    await Promise.all([
+      publishPredictionEvent(eventId, subscriptionId, 'DATA', '', finalResult),
+      publishPredictionEvent(eventId, subscriptionId, 'SUCCESS', ''),
+    ]);
   } catch (error) {
     log.warn({
       msg: 'Prediction generation failed',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
-    await publishPredictionEvent(subscriptionId, 'ERROR', variables.prompt);
+    await publishPredictionEvent(eventId, subscriptionId, 'ERROR', '');
   }
 }

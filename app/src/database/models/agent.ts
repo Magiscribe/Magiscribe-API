@@ -2,11 +2,11 @@ import { LLM_MODELS_VERSION } from '@utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 
 export enum OutputReturnMode {
-  SYNCHRONOUS_PASSTHROUGH_AGGREGATE = 'SYNCHRONOUS_PASSTHROUGH_AGGREGATE',
-  SYNCHRONOUS_PASSTHROUGH_INVIDUAL = 'SYNCHRONOUS_PASSTHROUGH_INVIDUAL',
-  SYNCHRONOUS_EXECUTION_AGGREGATE = 'SYNCHRONOUS_EXECUTION_AGGREGATE',
-  SYNCHRONOUS_EXECUTION_INVIDUAL = 'SYNCHRONOUS_EXECUTION_INVIDUAL',
-  STREAMING_INDIVIDUAL = 'STREAMING_INDIVIDUAL',
+  SYNCHRONOUS_PASSTHROUGH_AGGREGATE = 'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
+  SYNCHRONOUS_PASSTHROUGH_INVIDUAL = 'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
+  SYNCHRONOUS_EXECUTION_AGGREGATE = 'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
+  SYNCHRONOUS_EXECUTION_INVIDUAL = 'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
+  STREAMING_INDIVIDUAL = 'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
 }
 
 export interface IPrompt {
@@ -68,15 +68,7 @@ const CapabilitySchema: Schema = new mongoose.Schema(
     ],
     outputMode: {
       type: String,
-      enum: [
-        'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
-        'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
-
-        'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
-        'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
-
-        'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
-      ],
+      enum: Object.values(OutputReturnMode),
       default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
     },
     subscriptionFilter: { type: String },

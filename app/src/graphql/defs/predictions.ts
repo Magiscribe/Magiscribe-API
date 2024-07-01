@@ -55,7 +55,9 @@ export const PredictionModule: StaticGraphQLModule = {
       visualPredictionAdded: {
         subscribe: withFilter(
           () => pubsubClient.asyncIterator(SubscriptionEvent.PREDICTION_ADDED),
-          (payload, variables) => payload.visualPredictionAdded.subscriptionId === variables.subscriptionId,
+          (payload, variables) =>
+            payload.visualPredictionAdded.subscriptionId ===
+            variables.subscriptionId,
         ),
       },
     },
