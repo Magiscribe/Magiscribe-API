@@ -107,7 +107,7 @@ async function getProcessingSteps(
     return await Promise.all(
       processingSteps.map(async (step) => ({
         ...step,
-        capability: (await getCapability(step.capabilityAlias))!, // tODO: Add check for null
+        capability: (await getCapability(step.capabilityAlias))!, // TODO: Add check for null
       })),
     );
   }
@@ -129,7 +129,7 @@ async function executeStep(
   subscriptionId: string,
 ) {
   if (!step.capability) {
-    throw new Error(`No capability found for alias: ${step.capability}`);
+    throw new Error(`No capability found.`);
   }
 
   const capability = step.capability as ICapability;
@@ -186,7 +186,7 @@ async function executeStep(
         subscriptionId,
         'DATA',
         '',
-        utils.applyFilter(executedResult, capability.subscriptionFilter),
+        utils.applyFilter(executedResult, capability.subscriptionFilter)
       );
     }
 
