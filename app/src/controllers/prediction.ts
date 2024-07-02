@@ -123,16 +123,13 @@ async function executeStep(
 
   const capability = step.capability as ICapability;
   const prompts = capability.prompts.map((prompt) => prompt.text);
-  
+
   // Remove capability from the step variables
   delete step.capability;
 
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
-  const prompt = [
-    ...prompts,
-    ...Object.values(step).map((value) => value),
-  ]
+  const prompt = [...prompts, ...Object.values(step).map((value) => value)]
     .join('\n')
     .trim();
 
@@ -140,7 +137,7 @@ async function executeStep(
     prompt,
     model: capability.llmModel,
     streaming:
-    capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
+      capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
         ? {
             enabled: true,
             callback: async (content: string) => {
@@ -171,8 +168,7 @@ async function executeStep(
     );
 
     if (
-      capability.outputMode ===
-      OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
+      capability.outputMode === OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
     ) {
       await publishPredictionEvent(
         eventId,
@@ -246,10 +242,11 @@ export async function generatePrediction({
     );
     const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
-     await publishPredictionEvent(
+    await publishPredictionEvent(
       eventId,
       subscriptionId,
       'SUCCESS',
+      '',
       finalResult,
     );
 
@@ -259,7 +256,12 @@ export async function generatePrediction({
       utils.applyFilter(finalResult, agent.outputFilter),
     );
 
-    await publishPredictionEvent(eventId, subscriptionId, 'SUCCESS', finalResult);
+    await publishPredictionEvent(
+      eventId,
+      subscriptionId,
+      'SUCCESS',
+      finalResult,
+    );
   } catch (error) {
     log.warn({
       msg: 'Prediction generation failed',
