@@ -62,8 +62,19 @@ async function preprocess(
 }> | null> {
   if (!agent.reasoningPrompt) return null;
 
-  const prompt = await buildPrompt(agent.reasoningPrompt, variables);
+  log.debug({
+    msg: 'Variables before buildPrompt',
+    variables: JSON.stringify(variables, null, 2),
+    reasoningPrompt: agent.reasoningPrompt
+  });
 
+  const prompt = "<User>" + variables.userMessage + "</User>\n\n" + await buildPrompt(agent.reasoningPrompt, variables);
+
+  log.debug({
+    msg: 'Prompt after buildPrompt',
+    prompt: prompt
+  });
+  
   const preprocessingResponse = await makeRequest({
     prompt,
     model: agent.reasoningLLMModel,
@@ -196,7 +207,7 @@ export async function generatePrediction({
   agentId: string;
   variables: { [key: string]: string };
 }): Promise<void> {
-  if (!variables.prompt) {
+  if (!variables.userMessage) {
     throw new Error('No user prompt provided');
   }
 
@@ -213,14 +224,14 @@ export async function generatePrediction({
       eventId,
       subscriptionId,
       'RECIEVED',
-      variables.prompt,
+      variables.userMessage,
     );
 
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
     const thread = await findOrCreateThread(subscriptionId);
-    await addUserMessage(thread, user.sub, variables.prompt);
+    await addUserMessage(thread, user.sub, variables.userMessage);
 
     if (agent.memoryEnabled) {
       // TODO: May want to include customizaiton to change the

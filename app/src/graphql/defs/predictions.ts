@@ -15,7 +15,7 @@ export const PredictionModule: StaticGraphQLModule = {
 
     type Prediction {
       id: String
-      prompt: String
+      userMessage: String
       context: String
       result: String
       type: String
@@ -25,7 +25,7 @@ export const PredictionModule: StaticGraphQLModule = {
       addPrediction(
         subscriptionId: String!
         agentId: String!
-        prompt: String!
+        userMessage: String!
         context: String
       ): String
     }
@@ -40,7 +40,7 @@ export const PredictionModule: StaticGraphQLModule = {
       addPrediction: (_, props, context) => {
         generatePrediction({
           variables: {
-            prompt: props.prompt,
+            userMessage: props.userMessage,
             context: props.context,
           },
           subscriptionId: props.subscriptionId,
