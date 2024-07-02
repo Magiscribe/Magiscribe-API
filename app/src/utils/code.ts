@@ -40,16 +40,26 @@ export function applyFilter(
   if (!outputFilter) {
     return result;
   }
-
+  
   // If pattern is a string, convert it to a RegExp object
   const regex =
-    typeof outputFilter === 'string' ? new RegExp(outputFilter) : outputFilter;
+    typeof outputFilter === 'string' ? new RegExp(outputFilter, 'g') : new RegExp(outputFilter.source, outputFilter.flags + (outputFilter.flags.includes('g') ? '' : 'g'));
+  
+  // Find all matches
+  const matches = Array.from(result.matchAll(regex));
 
-  // Find the first match
-  const match = result.match(regex);
+  // If no matches found, return the original text
+  if (matches.length === 0) {
+    return result;
+  }
 
-  // Return the first match if found, otherwise return the original text
-  return match ? match[0] : result;
+  // Process matches and their groups
+  const processedMatches = matches.map(match => {
+    return match[match.length > 1 ? 1 : 0]
+  });
+
+  // Join all processed matches
+  return processedMatches.join(', ');
 }
 
 /**
