@@ -273,7 +273,8 @@ export async function generatePrediction({
       'SUCCESS',
       finalResult,
     );
-  } catch (error) {
+  } 
+  catch (error) {
     log.warn({
       msg: 'Prediction generation failed',
       error: error instanceof Error ? error.message : 'Unknown error',
