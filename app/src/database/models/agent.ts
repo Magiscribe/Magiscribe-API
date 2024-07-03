@@ -1,6 +1,14 @@
 import { LLM_MODELS_VERSION } from '@utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 
+export enum OutputReturnMode {
+  SYNCHRONOUS_PASSTHROUGH_AGGREGATE = 'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
+  SYNCHRONOUS_PASSTHROUGH_INVIDUAL = 'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
+  SYNCHRONOUS_EXECUTION_AGGREGATE = 'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
+  SYNCHRONOUS_EXECUTION_INVIDUAL = 'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
+  STREAMING_INDIVIDUAL = 'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
+}
+
 export interface IPrompt {
   id: string;
   name: string;
@@ -13,7 +21,10 @@ export interface ICapability {
   description: string;
   llmModel: string;
   prompts: IPrompt[];
-  outputMode: string;
+
+  outputMode: OutputReturnMode;
+  subscriptionFilter: string;
+  outputFilter: string;
 }
 
 export interface IAgent {
@@ -24,6 +35,11 @@ export interface IAgent {
   reasoningLLMModel: string;
   reasoningPrompt: string;
   capabilities: ICapability[];
+
+  memoryEnabled: boolean;
+
+  subscriptionFilter: string;
+  outputFilter: string;
 }
 
 const PromptSchema: Schema = new mongoose.Schema(
@@ -41,7 +57,7 @@ const CapabilitySchema: Schema = new mongoose.Schema(
     llmModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),
-      default: 'CLAUDE_3_HAIKU',
+      default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
     },
     description: { type: String, required: true },
     prompts: [
@@ -52,17 +68,11 @@ const CapabilitySchema: Schema = new mongoose.Schema(
     ],
     outputMode: {
       type: String,
-      enum: [
-        'SYNCHRONOUS_PASSTHROUGH_AGGREGATE', // The AI response is given with all other aggregated responses.
-        'SYNCHRONOUS_PASSTHROUGH_INVIDUAL', // The AI response is sent when after a response is recieved.
-
-        'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
-        'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
-
-        'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
-      ],
+      enum: Object.values(OutputReturnMode),
       default: 'SYNCHRONOUS_EXECUTION_AGGREGATE',
     },
+    subscriptionFilter: { type: String },
+    outputFilter: { type: String },
   },
   { timestamps: true },
 );
@@ -74,7 +84,7 @@ const agentSchema: Schema = new mongoose.Schema(
     reasoningLLMModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),
-      default: 'CLAUDE_3_HAIKU',
+      default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
     },
     reasoningPrompt: { type: String },
     capabilities: [
@@ -83,6 +93,12 @@ const agentSchema: Schema = new mongoose.Schema(
         ref: 'Capability',
       },
     ],
+    memoryEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    subscriptionFilter: { type: String },
+    outputFilter: { type: String },
   },
   { timestamps: true },
 );

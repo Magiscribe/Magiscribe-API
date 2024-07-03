@@ -1,7 +1,8 @@
-import { generateVisualPrediction } from '@controllers/prediction';
+import { generatePrediction } from '@controllers/prediction';
 import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import { pubsubClient } from '@utils/clients';
+import { withFilter } from 'graphql-subscriptions';
 
 export const PredictionModule: StaticGraphQLModule = {
   schema: `#graphql
@@ -13,40 +14,50 @@ export const PredictionModule: StaticGraphQLModule = {
     }
 
     type Prediction {
-      prompt: String
+      id: String!
+      subscriptionId: String!
+      type: String!
       context: String
       result: String
-      type: String
     }
     
     type Mutation {
-      addVisualPrediction(
+      addPrediction(
         subscriptionId: String!
         agentId: String!
-        prompt: String!
+        userMessage: String!
         context: String
       ): String
     }
 
     type Subscription {
-      visualPredictionAdded(subscriptionId: String!): Prediction
+      predictionAdded(subscriptionId: String!): Prediction
     }
   `,
 
   resolvers: {
     Mutation: {
-      addVisualPrediction: (_, props) => {
-        generateVisualPrediction(props);
+      addPrediction: (_, props, context) => {
+        generatePrediction({
+          variables: {
+            userMessage: props.userMessage,
+            context: props.context,
+          },
+          subscriptionId: props.subscriptionId,
+          agentId: props.agentId,
+          user: context.auth,
+        });
 
         return 'Prediction added';
       },
     },
     Subscription: {
-      visualPredictionAdded: {
-        subscribe: () =>
-          pubsubClient.asyncIterator([
-            SubscriptionEvent.VISUAL_PREDICTION_ADDED,
-          ]),
+      predictionAdded: {
+        subscribe: withFilter(
+          () => pubsubClient.asyncIterator(SubscriptionEvent.PREDICTION_ADDED),
+          (payload, variables) =>
+            payload.predictionAdded.subscriptionId === variables.subscriptionId,
+        ),
       },
     },
   },

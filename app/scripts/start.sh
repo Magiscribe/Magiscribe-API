@@ -24,15 +24,16 @@ NC="\033[0m"                 # No Color
 # Set AWS SSO profile based on the first argument
 export AWS_PROFILE=${1:-"magiscribe-dev"}
 
+SSO_ACCOUNT_PROFILE=$(aws sts get-caller-identity --query "Account" --profile default)
+SSO_ACCOUNT=$(aws sts get-caller-identity --query "Account")
+
 # Check if logged in
 echo -e "${GREEN}Checking if logged in...${NC}"
-ACCOUNT=$(aws sts get-caller-identity --profile $AWS_PROFILE)
-
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Not logged in.${NC} Logging in..."
-    aws sso login --profile $AWS_PROFILE
+if [ ${#SSO_ACCOUNT_PROFILE} -eq 14 ] || [ ${#SSO_ACCOUNT} -eq 14 ] || aws sts get-caller-identity &> /dev/null; then
     echo -e "${GREEN}Logged in.${NC}"
 else
+    echo -e "${RED}Not logged in.${NC} Logging in..."
+    aws sso login --profile $AWS_PROFILE
     echo -e "${GREEN}Logged in.${NC}"
 fi
 

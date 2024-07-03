@@ -13,7 +13,6 @@
     "check": "concurrently \"cd app && pnpm run check\" \"cd infrastructure && pnpm run check\" \"cd bootstrap && pnpm run check\"",
     "fix": "concurrently \"cd app && pnpm run fix\" \"cd infrastructure && pnpm run fix\" \"cd bootstrap && pnpm run fix\"",
     "dev": "cd app && pnpm dev",
-    "dev:experimental": "cd app && pnpm dev:experimental",
     "db:import": "cd app && pnpm db:import",
     "db:export": "cd app && pnpm db:export"
   },

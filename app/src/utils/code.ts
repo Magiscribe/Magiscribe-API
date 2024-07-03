@@ -26,6 +26,43 @@ export function cleanCodeBlock(code: string): string {
 }
 
 /**
+ * Extracts the first matching output from a string based on a given filter.
+ *
+ * @param {string} result - The string to search within.
+ * @param {string|RegExp} outputFilter - The regular expression pattern to match against.
+ * @returns {string} The first matched substring, or an empty string if no match is found.
+ */
+export function applyFilter(
+  result: string,
+  outputFilter: RegExp | string | null | undefined,
+): string {
+  // If no pattern is provided, return the original text
+  if (!outputFilter) {
+    return result;
+  }
+  
+  // If pattern is a string, convert it to a RegExp object
+  const regex =
+    typeof outputFilter === 'string' ? new RegExp(outputFilter, 'g') : new RegExp(outputFilter.source, outputFilter.flags + (outputFilter.flags.includes('g') ? '' : 'g'));
+  
+  // Find all matches
+  const matches = Array.from(result.matchAll(regex));
+
+  // If no matches found, return the original text
+  if (matches.length === 0) {
+    return result;
+  }
+
+  // Process matches and their groups
+  const processedMatches = matches.map(match => {
+    return match[match.length > 1 ? 1 : 0]
+  });
+
+  // Join all processed matches
+  return processedMatches.join(', ');
+}
+
+/**
  * Executes Python code on the executor Lambda function.
  * @param code {string} The Python code to execute.
  * @returns {Promise<string>} The result of the Python code execution.
@@ -49,7 +86,7 @@ export async function executePythonCode(code: string): Promise<string> {
 
     if (result.FunctionError) {
       log.warn({
-        msg: 'Python code execution error',
+        msg: 'You are dying of a Python bite, please seek help immediately! (Python code execution error)',
         error: result.FunctionError,
       });
       const error = new Error(result.FunctionError);
@@ -57,10 +94,6 @@ export async function executePythonCode(code: string): Promise<string> {
       throw error;
     }
 
-    log.debug({
-      msg: 'Python code execution response received',
-      result: Buffer.from(result.Payload!).toString(),
-    });
     const payload = JSON.parse(
       JSON.parse(Buffer.from(result.Payload!).toString()),
     );
@@ -70,14 +103,12 @@ export async function executePythonCode(code: string): Promise<string> {
     });
 
     return payload;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error instanceof Error && !('isPythonExecutionError' in error)) {
+  } catch (error) {
+    if (error instanceof Error) {
       log.error({
-        msg: 'Python code execution error, trying to autofix for daddy',
+        msg: 'Python code execution error',
         error: error.message,
       });
-      (error as Error)['isPythonExecutionError'] = true;
     }
     throw error;
   }
