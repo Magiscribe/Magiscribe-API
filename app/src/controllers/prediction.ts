@@ -68,7 +68,7 @@ async function preprocess(
     reasoningPrompt: agent.reasoningPrompt
   });
 
-  const prompt = "<User>" + variables.userMessage + "</User>\n\n" + await buildPrompt(agent.reasoningPrompt, variables);
+  const prompt = await buildPrompt(agent.reasoningPrompt, variables);
 
   log.debug({
     msg: 'Prompt after buildPrompt',
