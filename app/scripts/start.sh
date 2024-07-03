@@ -3,14 +3,12 @@
 #####################################################################
 # Script to establish AWS SSO session and run development environment
 #
-# Usage: ./dev.sh [profile_name]
+# Usage: ./dev.sh
 #
-#   1. Set AWS SSO profile (default or provided)
-#   2. Sign out if currently signed in
-#   3. Sign in to AWS SSO
-#   4. Check Docker status
-#   5. Create Docker containers
-#   6. Start development environment
+#   1. Set AWS SSO profile
+#   2. Check if logged in
+#   3. If not logged in, login
+#   4. Run pnpm dev
 #
 # Note: This script assumes that you have already configured your
 # AWS SSO profile and have the necessary permissions to run the
@@ -18,45 +16,26 @@
 #####################################################################
 
 # Regular Colors
-GREEN="\033[1;32m"
-YELLOW="\033[1;33m"
-RED="\033[1;31m"
-NC="\033[0m"
+GREEN="\033[1;32m"           # Green
+YELLOW="\033[1;33m"          # Yellow
+RED="\033[1;31m"             # Red
+NC="\033[0m"                 # No Color
 
-# Set AWS SSO profile based on the first argument or default to "magiscribe-dev"
+# Set AWS SSO profile based on the first argument
 export AWS_PROFILE=${1:-"magiscribe-dev"}
 
-# Function to sign out
-sign_out() {
-    echo -e "${YELLOW}Signing out of current session...${NC}"
-    aws sso logout
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Successfully signed out.${NC}"
-    else
-        echo -e "${RED}Failed to sign out. Continuing anyway...${NC}"
-    fi
-}
+SSO_ACCOUNT_PROFILE=$(aws sts get-caller-identity --query "Account" --profile default)
+SSO_ACCOUNT=$(aws sts get-caller-identity --query "Account")
 
-# Function to sign in
-sign_in() {
-    echo -e "${YELLOW}Signing in to AWS SSO...${NC}"
+# Check if logged in
+echo -e "${GREEN}Checking if logged in...${NC}"
+if [ ${#SSO_ACCOUNT_PROFILE} -eq 14 ] || [ ${#SSO_ACCOUNT} -eq 14 ] || aws sts get-caller-identity &> /dev/null; then
+    echo -e "${GREEN}Logged in.${NC}"
+else
+    echo -e "${RED}Not logged in.${NC} Logging in..."
     aws sso login --profile $AWS_PROFILE
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Successfully signed in.${NC}"
-    else
-        echo -e "${RED}Failed to sign in. Exiting.${NC}"
-        exit 1
-    fi
-}
-
-# Main execution starts here
-echo -e "${GREEN}Starting AWS SSO session management...${NC}"
-
-# Always sign out first
-sign_out
-
-# Then sign in
-sign_in
+    echo -e "${GREEN}Logged in.${NC}"
+fi
 
 # Check if Docker is running
 echo -e "${GREEN}Checking if Docker is running...${NC}"
@@ -69,12 +48,7 @@ fi
 
 echo -e "${GREEN}Creating Docker containers...${NC}"
 pnpm docker:up
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}Docker containers created successfully.${NC}"
-else
-    echo -e "${RED}Failed to create Docker containers. Exiting.${NC}"
-    exit 1
-fi
+echo -e "${GREEN}Docker containers created.${NC}"
 
 echo -e "${GREEN}Starting development environment...${NC}"
 pnpm start:dev
