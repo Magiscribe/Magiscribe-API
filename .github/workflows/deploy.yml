@@ -70,7 +70,7 @@ jobs:
         run: pnpm run get
 
       - name: Run Terraform CDK
-        uses: hashicorp/terraform-cdk-action@v4
+        uses: hashicorp/terraform-cdk-action@v5
         with:
           mode: auto-approve-apply
           stackName: network data api client-app client-dashboard
