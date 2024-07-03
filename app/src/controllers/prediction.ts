@@ -32,7 +32,6 @@ async function publishPredictionEvent(
     predictionAdded: {
       id: eventId,
       subscriptionId,
-      prompt,
       result,
       type,
       context: contextMap[type],
@@ -265,13 +264,6 @@ export async function generatePrediction({
       thread,
       agentId,
       utils.applyFilter(finalResult, agent.outputFilter),
-    );
-
-    await publishPredictionEvent(
-      eventId,
-      subscriptionId,
-      'SUCCESS',
-      finalResult,
     );
   } 
   catch (error) {

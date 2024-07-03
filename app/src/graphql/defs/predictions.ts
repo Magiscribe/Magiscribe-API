@@ -14,11 +14,11 @@ export const PredictionModule: StaticGraphQLModule = {
     }
 
     type Prediction {
-      id: String
-      userMessage: String
+      id: String!
+      subscriptionId: String!
+      type: String!
       context: String
       result: String
-      type: String
     }
     
     type Mutation {
