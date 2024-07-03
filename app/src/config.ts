@@ -68,6 +68,13 @@ const config = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 
+  elevenlabs: {
+    /**
+     * The Eleven Labs API key.
+     */
+    apiKey: process.env.ELEVENLABS_API_KEY,
+  },
+
   mediaAssetsBucketName: process.env.MEDIA_ASSETS_BUCKET_NAME || 'media-assets',
 
   transcribeStreamingRole:

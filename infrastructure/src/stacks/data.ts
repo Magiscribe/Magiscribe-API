@@ -3,10 +3,12 @@ import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
 import { SsmParameter } from '@cdktf/provider-aws/lib/ssm-parameter';
 import * as mongodb from '@cdktf/provider-mongodbatlas';
 import { Repository } from '@constructs/ecs-repository';
-import { S3Backend, TerraformStack } from 'cdktf';
+import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
 import config from '../../bin/config';
 import NetworkStack from './network';
+import { S3BucketLifecycleConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-lifecycle-configuration';
+import { TagsAddingAspect } from 'aspects/tag-aspect';
 
 interface DataStackProps {
   network: NetworkStack;
@@ -39,11 +41,11 @@ export default class DataStack extends TerraformStack {
       privateKey: config.db.privateKey,
     });
 
-    /*  Aspects.of(this).add(
+    Aspects.of(this).add(
        new TagsAddingAspect({
          stack: id,
        }),
-     ); */
+     );
 
     new S3Backend(this, {
       ...config.terraformBackend,
@@ -54,6 +56,23 @@ export default class DataStack extends TerraformStack {
 
     this.s3Bucket = new S3Bucket(this, 'MediaAssets', {
       bucketPrefix: 'media-assets-',
+    });
+
+    // Add lifecycle rules to the bucket.
+    new S3BucketLifecycleConfiguration(this, 'MediaAssetsLifecycle', {
+      bucket: this.s3Bucket.bucket,
+      rule: [
+        {
+          id: 'ExpireOldAudioFiles',
+          status: 'Enabled',
+          expiration: {
+            days: 1,
+          },
+          filter: {
+            prefix: 'audio/',
+          },
+        },
+      ]
     });
 
     /*================= ECR =================*/
