@@ -65,16 +65,16 @@ async function preprocess(
   log.trace({
     msg: 'Variables before buildPrompt',
     variables: JSON.stringify(variables, null, 2),
-    reasoningPrompt: agent.reasoningPrompt
+    reasoningPrompt: agent.reasoningPrompt,
   });
 
   const prompt = await buildPrompt(agent.reasoningPrompt, variables);
 
   log.trace({
     msg: 'Prompt after buildPrompt',
-    prompt: prompt
+    prompt: prompt,
   });
-  
+
   const preprocessingResponse = await makeRequest({
     prompt,
     model: agent.reasoningLLMModel,
@@ -186,7 +186,7 @@ async function executeStep(
         eventId,
         subscriptionId,
         'DATA',
-        utils.applyFilter(executedResult, capability.subscriptionFilter)
+        utils.applyFilter(executedResult, capability.subscriptionFilter),
       );
     }
 
@@ -272,8 +272,7 @@ export async function generatePrediction({
       variables,
       results,
     });
-  } 
-  catch (error) {
+  } catch (error) {
     log.warn({
       msg: 'Prediction generation failed',
       error: error instanceof Error ? error.message : 'Unknown error',

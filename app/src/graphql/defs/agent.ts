@@ -29,6 +29,10 @@ export const AgentModule: StaticGraphQLModule = {
       llmModel: String
       description: String!
       prompts: [String]
+
+      outputMode: String
+      subscriptionFilter: String
+      outputFilter: String
     }
 
     type Capability {
@@ -38,6 +42,10 @@ export const AgentModule: StaticGraphQLModule = {
       llmModel: String
       description: String!
       prompts: [Prompt]
+
+      outputMode: String
+      subscriptionFilter: String
+      outputFilter: String
     }
 
     input AgentInput {
@@ -47,6 +55,10 @@ export const AgentModule: StaticGraphQLModule = {
       reasoningLLMModel: String
       reasoningPrompt: String
       capabilities: [String]
+
+      memoryEnabled: Boolean
+      subscriptionFilter: String
+      outputFilter: String
     }
 
     type Agent {
@@ -56,6 +68,10 @@ export const AgentModule: StaticGraphQLModule = {
       reasoningLLMModel: String
       reasoningPrompt: String
       capabilities: [Capability]
+
+      memoryEnabled: Boolean
+      subscriptionFilter: String
+      outputFilter: String
     }   
 
     type Mutation {

@@ -40,11 +40,16 @@ export function applyFilter(
   if (!outputFilter) {
     return result;
   }
-  
+
   // If pattern is a string, convert it to a RegExp object
   const regex =
-    typeof outputFilter === 'string' ? new RegExp(outputFilter, 'g') : new RegExp(outputFilter.source, outputFilter.flags + (outputFilter.flags.includes('g') ? '' : 'g'));
-  
+    typeof outputFilter === 'string'
+      ? new RegExp(outputFilter, 'g')
+      : new RegExp(
+          outputFilter.source,
+          outputFilter.flags + (outputFilter.flags.includes('g') ? '' : 'g'),
+        );
+
   // Find all matches
   const matches = Array.from(result.matchAll(regex));
 
@@ -54,8 +59,8 @@ export function applyFilter(
   }
 
   // Process matches and their groups
-  const processedMatches = matches.map(match => {
-    return match[match.length > 1 ? 1 : 0]
+  const processedMatches = matches.map((match) => {
+    return match[match.length > 1 ? 1 : 0];
   });
 
   // Join all processed matches
