@@ -18,7 +18,6 @@ async function publishPredictionEvent(
   eventId: string,
   subscriptionId: string,
   type: 'RECIEVED' | 'DATA' | 'SUCCESS' | 'ERROR',
-  prompt?: string,
   result?: string,
 ) {
   const contextMap = {
@@ -59,9 +58,11 @@ async function preprocess(
   context: string;
   capabilityAlias: string;
 }> | null> {
-  if (!agent.reasoningPrompt) return null;
+  if (!agent.reasoningPrompt || agent.reasoningPrompt.trim() === '') {
+    return null;
+  }
 
-  log.debug({
+  log.trace({
     msg: 'Variables before buildPrompt',
     variables: JSON.stringify(variables, null, 2),
     reasoningPrompt: agent.reasoningPrompt
@@ -69,7 +70,7 @@ async function preprocess(
 
   const prompt = await buildPrompt(agent.reasoningPrompt, variables);
 
-  log.debug({
+  log.trace({
     msg: 'Prompt after buildPrompt',
     prompt: prompt
   });
@@ -116,6 +117,8 @@ async function getProcessingSteps(
   // that do not require preprocessing.
   return agent.capabilities.map((capability: ICapability) => ({
     ...variables,
+    // NOTE: user message is converted to prompt. Prompt is what is used right now for capabilities.
+    prompt: variables.userMessage,
     capability,
   }));
 }
@@ -159,7 +162,6 @@ async function executeStep(
                 eventId,
                 subscriptionId,
                 'DATA',
-                '',
                 content,
               );
             },
@@ -184,7 +186,6 @@ async function executeStep(
         eventId,
         subscriptionId,
         'DATA',
-        '',
         utils.applyFilter(executedResult, capability.subscriptionFilter)
       );
     }
@@ -256,7 +257,6 @@ export async function generatePrediction({
       eventId,
       subscriptionId,
       'SUCCESS',
-      '',
       finalResult,
     );
 
@@ -265,6 +265,13 @@ export async function generatePrediction({
       agentId,
       utils.applyFilter(finalResult, agent.outputFilter),
     );
+
+    log.info({
+      msg: 'Prediction generation successful',
+      user,
+      variables,
+      results,
+    });
   } 
   catch (error) {
     log.warn({
