@@ -10,6 +10,7 @@ import { Construct } from 'constructs';
 import config from '../../bin/config';
 import DataStack from './data';
 import NetworkStack from './network';
+import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 
 interface ApiStackProps {
   network: NetworkStack;
@@ -59,6 +60,43 @@ export default class ApiStack extends TerraformStack {
     //   vpc: network.vpc.vpc,
     // });
 
+    /*================= TRANSCRIBE =================*/
+
+    // An IAM role that allows Transcribe streaming
+    const transcribeRole = new IamRole(this, 'TranscribeRole', {
+      name: 'transcribe-role',
+      assumeRolePolicy: JSON.stringify({
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Effect: 'Allow',
+            Principal: {
+              Service: 'ecs-tasks.amazonaws.com',
+            },
+            Action: 'sts:AssumeRole',
+          },
+        ],
+      }),
+      inlinePolicy: [
+        {
+          name: 'transcribe-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: [
+                  "transcribe:StartStreamTranscription",
+                  "transcribe:StartStreamTranscriptionWebSocket"
+                ],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+      ],
+    });
+
     /*================= ECS =================*/
 
     const cluster = new Cluster(this, 'Cluster');
@@ -76,6 +114,9 @@ export default class ApiStack extends TerraformStack {
         // TODO: Enable this once we scale beyond a single container.
         // REDIS_HOST: redis.replicationGroup.primaryEndpointAddress,
         // REDIS_PORT: redis.replicationGroup.port.toString(),
+
+        TRANSRIBE_STREAMING_ROLE: transcribeRole.arn,
+        MEDIA_ASSETS_BUCKET_NAME: data.s3Bucket.bucket,
       },
       secrets: {
         MONGODB_URL: data.databaseParameters.connectionString.arn,
