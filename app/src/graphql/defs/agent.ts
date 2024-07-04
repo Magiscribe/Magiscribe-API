@@ -94,7 +94,7 @@ export const AgentModule: StaticGraphQLModule = {
       getCapability(capabilityId: String!): Capability @auth(requires: admin)
       getAllCapabilities: [Capability] @auth(requires: admin)
 
-      getAgent(agentId: String!):
+      getAgent(agentId: String!): Agent
       getAllAgents: [Agent]
     }
   `,
