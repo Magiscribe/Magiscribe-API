@@ -86,8 +86,8 @@ export default class ApiStack extends TerraformStack {
               {
                 Effect: 'Allow',
                 Action: [
-                  "transcribe:StartStreamTranscription",
-                  "transcribe:StartStreamTranscriptionWebSocket"
+                  'transcribe:StartStreamTranscription',
+                  'transcribe:StartStreamTranscriptionWebSocket',
                 ],
                 Resource: '*',
               },

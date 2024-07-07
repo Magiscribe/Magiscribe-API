@@ -42,10 +42,10 @@ export default class DataStack extends TerraformStack {
     });
 
     Aspects.of(this).add(
-       new TagsAddingAspect({
-         stack: id,
-       }),
-     );
+      new TagsAddingAspect({
+        stack: id,
+      }),
+    );
 
     new S3Backend(this, {
       ...config.terraformBackend,
@@ -72,7 +72,7 @@ export default class DataStack extends TerraformStack {
             prefix: 'audio/',
           },
         },
-      ]
+      ],
     });
 
     /*================= ECR =================*/
