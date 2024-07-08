@@ -32,7 +32,7 @@ const config = {
    * Possible values: 'fatal', 'error', 'warn', 'info', 'debug', 'trace'
    * @default 'debug'
    */
-  logLevel: process.env.LOG_LEVEL || 'debug',
+  logLevel: process.env.LOG_LEVEL || 'info',
 
   auth: {
     /**

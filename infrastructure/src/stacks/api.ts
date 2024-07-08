@@ -221,8 +221,8 @@ export default class ApiStack extends TerraformStack {
       name: 'graphql-api',
       image: `${data.repositoryApp.repository.repositoryUrl}:latest`,
       env: {
-        NODE_ENV: 'prod',
         PORT: '80',
+        LOG_LEVEL: 'INFO',
 
         LAMBDA_PYTHON_EXECUTOR_NAME: executorFn.function.functionName,
         CLERK_PUBLISHABLE_KEY: config.auth.publishableKey,

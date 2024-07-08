@@ -2,9 +2,9 @@ import config from '@config';
 import pino from 'pino';
 
 const log = pino({
-  level: config.logLevel,
+  level: config.logLevel.toLowerCase(),
   transport:
-    config.environment == 'development'
+    config.environment == 'dev'
       ? {
           target: 'pino-pretty',
           options: {
