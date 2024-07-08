@@ -5,10 +5,10 @@ dotenv.config();
 const config = {
   /**
    * The environment the application is running in.
-   * Possible values: 'development', 'production'
-   * @default 'development'
+   * Possible values: 'dev', 'prod'
+   * @default 'dev'
    */
-  environment: process.env.NODE_ENV || 'development',
+  environment: process.env.NODE_ENV || 'dev',
 
   networking: {
     /**

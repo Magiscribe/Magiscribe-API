@@ -25,8 +25,8 @@ COPY --from=prod-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app/dist
 
 # Set the environment variables unless they are already set
-ENV NODE_ENV=production
-ENV PORT=8000
+ENV NODE_ENV prod
+ENV PORT 8000
 
 # Expose the port the app runs on
 EXPOSE $PORT

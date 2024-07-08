@@ -109,16 +109,28 @@ export default class DataStack extends TerraformStack {
         name: 'MONGODB_CONNECTION_STRING',
         type: 'SecureString',
         value: 'mongodb+srv://mongodb-instance.pdodhhx.mongodb.net',
+        description: 'The connection string to the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
       }),
       user: new SsmParameter(this, 'MongoDBUser', {
         name: 'MONGODB_USER',
         type: 'SecureString',
         value: 'admin',
+        description: 'The user to access the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
       }),
       password: new SsmParameter(this, 'MongoDBPassword', {
         name: 'MONGODB_PASSWORD',
         type: 'SecureString',
         value: 'adminadmin',
+        description: 'The password to access the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
       }),
     };
   }

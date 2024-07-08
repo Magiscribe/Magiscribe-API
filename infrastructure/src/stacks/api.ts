@@ -60,7 +60,125 @@ export default class ApiStack extends TerraformStack {
     //   vpc: network.vpc.vpc,
     // });
 
-    /*================= TRANSCRIBE =================*/
+    /*================= ECS =================*/
+
+    // Role that allows us to get the Docker image
+    const executionRole = new IamRole(this, `ExecutionRole`, {
+      namePrefix: `execution-role-`,
+      // this role shall only be used by an ECS task
+      assumeRolePolicy: JSON.stringify({
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Action: 'sts:AssumeRole',
+            Effect: 'Allow',
+            Principal: {
+              Service: 'ecs-tasks.amazonaws.com',
+            },
+          },
+        ],
+      }),
+      inlinePolicy: [
+        // Grants access to ECR
+        {
+          name: 'allow-ecr-pull',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: [
+                  'ecr:GetAuthorizationToken',
+                  'ecr:BatchCheckLayerAvailability',
+                  'ecr:GetDownloadUrlForLayer',
+                  'ecr:BatchGetImage',
+                  'logs:CreateLogStream',
+                  'logs:PutLogEvents',
+                ],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+        // Grants access to SSM
+        {
+          name: 'ssm-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['ssm:*'],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+      ],
+    });
+
+    // Role that allows us to push logs
+    const taskRole = new IamRole(this, `TaskRole`, {
+      namePrefix: `task-role-`,
+      assumeRolePolicy: JSON.stringify({
+        Version: '2012-10-17',
+        Statement: [
+          {
+            Action: 'sts:AssumeRole',
+            Effect: 'Allow',
+            Sid: '',
+            Principal: {
+              Service: 'ecs-tasks.amazonaws.com',
+            },
+          },
+        ],
+      }),
+      inlinePolicy: [
+        {
+          name: 'allow-logs',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['logs:CreateLogStream', 'logs:PutLogEvents'],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+        {
+          name: 'bedrock-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['bedrock:*'],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+        {
+          name: 'invoke-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: [
+                  'lambda:InvokeFunction',
+                  'lambda:GetFunction',
+                  'lambda:DescribeFunction',
+                ],
+                Resource: '*',
+              },
+            ],
+          }),
+        },
+      ],
+    });
 
     // An IAM role that allows Transcribe streaming
     const transcribeRole = new IamRole(this, 'TranscribeRole', {
@@ -71,7 +189,7 @@ export default class ApiStack extends TerraformStack {
           {
             Effect: 'Allow',
             Principal: {
-              Service: 'ecs-tasks.amazonaws.com',
+              AWS: taskRole.arn,
             },
             Action: 'sts:AssumeRole',
           },
@@ -97,15 +215,15 @@ export default class ApiStack extends TerraformStack {
       ],
     });
 
-    /*================= ECS =================*/
-
     const cluster = new Cluster(this, 'Cluster');
 
     const task = cluster.runDockerImage({
       name: 'graphql-api',
       image: `${data.repositoryApp.repository.repositoryUrl}:latest`,
       env: {
+        NODE_ENV: 'prod',
         PORT: '80',
+
         LAMBDA_PYTHON_EXECUTOR_NAME: executorFn.function.functionName,
         CLERK_PUBLISHABLE_KEY: config.auth.publishableKey,
         CLERK_SECRET_KEY: config.auth.secretKey,
@@ -123,6 +241,8 @@ export default class ApiStack extends TerraformStack {
         MONGODB_USERNAME: data.databaseParameters.user.arn,
         MONGODB_PASSWORD: data.databaseParameters.password.arn,
       },
+      executionRole,
+      taskRole,
     });
 
     const loadBalancer = new LoadBalancer(this, 'LoadBalancer', {
