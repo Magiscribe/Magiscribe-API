@@ -197,12 +197,12 @@ async function executeStep(
 }
 
 export async function generatePrediction({
-  user,
+  auth,
   subscriptionId,
   agentId,
   variables,
 }: {
-  user: { sub: string };
+  auth: { sub: string };
   subscriptionId: string;
   agentId: string;
   variables: { [key: string]: string };
@@ -213,7 +213,7 @@ export async function generatePrediction({
 
   log.info({
     msg: 'Querying Hal 9000 for prediction (AI prediction request)',
-    user,
+    auth,
     variables,
   });
 
@@ -231,7 +231,7 @@ export async function generatePrediction({
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
     const thread = await findOrCreateThread(subscriptionId);
-    await addUserMessage(thread, user.sub, variables.userMessage);
+    await addUserMessage(thread, auth.sub, variables.userMessage);
 
     if (agent.memoryEnabled) {
       // TODO: May want to include customizaiton to change the
@@ -268,7 +268,7 @@ export async function generatePrediction({
 
     log.info({
       msg: 'Prediction generation successful',
-      user,
+      auth,
       variables,
       results,
     });

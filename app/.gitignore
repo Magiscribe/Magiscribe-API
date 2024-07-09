@@ -13,3 +13,4 @@ tsconfig.tsbuildinfo
 **/dist
 .env
 !.env.example
+newrelic_agent.log

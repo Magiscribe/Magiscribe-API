@@ -45,7 +45,7 @@ export const PredictionModule: StaticGraphQLModule = {
           },
           subscriptionId: props.subscriptionId,
           agentId: props.agentId,
-          user: context.auth,
+          auth: context.auth,
         });
 
         return 'Prediction added';

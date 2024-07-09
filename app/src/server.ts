@@ -1,4 +1,4 @@
-import { ApolloServer } from '@apollo/server';
+import { ApolloServer, ApolloServerPlugin } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
@@ -13,6 +13,7 @@ import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
+import createNewRelicPlugin from '@newrelic/apollo-server-plugin';
 
 /**
  * Starts the GraphQL server.
@@ -63,7 +64,15 @@ export default async function startServer() {
         connectionType,
         userId: auth.sub,
       });
-      return { auth, roles };
+      return {
+        auth: { sub: auth.sub },
+        roles: roles.map((role) => {
+          return {
+            role: role.role,
+            organizationId: role.organization.id,
+          };
+        }),
+      };
     } catch (error) {
       log.error({
         msg: 'Authorization failed: Invalid token',
@@ -167,6 +176,8 @@ export default async function startServer() {
     },
   };
 
+  const pluginNewRelic = createNewRelicPlugin<ApolloServerPlugin>({});
+
   /*=============================== DATABASE ==============================*/
 
   await database.init();
@@ -183,6 +194,7 @@ export default async function startServer() {
       pluginDrainHttpServer,
       pluginLogging,
       pluginDisableLandingPage,
+      pluginNewRelic,
     ],
 
     // We do not want to enable introspection in production.

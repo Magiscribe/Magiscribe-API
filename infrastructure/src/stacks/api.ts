@@ -233,6 +233,12 @@ export default class ApiStack extends TerraformStack {
         // REDIS_HOST: redis.replicationGroup.primaryEndpointAddress,
         // REDIS_PORT: redis.replicationGroup.port.toString(),
 
+        // TODO: Remove the fucking secrets
+        NEW_RELIC_APP_NAME: 'magiscribe',
+        NEW_RELIC_DISTRIBUTED_TRACING_ENABLED: 'true',
+        NEW_RELIC_LICENSE_KEY: '3a603d0ce9a9f66822a4977c85dc875fFFFFNRAL',
+        NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLE: 'true',
+
         TRANSRIBE_STREAMING_ROLE: transcribeRole.arn,
         MEDIA_ASSETS_BUCKET_NAME: data.s3Bucket.bucket,
       },
