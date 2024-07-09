@@ -24,80 +24,31 @@ export default async function startServer() {
 
   /*=============================== Auth ==============================*/
 
-  // WebSocket authorization check.
-  const onConnect = async (ctx: Context<Record<string, unknown>>) => {
-    if (!ctx.connectionParams) {
-      log.warn(
-        'Starship denied entry (Missing connection parameters in WebSocket connection)',
-      );
-      throw new Error('Missing connection parameters in WebSocket connection');
-    }
+  const sandboxAuthToken = 'Sandbox';
+  const sandboxSub = 'Sandbox';
+  const sandboxRole = 'org:admin';
+  const sandBoxCheck = (token: string) =>
+    config.auth.sandboxBypass && token === sandboxAuthToken;
 
-    // Unlike http/2 or http/3, parameters established over a WebSocket connection
-    // can be anycase. Since the Apollo client automatically sends the authorization
-    // in pascal case, we will convert it to lowercase to simplify the check.
-    const token = Object.fromEntries(
-      Object.entries(ctx.connectionParams).map(([key, value]) => [
-        key.toLowerCase(),
-        value,
-      ]),
-    ).authorization as string;
+  if (config.auth.sandboxBypass) {
+    log.warn(
+      "Sandbox mode enabled, skipping authorization check when 'Sandbox' authorization token is provided",
+    );
+  }
 
-    log.debug('Inbound transmission detected (Client HTTP request received)');
-
-    if (config.auth.sandboxBypass && token === 'Sandbox') {
-      log.warn(
-        'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
-      );
-      return {
-        roles: [{ role: 'org:admin' }],
-        auth: { sub: 'Sandbox' },
-      };
+  const authorizeConnection = async (
+    token: string,
+    connectionType: 'WebSocket' | 'HTTP',
+  ) => {
+    if (sandBoxCheck(token)) {
+      return { roles: [{ role: sandboxRole }], auth: { sub: sandboxSub } };
     }
 
     if (!token) {
-      log.warn(
-        'Starship denied entry (Missing authorization token in WebSocket connection)',
+      log.warn({ msg: 'Authorization denied: Missing token', connectionType });
+      throw new Error(
+        `Missing authorization token in ${connectionType} connection`,
       );
-      throw new Error('Missing authorization token in WebSocket connection');
-    }
-
-    try {
-      const auth = await clerkClient.verifyToken(token);
-      log.debug('Starship authorized (WebSocket connection authorized)');
-
-      return {
-        auth,
-      };
-    } catch (error) {
-      log.warn(
-        'Starship denied entry (Invalid authorization token in WebSocket connection)',
-      );
-      throw new Error('Invalid authorization token in WebSocket connection');
-    }
-  };
-
-  // HTTP authorization check.
-  const context = async ({ req }: { req: express.Request }) => {
-    const token = req.headers.authorization;
-
-    log.debug('Inbound transmission detected (Client HTTP request received)');
-
-    if (config.auth.sandboxBypass && token === 'Sandbox') {
-      log.warn(
-        'Security detail is asleep (Sandbox mode enabled, skipping authorization check for HTTP request)',
-      );
-      return {
-        roles: [{ role: 'org:admin' }],
-        auth: { sub: 'Sandbox' },
-      };
-    }
-
-    if (!token) {
-      log.warn(
-        'Transmission denied (Missing authorization token in HTTP connection)',
-      );
-      throw new Error('Missing authorization token in WebSocket connection');
     }
 
     try {
@@ -107,18 +58,21 @@ export default async function startServer() {
           userId: auth.sub,
         })
       ).data;
-      log.debug('Transmission authorized (Client HTTP request authorized)');
-
-      return {
-        auth,
-        roles,
-      };
+      log.debug({
+        msg: 'Connection authorized',
+        connectionType,
+        userId: auth.sub,
+      });
+      return { auth, roles };
     } catch (error) {
-      log.warn(error);
-      log.warn(
-        'Transmission denied (Invalid authorization token in HTTP connection)',
+      log.error({
+        msg: 'Authorization failed: Invalid token',
+        connectionType,
+        error,
+      });
+      throw new Error(
+        `Invalid authorization token in ${connectionType} connection`,
       );
-      throw new Error('Invalid authorization token in HTTP connection');
     }
   };
 
@@ -138,7 +92,19 @@ export default async function startServer() {
   const serverCleanup = useServer(
     {
       schema,
-      onConnect,
+      onConnect: async (ctx: Context<Record<string, unknown>>) => {
+        // Unlike http/2 or http/3, parameters established over a WebSocket connection
+        // can be anycase. Since the Apollo client automatically sends the authorization
+        // in pascal case, we will convert it to lowercase to simplify the check.
+        const token = Object.fromEntries(
+          Object.entries(ctx.connectionParams || {}).map(([key, value]) => [
+            key.toLowerCase(),
+            value,
+          ]),
+        ).authorization as string;
+
+        return authorizeConnection(token, 'WebSocket');
+      },
     },
     websocketServer,
   );
@@ -182,7 +148,10 @@ export default async function startServer() {
       requestContext.logger = log.child({
         requestId: requestContext.request.http?.headers.get('x-request-id'),
       });
-      requestContext.logger.trace({
+
+      requestContext.logger.info({
+        msg: 'Request received',
+        context: requestContext.contextValue,
         operationName: requestContext.request.operationName,
         query: requestContext.request.query,
         variables: requestContext.request.variables,
@@ -247,7 +216,10 @@ export default async function startServer() {
     }),
     express.json(),
     expressMiddleware(server, {
-      context,
+      context: ({ req }) => {
+        const token = req.headers.authorization as string;
+        return authorizeConnection(token, 'HTTP');
+      },
     }),
     ClerkExpressWithAuth(),
   );

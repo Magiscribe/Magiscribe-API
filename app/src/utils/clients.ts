@@ -7,6 +7,8 @@ import config from '@config';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { PubSub } from 'graphql-subscriptions';
 
+/*================================ Apollo ==============================*/
+
 // Sets up the pub sub client to use Redis if the configuration is set,
 // otherwise it uses the default PubSub client.
 const pubsubClient = config.redis
@@ -18,35 +20,15 @@ const pubsubClient = config.redis
     })
   : new PubSub();
 
-// AWS Clients
-const credentials =
-  config.aws.accessKeyId && config.aws.secretAccessKey
-    ? {
-        accessKeyId: config.aws.accessKeyId,
-        secretAccessKey: config.aws.secretAccessKey,
-      }
-    : undefined;
+/*================================ AWS ==============================*/
 
-const s3Client = new S3Client({
-  credentials,
-  region: config.aws.region,
-});
-const bedrockClient = new BedrockRuntimeClient({
-  credentials,
-});
+const s3Client = new S3Client();
+const bedrockClient = new BedrockRuntimeClient();
 const lambdaClient = new LambdaClient({
-  credentials,
   endpoint: config.lambda.endpoint,
-  region: config.aws.region,
 });
-const stsClient = new STSClient({
-  credentials,
-  region: config.aws.region,
-});
-const transcribeClient = new TranscribeClient({
-  credentials,
-  region: config.aws.region,
-});
+const stsClient = new STSClient();
+const transcribeClient = new TranscribeClient();
 
 export {
   bedrockClient,
