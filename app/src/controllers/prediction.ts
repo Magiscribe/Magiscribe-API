@@ -1,3 +1,4 @@
+import config from '@config';
 import { IAgent, ICapability, OutputReturnMode } from '@database/models/agent';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
@@ -14,10 +15,26 @@ import { pubsubClient } from '@utils/clients';
 import * as utils from '@utils/code';
 import { uuid } from 'uuidv4';
 
+enum PredictionEventType {
+  RECIEVED = 'RECIEVED',
+  DATA = 'DATA',
+  SUCCESS = 'SUCCESS',
+  ERROR = 'ERROR',
+  DEBUG = 'DEBUG',
+}
+
+/**
+ * Publishes a prediction event to the predictionAdded subscription.
+ * @param eventId Unique identifier for the event
+ * @param subscriptionId Identifier for the associated subscription
+ * @param type Type of prediction event (e.g., RECEIVED, DATA, SUCCESS, ERROR, DEBUG)
+ * @param result Optional result data for the prediction event
+ * @returns Promise that resolves when the event is published
+ */
 async function publishPredictionEvent(
   eventId: string,
   subscriptionId: string,
-  type: 'RECIEVED' | 'DATA' | 'SUCCESS' | 'ERROR',
+  type: PredictionEventType,
   result?: string,
 ) {
   const contextMap = {
@@ -25,8 +42,21 @@ async function publishPredictionEvent(
     DATA: 'Prediction data received',
     SUCCESS: 'Prediction generation successful',
     ERROR: 'Prediction generation failed',
+    DEBUG: 'Debug information. Not present in production',
   };
 
+  if (type === PredictionEventType.DEBUG && config.environment !== 'dev') {
+    throw new Error('Debug events are not allowed in production');
+  }
+
+  log.trace({
+    msg: 'Publishing prediction event',
+    eventId,
+    subscriptionId,
+    type,
+    result,
+    context: contextMap[type],
+  })
   return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
     predictionAdded: {
       id: eventId,
@@ -161,7 +191,7 @@ async function executeStep(
               await publishPredictionEvent(
                 eventId,
                 subscriptionId,
-                'DATA',
+                PredictionEventType.DATA,
                 content,
               );
             },
@@ -185,7 +215,7 @@ async function executeStep(
       await publishPredictionEvent(
         eventId,
         subscriptionId,
-        'DATA',
+        PredictionEventType.DATA,
         utils.applyFilter(executedResult, capability.subscriptionFilter),
       );
     }
@@ -223,7 +253,7 @@ export async function generatePrediction({
     await publishPredictionEvent(
       eventId,
       subscriptionId,
-      'RECIEVED',
+      PredictionEventType.RECIEVED,
       variables.userMessage,
     );
 
@@ -248,6 +278,15 @@ export async function generatePrediction({
 
     const steps = await getProcessingSteps(agent, variables);
 
+    if (config.environment === 'dev') {
+      await publishPredictionEvent(
+        eventId,
+        subscriptionId,
+        PredictionEventType.DEBUG,
+        JSON.stringify(steps),
+      )
+    }
+
     const results = await Promise.all(
       steps.map((step) => executeStep(step, eventId, subscriptionId)),
     );
@@ -256,7 +295,7 @@ export async function generatePrediction({
     await publishPredictionEvent(
       eventId,
       subscriptionId,
-      'SUCCESS',
+      PredictionEventType.SUCCESS,
       finalResult,
     );
 
@@ -277,6 +316,7 @@ export async function generatePrediction({
       msg: 'Prediction generation failed',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
-    await publishPredictionEvent(eventId, subscriptionId, 'ERROR', '');
+    await publishPredictionEvent(eventId, subscriptionId,
+      PredictionEventType.ERROR, error instanceof Error ? error.message : 'Unknown error');
   }
 }

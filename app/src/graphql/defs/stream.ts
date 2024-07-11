@@ -1,3 +1,4 @@
+import { Stream } from '@database/models/stream';
 import { StaticGraphQLModule } from '@graphql';
 import log from '@log';
 import { pubsubClient } from '@utils/clients';
@@ -17,6 +18,10 @@ export const StreamModule: StaticGraphQLModule = {
             createStreamObject(subscriptionId: String! data: JSONObject!): StreamObject!
         }
 
+        type Query {
+            streamObject(subscriptionId: String!): StreamObject!
+        }
+
         type Subscription {
             streamObject(subscriptionId: String!): StreamObject!
         }
@@ -29,9 +34,20 @@ export const StreamModule: StaticGraphQLModule = {
           msg: 'Stream object created',
           streamObject,
         });
+        await Stream.updateOne(
+          { subscriptionId: streamObject.subscriptionId },
+          { data: streamObject.data },
+          { upsert: true },
+        );
         pubsubClient.publish('STREAM_OBJECT', streamObject);
         return streamObject;
       },
+    },
+    Query: {
+      async streamObject(_, { subscriptionId }) {
+        const stream = await Stream.findOne({ subscriptionId });
+        return stream;
+      }
     },
     Subscription: {
       streamObject: {
