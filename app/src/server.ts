@@ -158,13 +158,16 @@ export default async function startServer() {
         requestId: requestContext.request.http?.headers.get('x-request-id'),
       });
 
-      requestContext.logger.info({
-        msg: 'Request received',
-        context: requestContext.contextValue,
-        operationName: requestContext.request.operationName,
-        query: requestContext.request.query,
-        variables: requestContext.request.variables,
-      });
+      // Filters out introspection queries from the logs so they don't clutter things up.
+      if (requestContext.request.operationName !== 'IntrospectionQuery') {
+        requestContext.logger.info({
+          msg: 'Request received',
+          context: requestContext.contextValue,
+          operationName: requestContext.request.operationName,
+          query: requestContext.request.query,
+          variables: requestContext.request.variables,
+        });
+      }
 
       return {
         // Fires whenever Apollo Server will validate a
