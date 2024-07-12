@@ -1,4 +1,4 @@
-name: Destroy
+name: Destroy Infrastructure
 
 on:
   schedule:

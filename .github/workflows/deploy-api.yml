@@ -1,0 +1,88 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Everday at 9:30am EST
+    - cron:  '30 13 * * *'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: api-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev'}}
+  cancel-in-progress: true
+
+jobs:
+  build-lambda:
+    name: Build Lambda Image
+    uses: ./.github/workflows/build-container.yml
+    with:
+      path: './app/lambdas/python-executor'
+      repository: 'python-executor'
+      role_to_assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+      region: 'us-east-1'
+
+  build-api:
+    name: Build API Image
+
+    uses: ./.github/workflows/build-container.yml
+    with:
+      path: './app'
+      repository: 'magiscribe-api'
+      role_to_assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+      region: 'us-east-1'
+
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    needs: [build-api, build-lambda]
+    defaults:
+      run:
+        working-directory: ./infrastructure
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@main
+
+      - name: Assume AWS Role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+          aws-region: us-east-1
+
+      - name: Get Latest Task Definition
+        id: get-task-def
+        run: |
+          aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION --query 'taskDefinition' --output json > ${{ github.workspace }}/task-def.json
+          echo "definition=${{ github.workspace }}/task-def.json" >> $GITHUB_OUTPUT
+
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "service=$SERVICE" >> $GITHUB_OUTPUT
+          echo "cluster=$CLUSTER" >> $GITHUB_OUTPUT
+        env:
+          NAME: magiscribe-api
+          SERVICE: magiscribe-api
+          ECS_TASK_DEFINITION: magiscribe-api
+          CLUSTER: magiscribe-cluster
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@c804dfbdd57f713b6c079302a4c01db7017a36fc
+        with:
+          task-definition: ${{ steps.get-task-def.outputs.definition }}
+          container-name: ${{ steps.get-task-def.outputs.name }}
+          image: ${{ needs.build-api.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ steps.get-task-def.outputs.service }}
+          cluster: ${{ steps.get-task-def.outputs.cluster }}
+          wait-for-service-stability: true

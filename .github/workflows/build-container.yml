@@ -17,6 +17,10 @@ on:
         type: string
         required: true
         description: 'The AWS region to use'
+    outputs:
+      image:
+        description: 'The image URI of the pushed image'
+        value: ${{ jobs.build-container.outputs.image }}
 
 jobs:
   build-container:
@@ -27,6 +31,8 @@ jobs:
       matrix:
         platform:
           - linux/arm64
+    outputs:
+      image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ github.sha }}
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
@@ -59,7 +65,6 @@ jobs:
           cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache
           cache-to: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache,mode=max,image-manifest=true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:latest
             ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ github.sha }}
           labels: |
             org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}

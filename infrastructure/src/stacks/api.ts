@@ -218,7 +218,7 @@ export default class ApiStack extends TerraformStack {
     const cluster = new Cluster(this, 'Cluster');
 
     const task = cluster.runDockerImage({
-      name: 'graphql-api',
+      name: 'magiscribe-api',
       image: `${data.repositoryApp.repository.repositoryUrl}:ee7da55fdeb9a6e3def186447d48e68204dd3604`,
       env: {
         PORT: '80',
@@ -285,7 +285,7 @@ export default class ApiStack extends TerraformStack {
     );
 
     loadBalancer.exposeService({
-      name: 'graphql-api',
+      name: 'magiscribe-api',
       task,
       serviceSecurityGroup,
       path: '/',

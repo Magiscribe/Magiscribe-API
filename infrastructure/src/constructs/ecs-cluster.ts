@@ -13,7 +13,7 @@ export class Cluster extends Construct {
     super(scope, id);
 
     this.cluster = new EcsCluster(this, 'Cluster', {
-      name: 'whiteboard-cluster',
+      name: `magiscribe-cluster`,
     });
 
     new EcsClusterCapacityProviders(this, `ClusterCapacityProviders`, {
@@ -45,6 +45,7 @@ export class Cluster extends Construct {
 
     // Creates a task that runs the docker container
     const task = new EcsTaskDefinition(this, `Task`, {
+      family: 'magiscribe-api',
       cpu: '256',
       memory: '512',
       networkMode: 'awsvpc',
@@ -85,7 +86,6 @@ export class Cluster extends Construct {
           },
         },
       ]),
-      family: 'service',
       runtimePlatform: {
         cpuArchitecture: 'ARM64',
       },
