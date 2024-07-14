@@ -35,5 +35,10 @@ export default class Stage {
       domainName: `${config.dns.apexDomainName}`,
       network,
     });
+
+    new FrontendStack(scope, 'client-stakeholder', {
+      domainName: `stakeholder.${config.dns.apexDomainName}`,
+      network,
+    });
   }
 }
