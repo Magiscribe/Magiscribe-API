@@ -16,8 +16,7 @@ import path from 'path';
   try {
     await database.init();
 
-    const timestamp = new Date().toISOString().replace(/:/g, '-');
-    const dataDir = path.join('seed', 'data', timestamp);
+    const dataDir = path.join('seed', 'data', 'default');
     fs.mkdirSync(dataDir, { recursive: true });
 
     await Promise.all(

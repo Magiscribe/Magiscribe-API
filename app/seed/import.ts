@@ -16,12 +16,7 @@ import path from 'path';
   try {
     await database.init();
 
-    const dataDir = path.join('seed', 'data');
-    const dirs = fs
-      .readdirSync(dataDir)
-      .filter((entry) => fs.lstatSync(path.join(dataDir, entry)).isDirectory());
-    const latestDir = dirs.sort().reverse()[0];
-    const seedDir = path.join(dataDir, latestDir);
+    const seedDir = path.join('seed', 'data', 'default');
 
     await Promise.all(
       collections.map(async ({ model, name }) => {

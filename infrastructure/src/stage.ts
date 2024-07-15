@@ -19,20 +19,21 @@ export default class Stage {
     new ApiStack(scope, 'api', {
       domainName: `api.${config.dns.apexDomainName}`,
       corsOrigins: [
-        `https://app.${config.dns.apexDomainName}`,
         `https://${config.dns.apexDomainName}`,
+        `https://app.${config.dns.apexDomainName}`,
+        `https://stakeholder.${config.dns.apexDomainName}`,
       ],
       network,
       data,
     });
 
-    new FrontendStack(scope, 'client-app', {
-      domainName: `app.${config.dns.apexDomainName}`,
+    new FrontendStack(scope, 'client-dashboard', {
+      domainName: `${config.dns.apexDomainName}`,
       network,
     });
 
-    new FrontendStack(scope, 'client-dashboard', {
-      domainName: `${config.dns.apexDomainName}`,
+    new FrontendStack(scope, 'client-app', {
+      domainName: `app.${config.dns.apexDomainName}`,
       network,
     });
 
