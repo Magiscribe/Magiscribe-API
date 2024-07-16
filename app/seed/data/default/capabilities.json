@@ -8,13 +8,14 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b3300"
+      "6670ab02f446b4f1a67b3300",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-07-08T03:12:19.413Z",
+    "updatedAt": "2024-07-16T02:18:04.736Z",
     "__v": 0
   },
   {
@@ -26,7 +27,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32f9"
+      "6670ab02f446b4f1a67b32f9",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -44,7 +46,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fa"
+      "6670ab02f446b4f1a67b32fa",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -62,7 +65,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fb"
+      "6670ab02f446b4f1a67b32fb",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -80,7 +84,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fc"
+      "6670ab02f446b4f1a67b32fc",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -98,7 +103,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32ff"
+      "6670ab02f446b4f1a67b32ff",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -116,7 +122,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fe"
+      "6670ab02f446b4f1a67b32fe",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
@@ -126,47 +133,19 @@
     "__v": 0
   },
   {
-    "_id": "6670ab02f446b4f1a67b333c",
-    "name": " Zoom Capability",
-    "alias": "ZoomCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Zoom Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f5",
-      "6670ab02f446b4f1a67b3302"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "createdAt": "2024-06-17T21:30:42.668Z",
-    "updatedAt": "2024-06-17T21:30:42.668Z",
-    "__v": 0
-  },
-  {
     "_id": "6670ab02f446b4f1a67b333e",
     "name": " Code Fix Capability",
     "alias": "CodeFixCapability",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "This is a description for  Code Fix Capability agent.",
-    "prompts": ["6670ab02f446b4f1a67b32f6", "6670ab02f446b4f1a67b32f7"],
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f7",
+      "6695d849888b8bcf4b03be85"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "createdAt": "2024-06-17T21:30:42.688Z",
     "updatedAt": "2024-06-17T21:30:42.688Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3340",
-    "name": " Scroll Capability",
-    "alias": "ScrollCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Scroll Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f5",
-      "6670ab02f446b4f1a67b3301"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "createdAt": "2024-06-17T21:30:42.691Z",
-    "updatedAt": "2024-06-17T21:30:42.691Z",
     "__v": 0
   },
   {
@@ -214,7 +193,8 @@
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
       "6670ab02f446b4f1a67b32f8",
-      "6688a06ab32be1363c756078"
+      "6688a06ab32be1363c756078",
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,

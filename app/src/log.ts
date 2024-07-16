@@ -14,12 +14,12 @@ const targets =
       ]
     : [
         {
-          level: config.logLevel,
           target: 'pino/file',
         },
       ];
 
 const log = pino({
+  level: config.logLevel,
   transport: { targets },
 });
 
