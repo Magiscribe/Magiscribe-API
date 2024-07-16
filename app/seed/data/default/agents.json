@@ -19,7 +19,7 @@
     "subscriptionFilter": null,
     "outputFilter": "\"description\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-06-17T21:30:42.709Z",
-    "updatedAt": "2024-07-08T03:24:46.012Z",
+    "updatedAt": "2024-07-11T22:51:04.501Z",
     "__v": 0
   },
   {
@@ -38,12 +38,14 @@
     "_id": "667aeb2f7ed1fd8cdf11ad59",
     "name": "Web Scraping Agent",
     "description": "An agent capable of scraping web pages.",
-    "reasoningLLMModel": "MISTRAL_SMALL",
+    "reasoningLLMModel": "CLAUDE_3_HAIKU",
     "reasoningPrompt": "<System>\nGive me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt, a capability, and context. The prompt, capability, and context are all strings.\nmessage contains simple commands for a particular capability. These commands will later be executed in parallel.\nselected capability can ONLY be one of the following: ScrapeCapability. Do NOT include any other capabilities.\n\n# Example 1:\n# Prompt: Get all links from kylelierer.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Pull all links from the webpage\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is kylelierer.com\"}\n    ]\n}\n```\n\n# Example 2:\n# Prompt: Get all h1 text and links from google.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Get all h1 text\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is google.com\"},\n        { \"prompt\": \"Pull all links from the webpage\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is google.com\"}\n    ]\n}\n```\n</System>\n",
     "capabilities": ["667aef4cacf7000556d2ddb3"],
     "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-25T16:07:11.045Z",
-    "updatedAt": "2024-06-27T21:12:52.032Z",
+    "updatedAt": "2024-07-09T22:19:49.367Z",
     "__v": 0
   },
   {
@@ -56,6 +58,20 @@
     "memoryEnabled": false,
     "createdAt": "2024-06-27T16:56:07.955Z",
     "updatedAt": "2024-06-27T21:31:29.677Z",
+    "__v": 0
+  },
+  {
+    "_id": "669541ed7ceb83a7fb75eb35",
+    "name": "Stakeholder | Question Agent",
+    "description": "Creates questions",
+    "reasoningLLMModel": "CLAUDE_3_HAIKU",
+    "reasoningPrompt": "",
+    "capabilities": ["669541217ceb83a7fb75eb1a"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-15T15:36:13.816Z",
+    "updatedAt": "2024-07-15T15:36:27.524Z",
     "__v": 0
   }
 ]

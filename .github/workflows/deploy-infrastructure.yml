@@ -53,7 +53,7 @@ jobs:
         uses: hashicorp/terraform-cdk-action@v5
         with:
           mode: auto-approve-apply
-          stackName: network data api client-app client-dashboard
+          stackName: network data api client-app client-dashboard client-stakeholder
           workingDirectory: ./infrastructure
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           commentOnPr: false

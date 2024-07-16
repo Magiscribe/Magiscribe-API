@@ -56,7 +56,7 @@ async function publishPredictionEvent(
     type,
     result,
     context: contextMap[type],
-  })
+  });
   return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
     predictionAdded: {
       id: eventId,
@@ -284,7 +284,7 @@ export async function generatePrediction({
         subscriptionId,
         PredictionEventType.DEBUG,
         JSON.stringify(steps),
-      )
+      );
     }
 
     const results = await Promise.all(
@@ -316,7 +316,11 @@ export async function generatePrediction({
       msg: 'Prediction generation failed',
       error: error instanceof Error ? error.message : 'Unknown error',
     });
-    await publishPredictionEvent(eventId, subscriptionId,
-      PredictionEventType.ERROR, error instanceof Error ? error.message : 'Unknown error');
+    await publishPredictionEvent(
+      eventId,
+      subscriptionId,
+      PredictionEventType.ERROR,
+      error instanceof Error ? error.message : 'Unknown error',
+    );
   }
 }

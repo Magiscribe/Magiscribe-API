@@ -47,7 +47,7 @@ export const StreamModule: StaticGraphQLModule = {
       async streamObject(_, { subscriptionId }) {
         const stream = await Stream.findOne({ subscriptionId });
         return stream;
-      }
+      },
     },
     Subscription: {
       streamObject: {

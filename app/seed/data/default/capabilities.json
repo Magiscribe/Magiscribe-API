@@ -11,11 +11,11 @@
       "6670ab02f446b4f1a67b3300"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
     "updatedAt": "2024-07-08T03:12:19.413Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b3330",
@@ -29,11 +29,11 @@
       "6670ab02f446b4f1a67b32f9"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.617Z",
     "updatedAt": "2024-07-08T03:12:51.397Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b3332",
@@ -65,11 +65,11 @@
       "6670ab02f446b4f1a67b32fb"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.635Z",
     "updatedAt": "2024-07-08T03:12:58.424Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b3336",
@@ -83,11 +83,11 @@
       "6670ab02f446b4f1a67b32fc"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.645Z",
     "updatedAt": "2024-07-08T02:31:57.145Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b3338",
@@ -101,11 +101,11 @@
       "6670ab02f446b4f1a67b32ff"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "createdAt": "2024-06-17T21:30:42.650Z",
-    "updatedAt": "2024-07-08T03:13:05.066Z",
-    "__v": 0,
+    "subscriptionFilter": null,
     "outputFilter": null,
-    "subscriptionFilter": null
+    "createdAt": "2024-06-17T21:30:42.650Z",
+    "updatedAt": "2024-07-11T22:34:13.861Z",
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b333a",
@@ -119,11 +119,11 @@
       "6670ab02f446b4f1a67b32fe"
     ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.658Z",
     "updatedAt": "2024-07-08T03:12:35.824Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6670ab02f446b4f1a67b333c",
@@ -221,6 +221,20 @@
     "outputFilter": null,
     "createdAt": "2024-07-06T00:58:03.553Z",
     "updatedAt": "2024-07-06T01:40:10.469Z",
+    "__v": 0
+  },
+  {
+    "_id": "669541217ceb83a7fb75eb1a",
+    "name": "Question Generation",
+    "alias": "QuestionGeneration",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Generates Questions",
+    "prompts": ["669541137ceb83a7fb75eb17"],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-15T15:32:49.292Z",
+    "updatedAt": "2024-07-15T15:36:05.908Z",
     "__v": 0
   }
 ]
