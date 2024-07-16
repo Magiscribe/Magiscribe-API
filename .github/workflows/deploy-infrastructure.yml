@@ -1,9 +1,6 @@
-name: Deploy
+name: Deploy Infrastructure
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     # Everday at 9:00am EST
     - cron:  '0 13 * * *'
@@ -20,28 +17,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-images:
-    name: Build and Push Images
-    strategy:
-      matrix:
-        include:
-          - name: Executor
-            path: './app/lambdas/python-executor'
-            repository: 'python-executor'
-          - name: API
-            path: './app'
-            repository: 'graphql-api'
-    uses: ./.github/workflows/build-container.yml
-    with:
-      path: ${{ matrix.path }}
-      repository: ${{ matrix.repository }}
-      role_to_assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
-      region: 'us-east-1'
-
   terraform:
     name: "Terraform CDK Deploy"
     runs-on: ubuntu-latest
-    needs: [build-images]
     defaults:
       run:
         working-directory: ./infrastructure

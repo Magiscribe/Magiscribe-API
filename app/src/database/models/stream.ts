@@ -3,8 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 export interface IStream {
   id: string;
   subscriptionId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
+  data: Record<string, unknown>;
 }
 
 const StreamSchema: Schema = new mongoose.Schema(

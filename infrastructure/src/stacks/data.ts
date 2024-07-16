@@ -82,7 +82,7 @@ export default class DataStack extends TerraformStack {
     });
 
     this.repositoryApp = new Repository(this, 'App', {
-      name: 'graphql-api',
+      name: 'magiscribe-api',
     });
 
     this.database = new mongodb.serverlessInstance.ServerlessInstance(
