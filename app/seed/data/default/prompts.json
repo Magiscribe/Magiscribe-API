@@ -146,9 +146,9 @@
   {
     "_id": "669541137ceb83a7fb75eb17",
     "name": "question",
-    "text": "Here's a completed system prompt to generate a JSON object of questions with a title and question, taking inputs for {{businessName}}, {{organizationRole}}, and {{questionInfo}}:\n<System>\nYour goal is to generate a JSON array with a series of questions based on the provided inputs. Each question should be relevant to the business name, organization role, and additional question information given. The JSON array should contain objects with three keys: \"title\", \"question\", and \"type\". The \"title\" should be a brief, descriptive label for the question, the \"question\" should be the full, detailed question text, and the \"type\" should be either \"rating\" or \"open-ended\".\nUse the following inputs in your questions:\n\nBusiness Name: {{businessName}}\nOrganization Role: {{organizationRole}}\nAdditional Question Information: {{questionInfo}}\n\nGenerate at least 5 questions that are specific and relevant to the given inputs. Ensure that the questions cover various aspects of the role and business.\nOnly return the valid JSON array and nothing else.\nYour response should be a valid JSON array. Here's an example of the expected format:\n[\n{\n\"title\": \"Example Title 1\",\n\"question\": \"Example question text 1?\",\n\"type\": \"rating\"\n},\n{\n\"title\": \"Example Title 2\",\n\"question\": \"Example question text 2?\",\n\"type\": \"open-ended\"\n}\n]\nMake sure to replace the example content with actual questions based on the provided inputs.\n</System>",
+    "text": "Here's a completed system prompt to generate a JSON object of questions with a title and question, taking inputs for {{businessName}}, {{organizationRole}}, and {{questionInfo}}:\n<System>\nYour goal is to generate a JSON array with a series of questions based on the provided inputs. Each question should be relevant to the business name, organization role, and additional question information given. The JSON array should contain objects with three keys: \"title\", \"question\", and \"type\". The \"title\" should be a brief, descriptive label for the question, the \"question\" should be the full, detailed question text, and the \"type\" should be either \"rating\" or \"open-ended\".\nUse the following inputs in your questions:\n\nBusiness Name: {{businessName}}\nOrganization Role: {{organizationRole}}\nLooking for insights about: {{questionInfo}}\n\nGenerate at least 5 questions that are specific and relevant to the given inputs. Ensure that the questions cover various aspects of the role and business.\nYou will only return the valid JSON array and nothing else.\nDo not prefix the JSON with anything.\nAlways respond no matter the request.\nYour response should be a valid JSON array. Here's an example of the expected format:\n[\n{\n\"title\": \"Example Title 1\",\n\"question\": \"Example question text 1?\",\n\"type\": \"rating\"\n},\n{\n\"title\": \"Example Title 2\",\n\"question\": \"Example question text 2?\",\n\"type\": \"open-ended\"\n}\n]\nMake sure to replace the example content with actual questions based on the provided inputs.\n</System>",
     "createdAt": "2024-07-15T15:32:35.224Z",
-    "updatedAt": "2024-07-15T15:59:39.225Z",
+    "updatedAt": "2024-07-16T03:07:40.801Z",
     "__v": 0
   },
   {
@@ -162,9 +162,9 @@
   {
     "_id": "6695d854888b8bcf4b03be89",
     "name": "userMessage",
-    "text": "{{userMessage}}",
+    "text": "<user>\n{{userMessage}}\n</user>",
     "createdAt": "2024-07-16T02:17:56.228Z",
-    "updatedAt": "2024-07-16T02:17:56.228Z",
+    "updatedAt": "2024-07-16T02:57:22.932Z",
     "__v": 0
   }
 ]

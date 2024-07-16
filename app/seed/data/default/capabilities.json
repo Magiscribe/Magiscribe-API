@@ -15,7 +15,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-07-16T02:18:04.736Z",
+    "updatedAt": "2024-07-16T02:22:08.205Z",
     "__v": 0
   },
   {
@@ -154,11 +154,13 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f"],
+    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
     "outputMode": "STREAMING_INDIVIDUAL",
     "createdAt": "2024-06-25T15:38:36.123Z",
-    "updatedAt": "2024-06-25T16:06:24.569Z",
-    "__v": 0
+    "updatedAt": "2024-07-16T02:21:58.980Z",
+    "__v": 0,
+    "outputFilter": null,
+    "subscriptionFilter": null
   },
   {
     "_id": "667aef4cacf7000556d2ddb3",
@@ -166,11 +168,13 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9"],
+    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-06-30T05:02:57.255Z",
-    "__v": 0
+    "updatedAt": "2024-07-16T02:21:46.304Z",
+    "__v": 0,
+    "outputFilter": null,
+    "subscriptionFilter": null
   },
   {
     "_id": "667dd59869b67704281c4e6b",
@@ -178,11 +182,13 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c"],
+    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "createdAt": "2024-06-27T21:11:52.294Z",
-    "updatedAt": "2024-06-27T21:11:52.294Z",
-    "__v": 0
+    "updatedAt": "2024-07-16T02:21:52.444Z",
+    "__v": 0,
+    "outputFilter": null,
+    "subscriptionFilter": null
   },
   {
     "_id": "6688969bb32be1363c756056",
@@ -209,12 +215,12 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17"],
+    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-07-15T15:36:05.908Z",
+    "updatedAt": "2024-07-16T03:07:42.169Z",
     "__v": 0
   }
 ]
