@@ -3,9 +3,12 @@ import { StaticGraphQLModule } from '@graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import { pubsubClient } from '@utils/clients';
 import { withFilter } from 'graphql-subscriptions';
+import { GraphQLJSONObject } from 'graphql-type-json';
 
 export const PredictionModule: StaticGraphQLModule = {
   schema: `#graphql
+    scalar JSONObject
+
     enum PredictionType {
       ERROR
       DATA
@@ -17,7 +20,6 @@ export const PredictionModule: StaticGraphQLModule = {
       id: String!
       subscriptionId: String!
       type: String!
-      context: String
       result: String
     }
     
@@ -25,8 +27,7 @@ export const PredictionModule: StaticGraphQLModule = {
       addPrediction(
         subscriptionId: String!
         agentId: String!
-        userMessage: String!
-        context: String
+        variables: JSONObject
       ): String
     }
 
@@ -36,15 +37,21 @@ export const PredictionModule: StaticGraphQLModule = {
   `,
 
   resolvers: {
+    JSONObject: GraphQLJSONObject,
     Mutation: {
       addPrediction: (_, props, context) => {
+        if (!props.subscriptionId || !props.agentId) {
+          throw new Error('Subscription ID and Agent ID are required');
+        }
+
+        // Subscription ID and Agent ID are special fields, everything else is
+        // used as context for the agent.
+        const { subscriptionId, agentId, variables } = props;
+
         generatePrediction({
-          variables: {
-            userMessage: props.userMessage,
-            context: props.context,
-          },
-          subscriptionId: props.subscriptionId,
-          agentId: props.agentId,
+          variables,
+          subscriptionId,
+          agentId,
           auth: context.auth,
         });
 

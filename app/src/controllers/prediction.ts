@@ -147,8 +147,6 @@ async function getProcessingSteps(
   // that do not require preprocessing.
   return agent.capabilities.map((capability: ICapability) => ({
     ...variables,
-    // NOTE: user message is converted to prompt. Prompt is what is used right now for capabilities.
-    prompt: variables.userMessage,
     capability,
   }));
 }
@@ -170,11 +168,18 @@ async function executeStep(
   // Remove capability from the step variables
   delete step.capability;
 
+  log.debug({
+    msg: 'Executing AI prediction step',
+    step,
+    capability,
+  });
+
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
-  const prompt = [...prompts, ...Object.values(step).map((value) => value)]
-    .join('\n')
-    .trim();
+  const prompt = await buildPrompt(
+    [...prompts].join('\n').trim(),
+    step as { [key: string]: string },
+  );
 
   const result = await makeRequest({
     prompt,
