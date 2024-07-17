@@ -154,13 +154,16 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-25T15:38:36.123Z",
     "updatedAt": "2024-07-16T02:21:58.980Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "667aef4cacf7000556d2ddb3",
@@ -168,13 +171,16 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-25T16:24:44.734Z",
     "updatedAt": "2024-07-16T02:21:46.304Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "667dd59869b67704281c4e6b",
@@ -182,13 +188,16 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
     "createdAt": "2024-06-27T21:11:52.294Z",
     "updatedAt": "2024-07-16T02:21:52.444Z",
-    "__v": 0,
-    "outputFilter": null,
-    "subscriptionFilter": null
+    "__v": 0
   },
   {
     "_id": "6688969bb32be1363c756056",
@@ -215,12 +224,53 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
     "updatedAt": "2024-07-16T03:07:42.169Z",
+    "__v": 0
+  },
+  {
+    "_id": "66971ba6d2a052885450d744",
+    "name": "Piechart Capability",
+    "alias": "PiechartCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Creates Piecharts from data to be rendered",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "669714fdd2a052885450d6fa",
+      "66971df6d2a052885450d767",
+      "66971b17d2a052885450d735"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-17T01:17:26.307Z",
+    "updatedAt": "2024-07-17T01:31:18.134Z",
+    "__v": 0
+  },
+  {
+    "_id": "66971ecfd2a052885450d77c",
+    "name": "Barchart Capability",
+    "alias": "BarchartCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Creates the data for a bar chart",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "669714fdd2a052885450d6fa",
+      "66971f23d2a052885450d78c",
+      "66971b17d2a052885450d735"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-17T01:30:55.765Z",
+    "updatedAt": "2024-07-17T01:32:46.103Z",
     "__v": 0
   }
 ]

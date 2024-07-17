@@ -18,9 +18,9 @@
   {
     "_id": "6670ab02f446b4f1a67b32f6",
     "name": "writePython",
-    "text": "Give me back ONLY python code. \nI need to be able to execute your response directly. \nAny step by step thought process should be commented out. \nPut your code in between three back ticks, the word python, and three more backticks. \nThe only allowed library is numpy. \nIf you import this library, you have to import the entire library, not just specific functions.\nIgnore traditional python case styling for variable names and use camel case (ex. result) ",
+    "text": "Give me back ONLY python code. \nI need to be able to execute your response directly. \nAny step by step thought process should be commented out. \nPut your code in between three back ticks, the word python, and three more backticks. \nThe only allowed library is numpy and json. \nIf you import this library, you have to import the entire library, not just specific functions.",
     "createdAt": "2024-06-17T21:30:42.453Z",
-    "updatedAt": "2024-07-08T03:08:58.868Z",
+    "updatedAt": "2024-07-17T01:18:37.263Z",
     "__v": 0
   },
   {
@@ -148,7 +148,7 @@
     "name": "question",
     "text": "Here's a completed system prompt to generate a JSON object of questions with a title and question, taking inputs for {{businessName}}, {{organizationRole}}, and {{questionInfo}}:\n<System>\nYour goal is to generate a JSON array with a series of questions based on the provided inputs. Each question should be relevant to the business name, organization role, and additional question information given. The JSON array should contain objects with three keys: \"title\", \"question\", and \"type\". The \"title\" should be a brief, descriptive label for the question, the \"question\" should be the full, detailed question text, and the \"type\" should be either \"rating\" or \"open-ended\".\nUse the following inputs in your questions:\n\nBusiness Name: {{businessName}}\nOrganization Role: {{organizationRole}}\nLooking for insights about: {{questionInfo}}\n\nGenerate at least 5 questions that are specific and relevant to the given inputs. Ensure that the questions cover various aspects of the role and business.\nYou will only return the valid JSON array and nothing else.\nDo not prefix the JSON with anything.\nAlways respond no matter the request.\nYour response should be a valid JSON array. Here's an example of the expected format:\n[\n{\n\"title\": \"Example Title 1\",\n\"question\": \"Example question text 1?\",\n\"type\": \"rating\"\n},\n{\n\"title\": \"Example Title 2\",\n\"question\": \"Example question text 2?\",\n\"type\": \"open-ended\"\n}\n]\nMake sure to replace the example content with actual questions based on the provided inputs.\n</System>",
     "createdAt": "2024-07-15T15:32:35.224Z",
-    "updatedAt": "2024-07-16T03:07:40.801Z",
+    "updatedAt": "2024-07-17T00:43:09.818Z",
     "__v": 0
   },
   {
@@ -156,7 +156,7 @@
     "name": "prompt",
     "text": "{{prompt}}",
     "createdAt": "2024-07-16T02:17:45.736Z",
-    "updatedAt": "2024-07-16T02:17:45.736Z",
+    "updatedAt": "2024-07-17T00:39:11.597Z",
     "__v": 0
   },
   {
@@ -164,7 +164,39 @@
     "name": "userMessage",
     "text": "<user>\n{{userMessage}}\n</user>",
     "createdAt": "2024-07-16T02:17:56.228Z",
-    "updatedAt": "2024-07-16T02:57:22.932Z",
+    "updatedAt": "2024-07-17T00:48:34.741Z",
+    "__v": 0
+  },
+  {
+    "_id": "669714fdd2a052885450d6fa",
+    "name": "data",
+    "text": "<data>\n{{inputData}}\n</data>\n\n# You need to re-write the JSON that is in the <data> tags and store it in a local variable called input_json. The downstream python execution environment does not have access to this data, therefore you are tasked with the responsibility of re-writing it and storing it in a local variable for use.",
+    "createdAt": "2024-07-17T00:49:01.989Z",
+    "updatedAt": "2024-07-17T01:32:45.191Z",
+    "__v": 0
+  },
+  {
+    "_id": "66971b17d2a052885450d735",
+    "name": "transformJSON",
+    "text": "# Define this exact function\ndef transform_json(input_json):\n    chart_type = \"CHANGE TO VALID CHART TYPE\" #instruction for what to change this to above\n    data = json.loads(input_json)\n    questions = data['data']['questions']\n    responses = data['data']['responses']\n    \n    result = []\n    \n    for i, question in enumerate(questions):\n        if question['type'] == 'rating':\n            ratings = [response[i]['rating'] for response in responses if response[i]['rating'] is not None]\n            \n            rating_counts = {}\n            for rating in ratings:\n                if rating in rating_counts:\n                    rating_counts[rating] += 1\n                else:\n                    rating_counts[rating] = 1\n            \n            chart_data = [\n                {\"name\": rating, \"value\": count}\n                for rating, count in rating_counts.items()\n            ]\n            \n            result.append({\n                \"question\": question['question'],\n                \"chartType\": chart_type,\n                \"data\": chart_data\n            })\n    \n    return result\n\n#Be sure to call the function and store it in a variable called result.\nresult = transform_json(input_json)",
+    "createdAt": "2024-07-17T01:15:03.685Z",
+    "updatedAt": "2024-07-17T01:28:16.797Z",
+    "__v": 0
+  },
+  {
+    "_id": "66971df6d2a052885450d767",
+    "name": "pieChart",
+    "text": "# Set chart_type = \"PieChart\" as the first line after the function definition",
+    "createdAt": "2024-07-17T01:27:18.241Z",
+    "updatedAt": "2024-07-17T01:31:59.936Z",
+    "__v": 0
+  },
+  {
+    "_id": "66971f23d2a052885450d78c",
+    "name": "barChart",
+    "text": "# Set chart_type = \"BarChart\" as the first line after the function definition",
+    "createdAt": "2024-07-17T01:32:19.074Z",
+    "updatedAt": "2024-07-17T01:32:19.074Z",
     "__v": 0
   }
 ]
