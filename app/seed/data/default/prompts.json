@@ -170,9 +170,9 @@
   {
     "_id": "669714fdd2a052885450d6fa",
     "name": "data",
-    "text": "<data>\n{{inputData}}\n</data>\n\n# You need to re-write the JSON that is in the <data> tags and store it in a local variable called input_json. The downstream python execution environment does not have access to this data, therefore you are tasked with the responsibility of re-writing it and storing it in a local variable for use.",
+    "text": "# You need to re-write the JSON that is in the <user> tags and store it in a local variable called input_json. The downstream python execution environment does not have access to this data, therefore you are tasked with the responsibility of re-writing it and storing it in a local variable for use.",
     "createdAt": "2024-07-17T00:49:01.989Z",
-    "updatedAt": "2024-07-17T01:32:45.191Z",
+    "updatedAt": "2024-07-18T00:24:18.450Z",
     "__v": 0
   },
   {

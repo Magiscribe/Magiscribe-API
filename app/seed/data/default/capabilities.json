@@ -242,6 +242,7 @@
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
+      "6695d854888b8bcf4b03be89",
       "6670ab02f446b4f1a67b32f6",
       "669714fdd2a052885450d6fa",
       "66971df6d2a052885450d767",
@@ -251,7 +252,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-07-17T01:31:18.134Z",
+    "updatedAt": "2024-07-18T00:24:20.564Z",
     "__v": 0
   },
   {
