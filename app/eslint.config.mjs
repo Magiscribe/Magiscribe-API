@@ -5,7 +5,13 @@ import tseslint from 'typescript-eslint';
 export default [
   { languageOptions: { globals: globals.node } },
   {
-    ignores: ['.gen/', 'dist/', 'node_modules/', 'cdktf.out/'],
+    ignores: [
+      '.gen/',
+      'dist/',
+      'node_modules/',
+      'cdktf.out/',
+      'src/generated/',
+    ],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,

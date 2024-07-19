@@ -1,5 +1,6 @@
 import config from '@config';
-import { IAgent, ICapability, OutputReturnMode } from '@database/models/agent';
+import { OutputReturnMode } from '@database/models/agent';
+import { Agent, Capability } from '@generated/graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
 import { makeRequest } from '@utils/ai/requests';
@@ -82,7 +83,7 @@ async function publishPredictionEvent(
  */
 async function preprocess(
   variables: { [key: string]: string },
-  agent: IAgent,
+  agent: Agent,
 ): Promise<Array<{
   prompt: string;
   context: string;
@@ -126,7 +127,7 @@ async function preprocess(
 }
 
 async function getProcessingSteps(
-  agent: IAgent,
+  agent: Agent,
   variables: { [key: string]: string },
 ) {
   const processingSteps = await preprocess(variables, agent);
@@ -137,7 +138,7 @@ async function getProcessingSteps(
     return await Promise.all(
       processingSteps.map(async (step) => ({
         ...step,
-        capability: (await getCapability(step.capabilityAlias))!, // TODO: Add check for null
+        capability: (await getCapability(step.capabilityAlias)),
       })),
     );
   }
@@ -145,7 +146,7 @@ async function getProcessingSteps(
   // If no processing steps are provided, we need to return an array of steps
   // with the prompt and the capability object. This allows agents to be present
   // that do not require preprocessing.
-  return agent.capabilities.map((capability: ICapability) => ({
+  return agent.capabilities.map((capability) => ({
     ...variables,
     capability,
   }));
@@ -153,7 +154,7 @@ async function getProcessingSteps(
 
 async function executeStep(
   step: {
-    [key: string]: string | ICapability;
+    [key: string]: string | Capability;
   },
   eventId: string,
   subscriptionId: string,
@@ -162,8 +163,8 @@ async function executeStep(
     throw new Error(`No capability found.`);
   }
 
-  const capability = step.capability as ICapability;
-  const prompts = capability.prompts.map((prompt) => prompt.text);
+  const capability = step.capability as Capability;
+  const prompts = capability.prompts?.map((prompt) => prompt?.text);
 
   // Remove capability from the step variables
   delete step.capability;
@@ -177,7 +178,7 @@ async function executeStep(
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
   const prompt = await buildPrompt(
-    [...prompts].join('\n').trim(),
+    [...prompts ?? []].join('\n').trim(),
     step as { [key: string]: string },
   );
 
@@ -208,7 +209,7 @@ async function executeStep(
     [
       OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE,
       OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL,
-    ].includes(capability.outputMode)
+    ].includes(capability.outputMode as OutputReturnMode)
   ) {
     const executedResult = await utils.executePythonCode(
       utils.cleanCodeBlock(result),
