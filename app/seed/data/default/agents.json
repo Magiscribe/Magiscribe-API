@@ -89,14 +89,15 @@
     "reasoningLLMModel": "CLAUDE_3_5_SONNET",
     "reasoningPrompt": "",
     "capabilities": [
-      "66971ba6d2a052885450d744",
-      "66971ecfd2a052885450d77c"
+      "66971ecfd2a052885450d77c",
+      "669bee8d6773961cdf4604ae",
+      "66971ba6d2a052885450d744"
     ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T00:48:22.792Z",
-    "updatedAt": "2024-07-18T17:30:42.634Z",
+    "updatedAt": "2024-07-20T17:14:57.770Z",
     "__v": 0
   }
 ]
