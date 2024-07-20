@@ -1,7 +1,7 @@
 import { Element, Frame } from '@database/models/frame';
 import { GraphQLJSONObject } from 'graphql-type-json';
 
-export const FrameModule = {
+export default {
     JSONObject: GraphQLJSONObject,
     Query: {
       async getFrame(_, { frameId }) {
@@ -52,5 +52,3 @@ export const FrameModule = {
       },
     },
 };
-
-export default FrameModule;

@@ -3,7 +3,7 @@ import { SubscriptionEvent } from '@graphql/subscription-events';
 import { pubsubClient } from '@utils/clients';
 import { withFilter } from 'graphql-subscriptions';
 
-export const PredictionModule = {
+export default {
     Mutation: {
       addPrediction: (_, props, context) => {
         if (!props.subscriptionId || !props.agentId) {
@@ -26,17 +26,12 @@ export const PredictionModule = {
     },
     Subscription: {
       predictionAdded: {
-        subscribe: () => ({
-          [Symbol.asyncIterator]: withFilter(
+        subscribe: withFilter(
             () =>
               pubsubClient.asyncIterator(SubscriptionEvent.PREDICTION_ADDED),
             (payload, variables) =>
-              payload.predictionAdded.subscriptionId ===
-              variables.subscriptionId,
-          ),
-        }),
+              payload.predictionAdded.subscriptionId === variables.subscriptionId,
+        ),
       },
     },
-};
-
-export default PredictionModule;
+  };

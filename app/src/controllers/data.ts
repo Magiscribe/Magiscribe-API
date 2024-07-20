@@ -14,15 +14,23 @@ export async function createDataObject(
   data: MutationCreateUpdateDataObjectArgs,
 ): Promise<DataObject> {
   if (!data.id) {
-    log.info('Creating new data object', { data });
+    log.info({
+      message: 'Creating new data object',
+      data,
+    });
     return Data.create(data);
   } else {
-    log.info('Updating existing data object', { data });
+    log.info({
+      message: 'Updating existing data object',
+      data,
+    });
     const result = await Data.findOneAndUpdate({ _id: data.id }, data, {
       upsert: true,
       new: true,
       setDefaultsOnInsert: true,
+      returnDocument: 'after',
     });
+    log.info('Data object updated successfully', { result });
     return result;
   }
 }

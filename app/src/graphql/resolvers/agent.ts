@@ -2,7 +2,7 @@ import { Agent, Capability, Prompt } from '@database/models/agent';
 
 import { LLM_MODELS_VERSION } from '@utils/ai/models';
 
-export const AgentModule = {
+export default {
   Mutation: {
     addUpdatePrompt: async (_, { prompt }: { prompt }) => {
       if (!prompt.id) {
@@ -86,5 +86,3 @@ export const AgentModule = {
     },
   },
 }
-
-export default AgentModule;

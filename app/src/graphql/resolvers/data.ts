@@ -3,13 +3,13 @@ import {
   getDataObject,
   insertIntoDataObject,
 } from '@controllers/data';
+import { MutationCreateUpdateDataObjectArgs, MutationInsertIntoDataObjectArgs } from '@generated/graphql';
 import { GraphQLJSONObject } from 'graphql-type-json';
 
-export const DataModule ={
-  JSONObject: GraphQLJSONObject,
+export default {
   Mutation: {
-    createUpdateDataObject: async (_parent, args) => createDataObject(args),
-    insertIntoDataObject: async (_parent, { id, field, value }) =>
+    createUpdateDataObject: async (_parent, args: MutationCreateUpdateDataObjectArgs) => createDataObject(args),
+    insertIntoDataObject: async (_parent, { id, field, value }: MutationInsertIntoDataObjectArgs) =>
       insertIntoDataObject(id, field, value),
   },
   Query: {

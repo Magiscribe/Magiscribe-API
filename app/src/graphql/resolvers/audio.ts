@@ -2,14 +2,13 @@ import {
   generateAudio,
   generateTranscriptionStreamingCredentials,
 } from '@controllers/audio';
+import { MutationGenerateAudioArgs } from '@generated/graphql';
 
-export const AudioModule = {
+export default {
   Mutation: {
     generateTranscriptionStreamingCredentials: async () =>
       generateTranscriptionStreamingCredentials(),
 
-    generateAudio: async (_, { voice, text }) => generateAudio(voice, text),
+    generateAudio: async (_, { voice, text }: MutationGenerateAudioArgs) => generateAudio(voice, text),
   },
 };
-
-export default AudioModule;
