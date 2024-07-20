@@ -86,18 +86,16 @@
     "_id": "669714d6d2a052885450d6ef",
     "name": "Stakeholder | Analysis",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
-    "reasoningLLMModel": "CLAUDE_3_5_SONNET",
+    "reasoningLLMModel": "CLAUDE_3_HAIKU",
     "reasoningPrompt": "",
     "capabilities": [
-      "66971ecfd2a052885450d77c",
-      "669bee8d6773961cdf4604ae",
-      "66971ba6d2a052885450d744"
+      "669bee8d6773961cdf4604ae"
     ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T00:48:22.792Z",
-    "updatedAt": "2024-07-20T17:14:57.770Z",
+    "updatedAt": "2024-07-20T20:28:23.549Z",
     "__v": 0
   }
 ]
