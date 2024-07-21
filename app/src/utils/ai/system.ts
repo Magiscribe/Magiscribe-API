@@ -1,5 +1,6 @@
-import { Agent, Capability, IAgent, ICapability } from '@database/models/agent';
+import { Agent, Capability } from '@database/models/agent';
 import { MessageResponseTypes, Thread } from '@database/models/message';
+import { Agent as IAgent, Capability as ICapability } from '@generated/graphql';
 import { PromptTemplate } from '@langchain/core/prompts';
 
 /**
