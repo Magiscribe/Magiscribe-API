@@ -147,7 +147,7 @@ async function getProcessingSteps(
         ...step,
         capability: await getCapability(step.capabilityAlias),
       })),
-    );
+    )  as Array<{ [key: string]: string | Capability }>;
   }
 
   // If no reasoning steps are provided, we need to return an array of steps
@@ -156,7 +156,7 @@ async function getProcessingSteps(
   return agent.capabilities.map((capability) => ({
     ...variables,
     capability,
-  }));
+  })) as Array<{ [key: string]: string | Capability }>;
 }
 
 async function executeStep(
