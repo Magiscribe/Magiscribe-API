@@ -31,9 +31,7 @@
     "name": "Author Agent",
     "description": "An agent capable of writing stories and related content in real-time.",
     "reasoning": null,
-    "capabilities": [
-      "667ae47c6d5e4973f402e1f4"
-    ],
+    "capabilities": ["667ae47c6d5e4973f402e1f4"],
     "memoryEnabled": false,
     "createdAt": "2024-06-25T15:35:50.504Z",
     "updatedAt": "2024-07-21T06:15:10.449Z",
@@ -51,9 +49,7 @@
       "variablePassThrough": false,
       "_id": "669ca2ac4527cd6d08e4d166"
     },
-    "capabilities": [
-      "667aef4cacf7000556d2ddb3"
-    ],
+    "capabilities": ["667aef4cacf7000556d2ddb3"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -71,9 +67,7 @@
       "variablePassThrough": false,
       "_id": "669ca2ac4527cd6d08e4d168"
     },
-    "capabilities": [
-      "667dd59869b67704281c4e6b"
-    ],
+    "capabilities": ["667dd59869b67704281c4e6b"],
     "memoryEnabled": false,
     "createdAt": "2024-06-27T16:56:07.955Z",
     "updatedAt": "2024-06-27T21:31:29.677Z",
@@ -84,9 +78,7 @@
     "name": "Stakeholder | Question Agent",
     "description": "Creates questions",
     "reasoning": null,
-    "capabilities": [
-      "669541217ceb83a7fb75eb1a"
-    ],
+    "capabilities": ["669541217ceb83a7fb75eb1a"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -99,9 +91,7 @@
     "name": "Stakeholder | Text Analysis",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
     "reasoning": null,
-    "capabilities": [
-      "669bee8d6773961cdf4604ae"
-    ],
+    "capabilities": ["669bee8d6773961cdf4604ae"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -119,10 +109,7 @@
       "variablePassThrough": false,
       "_id": "669ca2ac4527cd6d08e4d16e"
     },
-    "capabilities": [
-      "66971ecfd2a052885450d77c",
-      "669c6a3967c3fed48dee5362"
-    ],
+    "capabilities": ["66971ecfd2a052885450d77c", "669c6a3967c3fed48dee5362"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,

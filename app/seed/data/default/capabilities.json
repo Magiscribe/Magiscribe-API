@@ -154,10 +154,7 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": [
-      "667ae9a67ed1fd8cdf11ad0f",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -171,10 +168,7 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": [
-      "667aef8dacf7000556d2ddb9",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -188,10 +182,7 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": [
-      "667d9c1f69b67704281c4e2c",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -224,10 +215,7 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": [
-      "669541137ceb83a7fb75eb17",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -279,10 +267,7 @@
     "alias": "TextAnalysisCapability",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
-    "prompts": [
-      "6695d854888b8bcf4b03be89",
-      "669bef586773961cdf4604b4"
-    ],
+    "prompts": ["6695d854888b8bcf4b03be89", "669bef586773961cdf4604b4"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
