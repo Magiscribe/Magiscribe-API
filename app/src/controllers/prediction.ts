@@ -143,8 +143,8 @@ async function getProcessingSteps(
 
     return await Promise.all(
       reasoningSteps.map(async (step) => ({
-        ...step,
         ...passThroughVariables,
+        ...step,
         capability: await getCapability(step.capabilityAlias),
       })),
     );
