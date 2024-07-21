@@ -1,25 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-export interface IElement {
-  elementType: string;
-  offsetX: number;
-  offsetY: number;
-  options: object;
-}
-
-export interface IFrame {
-  name: string;
-  offsetX: number;
-  offsetY: number;
-  width: number;
-  height: number;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  childElements: string[];
-  childFrames: string[];
-}
+import { Element as IElement, Frame as IFrame } from '@generated/graphql';
 
 const elementSchema = new Schema({
   elementType: String,

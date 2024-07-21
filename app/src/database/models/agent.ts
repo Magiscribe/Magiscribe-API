@@ -1,3 +1,8 @@
+import {
+  Agent as IAgent,
+  Capability as ICapability,
+  Prompt as IPrompt,
+} from '@generated/graphql';
 import { LLM_MODELS_VERSION } from '@utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 
@@ -7,39 +12,6 @@ export enum OutputReturnMode {
   SYNCHRONOUS_EXECUTION_AGGREGATE = 'SYNCHRONOUS_EXECUTION_AGGREGATE', // The AI response is given with all other aggregated responses, after passing through a code execution step.
   SYNCHRONOUS_EXECUTION_INVIDUAL = 'SYNCHRONOUS_EXECUTION_INVIDUAL', // The AI response is sent when after a response is recieved, after passing through a code execution step.
   STREAMING_INDIVIDUAL = 'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is recieved.
-}
-
-export interface IPrompt {
-  id: string;
-  name: string;
-  text: string;
-}
-
-export interface ICapability {
-  id: string;
-  name: string;
-  description: string;
-  llmModel: string;
-  prompts: IPrompt[];
-
-  outputMode: OutputReturnMode;
-  subscriptionFilter: string;
-  outputFilter: string;
-}
-
-export interface IAgent {
-  id: string;
-  alias: string;
-  name: string;
-  description: string;
-  reasoningLLMModel: string;
-  reasoningPrompt: string;
-  capabilities: ICapability[];
-
-  memoryEnabled: boolean;
-
-  subscriptionFilter: string;
-  outputFilter: string;
 }
 
 const PromptSchema: Schema = new mongoose.Schema(
@@ -81,12 +53,17 @@ const agentSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
-    reasoningLLMModel: {
-      type: String,
-      enum: Object.keys(LLM_MODELS_VERSION),
-      default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
+    reasoning: {
+      type: {
+        llmModel: {
+          type: String,
+          enum: Object.keys(LLM_MODELS_VERSION),
+          default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
+        },
+        prompt: { type: String },
+        variablePassThrough: { type: Boolean, default: false },
+      },
     },
-    reasoningPrompt: { type: String },
     capabilities: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -1,5 +1,6 @@
 import config from '@config';
-import { IAgent, ICapability, OutputReturnMode } from '@database/models/agent';
+import { OutputReturnMode } from '@database/models/agent';
+import { Agent, Capability } from '@generated/graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
 import { makeRequest } from '@utils/ai/requests';
@@ -80,25 +81,25 @@ async function publishPredictionEvent(
  * @returns {Promise<Array<any> | null>} - A promise that resolves to an array of processing steps or null if no reasoning prompt is provided.
  * @throws {Error} - Throws an error if the preprocessing response cannot be parsed as valid JSON.
  */
-async function preprocess(
+async function reason(
   variables: { [key: string]: string },
-  agent: IAgent,
+  agent: Agent,
 ): Promise<Array<{
   prompt: string;
   context: string;
   capabilityAlias: string;
 }> | null> {
-  if (!agent.reasoningPrompt || agent.reasoningPrompt.trim() === '') {
+  if (!agent.reasoning) {
     return null;
   }
 
   log.trace({
     msg: 'Variables before buildPrompt',
     variables: JSON.stringify(variables, null, 2),
-    reasoningPrompt: agent.reasoningPrompt,
+    reasoningPrompt: agent.reasoning.prompt,
   });
 
-  const prompt = await buildPrompt(agent.reasoningPrompt, variables);
+  const prompt = await buildPrompt(agent.reasoning.prompt, variables);
 
   log.trace({
     msg: 'Prompt after buildPrompt',
@@ -107,7 +108,7 @@ async function preprocess(
 
   const preprocessingResponse = await makeRequest({
     prompt,
-    model: agent.reasoningLLMModel,
+    model: agent.reasoning.llmModel,
   });
   const cleanedPreprocessingResponse = utils.cleanCodeBlock(
     preprocessingResponse,
@@ -126,36 +127,41 @@ async function preprocess(
 }
 
 async function getProcessingSteps(
-  agent: IAgent,
+  agent: Agent,
   variables: { [key: string]: string },
 ) {
-  const processingSteps = await preprocess(variables, agent);
+  const reasoningSteps = await reason(variables, agent);
 
-  // If, we have processing steps, we need to return an array of steps
-  // with the prompt and the capability object.
-  if (processingSteps) {
+  // If, we have reasoning steps, we need to return an array of steps
+  // with the prompt and a capability object that wlll perform the action.
+  if (reasoningSteps) {
+    // With reasoning, initial variables can be optional passed through to the
+    // capability.
+    const passThroughVariables = agent.reasoning?.variablePassThrough
+      ? variables
+      : {};
+
     return await Promise.all(
-      processingSteps.map(async (step) => ({
+      reasoningSteps.map(async (step) => ({
+        ...passThroughVariables,
         ...step,
-        capability: (await getCapability(step.capabilityAlias))!, // TODO: Add check for null
+        capability: await getCapability(step.capabilityAlias),
       })),
     );
   }
 
-  // If no processing steps are provided, we need to return an array of steps
+  // If no reasoning steps are provided, we need to return an array of steps
   // with the prompt and the capability object. This allows agents to be present
-  // that do not require preprocessing.
-  return agent.capabilities.map((capability: ICapability) => ({
+  // that do not require reasoning. We automatically pass all variables through to this.
+  return agent.capabilities.map((capability) => ({
     ...variables,
-    // NOTE: user message is converted to prompt. Prompt is what is used right now for capabilities.
-    prompt: variables.userMessage,
     capability,
   }));
 }
 
 async function executeStep(
   step: {
-    [key: string]: string | ICapability;
+    [key: string]: string | Capability;
   },
   eventId: string,
   subscriptionId: string,
@@ -164,17 +170,24 @@ async function executeStep(
     throw new Error(`No capability found.`);
   }
 
-  const capability = step.capability as ICapability;
-  const prompts = capability.prompts.map((prompt) => prompt.text);
+  const capability = step.capability as Capability;
+  const prompts = capability.prompts?.map((prompt) => prompt?.text);
 
   // Remove capability from the step variables
   delete step.capability;
 
+  log.debug({
+    msg: 'Executing AI prediction step',
+    step,
+    capability,
+  });
+
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
-  const prompt = [...prompts, ...Object.values(step).map((value) => value)]
-    .join('\n')
-    .trim();
+  const prompt = await buildPrompt(
+    [...(prompts ?? [])].join('\n').trim(),
+    step as { [key: string]: string },
+  );
 
   const result = await makeRequest({
     prompt,
@@ -203,7 +216,7 @@ async function executeStep(
     [
       OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE,
       OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL,
-    ].includes(capability.outputMode)
+    ].includes(capability.outputMode as OutputReturnMode)
   ) {
     const executedResult = await utils.executePythonCode(
       utils.cleanCodeBlock(result),
