@@ -103,7 +103,7 @@
     "name": "Stakeholder | Chat Analysis",
     "description": "Dynamic back and forth with the user, allowing them to chat with their data",
     "reasoningLLMModel": "CLAUDE_3_HAIKU",
-    "reasoningPrompt": "",
+    "reasoningPrompt": "Give me back a JSON object surrounded by three backticks and the word json\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt, a capabilityAlias, and responseData. The prompt and capabilityAlias are strings. The responseData is simply going to be opening {{ followed by 'responseData' followed by closing }}. Utilizing handlebars mustache style templating will pass it along to the downstream capability. I cannot provide an explicit example because that would provide you with the data. You don't actually need the data, you just need to pass it along. \nYou need to include every relevant concept in the <UserMessage> tags so that the user gets what they want\ncapabilityAlias can ONLY be one of the following: BarchartCapability, PiechartCapability, AnalysisChatReplyCapability\nDo NOT include any other capabilities.\nYou may select up to one of BarchartCapability or PiechartCapability, do not choose both. You may choose neither. AnalysisChatReplyCapability is always required. \n\n<Example1>\n<UserMessage>What new features are most commonly requested? </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartCapability\", \"responseData\": {{__responseData__}}},\n    { \"prompt\": \"What new features are most commonly requested?\", \"capabilityAlias\": \"AnalysisChatReplyCapability\", \"responseData\": {{__responseData__}}},,\n  ]}\n```\n#Note: Remove the __ in front of and after responseData\n</Example1>\n\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style using high level categories of sentiment\", \"capabilityAlias\": \"PiechartCapability\", \"responseData\": {{__responseData__}}},\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"AnalysisChatReplyCapability\", \"responseData\": {{__responseData__}}},,\n  ]}\n```\n#Note: Remove the __ in front of and after responseData\n</Example2>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>",
     "capabilities": [
       "66971ba6d2a052885450d744",
       "66971ecfd2a052885450d77c",
@@ -113,7 +113,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:04:31.420Z",
-    "updatedAt": "2024-07-21T02:03:38.659Z",
+    "updatedAt": "2024-07-21T03:02:47.132Z",
     "__v": 0
   }
 ]
