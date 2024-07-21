@@ -26,8 +26,7 @@ export type Agent = {
   memoryEnabled: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   outputFilter?: Maybe<Scalars['String']['output']>;
-  reasoningLLMModel: Scalars['String']['output'];
-  reasoningPrompt?: Maybe<Scalars['String']['output']>;
+  reasoning?: Maybe<AgentReasoning>;
   subscriptionFilter?: Maybe<Scalars['String']['output']>;
 };
 
@@ -38,9 +37,21 @@ export type AgentInput = {
   memoryEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   outputFilter?: InputMaybe<Scalars['String']['input']>;
-  reasoningLLMModel: Scalars['String']['input'];
-  reasoningPrompt?: InputMaybe<Scalars['String']['input']>;
+  reasoning?: InputMaybe<AgentReasoningInput>;
   subscriptionFilter?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AgentReasoning = {
+  __typename?: 'AgentReasoning';
+  llmModel: Scalars['String']['output'];
+  prompt: Scalars['String']['output'];
+  variablePassThrough: Scalars['Boolean']['output'];
+};
+
+export type AgentReasoningInput = {
+  llmModel: Scalars['String']['input'];
+  prompt: Scalars['String']['input'];
+  variablePassThrough: Scalars['Boolean']['input'];
 };
 
 export type Capability = {
@@ -443,6 +454,8 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   AgentInput: AgentInput;
+  AgentReasoning: ResolverTypeWrapper<AgentReasoning>;
+  AgentReasoningInput: AgentReasoningInput;
   Capability: ResolverTypeWrapper<Capability>;
   CapabilityInput: CapabilityInput;
   DataObject: ResolverTypeWrapper<DataObject>;
@@ -472,6 +485,8 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   Boolean: Scalars['Boolean']['output'];
   AgentInput: AgentInput;
+  AgentReasoning: AgentReasoning;
+  AgentReasoningInput: AgentReasoningInput;
   Capability: Capability;
   CapabilityInput: CapabilityInput;
   DataObject: DataObject;
@@ -548,9 +563,15 @@ export type AgentResolvers<ContextType = any, ParentType extends ResolversParent
   memoryEnabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   outputFilter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  reasoningLLMModel?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  reasoningPrompt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reasoning?: Resolver<Maybe<ResolversTypes['AgentReasoning']>, ParentType, ContextType>;
   subscriptionFilter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AgentReasoningResolvers<ContextType = any, ParentType extends ResolversParentTypes['AgentReasoning'] = ResolversParentTypes['AgentReasoning']> = {
+  llmModel?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  variablePassThrough?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -673,6 +694,7 @@ export type TemporaryCredentialsResolvers<ContextType = any, ParentType extends 
 
 export type Resolvers<ContextType = any> = {
   Agent?: AgentResolvers<ContextType>;
+  AgentReasoning?: AgentReasoningResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
   DataObject?: DataObjectResolvers<ContextType>;
   Element?: ElementResolvers<ContextType>;

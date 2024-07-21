@@ -33,10 +33,7 @@ export default {
         },
       ).populate('prompts');
     },
-    deleteCapability: async (
-      _,
-      { capabilityId }: { capabilityId: string },
-    ) => {
+    deleteCapability: async (_, { capabilityId }: { capabilityId: string }) => {
       return await Capability.findOneAndDelete({ _id: capabilityId });
     },
     addUpdateAgent: async (_, { agent }: { agent }) => {
@@ -85,4 +82,4 @@ export default {
       return await Agent.find().populate('capabilities');
     },
   },
-}
+};

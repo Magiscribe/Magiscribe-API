@@ -81,7 +81,7 @@ async function publishPredictionEvent(
  * @returns {Promise<Array<any> | null>} - A promise that resolves to an array of processing steps or null if no reasoning prompt is provided.
  * @throws {Error} - Throws an error if the preprocessing response cannot be parsed as valid JSON.
  */
-async function preprocess(
+async function reason(
   variables: { [key: string]: string },
   agent: Agent,
 ): Promise<Array<{
@@ -89,17 +89,17 @@ async function preprocess(
   context: string;
   capabilityAlias: string;
 }> | null> {
-  if (!agent.reasoningPrompt || agent.reasoningPrompt.trim() === '') {
+  if (!agent.reasoning) {
     return null;
   }
 
   log.trace({
     msg: 'Variables before buildPrompt',
     variables: JSON.stringify(variables, null, 2),
-    reasoningPrompt: agent.reasoningPrompt,
+    reasoningPrompt: agent.reasoning.prompt,
   });
 
-  const prompt = await buildPrompt(agent.reasoningPrompt, variables);
+  const prompt = await buildPrompt(agent.reasoning.prompt, variables);
 
   log.trace({
     msg: 'Prompt after buildPrompt',
@@ -108,7 +108,7 @@ async function preprocess(
 
   const preprocessingResponse = await makeRequest({
     prompt,
-    model: agent.reasoningLLMModel,
+    model: agent.reasoning.llmModel,
   });
   const cleanedPreprocessingResponse = utils.cleanCodeBlock(
     preprocessingResponse,
@@ -130,22 +130,29 @@ async function getProcessingSteps(
   agent: Agent,
   variables: { [key: string]: string },
 ) {
-  const processingSteps = await preprocess(variables, agent);
+  const reasoningSteps = await reason(variables, agent);
 
-  // If, we have processing steps, we need to return an array of steps
-  // with the prompt and the capability object.
-  if (processingSteps) {
+  // If, we have reasoning steps, we need to return an array of steps
+  // with the prompt and a capability object that wlll perform the action.
+  if (reasoningSteps) {
+    // With reasoning, initial variables can be optional passed through to the
+    // capability.
+    const passThroughVariables = agent.reasoning?.variablePassThrough
+      ? variables
+      : {};
+
     return await Promise.all(
-      processingSteps.map(async (step) => ({
+      reasoningSteps.map(async (step) => ({
         ...step,
-        capability: (await getCapability(step.capabilityAlias)),
+        ...passThroughVariables,
+        capability: await getCapability(step.capabilityAlias),
       })),
     );
   }
 
-  // If no processing steps are provided, we need to return an array of steps
+  // If no reasoning steps are provided, we need to return an array of steps
   // with the prompt and the capability object. This allows agents to be present
-  // that do not require preprocessing.
+  // that do not require reasoning. We automatically pass all variables through to this.
   return agent.capabilities.map((capability) => ({
     ...variables,
     capability,
@@ -178,7 +185,7 @@ async function executeStep(
   // TODO: Replace with a more structured approach to handling prompts.
   //       E.g., templating engine.
   const prompt = await buildPrompt(
-    [...prompts ?? []].join('\n').trim(),
+    [...(prompts ?? [])].join('\n').trim(),
     step as { [key: string]: string },
   );
 

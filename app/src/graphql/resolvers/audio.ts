@@ -9,6 +9,7 @@ export default {
     generateTranscriptionStreamingCredentials: async () =>
       generateTranscriptionStreamingCredentials(),
 
-    generateAudio: async (_, { voice, text }: MutationGenerateAudioArgs) => generateAudio(voice, text),
+    generateAudio: async (_, { voice, text }: MutationGenerateAudioArgs) =>
+      generateAudio(voice, text),
   },
 };

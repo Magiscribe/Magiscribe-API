@@ -53,12 +53,17 @@ const agentSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
-    reasoningLLMModel: {
-      type: String,
-      enum: Object.keys(LLM_MODELS_VERSION),
-      default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
+    reasoning: {
+      type: {
+        llmModel: {
+          type: String,
+          enum: Object.keys(LLM_MODELS_VERSION),
+          default: LLM_MODELS_VERSION.CLAUDE_3_HAIKU.id,
+        },
+        prompt: { type: String },
+        variablePassThrough: { type: Boolean, default: false },
+      },
     },
-    reasoningPrompt: { type: String },
     capabilities: [
       {
         type: mongoose.Schema.Types.ObjectId,

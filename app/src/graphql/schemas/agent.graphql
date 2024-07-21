@@ -1,93 +1,106 @@
 type Model {
-      id: String!
-      name: String!
-      region: String!
-    }
+  id: String!
+  name: String!
+  region: String!
+}
 
-    input PromptInput {
-      id: String
-      name: String!
-      text: String!
-    }
+input PromptInput {
+  id: String
+  name: String!
+  text: String!
+}
 
-    type Prompt {
-      id: String!
-      name: String!
-      text: String!
-    }
+type Prompt {
+  id: String!
+  name: String!
+  text: String!
+}
 
-    input CapabilityInput {
-      id: String
-      name: String!
-      alias: String!
-      llmModel: String
-      description: String!
-      prompts: [String]
+input CapabilityInput {
+  id: String
+  name: String!
+  alias: String!
+  llmModel: String
+  description: String!
+  prompts: [String]
 
-      outputMode: String
-      subscriptionFilter: String
-      outputFilter: String
-    }
+  outputMode: String
+  subscriptionFilter: String
+  outputFilter: String
+}
 
-    type Capability {
-      id: String!
-      name: String!
-      alias: String!
-      llmModel: String!
-      description: String!
-      prompts: [Prompt]
+type Capability {
+  id: String!
+  name: String!
+  alias: String!
+  llmModel: String!
+  description: String!
+  prompts: [Prompt]
 
-      outputMode: String!
-      subscriptionFilter: String
-      outputFilter: String
-    }
+  outputMode: String!
+  subscriptionFilter: String
+  outputFilter: String
+}
 
-    input AgentInput {
-      id: String
-      name: String!
-      description: String!
-      reasoningLLMModel: String!
-      reasoningPrompt: String
-      capabilities: [String]!
+input AgentReasoningInput {
+  llmModel: String!
+  prompt: String!
+  variablePassThrough: Boolean!
+}
 
-      memoryEnabled: Boolean
-      subscriptionFilter: String
-      outputFilter: String
-    }
+input AgentInput {
+  id: String
+  name: String!
+  description: String!
+  reasoning: AgentReasoningInput
 
-    type Agent {
-      id: String!
-      name: String!
-      description: String!
-      reasoningLLMModel: String!
-      reasoningPrompt: String
-      capabilities: [Capability]!
+  capabilities: [String]!
 
-      memoryEnabled: Boolean!
-      subscriptionFilter: String
-      outputFilter: String
-    }   
+  memoryEnabled: Boolean
+  subscriptionFilter: String
+  outputFilter: String
+}
 
-    type Mutation {
-      addUpdatePrompt(prompt: PromptInput!): Prompt @auth(requires: admin)
-      deletePrompt(promptId: String!): Prompt @auth(requires: admin)
+type AgentReasoning {
+  llmModel: String!
+  prompt: String!
+  variablePassThrough: Boolean!
+}
 
-      addUpdateCapability(capability: CapabilityInput!): Capability @auth(requires: admin)
-      deleteCapability(capabilityId: String!): Capability @auth(requires: admin)
+type Agent {
+  id: String!
+  name: String!
+  description: String!
+  reasoning: AgentReasoning
 
-      addUpdateAgent(agent: AgentInput!): Agent @auth(requires: admin)
-      deleteAgent(agentId: String!): Agent @auth(requires: admin)
-    }
+  capabilities: [Capability]!
 
-    type Query {
-      getAllModels: [Model] @auth(requires: admin)
+  memoryEnabled: Boolean!
+  subscriptionFilter: String
+  outputFilter: String
+}
 
-      getPrompt(promptId: String!): Prompt @auth(requires: admin)
-      getAllPrompts: [Prompt] @auth(requires: admin)
+type Mutation {
+  addUpdatePrompt(prompt: PromptInput!): Prompt @auth(requires: admin)
+  deletePrompt(promptId: String!): Prompt @auth(requires: admin)
 
-      getCapability(capabilityId: String!): Capability @auth(requires: admin)
-      getAllCapabilities: [Capability] @auth(requires: admin)
+  addUpdateCapability(capability: CapabilityInput!): Capability
+    @auth(requires: admin)
+  deleteCapability(capabilityId: String!): Capability @auth(requires: admin)
 
-      getAgent(agentId: String!): Agent
-      getAllAgents: [Agent]
-    }
+  addUpdateAgent(agent: AgentInput!): Agent @auth(requires: admin)
+  deleteAgent(agentId: String!): Agent @auth(requires: admin)
+}
+
+type Query {
+  getAllModels: [Model] @auth(requires: admin)
+
+  getPrompt(promptId: String!): Prompt @auth(requires: admin)
+  getAllPrompts: [Prompt] @auth(requires: admin)
+
+  getCapability(capabilityId: String!): Capability @auth(requires: admin)
+  getAllCapabilities: [Capability] @auth(requires: admin)
+
+  getAgent(agentId: String!): Agent
+  getAllAgents: [Agent]
+}
