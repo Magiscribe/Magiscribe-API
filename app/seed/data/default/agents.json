@@ -19,7 +19,7 @@
     "subscriptionFilter": null,
     "outputFilter": "\"description\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-06-17T21:30:42.709Z",
-    "updatedAt": "2024-07-20T00:01:28.955Z",
+    "updatedAt": "2024-07-21T01:45:41.544Z",
     "__v": 0
   },
   {
@@ -84,7 +84,7 @@
   },
   {
     "_id": "669714d6d2a052885450d6ef",
-    "name": "Stakeholder | Analysis",
+    "name": "Stakeholder | Text Analysis",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
     "reasoningLLMModel": "CLAUDE_3_HAIKU",
     "reasoningPrompt": "",
@@ -96,6 +96,24 @@
     "outputFilter": null,
     "createdAt": "2024-07-17T00:48:22.792Z",
     "updatedAt": "2024-07-20T20:28:23.549Z",
+    "__v": 0
+  },
+  {
+    "_id": "669c5e9f67c3fed48dee52ea",
+    "name": "Stakeholder | Chat Analysis",
+    "description": "Dynamic back and forth with the user, allowing them to chat with their data",
+    "reasoningLLMModel": "CLAUDE_3_HAIKU",
+    "reasoningPrompt": "",
+    "capabilities": [
+      "66971ba6d2a052885450d744",
+      "66971ecfd2a052885450d77c",
+      "669c6a3967c3fed48dee5362"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-21T01:04:31.420Z",
+    "updatedAt": "2024-07-21T02:03:38.659Z",
     "__v": 0
   }
 ]

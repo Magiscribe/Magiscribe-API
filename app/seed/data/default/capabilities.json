@@ -242,17 +242,16 @@
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
-      "6695d854888b8bcf4b03be89",
-      "6670ab02f446b4f1a67b32f6",
-      "669714fdd2a052885450d6fa",
+      "669c694867c3fed48dee5343",
       "66971df6d2a052885450d767",
-      "66971b17d2a052885450d735"
+      "669714fdd2a052885450d6fa",
+      "6695d854888b8bcf4b03be89"
     ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-07-20T17:00:35.130Z",
+    "updatedAt": "2024-07-21T02:08:14.782Z",
     "__v": 0
   },
   {
@@ -262,17 +261,16 @@
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Creates the data for a bar chart",
     "prompts": [
-      "6695d854888b8bcf4b03be89",
-      "6670ab02f446b4f1a67b32f6",
-      "669714fdd2a052885450d6fa",
+      "669c694867c3fed48dee5343",
       "66971f23d2a052885450d78c",
-      "66971b17d2a052885450d735"
+      "669714fdd2a052885450d6fa",
+      "6695d854888b8bcf4b03be89"
     ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-07-18T17:43:56.204Z",
+    "updatedAt": "2024-07-21T02:08:29.872Z",
     "__v": 0
   },
   {
@@ -289,7 +287,25 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-07-20T17:13:15.128Z",
+    "updatedAt": "2024-07-21T01:52:53.152Z",
+    "__v": 0
+  },
+  {
+    "_id": "669c6a3967c3fed48dee5362",
+    "name": "Analysis Chat Reply Capability",
+    "alias": "AnalysisChatReplyCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Gives a textual description of what the response is",
+    "prompts": [
+      "669c694867c3fed48dee5343",
+      "6695d854888b8bcf4b03be89",
+      "669c6a6167c3fed48dee536c"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-21T01:54:01.623Z",
+    "updatedAt": "2024-07-21T02:03:24.824Z",
     "__v": 0
   }
 ]
