@@ -283,14 +283,14 @@
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
-      "669dae465414a7bb2bbf9e2d",
+      "66a1c05daee5ed4db1547b05",
       "669bef586773961cdf4604b4"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-07-22T00:57:45.588Z",
+    "updatedAt": "2024-07-25T03:04:32.683Z",
     "__v": 0
   },
   {
