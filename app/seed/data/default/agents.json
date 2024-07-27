@@ -117,7 +117,7 @@
       "llmModel": "CLAUDE_3_HAIKU",
       "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: BarchartCapability, PiechartCapability, AnalysisChatReplyCapability\nDo NOT include any other capabilities.\nYou may select at most one of BarchartCapability or PiechartCapability, do not choose both. If a chart is explicitly requested, reply with just a chart. AnalysisChatReplyCapability is generally helpful to provide additional information. \n\n<Example1>\n<UserMessage>What new features are most commonly requested? </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartCapability\"},\n    { \"prompt\": \"What new features are most commonly requested?\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style using high level categories of sentiment\", \"capabilityAlias\": \"PiechartCapability\"},\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a bar chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a bar chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"BarchartCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>",
       "variablePassThrough": true,
-      "_id": "66a1b817fd1da728b4c75e5b"
+      "_id": "66a48b86de1324a657844f3e"
     },
     "capabilities": [
       "66971ecfd2a052885450d77c",
@@ -125,10 +125,10 @@
       "66971ba6d2a052885450d744"
     ],
     "memoryEnabled": true,
-    "subscriptionFilter": null,
+    "subscriptionFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "outputFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-07-21T01:04:31.420Z",
-    "updatedAt": "2024-07-25T02:27:35.618Z",
+    "updatedAt": "2024-07-27T05:54:14.216Z",
     "__v": 0
   }
 ]

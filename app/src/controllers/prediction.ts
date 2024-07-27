@@ -303,6 +303,7 @@ export async function generatePrediction({
     const results = await Promise.all(
       steps.map((step) => executeStep(step, eventId, subscriptionId)),
     );
+    
     const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
     await publishPredictionEvent(

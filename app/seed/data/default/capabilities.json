@@ -301,7 +301,6 @@
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "669dae465414a7bb2bbf9e2d",
       "669c6a6167c3fed48dee536c",
       "6695d849888b8bcf4b03be85"
     ],
@@ -309,7 +308,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-07-26T01:36:32.493Z",
+    "updatedAt": "2024-07-27T07:28:01.921Z",
     "__v": 0
   }
 ]
