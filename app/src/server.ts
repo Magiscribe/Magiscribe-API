@@ -46,10 +46,7 @@ export default async function startServer() {
     }
 
     if (!token) {
-      log.warn({ msg: 'Authorization denied: Missing token', connectionType });
-      throw new Error(
-        `Missing authorization token in ${connectionType} connection`,
-      );
+      return { roles: [], auth: null };
     }
 
     try {

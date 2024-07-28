@@ -141,13 +141,13 @@ async function getProcessingSteps(
       ? variables
       : {};
 
-    return await Promise.all(
+    return (await Promise.all(
       reasoningSteps.map(async (step) => ({
         ...passThroughVariables,
         ...step,
         capability: await getCapability(step.capabilityAlias),
       })),
-    )  as Array<{ [key: string]: string | Capability }>;
+    )) as Array<{ [key: string]: string | Capability }>;
   }
 
   // If no reasoning steps are provided, we need to return an array of steps
@@ -303,7 +303,6 @@ export async function generatePrediction({
     const results = await Promise.all(
       steps.map((step) => executeStep(step, eventId, subscriptionId)),
     );
-    
     const finalResult = JSON.stringify(results.filter((item) => item !== null));
 
     await publishPredictionEvent(
