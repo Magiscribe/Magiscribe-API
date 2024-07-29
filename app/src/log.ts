@@ -19,7 +19,7 @@ const targets =
       ];
 
 const log = pino({
-  level: config.logLevel,
+  level: config.logLevel.toLowerCase(),
   transport: { targets },
 });
 
