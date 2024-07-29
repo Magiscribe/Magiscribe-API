@@ -80,3 +80,30 @@ export async function getDataObject(id: string): Promise<DataObject> {
   }
   return result;
 }
+
+/**
+ * Retrieves all data objects (forms) associated with a specific user ID.
+ * @param userId {string} The ID of the user whose forms we want to retrieve.
+ * @returns {Promise<DataObject[]>} An array of data objects associated with the user.
+ */
+export async function getUserForms(userId: string): Promise<DataObject[]> {
+  log.info('Fetching user forms', { userId });
+
+  try {
+    const userForms = await Data.find({ 'data.form.userId': userId });
+
+    if (userForms.length === 0) {
+      log.info('No forms found for user', { userId });
+    } else {
+      log.info(`Found ${userForms.length} forms for user`, { userId });
+    }
+
+    return userForms.map((form) => ({
+      id: form._id.toString(),
+      data: form.data,
+    }));
+  } catch (error) {
+    log.error('Error fetching user forms', { userId, error });
+    throw new Error('Failed to fetch user forms');
+  }
+}

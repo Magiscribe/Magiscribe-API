@@ -2,10 +2,12 @@ import {
   createDataObject,
   getDataObject,
   insertIntoDataObject,
+  getUserForms,
 } from '@controllers/data';
 import {
   MutationCreateUpdateDataObjectArgs,
   MutationInsertIntoDataObjectArgs,
+  QueryUserFormsArgs,
 } from '@generated/graphql';
 
 export default {
@@ -21,5 +23,7 @@ export default {
   },
   Query: {
     dataObject: async (_, { id }) => getDataObject(id),
+    userForms: async (_, { userId }: QueryUserFormsArgs) =>
+      getUserForms(userId),
   },
 };

@@ -14,4 +14,7 @@ type Mutation {
 
 type Query {
   dataObject(id: String!): DataObject!
+  userForms(userId: String!): [DataObject!]!
 }
+
+scalar JSONObject
