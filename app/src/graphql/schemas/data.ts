@@ -1,4 +1,5 @@
-type DataObject {
+export default `#graphql
+  type DataObject {
   id: String!
   data: JSONObject!
 }
@@ -18,3 +19,4 @@ type Query {
 }
 
 scalar JSONObject
+`;
