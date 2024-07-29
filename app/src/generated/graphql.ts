@@ -315,6 +315,7 @@ export type PromptInput = {
 export type Query = {
   __typename?: 'Query';
   dataObject: DataObject;
+  dataObjectsCreated: Array<DataObject>;
   getAgent?: Maybe<Agent>;
   getAllAgents?: Maybe<Array<Maybe<Agent>>>;
   getAllCapabilities?: Maybe<Array<Maybe<Capability>>>;
@@ -832,6 +833,11 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryDataObjectArgs, 'id'>
+  >;
+  dataObjectsCreated?: Resolver<
+    Array<ResolversTypes['DataObject']>,
+    ParentType,
+    ContextType
   >;
   getAgent?: Resolver<
     Maybe<ResolversTypes['Agent']>,

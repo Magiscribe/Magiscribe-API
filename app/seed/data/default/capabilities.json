@@ -220,7 +220,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-07-21T00:29:51.049Z",
+    "updatedAt": "2024-07-21T17:47:10.021Z",
     "__v": 0
   },
   {
@@ -232,6 +232,7 @@
     "prompts": [
       "669c694867c3fed48dee5343",
       "66971df6d2a052885450d767",
+      "669dae465414a7bb2bbf9e2d",
       "669714fdd2a052885450d6fa",
       "6695d849888b8bcf4b03be85"
     ],
@@ -239,7 +240,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-07-21T03:04:11.637Z",
+    "updatedAt": "2024-07-22T00:58:45.939Z",
     "__v": 0
   },
   {
@@ -251,6 +252,7 @@
     "prompts": [
       "669c694867c3fed48dee5343",
       "66971f23d2a052885450d78c",
+      "669dae465414a7bb2bbf9e2d",
       "669714fdd2a052885450d6fa",
       "6695d849888b8bcf4b03be85"
     ],
@@ -258,7 +260,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-07-21T03:03:50.352Z",
+    "updatedAt": "2024-07-22T01:08:36.531Z",
     "__v": 0
   },
   {
@@ -267,12 +269,16 @@
     "alias": "TextAnalysisCapability",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
-    "prompts": ["6695d854888b8bcf4b03be89", "669bef586773961cdf4604b4"],
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "669dae465414a7bb2bbf9e2d",
+      "669bef586773961cdf4604b4"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-07-21T03:03:19.618Z",
+    "updatedAt": "2024-07-27T03:17:42.637Z",
     "__v": 0
   },
   {
@@ -290,7 +296,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-07-21T03:04:38.176Z",
+    "updatedAt": "2024-07-27T07:28:01.921Z",
     "__v": 0
   }
 ]

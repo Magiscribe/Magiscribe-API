@@ -32,5 +32,4 @@
   },
   "include": ["./src/**/*", "./**/*.ts", "./**/*.graphql", "seed"],
   "exclude": ["node_modules", "dist", "seed", "./codegen.ts"]
-
 }

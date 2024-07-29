@@ -9,4 +9,4 @@ export default `#graphql
     generateTranscriptionStreamingCredentials: TemporaryCredentials
     generateAudio(voice: String!, text: String!): String
   }
-`
+`;

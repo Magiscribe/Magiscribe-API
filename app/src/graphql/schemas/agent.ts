@@ -105,4 +105,4 @@ export default `#graphql
     getAgent(agentId: String!): Agent
     getAllAgents: [Agent]
   }
-`
+`;

@@ -1,6 +1,7 @@
 import {
   createDataObject,
   getDataObject,
+  getDataObjectsByUserId,
   insertIntoDataObject,
 } from '@controllers/data';
 import {
@@ -13,7 +14,13 @@ export default {
     createUpdateDataObject: async (
       _parent,
       args: MutationCreateUpdateDataObjectArgs,
-    ) => createDataObject(args),
+      context,
+    ) =>
+      createDataObject({
+        id: args.id,
+        userId: context.auth.sub,
+        data: args.data,
+      }),
     insertIntoDataObject: async (
       _parent,
       { id, field, value }: MutationInsertIntoDataObjectArgs,
@@ -21,5 +28,7 @@ export default {
   },
   Query: {
     dataObject: async (_, { id }) => getDataObject(id),
+    dataObjectsCreated: async (_parent, _args, context) =>
+      getDataObjectsByUserId(context.auth.sub),
   },
 };

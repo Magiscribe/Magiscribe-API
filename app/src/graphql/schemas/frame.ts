@@ -61,19 +61,19 @@ export default `#graphql
   }
 
   type Query {
-    getFrame(frameId: String!): Frame
-    getElement(elementId: String!): Element
+    getFrame(frameId: String!): Frame @auth
+    getElement(elementId: String!): Element @auth
   }
 
   type Mutation {
-    createFrame(frame: FrameCreateInput!): Frame
-    updateFrame(frameId: String!, frame: FrameUpdateInput!): Frame
-    addChildFrames(frameId: String!, childFrameIds: [String!]!): Frame
-    addChildElements(frameId: String!, childElementIds: [String!]!): Frame
-    deleteFrame(frameId: String!): Frame
+    createFrame(frame: FrameCreateInput!): Frame @auth
+    updateFrame(frameId: String!, frame: FrameUpdateInput!): Frame @auth
+    addChildFrames(frameId: String!, childFrameIds: [String!]!): Frame @auth
+    addChildElements(frameId: String!, childElementIds: [String!]!): Frame @auth
+    deleteFrame(frameId: String!): Frame @auth
 
-    createElement(element: ElementCreateInput!): Element
-    updateElement(elementId: String!, element: ElementUpdateInput!): Element
-    deleteElement(elementId: String!): Element
+    createElement(element: ElementCreateInput!): Element @auth
+    updateElement(elementId: String!, element: ElementUpdateInput!): Element @auth
+    deleteElement(elementId: String!): Element @auth
   }
 `;

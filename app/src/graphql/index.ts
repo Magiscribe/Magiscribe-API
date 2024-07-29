@@ -18,4 +18,3 @@ let schema = mergeSchemas({ typeDefs, resolvers });
 schema = authDirectiveTransformer(schema);
 
 export { resolvers, schema };
-

@@ -15,5 +15,6 @@ export default `#graphql
 
   type Query {
     dataObject(id: String!): DataObject!
+    dataObjectsCreated: [DataObject!]!
   }
-`
+`;
