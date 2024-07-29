@@ -1,8 +1,5 @@
 import { Data } from '@database/models/data';
-import {
-  DataObject,
-  MutationCreateUpdateDataObjectArgs,
-} from '@generated/graphql';
+import { DataObject } from '@generated/graphql';
 import log from '@log';
 
 /**
@@ -10,26 +7,37 @@ import log from '@log';
  * @param data The data object to create or update.
  * @returns The created or updated data object.
  */
-export async function createDataObject(
-  data: MutationCreateUpdateDataObjectArgs,
-): Promise<DataObject> {
-  if (!data.id) {
+export async function createDataObject({
+  id,
+  userId,
+  data,
+}): Promise<DataObject> {
+  if (!id) {
     log.info({
       message: 'Creating new data object',
       data,
     });
-    return Data.create(data);
+    return Data.create({
+      data,
+      userId,
+    });
   } else {
     log.info({
       message: 'Updating existing data object',
       data,
     });
-    const result = await Data.findOneAndUpdate({ _id: data.id }, data, {
-      upsert: true,
-      new: true,
-      setDefaultsOnInsert: true,
-      returnDocument: 'after',
-    });
+    const result = await Data.findOneAndUpdate(
+      { _id: id, userId },
+      {
+        data,
+        userId,
+      },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true,
+      },
+    );
     log.info('Data object updated successfully', { result });
     return result;
   }
@@ -47,7 +55,12 @@ export async function insertIntoDataObject(
   field: string,
   value: unknown,
 ): Promise<DataObject> {
-  log.info('Attempting to update data object', { id, field, value });
+  log.info({
+    message: 'Inserting value into data object',
+    id,
+    field,
+    value,
+  });
 
   const result = await Data.findOneAndUpdate(
     { _id: id },
@@ -56,9 +69,20 @@ export async function insertIntoDataObject(
   );
 
   if (result.errors) {
-    log.error('Error updating data object', { id, errors: result.errors });
+    log.error({
+      message: 'Failed to update data object',
+      id,
+      field,
+      value,
+      errors: result.errors,
+    });
   } else {
-    log.info('Data object updated successfully', { id, result });
+    log.info({
+      message: 'Data object updated successfully',
+      id,
+      field,
+      value,
+    });
   }
 
   return {
@@ -75,35 +99,46 @@ export async function insertIntoDataObject(
 export async function getDataObject(id: string): Promise<DataObject> {
   const result = await Data.findOne({ _id: id });
   if (!result) {
-    log.warn('Data object not found', { id });
+    log.warn({
+      message: 'Data object not found',
+      id,
+    });
     throw new Error('Data object not found');
   }
   return result;
 }
 
 /**
- * Retrieves all data objects (forms) associated with a specific user ID.
+ * Retrieves all data objects associated with a specific user ID.
  * @param userId {string} The ID of the user whose forms we want to retrieve.
  * @returns {Promise<DataObject[]>} An array of data objects associated with the user.
  */
-export async function getUserForms(userId: string): Promise<DataObject[]> {
-  log.info('Fetching user forms', { userId });
+export async function getDataObjectsByUserId(
+  userId: string,
+): Promise<DataObject[]> {
+  log.info({
+    message: 'Fetching user data',
+    userId,
+  });
 
   try {
-    const userForms = await Data.find({ 'data.form.userId': userId });
+    const userForms = await Data.find({ userId });
 
-    if (userForms.length === 0) {
-      log.info('No forms found for user', { userId });
-    } else {
-      log.info(`Found ${userForms.length} forms for user`, { userId });
-    }
+    log.info({
+      message: 'User data fetched successfully',
+      userId,
+      count: userForms.length,
+    });
 
     return userForms.map((form) => ({
       id: form._id.toString(),
       data: form.data,
     }));
   } catch (error) {
-    log.error('Error fetching user forms', { userId, error });
+    log.error({
+      message: 'Failed to fetch user data',
+      userId,
+    });
     throw new Error('Failed to fetch user forms');
   }
 }

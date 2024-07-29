@@ -1,22 +1,20 @@
 export default `#graphql
   type DataObject {
-  id: String!
-  data: JSONObject!
-}
-
-type Mutation {
-  createUpdateDataObject(id: String, data: JSONObject!): DataObject!
-  insertIntoDataObject(
     id: String!
-    field: String!
-    value: JSONObject!
-  ): DataObject!
-}
+    data: JSONObject!
+  }
 
-type Query {
-  dataObject(id: String!): DataObject!
-  userForms(userId: String!): [DataObject!]!
-}
+  type Mutation {
+    createUpdateDataObject(id: String, data: JSONObject!): DataObject!
+    insertIntoDataObject(
+      id: String!
+      field: String!
+      value: JSONObject!
+    ): DataObject!
+  }
 
-scalar JSONObject
+  type Query {
+    dataObject(id: String!): DataObject!
+    dataObjectsCreated: [DataObject!]!
+  }
 `;

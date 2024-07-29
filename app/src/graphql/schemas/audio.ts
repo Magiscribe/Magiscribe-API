@@ -7,6 +7,6 @@ export default `#graphql
 
   type Mutation {
     generateTranscriptionStreamingCredentials: TemporaryCredentials
-    generateAudio(voice: String!, text: String!): String @auth
+    generateAudio(voice: String!, text: String!): String
   }
 `;
