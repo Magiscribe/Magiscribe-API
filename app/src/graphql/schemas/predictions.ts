@@ -5,7 +5,7 @@ export default `#graphql
     ERROR
     DATA
     SUCCESS
-    RECIEVED
+    RECEIVED
   }
 
   type Prediction {
