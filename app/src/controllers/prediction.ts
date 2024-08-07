@@ -15,6 +15,8 @@ import {
 import { pubsubClient } from '@utils/clients';
 import * as utils from '@utils/code';
 import { uuid } from 'uuidv4';
+import { Graph } from '../types/graph';
+import { Thread } from '../types/thread';
 
 enum PredictionEventType {
   RECIEVED = 'RECIEVED',
@@ -239,6 +241,105 @@ async function executeStep(
   return utils.applyFilter(result, capability.outputFilter);
 }
 
+async function validateAndLogInput(
+  variables: { [key: string]: string },
+  auth: { sub: string },
+): Promise<void> {
+  if (!variables.userMessage) {
+    throw new Error('No user prompt provided');
+  }
+  log.info({
+    msg: 'Querying Hal 9000 for prediction (AI prediction request)',
+    auth,
+    variables,
+  });
+}
+
+async function setupPredictionContext(
+  agentId: string,
+  subscriptionId: string,
+  auth: { sub: string },
+  userMessage: string,
+): Promise<{ agent: Agent; thread: Thread }> {
+  const agent = await getAgent(agentId);
+  if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
+
+  const thread = await findOrCreateThread(subscriptionId);
+  await addUserMessage(thread, auth.sub, userMessage);
+
+  return { agent, thread };
+}
+
+async function prepareVariables(
+  agent: Agent,
+  thread: Thread,
+  variables: { [key: string]: string },
+): Promise<{ [key: string]: string }> {
+  if (agent.memoryEnabled) {
+    const history = thread.messages
+      .map(
+        (message) =>
+          `${message.userId ? 'User' : 'Agent'}: ${message.response.response}`,
+      )
+      .join('\n');
+    return { ...variables, history };
+  }
+  return variables;
+}
+
+async function executeSteps(
+  agent: Agent,
+  variables: { [key: string]: string },
+  eventId: string,
+  subscriptionId: string,
+): Promise<string> {
+  const steps = await getProcessingSteps(agent, variables);
+
+  if (config.environment === 'dev') {
+    await publishPredictionEvent(
+      eventId,
+      subscriptionId,
+      PredictionEventType.DEBUG,
+      JSON.stringify(steps),
+    );
+  }
+
+  const results = await Promise.all(
+    steps.map((step) => executeStep(step, eventId, subscriptionId)),
+  );
+  return JSON.stringify(results.filter((item) => item !== null));
+}
+
+async function handlePredictionResult(
+  finalResult: string,
+  agent: Agent,
+  thread: Thread,
+  eventId: string,
+  subscriptionId: string,
+  auth: { sub: string },
+  variables: { [key: string]: string },
+): Promise<void> {
+  await publishPredictionEvent(
+    eventId,
+    subscriptionId,
+    PredictionEventType.SUCCESS,
+    finalResult,
+  );
+
+  await addAgentMessage(
+    thread,
+    agent.id,
+    utils.applyFilter(finalResult, agent.outputFilter),
+  );
+
+  log.info({
+    msg: 'Prediction generation successful',
+    auth,
+    variables,
+    results: finalResult,
+  });
+}
+
 export async function generatePrediction({
   auth,
   subscriptionId,
@@ -250,19 +351,10 @@ export async function generatePrediction({
   agentId: string;
   variables: { [key: string]: string };
 }): Promise<void> {
-  if (!variables.userMessage) {
-    throw new Error('No user prompt provided');
-  }
-
-  log.info({
-    msg: 'Querying Hal 9000 for prediction (AI prediction request)',
-    auth,
-    variables,
-  });
-
   const eventId = uuid();
 
   try {
+    await validateAndLogInput(variables, auth);
     await publishPredictionEvent(
       eventId,
       subscriptionId,
@@ -270,60 +362,28 @@ export async function generatePrediction({
       variables.userMessage,
     );
 
-    const agent = await getAgent(agentId);
-    if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
-
-    const thread = await findOrCreateThread(subscriptionId);
-    await addUserMessage(thread, auth.sub, variables.userMessage);
-
-    if (agent.memoryEnabled) {
-      // TODO: May want to include customizaiton to change the
-      //       username / agent name.
-      const history = thread.messages
-        .map(
-          (message) =>
-            `${message.userId ? 'User' : 'Agent'}:
-      ${message.response.response}`,
-        )
-        .join('\n');
-      variables.history = history;
-    }
-
-    const steps = await getProcessingSteps(agent, variables);
-
-    if (config.environment === 'dev') {
-      await publishPredictionEvent(
-        eventId,
-        subscriptionId,
-        PredictionEventType.DEBUG,
-        JSON.stringify(steps),
-      );
-    }
-
-    const results = await Promise.all(
-      steps.map((step) => executeStep(step, eventId, subscriptionId)),
+    const { agent, thread } = await setupPredictionContext(
+      agentId,
+      subscriptionId,
+      auth,
+      variables.userMessage,
     );
-    const finalResult = JSON.stringify(results.filter((item) => item !== null));
-
-    await publishPredictionEvent(
+    const preparedVariables = await prepareVariables(agent, thread, variables);
+    const finalResult = await executeSteps(
+      agent,
+      preparedVariables,
       eventId,
       subscriptionId,
-      PredictionEventType.SUCCESS,
+    );
+    await handlePredictionResult(
       finalResult,
-    );
-
-    await addAgentMessage(
+      agent,
       thread,
-      agentId,
-      utils.applyFilter(finalResult, agent.outputFilter),
-    );
-
-    log.info({
-      msg: 'Prediction generation successful',
+      eventId,
+      subscriptionId,
       auth,
       variables,
-      results,
-    });
+    );
   } catch (error) {
     log.warn({
       msg: 'Prediction generation failed',

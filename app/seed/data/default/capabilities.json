@@ -154,7 +154,10 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -168,7 +171,10 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -182,7 +188,10 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -215,7 +224,10 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -231,16 +243,15 @@
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66971df6d2a052885450d767",
       "669dae465414a7bb2bbf9e2d",
-      "669714fdd2a052885450d6fa",
+      "66971df6d2a052885450d767",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-07-22T00:58:45.939Z",
+    "updatedAt": "2024-08-02T22:30:54.574Z",
     "__v": 0
   },
   {
@@ -253,14 +264,13 @@
       "669c694867c3fed48dee5343",
       "66971f23d2a052885450d78c",
       "669dae465414a7bb2bbf9e2d",
-      "669714fdd2a052885450d6fa",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-07-22T01:08:36.531Z",
+    "updatedAt": "2024-08-02T22:30:46.539Z",
     "__v": 0
   },
   {
@@ -296,7 +306,105 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-07-27T07:28:01.921Z",
+    "updatedAt": "2024-08-02T22:30:28.587Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad68b1b5b289898ce68dfe",
+    "name": "Expand Graph",
+    "alias": "ExpandGraphCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Give a current step in thought process will output additional possible continuations",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad6892b5b289898ce68df6"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-02T23:16:01.354Z",
+    "updatedAt": "2024-08-06T21:00:52.718Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad7093b5b289898ce68e39",
+    "name": "Evaluate Options",
+    "alias": "EvaluateOptionsCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad6e42b5b289898ce68e29"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-02T23:49:39.879Z",
+    "updatedAt": "2024-08-06T21:18:13.380Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad733cb5b289898ce68e5b",
+    "name": "Check Completion",
+    "alias": "CheckCompletionCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad72cdb5b289898ce68e52"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-03T00:01:00.296Z",
+    "updatedAt": "2024-08-06T21:34:58.182Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad9cff395f8759f8bd44ab",
+    "name": "Generic Python Execution",
+    "alias": "GenericPythonExecutionCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Allows the model to write generic python code that will be executed",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "66b1a78069a8280877a02014"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-03T02:59:11.229Z",
+    "updatedAt": "2024-08-06T04:40:13.605Z",
+    "__v": 0
+  },
+  {
+    "_id": "66b1605669a8280877a01f47",
+    "name": "Next Step Capability",
+    "alias": "NextStepCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "66b0298f0075e6e99a63e2a1"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-05T23:29:26.754Z",
+    "updatedAt": "2024-08-06T21:19:06.771Z",
     "__v": 0
   }
 ]
