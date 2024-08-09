@@ -3,7 +3,7 @@ import { OutputReturnMode } from '@database/models/agent';
 import { Agent, Capability } from '@generated/graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
-import { makeRequest } from '@utils/ai/requests';
+import { Content, ContentType, makeRequest } from '@utils/ai/requests';
 import {
   addMessageToThread,
   buildPrompt,
@@ -51,7 +51,12 @@ async function reason(
   const prompt = await buildPrompt(agent.reasoning.prompt, variables);
 
   const preprocessingResponse = await makeRequest({
-    prompt,
+    content: [
+      {
+        type: ContentType.TEXT,
+        text: prompt,
+      },
+    ],
     model: agent.reasoning.llmModel,
   });
   const cleanedPreprocessingResponse = utils.cleanCodeBlock(
@@ -110,6 +115,7 @@ async function executeStep(
   step: {
     [key: string]: string | Capability;
   },
+  attachments: Array<Content>,
   eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
 ): Promise<string> {
   if (!step.capability) {
@@ -117,6 +123,7 @@ async function executeStep(
   }
 
   const capability = step.capability as Capability;
+  const llmModelAlias = step.llmModelAlias as string | undefined;
   const prompts = capability.prompts?.map((prompt) => prompt?.text);
 
   // Remove capability from the step variables
@@ -136,8 +143,14 @@ async function executeStep(
   );
 
   const result = await makeRequest({
-    prompt,
-    model: capability.llmModel,
+    content: [
+      {
+        type: ContentType.TEXT,
+        text: prompt,
+      },
+      ...(attachments ?? []),
+    ],
+    model: llmModelAlias ?? capability.llmModel,
     streaming:
       capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
         ? {
@@ -185,10 +198,11 @@ async function executeSteps(
   steps: Array<{
     [key: string]: string | Capability;
   }>,
+  attachments: Array<Content>,
   eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
 ): Promise<string> {
   const results = await Promise.all(
-    steps.map((step) => executeStep(step, eventPublisher)),
+    steps.map((step) => executeStep(step, attachments, eventPublisher)),
   );
   return JSON.stringify(results.filter((item) => item !== null));
 }
@@ -248,11 +262,13 @@ export async function generatePrediction({
   subscriptionId,
   agentId,
   variables,
+  attachments,
 }: {
   auth: { sub: string };
   subscriptionId: string;
   agentId: string;
   variables: Record<string, string>;
+  attachments: Array<Content>;
 }): Promise<void> {
   const publishEvent = createEventPublisher(uuid(), subscriptionId);
 
@@ -271,7 +287,7 @@ export async function generatePrediction({
     }
 
     const steps = await getSteps(agent, variables);
-    const result = await executeSteps(steps, publishEvent);
+    const result = await executeSteps(steps, attachments, publishEvent);
 
     await publishEvent(PredictionEventType.SUCCESS, result);
     await addMessageToThread(

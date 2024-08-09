@@ -134,7 +134,7 @@ export async function getDataObjectsByUserId(
       id: form._id.toString(),
       data: form.data,
     }));
-  } catch (error) {
+  } catch {
     log.error({
       message: 'Failed to fetch user data',
       userId,

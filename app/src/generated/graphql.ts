@@ -214,6 +214,7 @@ export type MutationAddMediaAssetArgs = {
 
 export type MutationAddPredictionArgs = {
   agentId: Scalars['String']['input'];
+  attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
   subscriptionId: Scalars['String']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
 };
@@ -295,7 +296,7 @@ export type Prediction = {
 export enum PredictionType {
   Data = 'DATA',
   Error = 'ERROR',
-  RECEIVED = 'RECEIVED',
+  Received = 'RECEIVED',
   Success = 'SUCCESS',
 }
 

@@ -1,6 +1,20 @@
-import log from '@log';
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
+import { HumanMessage } from '@langchain/core/messages';
+import log from '@log';
 import { LLM_MODELS_VERSION } from './models';
+
+export enum ContentType {
+  TEXT = 'text',
+  IMAGE_URL = 'image_url',
+}
+
+export interface Content {
+  type: ContentType;
+  image_url?: {
+    url: string;
+  };
+  text?: string;
+}
 
 /**
  * Sends a request to the Bedrock model and returns the response.
@@ -12,11 +26,11 @@ import { LLM_MODELS_VERSION } from './models';
  * @returns {Promise<string>} The response from the model.
  */
 export async function makeRequest({
-  prompt,
+  content,
   model,
   streaming = { enabled: false },
 }: {
-  prompt: string;
+  content: Array<Content>;
   model: string;
   streaming?: {
     enabled: boolean;
@@ -30,9 +44,13 @@ export async function makeRequest({
     temperature: 0,
   });
 
+  const message = new HumanMessage({
+    content,
+  });
+
   log.debug({
     msg: 'Sending AI request...',
-    prompt,
+    message,
     streaming,
   });
 
@@ -41,7 +59,7 @@ export async function makeRequest({
       throw new Error('Callback function is required for streaming mode');
     }
 
-    const stream = await chat.stream(prompt);
+    const stream = await chat.stream([message]);
     let buffer = '';
     for await (const chunk of stream) {
       buffer += chunk.content;
@@ -50,7 +68,7 @@ export async function makeRequest({
     }
     return buffer;
   } else {
-    const completion = await chat.invoke(prompt);
+    const completion = await chat.invoke([message]);
     log.debug({ msg: 'AI response received', content: completion.content });
     return completion.content as string;
   }

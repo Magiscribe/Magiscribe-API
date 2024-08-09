@@ -20,6 +20,7 @@ export default `#graphql
       subscriptionId: String!
       agentId: String!
       variables: JSONObject
+      attachments: [JSONObject!]
     ): String
   }
 
