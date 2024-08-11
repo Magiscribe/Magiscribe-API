@@ -3,70 +3,25 @@ import { OutputReturnMode } from '@database/models/agent';
 import { Agent, Capability } from '@generated/graphql';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
-import { makeRequest } from '@utils/ai/requests';
+import { Content, ContentType, makeRequest } from '@utils/ai/requests';
 import {
-  addAgentMessage,
-  addUserMessage,
+  addMessageToThread,
   buildPrompt,
   findOrCreateThread,
   getAgent,
   getCapability,
+  getHistory,
 } from '@utils/ai/system';
 import { pubsubClient } from '@utils/clients';
 import * as utils from '@utils/code';
 import { uuid } from 'uuidv4';
 
 enum PredictionEventType {
-  RECIEVED = 'RECIEVED',
+  RECEIVED = 'RECEIVED',
   DATA = 'DATA',
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
   DEBUG = 'DEBUG',
-}
-
-/**
- * Publishes a prediction event to the predictionAdded subscription.
- * @param eventId Unique identifier for the event
- * @param subscriptionId Identifier for the associated subscription
- * @param type Type of prediction event (e.g., RECEIVED, DATA, SUCCESS, ERROR, DEBUG)
- * @param result Optional result data for the prediction event
- * @returns Promise that resolves when the event is published
- */
-async function publishPredictionEvent(
-  eventId: string,
-  subscriptionId: string,
-  type: PredictionEventType,
-  result?: string,
-) {
-  const contextMap = {
-    RECIEVED: 'User prompt received',
-    DATA: 'Prediction data received',
-    SUCCESS: 'Prediction generation successful',
-    ERROR: 'Prediction generation failed',
-    DEBUG: 'Debug information. Not present in production',
-  };
-
-  if (type === PredictionEventType.DEBUG && config.environment !== 'dev') {
-    throw new Error('Debug events are not allowed in production');
-  }
-
-  log.trace({
-    msg: 'Publishing prediction event',
-    eventId,
-    subscriptionId,
-    type,
-    result,
-    context: contextMap[type],
-  });
-  return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
-    predictionAdded: {
-      id: eventId,
-      subscriptionId,
-      result,
-      type,
-      context: contextMap[type],
-    },
-  });
 }
 
 /**
@@ -93,21 +48,15 @@ async function reason(
     return null;
   }
 
-  log.trace({
-    msg: 'Variables before buildPrompt',
-    variables: JSON.stringify(variables, null, 2),
-    reasoningPrompt: agent.reasoning.prompt,
-  });
-
   const prompt = await buildPrompt(agent.reasoning.prompt, variables);
 
-  log.trace({
-    msg: 'Prompt after buildPrompt',
-    prompt: prompt,
-  });
-
   const preprocessingResponse = await makeRequest({
-    prompt,
+    content: [
+      {
+        type: ContentType.TEXT,
+        text: prompt,
+      },
+    ],
     model: agent.reasoning.llmModel,
   });
   const cleanedPreprocessingResponse = utils.cleanCodeBlock(
@@ -126,10 +75,7 @@ async function reason(
   }
 }
 
-async function getProcessingSteps(
-  agent: Agent,
-  variables: { [key: string]: string },
-) {
+async function getSteps(agent: Agent, variables: { [key: string]: string }) {
   const reasoningSteps = await reason(variables, agent);
 
   // If, we have reasoning steps, we need to return an array of steps
@@ -159,18 +105,25 @@ async function getProcessingSteps(
   })) as Array<{ [key: string]: string | Capability }>;
 }
 
+/**
+ * Executes a single step in the reasoning process.
+ * @param step {Object} - The step to execute. Must include a capability.
+ * @param eventPublisher {(type: PredictionEventType, data?: string) => Promise<void>} - The function for publishing prediction events.
+ * @returns {Promise<string>} - A promise that resolves to the result of the step.
+ */
 async function executeStep(
   step: {
     [key: string]: string | Capability;
   },
-  eventId: string,
-  subscriptionId: string,
-) {
+  attachments: Array<Content>,
+  eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
+): Promise<string> {
   if (!step.capability) {
     throw new Error(`No capability found.`);
   }
 
   const capability = step.capability as Capability;
+  const llmModelAlias = step.llmModelAlias as string | undefined;
   const prompts = capability.prompts?.map((prompt) => prompt?.text);
 
   // Remove capability from the step variables
@@ -190,8 +143,14 @@ async function executeStep(
   );
 
   const result = await makeRequest({
-    prompt,
-    model: capability.llmModel,
+    content: [
+      {
+        type: ContentType.TEXT,
+        text: prompt,
+      },
+      ...(attachments ?? []),
+    ],
+    model: llmModelAlias ?? capability.llmModel,
     streaming:
       capability.outputMode === OutputReturnMode.STREAMING_INDIVIDUAL
         ? {
@@ -201,12 +160,7 @@ async function executeStep(
                 msg: 'Streaming AI response chunk received',
                 content,
               });
-              await publishPredictionEvent(
-                eventId,
-                subscriptionId,
-                PredictionEventType.DATA,
-                content,
-              );
+              eventPublisher(PredictionEventType.DATA, content);
             },
           }
         : undefined,
@@ -225,12 +179,7 @@ async function executeStep(
     if (
       capability.outputMode === OutputReturnMode.SYNCHRONOUS_EXECUTION_INVIDUAL
     ) {
-      await publishPredictionEvent(
-        eventId,
-        subscriptionId,
-        PredictionEventType.DATA,
-        utils.applyFilter(executedResult, capability.subscriptionFilter),
-      );
+      eventPublisher(PredictionEventType.DATA, executedResult);
     }
 
     return utils.applyFilter(executedResult, capability.outputFilter);
@@ -239,101 +188,120 @@ async function executeStep(
   return utils.applyFilter(result, capability.outputFilter);
 }
 
+/**
+ * Executes a series of steps in parallel and returns any non-null results.
+ * @param steps {Array<{ [key: string]: string | Capability }>} - The steps to execute.
+ * @param eventPublisher {(type: PredictionEventType, data?: string) => Promise<void>} - The function for publishing prediction events.
+ * @returns {Promise<string>} - A promise that resolves to a JSON string of the results.
+ */
+async function executeSteps(
+  steps: Array<{
+    [key: string]: string | Capability;
+  }>,
+  attachments: Array<Content>,
+  eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
+): Promise<string> {
+  const results = await Promise.all(
+    steps.map((step) => executeStep(step, attachments, eventPublisher)),
+  );
+  return JSON.stringify(results.filter((item) => item !== null));
+}
+
+/**
+ * Creates a function for publishing prediction events.
+ * @param eventId Unique identifier for the event
+ * @param subscriptionId Identifier for the associated subscription
+ * @returns A function that publishes prediction events
+ */
+function createEventPublisher(eventId: string, subscriptionId: string) {
+  return async (type: PredictionEventType, result?: string) => {
+    const contextMap = {
+      RECEIVED: 'User prompt received',
+      DATA: 'Prediction data received',
+      SUCCESS: 'Prediction generation successful',
+      ERROR: 'Prediction generation failed',
+      DEBUG: 'Debug information. Not present in production',
+    };
+
+    if (type === PredictionEventType.DEBUG && config.environment !== 'dev') {
+      throw new Error('Debug events are not allowed in production');
+    }
+
+    log.trace({
+      msg: 'Publishing prediction event',
+      eventId,
+      subscriptionId,
+      type,
+      result,
+      context: contextMap[type],
+    });
+    return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
+      predictionAdded: {
+        id: eventId,
+        subscriptionId,
+        result,
+        type,
+        context: contextMap[type],
+      },
+    });
+  };
+}
+
+/**
+ * Generates a prediction based on the given agent and user input.
+ * @param {Object} params - The parameters for prediction generation.
+ * @param {Object} params.auth - Authentication information.
+ * @param {string} params.auth.sub - The subject (user ID) from the auth token.
+ * @param {string} params.subscriptionId - The ID of the subscription.
+ * @param {string} params.agentId - The ID of the agent to use.
+ * @param {Object} params.variables - Key-value pairs of variables for the prediction.
+ * @returns {Promise<void>}
+ */
 export async function generatePrediction({
   auth,
   subscriptionId,
   agentId,
   variables,
+  attachments,
 }: {
   auth: { sub: string };
   subscriptionId: string;
   agentId: string;
-  variables: { [key: string]: string };
+  variables: Record<string, string>;
+  attachments: Array<Content>;
 }): Promise<void> {
-  if (!variables.userMessage) {
-    throw new Error('No user prompt provided');
-  }
-
-  log.info({
-    msg: 'Querying Hal 9000 for prediction (AI prediction request)',
-    auth,
-    variables,
-  });
-
-  const eventId = uuid();
+  const publishEvent = createEventPublisher(uuid(), subscriptionId);
 
   try {
-    await publishPredictionEvent(
-      eventId,
-      subscriptionId,
-      PredictionEventType.RECIEVED,
-      variables.userMessage,
-    );
+    await publishEvent(PredictionEventType.RECEIVED, variables.userMessage);
+    log.info('Prediction generation started', { auth, variables });
 
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
     const thread = await findOrCreateThread(subscriptionId);
-    await addUserMessage(thread, auth.sub, variables.userMessage);
+    await addMessageToThread(thread, auth.sub, variables.userMessage, true);
 
     if (agent.memoryEnabled) {
-      // TODO: May want to include customizaiton to change the
-      //       username / agent name.
-      const history = thread.messages
-        .map(
-          (message) =>
-            `${message.userId ? 'User' : 'Agent'}:
-      ${message.response.response}`,
-        )
-        .join('\n');
-      variables.history = history;
+      variables.history = await getHistory(thread);
     }
 
-    const steps = await getProcessingSteps(agent, variables);
+    const steps = await getSteps(agent, variables);
+    const result = await executeSteps(steps, attachments, publishEvent);
 
-    if (config.environment === 'dev') {
-      await publishPredictionEvent(
-        eventId,
-        subscriptionId,
-        PredictionEventType.DEBUG,
-        JSON.stringify(steps),
-      );
-    }
-
-    const results = await Promise.all(
-      steps.map((step) => executeStep(step, eventId, subscriptionId)),
-    );
-    const finalResult = JSON.stringify(results.filter((item) => item !== null));
-
-    await publishPredictionEvent(
-      eventId,
-      subscriptionId,
-      PredictionEventType.SUCCESS,
-      finalResult,
-    );
-
-    await addAgentMessage(
+    await publishEvent(PredictionEventType.SUCCESS, result);
+    await addMessageToThread(
       thread,
-      agentId,
-      utils.applyFilter(finalResult, agent.outputFilter),
+      agent.id,
+      utils.applyFilter(result, agent.outputFilter),
+      false,
     );
 
-    log.info({
-      msg: 'Prediction generation successful',
-      auth,
-      variables,
-      results,
-    });
+    log.info('Prediction generation successful', { auth, result });
   } catch (error) {
-    log.warn({
-      msg: 'Prediction generation failed',
-      error: error instanceof Error ? error.message : 'Unknown error',
-    });
-    await publishPredictionEvent(
-      eventId,
-      subscriptionId,
-      PredictionEventType.ERROR,
-      error instanceof Error ? error.message : 'Unknown error',
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
+    log.warn('Prediction generation failed', { error: errorMessage });
+    await publishEvent(PredictionEventType.ERROR, errorMessage);
   }
 }

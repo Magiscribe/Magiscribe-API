@@ -6,7 +6,7 @@ export enum MessageResponseTypes {
   Error = 'error',
 }
 
-interface IThread {
+export interface IThread {
   subscriptionId: string;
   messages: IMessage[];
 }

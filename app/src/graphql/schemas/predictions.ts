@@ -5,7 +5,7 @@ export default `#graphql
     ERROR
     DATA
     SUCCESS
-    RECIEVED
+    RECEIVED
   }
 
   type Prediction {
@@ -20,6 +20,7 @@ export default `#graphql
       subscriptionId: String!
       agentId: String!
       variables: JSONObject
+      attachments: [JSONObject!]
     ): String
   }
 

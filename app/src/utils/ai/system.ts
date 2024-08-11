@@ -1,7 +1,12 @@
 import { Agent, Capability } from '@database/models/agent';
-import { MessageResponseTypes, Thread } from '@database/models/message';
+import {
+  IThread,
+  MessageResponseTypes,
+  Thread,
+} from '@database/models/message';
 import { Agent as IAgent, Capability as ICapability } from '@generated/graphql';
 import { PromptTemplate } from '@langchain/core/prompts';
+import { Document } from 'mongoose';
 
 /**
  * Builds a prompt by formatting a template with provided properties.
@@ -54,51 +59,41 @@ export async function findOrCreateThread(subscriptionId: string) {
 }
 
 /**
- * Adds a user message to a thread in the database.
+ * Adds a message to a thread in the database.
  *
  * @param {mongoose.Document} thread - The mongoose document representing the thread.
- * @param {string} userId - The ID of the user sending the message.
- * @param {string} userPrompt - The content of the user's message.
- * @param {object} MessageResponseTypes - An object containing message response type constants.
+ * @param {string} senderId - The ID of the sender (user or agent).
+ * @param {string} message - The content of the message.
+ * @param {boolean} isUser - Whether the sender is a user (true) or an agent (false).
  * @returns {Promise<void>}
  */
-export async function addUserMessage(thread, userId, userPrompt) {
+export async function addMessageToThread(
+  thread: Document,
+  senderId: string,
+  message: string,
+  isUser: boolean,
+): Promise<void> {
   await thread.updateOne({
     $push: {
       messages: {
-        userId: userId,
+        [isUser ? 'userId' : 'agentId']: senderId,
         response: {
-          type: MessageResponseTypes.Text,
-          response: userPrompt,
+          type: isUser
+            ? MessageResponseTypes.Text
+            : MessageResponseTypes.Command,
+          response: message,
         },
       },
     },
   });
 }
 
-/**
- * Adds a user message to a thread in the database.
- *
- * @param {mongoose.Document} thread - The mongoose document representing the thread.
- * @param {string} userId - The ID of the user sending the message.
- * @param {string} userPrompt - The content of the user's message.
- * @param {object} MessageResponseTypes - An object containing message response type constants.
- * @returns {Promise<void>}
- */
-export async function addAgentMessage(
-  thread,
-  agentId: string,
-  response: string,
-) {
-  await thread.updateOne({
-    $push: {
-      messages: {
-        agentId: agentId,
-        response: {
-          type: MessageResponseTypes.Command,
-          response,
-        },
-      },
-    },
-  });
+export async function getHistory(thread: IThread) {
+  const history = thread.messages
+    .map(
+      (message) =>
+        `${message.userId ? 'User' : 'Agent'}: ${message.response.response}`,
+    )
+    .join('\n');
+  return history;
 }

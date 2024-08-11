@@ -1,5 +1,6 @@
 import {
   createDataObject,
+  deleteDataObject,
   getDataObject,
   getDataObjectsByUserId,
   insertIntoDataObject,
@@ -25,6 +26,11 @@ export default {
       _parent,
       { id, field, value }: MutationInsertIntoDataObjectArgs,
     ) => insertIntoDataObject(id, field, value),
+    deleteDataObject: async (_, args, context) =>
+      deleteDataObject({
+        id: args.id,
+        userId: context.auth.sub,
+      }),
   },
   Query: {
     dataObject: async (_, { id }) => getDataObject(id),

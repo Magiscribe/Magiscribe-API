@@ -6,6 +6,7 @@ export default `#graphql
 
   type Mutation {
     createUpdateDataObject(id: String, data: JSONObject!): DataObject!
+    deleteDataObject(id: String!): DataObject!
     insertIntoDataObject(
       id: String!
       field: String!

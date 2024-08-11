@@ -226,7 +226,9 @@ export default async function startServer() {
         }
       },
     }),
-    express.json(),
+    express.json({
+      limit: '24mb',
+    }),
     expressMiddleware(server, {
       context: ({ req }) => {
         const token = req.headers.authorization as string;

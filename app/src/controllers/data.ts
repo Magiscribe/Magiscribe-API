@@ -44,6 +44,33 @@ export async function createDataObject({
 }
 
 /**
+ * Deletes a data object by its ID.
+ * @param id The ID of the data object to delete.
+ */
+export async function deleteDataObject({ id,
+  userId }: { id: string, userId: string }): Promise<void> {
+  log.info({
+    message: 'Deleting data object',
+    id,
+  });
+
+  const result = await Data.deleteOne({ _id: id, userId });
+
+  if (result.deletedCount === 0) {
+    log.warn({
+      message: 'Data object not found',
+      id,
+    });
+    throw new Error('Data object not found');
+  }
+
+  log.info({
+    message: 'Data object deleted successfully',
+    id,
+  });
+}
+
+/**
  * Inserts a value into a specified field of a data object.
  * @param id The ID of the data object to update.
  * @param field The field within the data object to update.
@@ -134,7 +161,7 @@ export async function getDataObjectsByUserId(
       id: form._id.toString(),
       data: form.data,
     }));
-  } catch (error) {
+  } catch {
     log.error({
       message: 'Failed to fetch user data',
       userId,
