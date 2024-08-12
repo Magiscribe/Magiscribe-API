@@ -70,7 +70,7 @@ export function applyFilter(
 /**
  * Executes Python code on the executor Lambda function.
  * @param code {string} The Python code to execute.
- * @returns {Promise<string>} The result of the Python code execution.
+ * @returns {Promise<string> | Error} The result of the Python code execution.
  */
 export async function executePythonCode(code: string): Promise<string> {
   log.trace('Executing Python code', { msg: code });
@@ -91,7 +91,7 @@ export async function executePythonCode(code: string): Promise<string> {
 
     if (result.FunctionError) {
       log.warn({
-        msg: 'You are dying of a Python bite, please seek help immediately! (Python code execution error)',
+        msg: 'Ouch, bitten by a python before you went out in nature! (Python code execution error)',
         error: result.FunctionError,
       });
       const error = new Error(result.FunctionError);
@@ -111,10 +111,10 @@ export async function executePythonCode(code: string): Promise<string> {
   } catch (error) {
     if (error instanceof Error) {
       log.error({
-        msg: 'Python code execution error',
+        msg: 'You are dying of a Python bite, please seek professional help immediately! (Python code execution error)',
         error: error.message,
       });
     }
-    throw error;
+    return JSON.stringify(error);
   }
 }
