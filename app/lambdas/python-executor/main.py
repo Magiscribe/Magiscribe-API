@@ -1,6 +1,8 @@
 import json
 import numpy as np
 import requests
+import itertools
+from bs4 import BeautifulSoup
 
 def is_json_serializable(value):
     try:

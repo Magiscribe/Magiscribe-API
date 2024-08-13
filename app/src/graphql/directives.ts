@@ -4,7 +4,7 @@ import { defaultFieldResolver, GraphQLSchema } from 'graphql';
 
 function authDirective(
   directiveName: string,
-  getUserFn: (token: string) => { hasRole: (role: string) => boolean },
+  getUserFn: (token: string) => { authenticated: boolean; roles: string[] },
 ) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const typeDirectiveArgumentMaps: Record<string, any> = {};
@@ -16,7 +16,7 @@ function authDirective(
       enum Role {
         admin
         member
-        unknown
+        default
       }`,
 
     authDirectiveTransformer: (schema: GraphQLSchema) =>
@@ -34,21 +34,22 @@ function authDirective(
             typeDirectiveArgumentMaps[typeName];
           if (authDirective) {
             const { requires } = authDirective;
-            if (requires) {
-              const { resolve = defaultFieldResolver } = fieldConfig;
-              fieldConfig.resolve = function (source, args, context, info) {
-                log.trace({
-                  msg: 'Auth directive check',
-                  context: context,
-                });
-                const user = getUserFn(context);
-                if (!user.hasRole(requires)) {
-                  throw new Error('not authorized');
-                }
-                return resolve(source, args, context, info);
-              };
-              return fieldConfig;
-            }
+            const { resolve = defaultFieldResolver } = fieldConfig;
+            fieldConfig.resolve = function (source, args, context, info) {
+              log.trace({
+                msg: 'Auth directive check',
+                context: context,
+              });
+              const user = getUserFn(context);
+              if (
+                !user.authenticated ||
+                (requires && !user.roles.includes(requires))
+              ) {
+                throw new Error('not authorized');
+              }
+              return resolve(source, args, context, info);
+            };
+            return fieldConfig;
           }
           return undefined;
         },
@@ -57,9 +58,11 @@ function authDirective(
 }
 
 function getUser(context) {
+  const authenticated = context.auth?.sub != null;
   const roles = context.roles.map((role) => role.role.split(':')[1]);
   return {
-    hasRole: (role) => roles.includes(role),
+    authenticated,
+    roles,
   };
 }
 

@@ -10,11 +10,14 @@ import { uuid } from 'uuidv4';
  * @param {string} fileType - The type of the file to upload.
  * @returns {Promise<string>} The URL of the uploaded asset.
  */
-export async function uploadAsset(
-  fileExtension: string,
-  fileType: 'audio' | 'image',
-): Promise<string> {
-  const s3Key = `${fileType}/${uuid()}.${fileExtension}`;
+export async function uploadAsset({
+  fileName,
+  fileType,
+}: {
+  fileName: string;
+  fileType: string;
+}): Promise<string> {
+  const s3Key = `${fileType}/${uuid()}.${fileName}`;
 
   const command = new PutObjectCommand({
     Bucket: config.mediaAssetsBucketName,
