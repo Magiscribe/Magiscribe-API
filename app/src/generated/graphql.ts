@@ -324,6 +324,7 @@ export type Query = {
   dataObject: DataObject;
   dataObjectsCreated: Array<DataObject>;
   getAgent?: Maybe<Agent>;
+  getAgentWithPrompts?: Maybe<Agent>;
   getAllAgents?: Maybe<Array<Maybe<Agent>>>;
   getAllCapabilities?: Maybe<Array<Maybe<Capability>>>;
   getAllModels?: Maybe<Array<Maybe<Model>>>;
@@ -341,6 +342,11 @@ export type QueryDataObjectArgs = {
 
 
 export type QueryGetAgentArgs = {
+  agentId: Scalars['String']['input'];
+};
+
+
+export type QueryGetAgentWithPromptsArgs = {
   agentId: Scalars['String']['input'];
 };
 
@@ -626,6 +632,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   dataObject?: Resolver<ResolversTypes['DataObject'], ParentType, ContextType, RequireFields<QueryDataObjectArgs, 'id'>>;
   dataObjectsCreated?: Resolver<Array<ResolversTypes['DataObject']>, ParentType, ContextType>;
   getAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentArgs, 'agentId'>>;
+  getAgentWithPrompts?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentWithPromptsArgs, 'agentId'>>;
   getAllAgents?: Resolver<Maybe<Array<Maybe<ResolversTypes['Agent']>>>, ParentType, ContextType>;
   getAllCapabilities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Capability']>>>, ParentType, ContextType>;
   getAllModels?: Resolver<Maybe<Array<Maybe<ResolversTypes['Model']>>>, ParentType, ContextType>;

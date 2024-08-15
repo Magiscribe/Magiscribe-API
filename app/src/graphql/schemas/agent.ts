@@ -103,6 +103,7 @@ export default `#graphql
     getAllCapabilities: [Capability] @auth(requires: admin)
 
     getAgent(agentId: String!): Agent
+    getAgentWithPrompts(agentId: String!): Agent
     getAllAgents: [Agent]
   }
 `;
