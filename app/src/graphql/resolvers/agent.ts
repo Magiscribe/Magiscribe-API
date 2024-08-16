@@ -78,6 +78,14 @@ export default {
     getAgent: async (_, { agentId }: { agentId: string }) => {
       return await Agent.findOne({ _id: agentId }).populate('capabilities');
     },
+    getAgentWithPrompts: async (_, { agentId }: { agentId: string }) => {
+      return await Agent.findOne({ _id: agentId }).populate({
+        path: 'capabilities',
+        populate: {
+          path: 'prompts',
+        },
+      });
+    },
     getAllAgents: async () => {
       return await Agent.find().populate('capabilities');
     },
