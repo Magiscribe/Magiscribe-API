@@ -31,7 +31,9 @@
     "name": "Author Agent",
     "description": "An agent capable of writing stories and related content in real-time.",
     "reasoning": null,
-    "capabilities": ["667ae47c6d5e4973f402e1f4"],
+    "capabilities": [
+      "667ae47c6d5e4973f402e1f4"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -49,7 +51,9 @@
       "variablePassThrough": false,
       "_id": "669ca2ac4527cd6d08e4d166"
     },
-    "capabilities": ["667aef4cacf7000556d2ddb3"],
+    "capabilities": [
+      "667aef4cacf7000556d2ddb3"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -67,7 +71,9 @@
       "variablePassThrough": false,
       "_id": "669ca2ac4527cd6d08e4d168"
     },
-    "capabilities": ["667dd59869b67704281c4e6b"],
+    "capabilities": [
+      "667dd59869b67704281c4e6b"
+    ],
     "memoryEnabled": false,
     "createdAt": "2024-06-27T16:56:07.955Z",
     "updatedAt": "2024-06-27T21:31:29.677Z",
@@ -78,7 +84,9 @@
     "name": "Stakeholder | Question Agent",
     "description": "Creates questions",
     "reasoning": null,
-    "capabilities": ["669541217ceb83a7fb75eb1a"],
+    "capabilities": [
+      "669541217ceb83a7fb75eb1a"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -91,7 +99,9 @@
     "name": "Stakeholder | Text Analysis",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
     "reasoning": null,
-    "capabilities": ["669bee8d6773961cdf4604ae"],
+    "capabilities": [
+      "669bee8d6773961cdf4604ae"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -149,10 +159,27 @@
     "_id": "66be4c780e262044f7ea3980",
     "name": "Stakeholder | Graph Generator",
     "description": "Creates the full question graph for stakeholder experience",
-    "capabilities": ["66be4cd00e262044f7ea398f"],
+    "capabilities": [
+      "66be4cd00e262044f7ea398f"
+    ],
     "memoryEnabled": false,
     "createdAt": "2024-08-15T18:44:08.278Z",
     "updatedAt": "2024-08-15T20:18:34.282Z",
+    "__v": 0,
+    "outputFilter": null,
+    "reasoning": null,
+    "subscriptionFilter": null
+  },
+  {
+    "_id": "66bf8be9a9430d3fa139142b",
+    "name": "Stakeholder | Condition Node",
+    "description": "Chooses which node to go to next given the node visit history and graph",
+    "capabilities": [
+      "66bf8c22a9430d3fa139143a"
+    ],
+    "memoryEnabled": false,
+    "createdAt": "2024-08-16T17:27:05.199Z",
+    "updatedAt": "2024-08-16T17:50:18.242Z",
     "__v": 0,
     "outputFilter": null,
     "reasoning": null,
