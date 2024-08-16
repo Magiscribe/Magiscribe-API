@@ -80,10 +80,10 @@ export default {
     },
     getAgentWithPrompts: async (_, { agentId }: { agentId: string }) => {
       return await Agent.findOne({ _id: agentId }).populate({
-        path: "capabilities",
+        path: 'capabilities',
         populate: {
-          path: "prompts"
-        }
+          path: 'prompts',
+        },
       });
     },
     getAllAgents: async () => {
