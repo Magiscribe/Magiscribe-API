@@ -15,7 +15,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-07-16T02:22:08.205Z",
+    "updatedAt": "2024-08-15T17:32:59.208Z",
     "__v": 0
   },
   {
@@ -34,7 +34,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.617Z",
-    "updatedAt": "2024-07-08T03:12:51.397Z",
+    "updatedAt": "2024-08-13T00:46:30.677Z",
     "__v": 0
   },
   {
@@ -154,10 +154,7 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": [
-      "667ae9a67ed1fd8cdf11ad0f",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -171,10 +168,7 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": [
-      "667aef8dacf7000556d2ddb9",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -188,10 +182,7 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": [
-      "667d9c1f69b67704281c4e2c",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -224,15 +215,12 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": [
-      "669541137ceb83a7fb75eb17",
-      "6695d854888b8bcf4b03be89"
-    ],
+    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-07-21T17:47:10.021Z",
+    "updatedAt": "2024-08-15T17:26:53.256Z",
     "__v": 0
   },
   {
@@ -383,7 +371,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-03T02:59:11.229Z",
-    "updatedAt": "2024-08-10T02:43:18.922Z",
+    "updatedAt": "2024-08-13T00:49:59.967Z",
     "__v": 0
   },
   {
@@ -404,6 +392,26 @@
     "outputFilter": null,
     "createdAt": "2024-08-05T23:29:26.754Z",
     "updatedAt": "2024-08-10T01:03:23.627Z",
+    "__v": 0
+  },
+  {
+    "_id": "66be4cd00e262044f7ea398f",
+    "name": "Graph Generation",
+    "alias": "GraphGenerationCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Graph Generation",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "669dae465414a7bb2bbf9e2d",
+      "66be521d0e262044f7ea39ac",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6"
+    ],
+    "outputMode": "STREAMING_INDIVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-15T18:45:36.954Z",
+    "updatedAt": "2024-08-15T20:18:26.595Z",
     "__v": 0
   }
 ]
