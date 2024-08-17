@@ -1,0 +1,114 @@
+{
+  "scratchpad": "This graph represents a conversation flow for asking Schwartz Tutoring shareholders about the direction of the business. I want to start off by getting a general sense of satisfaction with the direction, then depending on the sentiment probe deeper into why. After that I will give the user multiple areas where we could consider improving our company and then follow up to get more details on their selections.",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "start"
+    },
+    {
+      "id": 1,
+      "type": "conversation",
+      "data": {
+        "type": "information",
+        "text": "Welcome to the Schwartz Tutoring shareholder inquiry. We'd like to ask you a few questions about the direction of our business."
+      }
+    },
+    {
+      "id": 2,
+      "type": "conversation",
+      "data": {
+        "type": "rating-single",
+        "text": "How satisfied are you with the current direction of Schwartz Tutoring?",
+        "ratings": ["Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Statisfied"]
+      }
+    },
+    {
+      "id": 3,
+      "type": "conditional",
+      "data": {
+        "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 otherwise send them to node 5"
+      }
+    },
+    {
+      "id": 4,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What aspects of our current direction do you find most promising?",
+      }
+    },
+    {
+      "id": 5,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What would need to change at the organization to improve your outlook"
+      }
+    },
+    {
+      "id": 6,
+      "type": "conversation",
+      "data": {
+        "type": "rating-multi",
+        "text": "Which areas should we focus on to improve our business?",
+        "ratings": [
+          "Expanding subject offerings",
+          "Improving technology platform",
+          "Increasing marketing efforts",
+          "Enhancing tutor training",
+          "Developing partnerships with schools"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "instruction": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
+      }
+    },
+    {
+      "id": 8,
+      "type": "condition",
+      "data": {
+        "instruction": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
+      }
+    },
+    {
+      "id": 9,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "instruction": "Construct an insightful follow-up question from the user answer in node 8."
+      }
+    },
+    {
+      "id": 10,
+      "type": "conversation",
+      "data": {
+        "type": "information",
+        "text": "Thank you for your valuable feedback. Your input will help shape the future of Schwartz Tutoring."
+      }
+    },
+    {
+      "id": 11,
+      "type": "end"
+    }
+  ],
+  "edges": [
+    {"source": 0, "target": 1},
+    {"source": 1, "target": 2},
+    {"source": 2, "target": 3},
+    {"source": 3, "target": 4},
+    {"source": 3, "target": 5},
+    {"source": 4, "target": 6},
+    {"source": 5, "target": 6},
+    {"source": 6, "target": 7},
+    {"source": 7, "target": 8},
+    {"source": 8, "target": 9},
+    {"source": 8, "target": 10},
+    {"source": 9, "target": 10},
+    {"source": 10, "target": 11},
+  ]
+}

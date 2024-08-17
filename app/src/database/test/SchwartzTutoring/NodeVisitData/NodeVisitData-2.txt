@@ -1,0 +1,58 @@
+[
+  {
+    "id": "0"
+  },
+  {
+    "id": "1"
+  },
+  {
+    "id": "2",
+    "data": {
+      "ratings": ["Very Satisfied"]
+    }
+  },
+  {
+    "id": "3",
+    "data": {
+      "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+    }
+  },
+  {
+    "id": "4",
+    "data": {
+      "text": "I'm really impressed with the recent focus on personalized learning plans and the integration of AI-assisted tutoring. It shows that Schwartz Tutoring is staying ahead of the curve in educational technology."
+    }
+  },
+  {
+    "id": "6",
+    "data": {
+      "ratings": ["Improving technology platform", "Expanding subject offerings"]
+    }
+  },
+  {
+    "id": "7",
+    "data": {
+    "question": "Can you dive deeper into how improving our technology platform and expanding subject offerings go together?"
+      "text": "While I'm excited about our current direction, I believe we could further enhance our technology platform to scrape the web for in demand subjects, and then recruit off of job boards to expand subject offerings dynamically. Specifically, I think we should consider adding courses in emerging fields like data science and artificial intelligence to prepare students for the jobs of the future."
+    }
+  },
+  {
+    "id": "8",
+    "data": {
+      "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+    }
+  },
+  {
+    "id": "9",
+    "data": {
+      "question": "How would you prioritize the competing effects of supplying random tutors off of job boards with the agentic capabilities required to drive demand in various areas? How could you plan for and mitigate a potential imbalance as the number of users scales?"
+      "text": "For example, we could create an AI-agent to scrape social media for people with a certain school/major combination on their LinkedIN. The bot would post an ad to the website and as soon as a sign up is detected with that link, it kicks off another agent to recruit a tutor if we do not have one available in house.  This would be a pretty complex integration, but would theoretically be feasible with an advanced enough Agent lab."
+    }
+  },
+  {
+    "id": "10"
+  },
+  {
+    "id": "11"
+  }
+]

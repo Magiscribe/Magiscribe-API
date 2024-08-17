@@ -1,0 +1,81 @@
+[
+  {
+    "id": "0"
+  },
+  {
+    "id": "1"
+  },
+  {
+    "id": "2",
+    "data": {
+      "ratings": ["Very Unsatisfied"]
+    }
+  },
+  {
+    "id": "3",
+    "data": {
+      "explanation": "User expressed extreme dissatisfaction, routing to node 4"
+    }
+  },
+  {
+    "id": "4",
+    "data": {
+      "text": "The main issues are the complete disregard for worker safety, inhumane working conditions, and the company's refusal to address our concerns. We're treated like disposable machines, not human beings."
+    }
+  },
+  {
+    "id": "6",
+    "data": {
+      "ratings": ["Higher wages", "Improved workplace safety", "Better work-life balance"]
+    }
+  },
+  {
+    "id": "7",
+    "data": {
+      "question": "You've highlighted higher wages, improved workplace safety, and better work-life balance as key issues. Could you elaborate on how these issues are affecting you and your colleagues personally?",
+      "text": "The low wages force many of us to work excessive overtime just to make ends meet, leading to exhaustion and increased risk of accidents. The lack of proper safety measures has resulted in numerous injuries, and the constant pressure to meet unrealistic quotas means we can't even take bathroom breaks without fear of reprimand. It's a dehumanizing environment that's taking a toll on our physical and mental health."
+    }
+  },
+  {
+    "id": "8",
+    "data": {
+      "ratings": ["Participate in strikes", "Engage in peaceful protests", "Speak to media about working conditions"]
+    }
+  },
+  {
+    "id": "9",
+    "data": {
+      "explanation": "User selected 'Participate in strikes', routing to node 10"
+    }
+  },
+  {
+    "id": "10",
+    "data": {
+      "text": "I'm prepared to strike for as long as it takes to see real change, even if it means months without pay. We need strong support from the union, including strike pay, legal assistance, and help with essentials like food and healthcare. This isn't just about better conditions; it's about fighting for our dignity and rights as workers."
+    }
+  },
+  {
+    "id": "12",
+    "data": {
+      "text": "I'm willing to organize covert meetings with workers from other facilities to coordinate our efforts. We could also create anonymous social media accounts to share our stories and gather public support. I'm even prepared to risk my job by secretly documenting safety violations and sharing them with investigative journalists."
+    }
+  },
+  {
+    "id": "13",
+    "data": {
+      "ratings": ["Very confident"]
+    }
+  },
+  {
+    "id": "16",
+    "data": {
+      "text": "Our greatest strength is our unity and determination. We've seen how powerful we can be when we stand together, as demonstrated by recent successful unionization efforts. The company underestimates our resolve, but we're prepared to fight for as long as it takes. Our intimate knowledge of the company's operations also gives us leverage in negotiations."
+    }
+  },
+  {
+    "id": "17"
+  },
+  {
+    "id": "18"
+  }
+]

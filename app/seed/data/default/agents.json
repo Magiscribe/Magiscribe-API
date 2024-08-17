@@ -184,5 +184,20 @@
     "outputFilter": null,
     "reasoning": null,
     "subscriptionFilter": null
+  },
+  {
+    "_id": "66c003fb525628d5c5861ed0",
+    "name": "Stakeholder | Synthetic Data Generator",
+    "description": "For a given graph, creates synthetic node visit data",
+    "reasoning": null,
+    "capabilities": [
+      "66c0040e525628d5c5861ed8"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T01:59:23.045Z",
+    "updatedAt": "2024-08-17T02:51:50.645Z",
+    "__v": 0
   }
 ]

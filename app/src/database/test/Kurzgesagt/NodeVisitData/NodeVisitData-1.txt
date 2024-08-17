@@ -1,0 +1,116 @@
+[
+  {
+    "id": "0"
+  },
+  {
+    "id": "1"
+  },
+  {
+    "id": "2",
+    "data": {
+      "ratings": ["Excellent"]
+    }
+  },
+  {
+    "id": "3",
+    "data": {
+      "explanation": "User rated experience as 'Excellent', routing to node 6"
+    }
+  },
+  {
+    "id": "6",
+    "data": {
+      "text": "I find the combination of engaging visuals and in-depth explanations most appealing. The way complex topics are broken down into digestible segments without losing scientific accuracy is impressive. The animations really help in visualizing abstract concepts."
+    }
+  },
+  {
+    "id": "7",
+    "data": {
+      "explanation": "User provided a detailed and thoughtful response, proceeding to node 8"
+    }
+  },
+  {
+    "id": "8",
+    "data": {
+      "question": "That's great to hear! Could you elaborate on a specific video or topic where you found our visual explanations particularly effective in helping you understand a complex concept?",
+      "text": "The video on black holes and the concept of gravity was mind-blowing. The way you visualized the fabric of spacetime and how massive objects create 'dents' in it made the abstract idea of gravity warping space so much clearer. The animation showing how light bends around a black hole really helped me grasp the concept of gravitational lensing. It was the first time I truly understood why black holes appear the way they do in images."
+    }
+  },
+  {
+    "id": "10",
+    "data": {
+      "ratings": ["Quantum Mechanics", "Astrophysics", "Artificial Intelligence"]
+    }
+  },
+  {
+    "id": "11",
+    "data": {
+      "question": "Based on your selections of Quantum Mechanics, Astrophysics, and Artificial Intelligence, what specific topics or questions would you like to see explored within these areas?",
+      "text": "Regarding quantum mechanics, I'd love to see a deep dive into quantum entanglement and its potential applications. For astrophysics, could you explore the concept of dark energy and its role in the expansion of the universe? And in AI, I'm curious about the ethical implications of advanced AI systems in decision-making processes."
+    }
+  },
+  {
+    "id": "12",
+    "data": {
+      "text": "Watching Kurzgesagt videos has significantly increased my interest in science. They've made complex topics accessible and exciting, motivating me to explore further on my own. I've even started taking online courses in physics and computer science as a result."
+    }
+  },
+  {
+    "id": "13",
+    "data": {
+      "explanation": "User indicated a significant positive impact, routing to node 14"
+    }
+  },
+  {
+    "id": "14",
+    "data": {
+      "question": "That's wonderful to hear! Could you share a specific example of how our videos have influenced your engagement with math or science in your daily life or studies?",
+      "text": "After watching the video on quantum computing, I was inspired to join a local quantum computing study group. We meet weekly to discuss recent advancements and even work on simple quantum algorithms using online simulators. It's amazing how a 10-minute video sparked such a profound interest!"
+    }
+  },
+  {
+    "id": "16",
+    "data": {
+      "ratings": ["Extremely likely"]
+    }
+  },
+  {
+    "id": "17",
+    "data": {
+      "explanation": "User is 'Extremely likely' to recommend, routing to node 20"
+    }
+  },
+  {
+    "id": "20",
+    "data": {
+      "question": "We're thrilled you'd recommend us! What do you think sets Kurzgesagt's videos apart from other educational content?",
+      "text": "Kurzgesagt's videos stand out due to their ability to balance entertainment and education perfectly. The high-quality animations, well-researched content, and engaging narration make complex topics accessible to a wide audience. Unlike many other channels, Kurzgesagt doesn't shy away from difficult concepts, instead finding creative ways to explain them."
+    }
+  },
+  {
+    "id": "21",
+    "data": {
+      "question": "Do you have any suggestions for new formats, features, or content types that could enhance your learning experience with Kurzgesagt?",
+      "text": "It would be fantastic to have interactive elements integrated into the videos, perhaps through an accompanying app. For example, simulations that viewers can manipulate to better understand concepts like orbital mechanics or particle physics. Additionally, a series of videos building up to a more complex topic over time could be interesting, allowing for even deeper dives into advanced subjects."
+    }
+  },
+  {
+    "id": "22",
+    "data": {
+      "explanation": "User provided specific, actionable suggestions, routing to node 23"
+    }
+  },
+  {
+    "id": "23",
+    "data": {
+      "question": "Your idea about interactive simulations is intriguing. Could you elaborate on how you envision these working? For instance, what kind of interactions would you find most helpful in understanding a concept like quantum superposition?",
+      "text": "For quantum superposition, I imagine an interactive animation where users can manipulate a quantum particle's state. They could adjust parameters like measurement timing or environmental factors, and see how these affect the probability of different outcomes. The simulation could visualize the wavefunction collapse, helping users grasp how observation impacts quantum states. This hands-on approach would make the abstract concept more tangible and intuitive."
+    }
+  },
+  {
+    "id": "24"
+  },
+  {
+    "id": "25"
+  }
+]

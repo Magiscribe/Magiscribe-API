@@ -1,0 +1,56 @@
+[
+	{
+		"id": "0"
+	},
+	{
+		"id": "1"
+	},
+	{
+		"id": "2"
+		"data": {
+			"ratings": ["Very Unsatisfied"]
+			}
+	},
+	{
+		"id": "3"
+		"data": {
+			"explanation": "The user expressed negative sentiment so we will send them to node 5"
+			}
+	},
+	{
+		"id": "5"
+		"data": {
+			"text": "The organization needs a wholesale overhaul with entirely new leadership"
+			}
+	},
+	{
+		"id": "6"
+		"data": {
+			"ratings": ["Developing partnerships with schools", "Increasing marketing efforts"]
+			}
+	},
+	{
+		"id": "7"
+		"data": {
+            "question": "How would developing a partnership with schools serve to increase our marketing efforts?"
+			"text": "Schwartz Tutoring literally had a partnership in place with multiple schools. They partnered with a college to supply tutors, and then facilitated that relationship to have those tutors work with middle schools and high school students. This was an excellent program and I have no idea why they stopped doing it. They seriously gotta stop being bums and get it together!"
+			}
+	},
+	{
+		"id": "8",
+		"data": {
+			"explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+	}
+	{
+		"id": "9",
+		"data": {
+            "question": "You seem to really be passionate about fixing Schwartz Tutoring's underperformance. If you were in charge of the business, what would be the first thing you would do?"
+			"text": "There is no reason not to once again go to the department of teachers education and try to utilize the schools tutors to convey legitimacy"
+	}
+	{
+		"id": "10"
+	},
+	{
+		"id": "11"
+	},
+]

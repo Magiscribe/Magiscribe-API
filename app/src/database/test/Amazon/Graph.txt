@@ -1,0 +1,187 @@
+{
+  "scratchpad": "This graph represents a conversation flow for gathering feedback from Amazon labor union members about their priorities and willingness to make sacrifices. It starts with general satisfaction, then explores specific issues, priorities, and willingness to take action.",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "start"
+    },
+    {
+      "id": 1,
+      "type": "conversation",
+      "data": {
+        "type": "information",
+        "text": "Welcome to the Amazon Labor Union feedback survey. We want to understand your priorities and what you're willing to do to achieve them."
+      }
+    },
+    {
+      "id": 2,
+      "type": "conversation",
+      "data": {
+        "type": "rating-single",
+        "text": "How satisfied are you with your current working conditions at Amazon?",
+        "ratings": ["Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Satisfied"]
+      }
+    },
+    {
+      "id": 3,
+      "type": "conditional",
+      "data": {
+        "instruction": "If the user answer in node 2 is 'Very Unsatisfied' or 'Unsatisfied', go to node 4. If 'Neutral', 'Satisfied', or 'Very Satisfied', go to node 5."
+      }
+    },
+    {
+      "id": 4,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What are the main issues that make you unsatisfied with your working conditions?"
+      }
+    },
+    {
+      "id": 5,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "Even if you're generally satisfied, what aspects of your working conditions do you think need improvement?"
+      }
+    },
+    {
+      "id": 6,
+      "type": "conversation",
+      "data": {
+        "type": "rating-multi",
+        "text": "Which of the following issues is important to you?",
+        "ratings": [
+          "Higher wages",
+          "Better health benefits",
+          "Improved workplace safety",
+          "More predictable schedules",
+          "Opportunities for career advancement",
+          "Better work-life balance"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "instruction": "Based on the user's selected issues in node 6, ask for more details about why those issues are particularly important to them."
+      }
+    },
+    {
+      "id": 8,
+      "type": "conversation",
+      "data": {
+        "type": "rating-multi",
+        "text": "Which actions would you be willing to take to support the union in achieving these goals?",
+        "ratings": [
+          "Attend union meetings",
+          "Participate in strikes",
+          "Contribute to a strike fund",
+          "Engage in peaceful protests",
+          "Speak to media about working conditions",
+          "Recruit coworkers to join the union"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": "conditional",
+      "data": {
+        "instruction": "If the user selected 'Participate in strikes' in node 8, go to node 10. Otherwise, go to node 11."
+      }
+    },
+    {
+      "id": 10,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "You indicated a willingness to participate in strikes. How long of a strike would you be prepared to endure, and what support would you need from the union during that time?"
+      }
+    },
+    {
+      "id": 11,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What concerns or reservations do you have about participating in more direct actions like strikes?"
+      }
+    },
+    {
+      "id": 12,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "Are there any other ways you'd be willing to support the union that weren't mentioned? If so, please describe them."
+      }
+    },
+    {
+      "id": 13,
+      "type": "conversation",
+      "data": {
+        "type": "rating-single",
+        "text": "How confident are you that the union can achieve significant improvements in working conditions?",
+        "ratings": ["Not at all confident", "Slightly confident", "Moderately confident", "Very confident", "Extremely confident"]
+      }
+    },
+    {
+      "id": 14,
+      "type": "conditional",
+      "data": {
+        "instruction": "If the user's answer in node 13 is 'Not at all confident' or 'Slightly confident', go to node 15. Otherwise, go to node 16."
+      }
+    },
+    {
+      "id": 15,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What do you think the union could do to increase your confidence in its ability to achieve improvements?"
+      }
+    },
+    {
+      "id": 16,
+      "type": "conversation",
+      "data": {
+        "type": "open-ended",
+        "text": "What do you think are the union's greatest strengths in negotiating with Amazon?"
+      }
+    },
+    {
+      "id": 17,
+      "type": "conversation",
+      "data": {
+        "type": "information",
+        "text": "Thank you for your valuable feedback. Your input will help shape the union's priorities and strategies moving forward."
+      }
+    },
+    {
+      "id": 18,
+      "type": "end"
+    }
+  ],
+  "edges": [
+    {"source": 0, "target": 1},
+    {"source": 1, "target": 2},
+    {"source": 2, "target": 3},
+    {"source": 3, "target": 4},
+    {"source": 3, "target": 5},
+    {"source": 4, "target": 6},
+    {"source": 5, "target": 6},
+    {"source": 6, "target": 7},
+    {"source": 7, "target": 8},
+    {"source": 8, "target": 9},
+    {"source": 9, "target": 10},
+    {"source": 9, "target": 11},
+    {"source": 10, "target": 12},
+    {"source": 11, "target": 12},
+    {"source": 12, "target": 13},
+    {"source": 13, "target": 14},
+    {"source": 14, "target": 15},
+    {"source": 14, "target": 16},
+    {"source": 15, "target": 17},
+    {"source": 16, "target": 17},
+    {"source": 17, "target": 18}
+  ]
+}
