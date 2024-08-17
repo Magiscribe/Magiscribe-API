@@ -1,0 +1,58 @@
+[
+  {
+    "id": "0"
+  },
+  {
+    "id": "1"
+  },
+  {
+    "id": "2",
+    "data": {
+      "ratings": ["Very Unsatisfied"]
+    }
+  },
+  {
+    "id": "3",
+    "data": {
+      "explanation": "The user expressed negative sentiment, routing to node 5"
+    }
+  },
+  {
+    "id": "5",
+    "data": {
+      "text": "We need to completely abandon any AI-assisted tutoring and focus solely on human-to-human interactions. The personal touch and adaptability of human tutors cannot be replicated by AI."
+    }
+  },
+  {
+    "id": "6",
+    "data": {
+      "ratings": ["Enhancing tutor training", "Developing partnerships with schools"]
+    }
+  },
+  {
+    "id": "7",
+    "data": {
+      "question": "How do you think enhancing tutor training and developing partnerships with schools could help us focus more on human-to-human interactions?",
+      "text": "By enhancing tutor training, we can ensure that our human tutors are equipped with the best skills to connect with students on a personal level. This includes improving their emotional intelligence, adaptability, and ability to tailor their teaching methods to individual students. Developing partnerships with schools will allow us to integrate our human tutors more deeply into the educational ecosystem, creating more opportunities for face-to-face interactions and personalized learning experiences."
+    }
+  },
+  {
+    "id": "8",
+    "data": {
+      "explanation": "The user provided a detailed and thoughtful answer, proceeding to node 9"
+    }
+  },
+  {
+    "id": "9",
+    "data": {
+      "question": "That's an interesting perspective. Could you share some specific ideas for tutor training programs that would enhance human-to-human interactions and make our service stand out from AI-assisted alternatives?",
+      "text": "Certainly! I believe we should implement a comprehensive training program that focuses on building strong interpersonal skills. This could include workshops on active listening, empathy, and nonverbal communication. We could also incorporate role-playing exercises to help tutors practice adapting their teaching styles to different learning types and personalities. Additionally, training in mindfulness and stress management techniques would help tutors maintain a calm and focused presence during sessions, enhancing the quality of their interactions with students."
+    }
+  },
+  {
+    "id": "10"
+  },
+  {
+    "id": "11"
+  }
+]
