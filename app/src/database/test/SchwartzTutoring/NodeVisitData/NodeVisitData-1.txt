@@ -32,7 +32,7 @@
 	{
 		"id": "7"
 		"data": {
-            "question": "How would developing a partnership with schools serve to increase our marketing efforts?"
+            		"question": "How would developing a partnership with schools serve to increase our marketing efforts?"
 			"text": "Schwartz Tutoring literally had a partnership in place with multiple schools. They partnered with a college to supply tutors, and then facilitated that relationship to have those tutors work with middle schools and high school students. This was an excellent program and I have no idea why they stopped doing it. They seriously gotta stop being bums and get it together!"
 			}
 	},
@@ -44,7 +44,7 @@
 	{
 		"id": "9",
 		"data": {
-            "question": "You seem to really be passionate about fixing Schwartz Tutoring's underperformance. If you were in charge of the business, what would be the first thing you would do?"
+            		"question": "You seem to really be passionate about fixing Schwartz Tutoring's underperformance. If you were in charge of the business, what would be the first thing you would do?"
 			"text": "There is no reason not to once again go to the department of teachers education and try to utilize the schools tutors to convey legitimacy"
 	}
 	{

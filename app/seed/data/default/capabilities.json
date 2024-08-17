@@ -459,13 +459,14 @@
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
       "66c00af8d0935d6985124266",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "6695d854888b8bcf4b03be89"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-08-17T04:54:31.666Z",
+    "updatedAt": "2024-08-17T18:00:14.950Z",
     "__v": 0
   }
 ]

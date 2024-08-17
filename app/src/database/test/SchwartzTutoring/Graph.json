@@ -19,7 +19,13 @@
       "data": {
         "type": "rating-single",
         "text": "How satisfied are you with the current direction of Schwartz Tutoring?",
-        "ratings": ["Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Statisfied"]
+        "ratings": [
+          "Very Unsatisfied",
+          "Unsatisfied",
+          "Neutral",
+          "Satisfied",
+          "Very Statisfied"
+        ]
       }
     },
     {
@@ -34,7 +40,7 @@
       "type": "conversation",
       "data": {
         "type": "open-ended",
-        "text": "What aspects of our current direction do you find most promising?",
+        "text": "What aspects of our current direction do you find most promising?"
       }
     },
     {
@@ -42,7 +48,7 @@
       "type": "conversation",
       "data": {
         "type": "open-ended",
-        "text": "What would need to change at the organization to improve your outlook?"
+        "text": "What would need to change at the organization to improve your outlook"
       }
     },
     {
@@ -97,18 +103,18 @@
     }
   ],
   "edges": [
-    {"source": 0, "target": 1},
-    {"source": 1, "target": 2},
-    {"source": 2, "target": 3},
-    {"source": 3, "target": 4},
-    {"source": 3, "target": 5},
-    {"source": 4, "target": 6},
-    {"source": 5, "target": 6},
-    {"source": 6, "target": 7},
-    {"source": 7, "target": 8},
-    {"source": 8, "target": 9},
-    {"source": 8, "target": 10},
-    {"source": 9, "target": 10},
-    {"source": 10, "target": 11},
+    { "source": 0, "target": 1 },
+    { "source": 1, "target": 2 },
+    { "source": 2, "target": 3 },
+    { "source": 3, "target": 4 },
+    { "source": 3, "target": 5 },
+    { "source": 4, "target": 6 },
+    { "source": 5, "target": 6 },
+    { "source": 6, "target": 7 },
+    { "source": 7, "target": 8 },
+    { "source": 8, "target": 9 },
+    { "source": 8, "target": 10 },
+    { "source": 9, "target": 10 },
+    { "source": 10, "target": 11 }
   ]
 }
