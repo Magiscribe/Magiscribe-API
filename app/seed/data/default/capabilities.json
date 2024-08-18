@@ -448,7 +448,29 @@
   },
   {
     "_id": "66c0040e525628d5c5861ed8",
-    "name": "Synthetic Data Generation",
+    "name": "Synthetic Data Generation Level 0",
+    "alias": "SyntheticDataGenerationCapability_0",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Synthetic generation of node data",
+    "prompts": [
+      "66bf8ca1a9430d3fa1391442",
+      "669dae465414a7bb2bbf9e2d",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6",
+      "66c004e4525628d5c5861ef4",
+      "66c00af8d0935d6985124266",
+      "6695d854888b8bcf4b03be89"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T01:59:42.307Z",
+    "updatedAt": "2024-08-18T20:58:42.256Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c25d95cbd9c2075c1e5f4e",
+    "name": "Synthetic Data Generation Level 1",
     "alias": "SyntheticDataGenerationCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
@@ -459,14 +481,13 @@
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
       "66c00af8d0935d6985124266",
-      "6695d849888b8bcf4b03be85",
-      "6695d854888b8bcf4b03be89"
+      "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-08-17T18:00:14.950Z",
+    "createdAt": "2024-08-18T20:46:13.084Z",
+    "updatedAt": "2024-08-18T20:47:26.642Z",
     "__v": 0
   }
 ]

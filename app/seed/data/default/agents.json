@@ -175,16 +175,16 @@
       "llmModel": "CLAUDE_3_5_SONNET",
       "prompt": "Give me back a JSON object surrounded by three backticks and the word json\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias, are both strings. \nThe capabilityAlias must always be set to :SyntheticDataGenerationCapability\"\nYou are able to call this capability multiple times with a variety of prompts.\nWe are attempting to generate synthetic conversation data for a test set. Your role is just to call the SyntheticDataGenerationCapability multiple times in a dynamic way so that there is variety in our synthetic data.  The <userMessage> tag will direct you as to which variety of personas to adapt, but ultimately strive to create a variety of outputs. \n\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"This person loves the company and is their biggest brand supporter\", \"capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person is apathetic towards the company and does not want to participate\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person hates the company and wants to rant about their problems with it\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n  ]}\n```\n\nYour response should only be valid JSON. There should not be additional comments before or after the JSON\n\n<userMessage>\n{{userMessage}}\n</userMessage>",
       "variablePassThrough": true,
-      "_id": "66c0e6abf815cac5b72f4d28"
+      "_id": "66c25deccbd9c2075c1e5f67"
     },
     "capabilities": [
-      "66c0040e525628d5c5861ed8"
+      "66c25d95cbd9c2075c1e5f4e"
     ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:23.045Z",
-    "updatedAt": "2024-08-17T18:06:35.055Z",
+    "updatedAt": "2024-08-18T20:47:40.733Z",
     "__v": 0
   },
   {
