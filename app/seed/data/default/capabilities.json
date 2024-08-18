@@ -239,7 +239,7 @@
     "_id": "66971ba6d2a052885450d744",
     "name": "Piechart Capability",
     "alias": "PiechartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -251,14 +251,14 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-02T22:30:54.574Z",
+    "updatedAt": "2024-08-18T03:02:02.613Z",
     "__v": 0
   },
   {
     "_id": "66971ecfd2a052885450d77c",
     "name": "Barchart Capability",
     "alias": "BarchartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -270,7 +270,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-02T22:30:46.539Z",
+    "updatedAt": "2024-08-18T03:01:52.450Z",
     "__v": 0
   },
   {
@@ -295,7 +295,7 @@
     "_id": "669c6a3967c3fed48dee5362",
     "name": "Analysis Chat Reply Capability",
     "alias": "AnalysisChatReplyCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -306,7 +306,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-08-02T22:30:28.587Z",
+    "updatedAt": "2024-08-18T03:02:37.575Z",
     "__v": 0
   },
   {

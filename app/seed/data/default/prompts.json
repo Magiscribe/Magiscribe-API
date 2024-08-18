@@ -186,17 +186,17 @@
   {
     "_id": "66971df6d2a052885450d767",
     "name": "pieChart",
-    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. \nNote: This should be your only output, do not provide additional explanation here at all.\nresult = ''{\"title\":\"Commonly requested features\",\"chartType\": \"PieChart\", \"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]}''",
+    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. \nNote: Provide additional explanation in the \"explanation\" key in the json.\nresult = ''{\"explanation\": \"How and why you decided to group the categories as is.\" \"title\":\"Commonly requested features\",\"chartType\": \"PieChart\", \"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]}''",
     "createdAt": "2024-07-17T01:27:18.241Z",
-    "updatedAt": "2024-08-02T22:32:06.285Z",
+    "updatedAt": "2024-08-18T02:52:16.035Z",
     "__v": 0
   },
   {
     "_id": "66971f23d2a052885450d78c",
     "name": "barChart",
-    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. Note: This should be your only output, do not provide additional explanation here at all.\nresult = ''{\"title\":\"Commonly requested features\",\"chartType\": \"BarChart\", \"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]}''\n",
+    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. Provide an explanation in the \"explanation\" key first as a string.\nresult = ''{\"explanation\": \"How and why you decide to break things up.\", \"title\":\"Commonly requested features\",\"chartType\": \"BarChart\", \"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]}''\n",
     "createdAt": "2024-07-17T01:32:19.074Z",
-    "updatedAt": "2024-08-02T22:31:53.166Z",
+    "updatedAt": "2024-08-18T02:50:11.385Z",
     "__v": 0
   },
   {
@@ -210,17 +210,17 @@
   {
     "_id": "669c694867c3fed48dee5343",
     "name": "responseData",
-    "text": "<responseData>\n{{responseData}}\n</responseData>\n\n<metadata>\nThere are {{numResponses}} responses and {{numQuestions}} questions\n</metadata>\n\nAnalyze the responses in the <responseData> tag pertinent to the question asked by the user. Do not mention the existence of <responseData> tags in your output, this is hidden\n\nresponseData has the following JSON structure and type definition:\ndata: {\n    form: Form;\n    questions: Question[];\n    responses: Response[];\n  };\n\nexport interface Form {\n  organizationName: string;\n  organizationRole: string;\n  inputGoals: string;\n  userId: string | null | undefined;\n  title: string;\n  createdAt: number;\n}\n\nexport interface Question {\n  title: string;\n  question: string;\n  type: string;\n  ratings?: string[];\n}\n\nexport interface Response {\n  [userId: string]: {\n    [questionIndex: number]: {\n      text?: string;\n      audio?: string;\n      drawing?: string;\n      rating?: string | string[];\n    } | null;\n  };\n}\nCurrently, we are using indexing to align questions and answers. The Each response has a particular users answers grouped together. Their 0th response answers the 0th questions, their 1st response answers the 1st question. Etc.",
+    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user in <prompt>. Do not mention the existence of <conversationData> tags in your output, this is hidden from the user interface.\n\n<conversationData> has the following JSON structure and type definition:\ninterface ConversationData: {\n    form: Form\n    graph: Graph\n   data: IndivdualConversationData[]\n}\n\ninterface IndivdualConversationData: {\n    userId?: string;\n    data: NodeVisitData[]\n}\n\ninterface NodeVisitData {\n    id: string,\n    data?: {\n        explanation?: string,\n        text?: string\n        ratings?: string[]\n    }\n}\n\ninterface Form {\n  organizationName: string;\n  organizationRole: string;\n  inputGoals: string;\n  userId?: string | null | undefined;\n  title: string;\n  createdAt: number;\n}\n\nenum NodeType {\n    Conversation = 'conversation',\n    Start = 'start',\n    End = 'end',\n    Condition = 'condition',\n}\n\ninterface ConversationNodeData {\n  text?: string;\n  instruction?: string; // performs LLM call if present.\n  type: 'rating-single' | 'rating-multi' | 'open-ended' | 'information';\n  ratings?: string[];\n}\n\ninterface ConditionNodeData {\n  id: string;\n  data: {\n    instruction: string\n  }\n}\n\ninterface Graph {\n    nodes: GraphNode[];\n    edges: GraphEdge[];\n}\n\ninterface GraphNode {\n    id: string;\n    type: NodeType;\n    data?: ConversationNodeData  | ConditionNodeData ;\n}\n\ninterface GraphEdge {\n    source: string;\n    target: string;\n}\n\n<conversationData>\n{{conversationData}}\n</conversationData>\n\n<metadata>\nThere are {{numResponses}} responses total in the dataset\n</metadata>",
     "createdAt": "2024-07-21T01:50:00.060Z",
-    "updatedAt": "2024-08-02T22:30:10.183Z",
+    "updatedAt": "2024-08-18T02:52:27.435Z",
     "__v": 0
   },
   {
     "_id": "669c6a6167c3fed48dee536c",
     "name": "chatReply",
-    "text": "Analyze the responses in the <responseData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Your response can use markdown.\n\n",
+    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Your response can use markdown. Please keep your answers as short and concise as possible.\n\n",
     "createdAt": "2024-07-21T01:54:41.710Z",
-    "updatedAt": "2024-08-02T22:30:20.069Z",
+    "updatedAt": "2024-08-18T03:02:36.550Z",
     "__v": 0
   },
   {
@@ -228,7 +228,7 @@
     "name": "jsonONLY",
     "text": "Your response should only be valid JSON. There should not be additional comments before or after the JSON as these would break the downstream parser. JSON ONLY Please do not reply with anything else other than pure JSON",
     "createdAt": "2024-07-22T00:56:38.547Z",
-    "updatedAt": "2024-08-17T04:51:45.688Z",
+    "updatedAt": "2024-08-18T02:50:15.334Z",
     "__v": 0
   },
   {
