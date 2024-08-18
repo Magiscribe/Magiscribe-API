@@ -118,7 +118,7 @@
         { "source": "9", "target": "10" }
       ]
     },
-    "data": [
+    "nodeVisitData": [
       {
         "userId": "A",
         "data": [
@@ -930,6 +930,122 @@
             "data": {
               "question": "That's certainly an unexpected direction. How do you think this shift would impact our current tutoring business and our relationship with educational institutions?",
               "text": "Who cares about tutoring when we could be the kings of kush? We'll make way more cash this way. Plus, think about it - we could still call it 'higher' education, if you know what I mean. The colleges might be mad at first, but once they see how chill everyone is, they'll come around."
+            }
+          },
+          {
+            "id": "10"
+          }
+        ]
+      },
+      {
+        "userId": "P",
+        "data": [
+          {
+            "id": "1"
+          },
+          {
+            "id": "2",
+            "data": {
+              "ratings": ["Very Satisfied"]
+            }
+          },
+          {
+            "id": "3",
+            "data": {
+              "explanation": "User expressed positive sentiment, routing to node 4"
+            }
+          },
+          {
+            "id": "4",
+            "data": {
+              "text": "I'm thrilled with the innovative direction Schwartz Tutoring is taking. The idea of a co-ed bathhouse in Oxford heated by bitcoin miners is revolutionary and perfectly aligns with the tech-savvy, forward-thinking image we want to project."
+            }
+          },
+          {
+            "id": "6",
+            "data": {
+              "ratings": [
+                "Improving technology platform",
+                "Developing partnerships with schools"
+              ]
+            }
+          },
+          {
+            "id": "7",
+            "data": {
+              "question": "How do you think the co-ed bathhouse concept could be integrated with our technology platform and school partnerships?",
+              "text": "The bathhouse could serve as a unique study space where students can relax and learn. We could install waterproof tablets and screens, powered by the bitcoin mining operation, to deliver our tutoring content. Partnerships with Oxford colleges could allow us to offer special access or discounts to students, integrating the bathhouse into the academic ecosystem."
+            }
+          },
+          {
+            "id": "8",
+            "data": {
+              "explanation": "User provided a detailed and creative response, proceeding to node 9"
+            }
+          },
+          {
+            "id": "9",
+            "data": {
+              "question": "That's an intriguing concept. How do you envision addressing potential privacy or ethical concerns that might arise from combining a bathhouse environment with educational technology?",
+              "text": "We could implement strict guidelines and cutting-edge privacy technology. For instance, we could use blockchain to secure student data and ensure anonymity. The bathhouse could have designated 'study zones' with private, individual pods for focused learning. We'd also need to work closely with the university ethics board to develop appropriate policies. This unique blend of relaxation and education could revolutionize the learning experience while maintaining the highest standards of privacy and ethics."
+            }
+          },
+          {
+            "id": "10"
+          }
+        ]
+      },
+      {
+        "userId": "Q",
+        "data": [
+          {
+            "id": "1"
+          },
+          {
+            "id": "2",
+            "data": {
+              "ratings": ["Very Unsatisfied"]
+            }
+          },
+          {
+            "id": "3",
+            "data": {
+              "explanation": "The user expressed negative sentiment, routing to node 5"
+            }
+          },
+          {
+            "id": "5",
+            "data": {
+              "text": "Schwartz Tutoring needs to pivot entirely. We should be leveraging our educational expertise to secure lucrative defense contracts. The future is in military technology, not civilian tutoring."
+            }
+          },
+          {
+            "id": "6",
+            "data": {
+              "ratings": [
+                "Expanding subject offerings",
+                "Developing partnerships with schools"
+              ]
+            }
+          },
+          {
+            "id": "7",
+            "data": {
+              "question": "How do you envision expanding our subject offerings and developing partnerships with schools in the context of defense contracting?",
+              "text": "We should expand our subject offerings to include advanced military strategy, cybersecurity, and weapons systems engineering. As for partnerships, we need to target military academies and ROTC programs in universities. This would position us as a key player in educating the next generation of military leaders and defense contractors."
+            }
+          },
+          {
+            "id": "8",
+            "data": {
+              "explanation": "The user provided a detailed and thoughtful answer, proceeding to node 9"
+            }
+          },
+          {
+            "id": "9",
+            "data": {
+              "question": "Interesting perspective. How do you think this shift towards defense-oriented education would impact our current civilian tutoring services and clientele?",
+              "text": "Our civilian tutoring services should be phased out entirely. The real money and influence are in the defense sector. By focusing exclusively on military education and training, we can secure long-term, high-value contracts with the Department of Defense. This would not only increase our profitability but also position Schwartz as a critical component of national security. Any loss in civilian clientele would be more than offset by the lucrative government contracts we'd secure."
             }
           },
           {
