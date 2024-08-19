@@ -227,7 +227,7 @@
     "_id": "66971ba6d2a052885450d744",
     "name": "Piechart Capability",
     "alias": "PiechartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -239,14 +239,14 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-02T22:30:54.574Z",
+    "updatedAt": "2024-08-18T03:02:02.613Z",
     "__v": 0
   },
   {
     "_id": "66971ecfd2a052885450d77c",
     "name": "Barchart Capability",
     "alias": "BarchartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -258,7 +258,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-02T22:30:46.539Z",
+    "updatedAt": "2024-08-18T03:01:52.450Z",
     "__v": 0
   },
   {
@@ -283,7 +283,7 @@
     "_id": "669c6a3967c3fed48dee5362",
     "name": "Analysis Chat Reply Capability",
     "alias": "AnalysisChatReplyCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -294,7 +294,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-08-02T22:30:28.587Z",
+    "updatedAt": "2024-08-18T18:00:40.650Z",
     "__v": 0
   },
   {
@@ -411,7 +411,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-08-16T20:32:34.038Z",
+    "updatedAt": "2024-08-16T21:34:10.844Z",
     "__v": 0
   },
   {
@@ -432,6 +432,50 @@
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
     "updatedAt": "2024-08-16T18:10:31.050Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c0040e525628d5c5861ed8",
+    "name": "Synthetic Data Generation Level 0",
+    "alias": "SyntheticDataGenerationCapability_0",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Synthetic generation of node data",
+    "prompts": [
+      "66bf8ca1a9430d3fa1391442",
+      "669dae465414a7bb2bbf9e2d",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6",
+      "66c004e4525628d5c5861ef4",
+      "66c00af8d0935d6985124266",
+      "6695d854888b8bcf4b03be89"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T01:59:42.307Z",
+    "updatedAt": "2024-08-18T20:58:42.256Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c25d95cbd9c2075c1e5f4e",
+    "name": "Synthetic Data Generation Level 1",
+    "alias": "SyntheticDataGenerationCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Synthetic generation of node data",
+    "prompts": [
+      "66bf8ca1a9430d3fa1391442",
+      "669dae465414a7bb2bbf9e2d",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6",
+      "66c004e4525628d5c5861ef4",
+      "66c00af8d0935d6985124266",
+      "6695d849888b8bcf4b03be85"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-18T20:46:13.084Z",
+    "updatedAt": "2024-08-18T20:47:26.642Z",
     "__v": 0
   }
 ]
