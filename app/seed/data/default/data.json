@@ -1,7 +1,7 @@
 [
   {
     "_id": "66c2683fac4ac39227fd0856",
-    "userId": "user_2hI4Q3LtR9n7a8TF2kkwhK0WPe6",
+    "userId": "user_2hdLVKGekbAEwjUktV4id2gmRij",
     "data": {
       "form": {
         "title": "Schwartz Tutoring Shareholders",
@@ -14,10 +14,13 @@
         "explanation": "This graph represents a conversation flow for asking Schwartz Tutoring shareholders about the direction of the business. I want to start off by getting a general sense of satisfaction with the direction, then depending on the sentiment probe deeper into why. After that I will give the user multiple areas where we could consider improving our company and then follow up to get more details on their selections.",
         "nodes": [
           {
+            "id": "0",
+            "type": "start"
+          },
+          {
             "id": "1",
             "type": "information",
             "data": {
-              "type": "start",
               "text": "Welcome to the Schwartz Tutoring shareholder inquiry. We'd like to ask you a few questions about the direction of our business."
             }
           },
@@ -38,7 +41,7 @@
           },
           {
             "id": "3",
-            "type": "conditional",
+            "type": "condition",
             "data": {
               "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
             }
@@ -101,12 +104,19 @@
             "id": "10",
             "type": "information",
             "data": {
-              "type": "end",
               "text": "Thank you for your valuable feedback. Your input will help shape the future of Schwartz Tutoring."
             }
+          },
+          {
+            "id": "11",
+            "type": "end"
           }
         ],
         "edges": [
+          {
+            "source": "0",
+            "target": "1"
+          },
           {
             "source": "1",
             "target": "2"
@@ -150,6 +160,10 @@
           {
             "source": "9",
             "target": "10"
+          },
+          {
+            "source": "10",
+            "target": "11"
           }
         ]
       },
@@ -1088,6 +1102,9 @@
           ]
         }
       ]
-    }
+    },
+    "__v": 0,
+    "createdAt": "2024-08-20T04:13:47.399Z",
+    "updatedAt": "2024-08-20T04:13:47.399Z"
   }
 ]

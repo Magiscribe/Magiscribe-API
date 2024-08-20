@@ -436,7 +436,7 @@
   },
   {
     "_id": "66c0040e525628d5c5861ed8",
-    "name": "Synthetic Data Generation Level 0",
+    "name": "Synthetic Data Generation",
     "alias": "SyntheticDataGenerationCapability_0",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
@@ -458,7 +458,7 @@
   },
   {
     "_id": "66c25d95cbd9c2075c1e5f4e",
-    "name": "Synthetic Data Generation Level 1",
+    "name": "Synthetic Data Generation",
     "alias": "SyntheticDataGenerationCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
