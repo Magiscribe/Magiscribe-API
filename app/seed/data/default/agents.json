@@ -31,9 +31,7 @@
     "name": "Author Agent Level 0",
     "description": "An agent capable of writing stories and related content in real-time.",
     "reasoning": null,
-    "capabilities": [
-      "667ae47c6d5e4973f402e1f4"
-    ],
+    "capabilities": ["667ae47c6d5e4973f402e1f4"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -51,9 +49,7 @@
       "variablePassThrough": false,
       "_id": "66c0e6d2f815cac5b72f4d4b"
     },
-    "capabilities": [
-      "667aef4cacf7000556d2ddb3"
-    ],
+    "capabilities": ["667aef4cacf7000556d2ddb3"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -66,9 +62,7 @@
     "name": "Stakeholder | Question Agent Level 0",
     "description": "Creates questions",
     "reasoning": null,
-    "capabilities": [
-      "669541217ceb83a7fb75eb1a"
-    ],
+    "capabilities": ["669541217ceb83a7fb75eb1a"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -81,9 +75,7 @@
     "name": "Stakeholder | Text Analysis Level 0",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
     "reasoning": null,
-    "capabilities": [
-      "669bee8d6773961cdf4604ae"
-    ],
+    "capabilities": ["669bee8d6773961cdf4604ae"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -141,9 +133,7 @@
     "_id": "66be4c780e262044f7ea3980",
     "name": "Stakeholder | Graph Generator Level 0",
     "description": "Creates the full question graph for stakeholder experience",
-    "capabilities": [
-      "66be4cd00e262044f7ea398f"
-    ],
+    "capabilities": ["66be4cd00e262044f7ea398f"],
     "memoryEnabled": false,
     "createdAt": "2024-08-15T18:44:08.278Z",
     "updatedAt": "2024-08-17T18:07:51.188Z",
@@ -156,9 +146,7 @@
     "_id": "66bf8be9a9430d3fa139142b",
     "name": "Stakeholder | Condition Node Level 0",
     "description": "Chooses which node to go to next given the node visit history and graph",
-    "capabilities": [
-      "66bf8c22a9430d3fa139143a"
-    ],
+    "capabilities": ["66bf8c22a9430d3fa139143a"],
     "memoryEnabled": false,
     "createdAt": "2024-08-16T17:27:05.199Z",
     "updatedAt": "2024-08-18T02:26:52.784Z",
@@ -177,9 +165,7 @@
       "variablePassThrough": true,
       "_id": "66c25deccbd9c2075c1e5f67"
     },
-    "capabilities": [
-      "66c25d95cbd9c2075c1e5f4e"
-    ],
+    "capabilities": ["66c25d95cbd9c2075c1e5f4e"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -191,9 +177,7 @@
     "_id": "66c0e685f815cac5b72f4d0e",
     "name": "Stakeholder | Synthetic Data Generator Level 0",
     "description": "For a given graph, creates synthetic node visit data",
-    "capabilities": [
-      "66c0040e525628d5c5861ed8"
-    ],
+    "capabilities": ["66c0040e525628d5c5861ed8"],
     "memoryEnabled": false,
     "createdAt": "2024-08-17T18:05:57.006Z",
     "updatedAt": "2024-08-17T18:06:27.905Z",
