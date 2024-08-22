@@ -38,7 +38,7 @@
           },
           {
             "id": "3",
-            "type": "condition",
+            "type": "conditional",
             "data": {
               "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
             }
@@ -101,19 +101,12 @@
             "id": "10",
             "type": "information",
             "data": {
+              "type": "end",
               "text": "Thank you for your valuable feedback. Your input will help shape the future of Schwartz Tutoring."
             }
-          },
-          {
-            "id": "11",
-            "type": "end"
           }
         ],
         "edges": [
-          {
-            "source": "0",
-            "target": "1"
-          },
           {
             "source": "1",
             "target": "2"
@@ -157,10 +150,6 @@
           {
             "source": "9",
             "target": "10"
-          },
-          {
-            "source": "10",
-            "target": "11"
           }
         ]
       },
@@ -174,7 +163,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -232,7 +223,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -290,7 +283,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -348,7 +343,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -366,7 +363,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -403,7 +402,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -461,7 +462,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Neutral"]
+                "ratings": [
+                  "Neutral"
+                ]
               }
             },
             {
@@ -479,7 +482,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -509,7 +514,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -567,7 +574,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -625,7 +634,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -643,7 +654,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -680,7 +693,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -698,7 +713,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -718,7 +735,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -759,7 +778,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -817,7 +838,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -875,7 +898,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Unsatisfied"]
+                "ratings": [
+                  "Unsatisfied"
+                ]
               }
             },
             {
@@ -933,7 +958,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -991,7 +1018,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -1049,7 +1078,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {

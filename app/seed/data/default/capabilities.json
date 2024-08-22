@@ -154,7 +154,10 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -168,12 +171,15 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-07-16T02:21:46.304Z",
+    "updatedAt": "2024-08-21T17:50:21.155Z",
     "__v": 0
   },
   {
@@ -182,7 +188,10 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -215,7 +224,10 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -333,7 +345,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-02T23:49:39.879Z",
-    "updatedAt": "2024-08-08T18:29:03.506Z",
+    "updatedAt": "2024-08-22T03:46:48.269Z",
     "__v": 0
   },
   {
@@ -371,7 +383,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-03T02:59:11.229Z",
-    "updatedAt": "2024-08-13T00:49:59.967Z",
+    "updatedAt": "2024-08-22T04:06:47.996Z",
     "__v": 0
   },
   {
@@ -392,7 +404,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-05T23:29:26.754Z",
-    "updatedAt": "2024-08-21T02:17:36.181Z",
+    "updatedAt": "2024-08-22T03:51:42.948Z",
     "__v": 0
   },
   {
@@ -477,6 +489,44 @@
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
     "updatedAt": "2024-08-18T20:47:26.642Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6288a75e86c38e8cd5056",
+    "name": "Python Web Scraper",
+    "alias": "WebScrapeCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "667aef8dacf7000556d2ddb9"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-21T17:48:58.620Z",
+    "updatedAt": "2024-08-21T18:20:38.677Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6acd775e86c38e8cd5107",
+    "name": "Bing Web Search",
+    "alias": "BingWebSearchCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "66c6ad1075e86c38e8cd5116"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-22T03:13:27.124Z",
+    "updatedAt": "2024-08-22T04:09:02.885Z",
     "__v": 0
   }
 ]
