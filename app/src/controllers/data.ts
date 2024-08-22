@@ -47,8 +47,13 @@ export async function createDataObject({
  * Deletes a data object by its ID.
  * @param id The ID of the data object to delete.
  */
-export async function deleteDataObject({ id,
-  userId }: { id: string, userId: string }): Promise<void> {
+export async function deleteDataObject({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}): Promise<void> {
   log.info({
     message: 'Deleting data object',
     id,

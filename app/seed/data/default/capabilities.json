@@ -15,7 +15,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-07-16T02:22:08.205Z",
+    "updatedAt": "2024-08-15T17:32:59.208Z",
     "__v": 0
   },
   {
@@ -34,7 +34,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.617Z",
-    "updatedAt": "2024-07-08T03:12:51.397Z",
+    "updatedAt": "2024-08-13T00:46:30.677Z",
     "__v": 0
   },
   {
@@ -220,7 +220,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-07-21T17:47:10.021Z",
+    "updatedAt": "2024-08-15T17:26:53.256Z",
     "__v": 0
   },
   {
@@ -231,16 +231,15 @@
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66971df6d2a052885450d767",
       "669dae465414a7bb2bbf9e2d",
-      "669714fdd2a052885450d6fa",
+      "66971df6d2a052885450d767",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-07-22T00:58:45.939Z",
+    "updatedAt": "2024-08-02T22:30:54.574Z",
     "__v": 0
   },
   {
@@ -253,14 +252,13 @@
       "669c694867c3fed48dee5343",
       "66971f23d2a052885450d78c",
       "669dae465414a7bb2bbf9e2d",
-      "669714fdd2a052885450d6fa",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-07-22T01:08:36.531Z",
+    "updatedAt": "2024-08-02T22:30:46.539Z",
     "__v": 0
   },
   {
@@ -296,7 +294,144 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-07-27T07:28:01.921Z",
+    "updatedAt": "2024-08-02T22:30:28.587Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad68b1b5b289898ce68dfe",
+    "name": "Expand Graph",
+    "alias": "ExpandGraphCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Give a current step in thought process will output additional possible continuations",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad6892b5b289898ce68df6"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-02T23:16:01.354Z",
+    "updatedAt": "2024-08-10T00:26:41.559Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad7093b5b289898ce68e39",
+    "name": "Evaluate Options",
+    "alias": "EvaluateOptionsCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad6e42b5b289898ce68e29"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-02T23:49:39.879Z",
+    "updatedAt": "2024-08-08T18:29:03.506Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad733cb5b289898ce68e5b",
+    "name": "Check Completion",
+    "alias": "CheckCompletionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad72cdb5b289898ce68e52"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-03T00:01:00.296Z",
+    "updatedAt": "2024-08-08T17:58:14.313Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad9cff395f8759f8bd44ab",
+    "name": "Generic Python Execution",
+    "alias": "GenericPythonExecutionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "66b1a78069a8280877a02014"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-03T02:59:11.229Z",
+    "updatedAt": "2024-08-13T00:49:59.967Z",
+    "__v": 0
+  },
+  {
+    "_id": "66b1605669a8280877a01f47",
+    "name": "Next Step Capability",
+    "alias": "NextStepCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
+    "prompts": [
+      "6695d849888b8bcf4b03be85",
+      "669dae465414a7bb2bbf9e2d",
+      "66ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "66b0298f0075e6e99a63e2a1"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-05T23:29:26.754Z",
+    "updatedAt": "2024-08-10T01:03:23.627Z",
+    "__v": 0
+  },
+  {
+    "_id": "66be4cd00e262044f7ea398f",
+    "name": "Graph Generation",
+    "alias": "GraphGenerationCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Graph Generation",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "669dae465414a7bb2bbf9e2d",
+      "66be521d0e262044f7ea39ac",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-15T18:45:36.954Z",
+    "updatedAt": "2024-08-16T20:32:34.038Z",
+    "__v": 0
+  },
+  {
+    "_id": "66bf8c22a9430d3fa139143a",
+    "name": "Condition Node",
+    "alias": "ConditionNodeCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
+      "66bf8ccba9430d3fa1391445",
+      "669dae465414a7bb2bbf9e2d",
+      "66bf8d0aa9430d3fa1391448"
+    ],
+    "outputMode": "STREAMING_INDIVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-16T17:28:02.815Z",
+    "updatedAt": "2024-08-16T18:10:31.050Z",
     "__v": 0
   }
 ]
