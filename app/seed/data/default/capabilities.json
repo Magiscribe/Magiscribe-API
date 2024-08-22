@@ -154,7 +154,10 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -168,12 +171,15 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-07-16T02:21:46.304Z",
+    "updatedAt": "2024-08-21T17:50:21.155Z",
     "__v": 0
   },
   {
@@ -182,7 +188,10 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -215,7 +224,10 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -227,7 +239,7 @@
     "_id": "66971ba6d2a052885450d744",
     "name": "Piechart Capability",
     "alias": "PiechartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -239,14 +251,14 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-02T22:30:54.574Z",
+    "updatedAt": "2024-08-18T03:02:02.613Z",
     "__v": 0
   },
   {
     "_id": "66971ecfd2a052885450d77c",
     "name": "Barchart Capability",
     "alias": "BarchartCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -258,7 +270,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-02T22:30:46.539Z",
+    "updatedAt": "2024-08-18T03:01:52.450Z",
     "__v": 0
   },
   {
@@ -283,7 +295,7 @@
     "_id": "669c6a3967c3fed48dee5362",
     "name": "Analysis Chat Reply Capability",
     "alias": "AnalysisChatReplyCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -294,7 +306,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-08-02T22:30:28.587Z",
+    "updatedAt": "2024-08-18T18:00:40.650Z",
     "__v": 0
   },
   {
@@ -333,7 +345,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-02T23:49:39.879Z",
-    "updatedAt": "2024-08-08T18:29:03.506Z",
+    "updatedAt": "2024-08-22T03:46:48.269Z",
     "__v": 0
   },
   {
@@ -371,7 +383,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-03T02:59:11.229Z",
-    "updatedAt": "2024-08-13T00:49:59.967Z",
+    "updatedAt": "2024-08-22T04:06:47.996Z",
     "__v": 0
   },
   {
@@ -385,13 +397,14 @@
       "669dae465414a7bb2bbf9e2d",
       "66ad9019b5b289898ce68f21",
       "66ad993a395f8759f8bd448a",
-      "66b0298f0075e6e99a63e2a1"
+      "66b0298f0075e6e99a63e2a1",
+      "66c54e29db377407969153d0"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-05T23:29:26.754Z",
-    "updatedAt": "2024-08-10T01:03:23.627Z",
+    "updatedAt": "2024-08-22T03:51:42.948Z",
     "__v": 0
   },
   {
@@ -411,7 +424,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-08-16T20:32:34.038Z",
+    "updatedAt": "2024-08-16T21:34:10.844Z",
     "__v": 0
   },
   {
@@ -432,6 +445,88 @@
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
     "updatedAt": "2024-08-16T18:10:31.050Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c0040e525628d5c5861ed8",
+    "name": "Synthetic Data Generation Level 0",
+    "alias": "SyntheticDataGenerationCapability_0",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Synthetic generation of node data",
+    "prompts": [
+      "66bf8ca1a9430d3fa1391442",
+      "669dae465414a7bb2bbf9e2d",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6",
+      "66c004e4525628d5c5861ef4",
+      "66c00af8d0935d6985124266",
+      "6695d854888b8bcf4b03be89"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T01:59:42.307Z",
+    "updatedAt": "2024-08-18T20:58:42.256Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c25d95cbd9c2075c1e5f4e",
+    "name": "Synthetic Data Generation Level 1",
+    "alias": "SyntheticDataGenerationCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Synthetic generation of node data",
+    "prompts": [
+      "66bf8ca1a9430d3fa1391442",
+      "669dae465414a7bb2bbf9e2d",
+      "66be4dfa0e262044f7ea39a8",
+      "66be5b690e262044f7ea39d6",
+      "66c004e4525628d5c5861ef4",
+      "66c00af8d0935d6985124266",
+      "6695d849888b8bcf4b03be85"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-18T20:46:13.084Z",
+    "updatedAt": "2024-08-18T20:47:26.642Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6288a75e86c38e8cd5056",
+    "name": "Python Web Scraper",
+    "alias": "WebScrapeCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed to scrape the web",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "667aef8dacf7000556d2ddb9"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-21T17:48:58.620Z",
+    "updatedAt": "2024-08-21T18:20:38.677Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6acd775e86c38e8cd5107",
+    "name": "Bing Web Search",
+    "alias": "BingWebSearchCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849888b8bcf4b03be85",
+      "6670ab02f446b4f1a67b32f6",
+      "66c6ad1075e86c38e8cd5116"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-22T03:13:27.124Z",
+    "updatedAt": "2024-08-22T04:09:02.885Z",
     "__v": 0
   }
 ]
