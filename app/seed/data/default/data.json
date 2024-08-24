@@ -8,7 +8,7 @@
         "createdAt": 1723680788416,
         "organizationName": "Schwartz Tutoring",
         "organizationRole": "Founder",
-        "inputGoals": "Get input from shareholders as to how to improve the company. I want a lot of freedom in their responses and dynamic generations"
+        "inputGoals": "Ask our tutors what we could do to make their jobs better"
       },
       "graph": {
         "nodes": [
@@ -16,345 +16,129 @@
             "id": "0",
             "type": "start",
             "position": {
-              "x": 425,
-              "y": 200
+              "x": 140.1457385576888,
+              "y": 541.1717911542988
             },
             "measured": {
               "width": 384,
-              "height": 46
+              "height": 48
             }
           },
           {
-            "id": "1",
+            "id": "ddnn",
             "type": "information",
             "position": {
-              "x": 425,
-              "y": 650
+              "x": 658.0000000000001,
+              "y": 630.5074815064303
             },
             "data": {
-              "text": "Welcome, valued Schwartz Tutoring shareholder. We appreciate your input on how we can improve our company. Your feedback is crucial for our growth and success."
+              "text": "Welcome to the Schwartz Tutoring inquiry form. Yeah buddy! This is for shareholders who own the business who want to see it prosper and come proper. "
             },
             "measured": {
               "width": 384,
-              "height": 306
+              "height": 260
             }
           },
           {
-            "id": "2",
+            "id": "nni9",
             "type": "conversation",
             "position": {
-              "x": 425,
-              "y": 1100
+              "x": 130,
+              "y": 922
             },
             "data": {
-              "type": "rating-single",
-              "text": "How satisfied are you with the current direction of Schwartz Tutoring?",
-              "ratings": [
-                "Very Dissatisfied",
-                "Dissatisfied",
-                "Neutral",
-                "Satisfied",
-                "Very Satisfied"
-              ],
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 320
-            }
-          },
-          {
-            "id": "3",
-            "type": "condition",
-            "position": {
-              "x": 425,
-              "y": 1550
-            },
-            "data": {
-              "text": "If the user's response in node 2 is 'Satisfied' or 'Very Satisfied', route to node 4. Otherwise, route to node 5."
-            },
-            "measured": {
-              "width": 384,
-              "height": 134
-            }
-          },
-          {
-            "id": "4",
-            "type": "conversation",
-            "position": {
-              "x": 200,
-              "y": 2000
-            },
-            "data": {
-              "type": "open-ended",
-              "text": "What aspects of our current direction do you find most promising?",
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 320
-            }
-          },
-          {
-            "id": "5",
-            "type": "conversation",
-            "position": {
-              "x": 650,
-              "y": 2000
-            },
-            "data": {
-              "type": "open-ended",
-              "text": "What specific changes would you like to see in our company's direction?",
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 320
-            }
-          },
-          {
-            "id": "6",
-            "type": "conversation",
-            "position": {
-              "x": 425,
-              "y": 2450
-            },
-            "data": {
-              "type": "rating-multi",
-              "text": "Which areas should we prioritize for improvement?",
-              "ratings": [
-                "Tutor quality",
-                "Subject variety",
-                "Technology platform",
-                "Customer service",
-                "Marketing and outreach",
-                "Pricing structure",
-                "Partnerships with educational institutions"
-              ],
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 320
-            }
-          },
-          {
-            "id": "7",
-            "type": "conversation",
-            "position": {
-              "x": 425,
-              "y": 2900
-            },
-            "data": {
-              "type": "open-ended",
-              "instruction": "Based on the user's selections in node 6, ask a follow-up question seeking specific suggestions for improvement in the chosen areas.",
+              "text": "Ask an open ended question about Schwartz Tutoring",
               "dynamicGeneration": true
             },
             "measured": {
               "width": 384,
-              "height": 344
+              "height": 297
             }
           },
           {
-            "id": "8",
-            "type": "conversation",
-            "position": {
-              "x": 425,
-              "y": 3350
-            },
-            "data": {
-              "type": "open-ended",
-              "text": "How do you think we can better differentiate Schwartz Tutoring from our competitors?",
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 344
-            }
-          },
-          {
-            "id": "9",
-            "type": "conversation",
-            "position": {
-              "x": 425,
-              "y": 3800
-            },
-            "data": {
-              "type": "open-ended",
-              "text": "What emerging trends in education do you think Schwartz Tutoring should be prepared to address?",
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 344
-            }
-          },
-          {
-            "id": "10",
+            "id": "4hzo",
             "type": "condition",
             "position": {
-              "x": 425,
-              "y": 4250
+              "x": 706.9024404344672,
+              "y": 980.2017130769584
             },
             "data": {
-              "text": "Analyze the depth and quality of responses so far. If the user has provided detailed, thoughtful answers, route to node 11 for more in-depth questions. Otherwise, route to node 12 for the final question."
+              "text": "If the user gives a detailed answer go back to nni9 to follow up. If they indicate they want to be done/finished, or start to give extremely short concise answers, go to 4crf"
             },
             "measured": {
               "width": 384,
-              "height": 182
-            }
-          },
-          {
-            "id": "11",
-            "type": "conversation",
-            "position": {
-              "x": 673.1037222475488,
-              "y": 4699.025345356362
-            },
-            "data": {
-              "type": "open-ended",
-              "instruction": "Based on the user's previous responses, generate a thought-provoking question about a specific aspect of Schwartz Tutoring's strategy or operations that hasn't been addressed yet.",
-              "dynamicGeneration": true,
-              "text": "Ask an insightful question based on the entirety of the conversation thus far."
-            },
-            "measured": {
-              "width": 384,
-              "height": 320
+              "height": 168
             },
             "selected": true,
             "dragging": false
           },
           {
-            "id": "12",
-            "type": "conversation",
-            "position": {
-              "x": 425,
-              "y": 5150
-            },
-            "data": {
-              "type": "open-ended",
-              "text": "If you had to choose one area for Schwartz Tutoring to excel in over the next year, what would it be and why?",
-              "dynamicGeneration": false
-            },
-            "measured": {
-              "width": 384,
-              "height": 344
-            }
-          },
-          {
-            "id": "13",
-            "type": "information",
-            "position": {
-              "x": 425,
-              "y": 5600
-            },
-            "data": {
-              "text": "Thank you for your valuable input. Your insights will help shape the future of Schwartz Tutoring. We appreciate your time and commitment to our company's success."
-            },
-            "measured": {
-              "width": 384,
-              "height": 306
-            }
-          },
-          {
-            "id": "14",
+            "id": "36hz",
             "type": "end",
             "position": {
-              "x": 425,
-              "y": 6050
+              "x": 663.9999999999999,
+              "y": 1526.5511512756345
+            },
+            "data": {
+              "text": ""
             },
             "measured": {
               "width": 384,
-              "height": 46
+              "height": 48
+            }
+          },
+          {
+            "id": "4crf",
+            "type": "information",
+            "position": {
+              "x": 678,
+              "y": 1218
+            },
+            "data": {
+              "text": "You are done"
+            },
+            "measured": {
+              "width": 384,
+              "height": 188
             }
           }
         ],
         "edges": [
           {
-            "id": "62b9341c-a590-404f-868d-0fb2796b3e1a",
+            "id": "7020786a-91ec-4bad-a3df-25545b0faf19",
             "source": "0",
-            "target": "1"
+            "target": "ddnn"
           },
           {
-            "id": "05e93d9a-0572-4c25-ae1c-bd47930c59f0",
-            "source": "1",
-            "target": "2"
+            "id": "c3ea7995-772f-4535-a22d-6c6f95e67cda",
+            "source": "ddnn",
+            "target": "nni9"
           },
           {
-            "id": "f86edc66-55b4-44f2-b2eb-fa3db9dab3c1",
-            "source": "2",
-            "target": "3"
+            "id": "409a852d-cdc8-4f0e-8832-b8c1323fd20c",
+            "source": "nni9",
+            "target": "4hzo"
           },
           {
-            "id": "fcde28f9-f45c-4018-8e76-4d35f86b8e3d",
-            "source": "3",
-            "target": "4"
+            "id": "4b038836-1a3c-4d7a-876b-ec4506bf7949",
+            "source": "4hzo",
+            "target": "nni9"
           },
           {
-            "id": "6f4b77e7-a599-47d3-bd31-ba3b50681949",
-            "source": "3",
-            "target": "5"
+            "id": "97c0b9fa-b8b7-4674-9304-2d183bec59f3",
+            "source": "4hzo",
+            "target": "4crf"
           },
           {
-            "id": "6d0f0e14-7f4c-45c3-9db5-275216f08226",
-            "source": "4",
-            "target": "6"
-          },
-          {
-            "id": "d87f4f2c-b7f2-49b2-96c8-3b7145476a95",
-            "source": "5",
-            "target": "6"
-          },
-          {
-            "id": "0d77d4cb-2a9d-45b9-b800-5d3ee1fe19b9",
-            "source": "6",
-            "target": "7"
-          },
-          {
-            "id": "fd22df4a-588d-4982-b677-1ba4c66db815",
-            "source": "7",
-            "target": "8"
-          },
-          {
-            "id": "6b4694ea-de5c-42b2-ba90-64dff078d333",
-            "source": "8",
-            "target": "9"
-          },
-          {
-            "id": "4f290a2c-8445-4a60-a0c6-bc249b8fc4b7",
-            "source": "9",
-            "target": "10"
-          },
-          {
-            "id": "5e07429b-16b0-40a2-95c4-ebd55ad75b8b",
-            "source": "10",
-            "target": "11"
-          },
-          {
-            "id": "2d363fb5-5f8a-4e02-a6a6-6adafdac3f5b",
-            "source": "10",
-            "target": "12"
-          },
-          {
-            "id": "59010884-1439-4fa2-b1a5-17603d3df8e6",
-            "source": "11",
-            "target": "12"
-          },
-          {
-            "id": "e36fb46e-9e95-43ff-a3dd-95285720efe8",
-            "source": "12",
-            "target": "13"
-          },
-          {
-            "id": "1932dc57-cb4a-4e9f-851b-ee45b32b19de",
-            "source": "13",
-            "target": "14"
+            "id": "ba1ffe9a-d4ab-4002-af72-bca47b3736d5",
+            "source": "4crf",
+            "target": "36hz"
           }
         ]
       }
     },
     "createdAt": "2024-08-22T17:25:44.727Z",
-    "updatedAt": "2024-08-24T04:51:29.894Z",
+    "updatedAt": "2024-08-24T18:45:15.926Z",
     "__v": 0
   }
 ]

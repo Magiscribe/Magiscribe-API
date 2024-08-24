@@ -335,7 +335,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-08-24T03:22:27.890Z",
+    "updatedAt": "2024-08-24T19:14:40.433Z",
     "__v": 0
   },
   {
@@ -386,7 +386,7 @@
     "_id": "66c8a9f8d28a5133dd801ab7",
     "name": "Dynamic Question Generation",
     "alias": "DynamicQuestionGenerationCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -399,7 +399,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-08-24T05:06:51.492Z",
+    "updatedAt": "2024-08-24T18:36:04.946Z",
     "__v": 0
   },
   {
