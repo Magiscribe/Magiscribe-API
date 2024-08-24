@@ -149,40 +149,15 @@
     "__v": 0
   },
   {
-    "_id": "667ae47c6d5e4973f402e1f4",
-    "name": "Author Stream Capability",
-    "alias": "StreamCapability",
-    "llmModel": "MISTRAL_LARGE",
-    "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
-    "outputMode": "STREAMING_INDIVIDUAL",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-25T15:38:36.123Z",
-    "updatedAt": "2024-07-16T02:21:58.980Z",
-    "__v": 0
-  },
-  {
-    "_id": "667aef4cacf7000556d2ddb3",
-    "name": "Scrape Capability",
-    "alias": "ScrapeCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-08-21T17:50:21.155Z",
-    "__v": 0
-  },
-  {
     "_id": "667dd59869b67704281c4e6b",
     "name": "Reasoning Prompt Generator Capability",
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -207,20 +182,6 @@
     "outputFilter": null,
     "createdAt": "2024-07-06T00:58:03.553Z",
     "updatedAt": "2024-07-06T01:40:10.469Z",
-    "__v": 0
-  },
-  {
-    "_id": "669541217ceb83a7fb75eb1a",
-    "name": "Question Generation",
-    "alias": "QuestionGeneration",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-08-15T17:26:53.256Z",
     "__v": 0
   },
   {
@@ -298,64 +259,6 @@
     "__v": 0
   },
   {
-    "_id": "66ad68b1b5b289898ce68dfe",
-    "name": "Expand Graph",
-    "alias": "ExpandGraphCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Give a current step in thought process will output additional possible continuations",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad6892b5b289898ce68df6"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-02T23:16:01.354Z",
-    "updatedAt": "2024-08-10T00:26:41.559Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad7093b5b289898ce68e39",
-    "name": "Evaluate Options",
-    "alias": "EvaluateOptionsCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad9019b5b289898ce68f21",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad6e42b5b289898ce68e29"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-02T23:49:39.879Z",
-    "updatedAt": "2024-08-22T03:46:48.269Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad733cb5b289898ce68e5b",
-    "name": "Check Completion",
-    "alias": "CheckCompletionCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad72cdb5b289898ce68e52"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-03T00:01:00.296Z",
-    "updatedAt": "2024-08-08T17:58:14.313Z",
-    "__v": 0
-  },
-  {
     "_id": "66ad9cff395f8759f8bd44ab",
     "name": "Generic Python Execution",
     "alias": "GenericPythonExecutionCapability",
@@ -412,7 +315,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-08-22T22:37:22.197Z",
+    "updatedAt": "2024-08-16T21:34:10.844Z",
     "__v": 0
   },
   {
@@ -428,11 +331,11 @@
       "669dae465414a7bb2bbf9e2d",
       "66bf8d0aa9430d3fa1391448"
     ],
-    "outputMode": "STREAMING_INDIVIDUAL",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-08-16T18:10:31.050Z",
+    "updatedAt": "2024-08-24T03:22:27.890Z",
     "__v": 0
   },
   {
@@ -480,41 +383,43 @@
     "__v": 0
   },
   {
-    "_id": "66c6288a75e86c38e8cd5056",
-    "name": "Python Web Scraper",
-    "alias": "WebScrapeCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Allows the model to write generic python code that will be executed to scrape the web",
+    "_id": "66c8a9f8d28a5133dd801ab7",
+    "name": "Dynamic Question Generation",
+    "alias": "DynamicQuestionGenerationCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
-      "66ad993a395f8759f8bd448a",
-      "6695d849888b8bcf4b03be85",
-      "6670ab02f446b4f1a67b32f6",
-      "667aef8dacf7000556d2ddb9"
+      "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
+      "66bf8ccba9430d3fa1391445",
+      "669dae465414a7bb2bbf9e2d",
+      "669541137ceb83a7fb75eb17"
     ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "createdAt": "2024-08-21T17:48:58.620Z",
-    "updatedAt": "2024-08-21T18:20:38.677Z",
+    "createdAt": "2024-08-23T15:25:44.507Z",
+    "updatedAt": "2024-08-24T03:52:47.576Z",
     "__v": 0
   },
   {
-    "_id": "66c6acd775e86c38e8cd5107",
-    "name": "Bing Web Search",
-    "alias": "BingWebSearchCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
+    "_id": "66c95576ae782803372bd9f8",
+    "name": "Dynamic Information Generation",
+    "alias": "DynamicInformationGenerationCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
-      "66ad993a395f8759f8bd448a",
-      "6695d849888b8bcf4b03be85",
-      "6670ab02f446b4f1a67b32f6",
-      "66c6ad1075e86c38e8cd5116"
+      "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
+      "66bf8ccba9430d3fa1391445",
+      "669dae465414a7bb2bbf9e2d",
+      "66c9558dae782803372bda00"
     ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "createdAt": "2024-08-22T03:13:27.124Z",
-    "updatedAt": "2024-08-22T04:09:02.885Z",
+    "createdAt": "2024-08-24T03:37:26.531Z",
+    "updatedAt": "2024-08-24T03:59:10.389Z",
     "__v": 0
   }
 ]
