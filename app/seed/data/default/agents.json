@@ -27,6 +27,56 @@
     "__v": 0
   },
   {
+    "_id": "667ae3d60e5bcd50160f411b",
+    "name": "Author Agent",
+    "description": "An agent capable of writing stories and related content in real-time.",
+    "reasoning": null,
+    "capabilities": [
+      "667ae47c6d5e4973f402e1f4"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-25T15:35:50.504Z",
+    "updatedAt": "2024-08-17T18:06:58.903Z",
+    "__v": 0
+  },
+  {
+    "_id": "667aeb2f7ed1fd8cdf11ad59",
+    "name": "Web Scraping Agent",
+    "description": "An agent capable of scraping web pages.",
+    "reasoning": {
+      "llmModel": "CLAUDE_3_HAIKU",
+      "prompt": "<System>\nGive me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt, a capability, and context. The prompt, capability, and context are all strings.\nmessage contains simple commands for a particular capability. These commands will later be executed in parallel.\nselected capability can ONLY be one of the following: ScrapeCapability. Do NOT include any other capabilities.\n\n# Example 1:\n# Prompt: Get all links from kylelierer.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Pull all links from the webpage\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is kylelierer.com\"}\n    ]\n}\n```\n\n# Example 2:\n# Prompt: Get all h1 text and links from google.com\n\n```json\n{\n    \"processingSteps\": [\n        { \"prompt\": \"Get all h1 text\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is google.com\"},\n        { \"prompt\": \"Pull all links from the webpage\", \"capabilityAlias\": \"ScrapeCapability\", \"context\": \"The website url is google.com\"}\n    ]\n}\n```\n</System>\n",
+      "variablePassThrough": false,
+      "_id": "66c0e6d2f815cac5b72f4d4b"
+    },
+    "capabilities": [
+      "667aef4cacf7000556d2ddb3"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-25T16:07:11.045Z",
+    "updatedAt": "2024-08-17T18:07:14.005Z",
+    "__v": 0
+  },
+  {
+    "_id": "669541ed7ceb83a7fb75eb35",
+    "name": "Stakeholder | Question Agent",
+    "description": "Creates questions",
+    "reasoning": null,
+    "capabilities": [
+      "669541217ceb83a7fb75eb1a"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-15T15:36:13.816Z",
+    "updatedAt": "2024-08-17T18:07:28.618Z",
+    "__v": 0
+  },
+  {
     "_id": "669714d6d2a052885450d6ef",
     "name": "Stakeholder | Text Analysis",
     "description": "Analyzes data received by the Stakeholder Input Synthesizer",
@@ -47,20 +97,22 @@
     "description": "Dynamic back and forth with the user, allowing them to chat with their data",
     "reasoning": {
       "llmModel": "CLAUDE_3_HAIKU",
-      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: BarchartCapability, PiechartCapability, AnalysisChatReplyCapability\nDo NOT include any other capabilities.\nYou may select at most one of BarchartCapability or PiechartCapability, do not choose both. If a chart is explicitly requested, reply with just a chart. AnalysisChatReplyCapability is generally helpful to provide additional information. \n\n<Example1>\n<UserMessage>What new features are most commonly requested? </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartCapability\"},\n    { \"prompt\": \"What new features are most commonly requested?\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style using high level categories of sentiment\", \"capabilityAlias\": \"PiechartCapability\"},\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"AnalysisChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a bar chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a bar chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"BarchartCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>\n\nConsider carefully whether or not you actually need to use following text. It represents PREVIOUS interactions between you and the user. Think of this as an old historical record to be referred to, not to be re-done. \n<ConversationHistory>\n{{history}}\n</ConversationHistory>",
+      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: BarchartCapability, PiechartCapability, ChatReplyCapability, BarchartChatReplyCapability, or PiechartChatReplyCapability\nDo NOT include any other capabilities.\nIf a chart is explicitly requested, reply with just BarchartCapability or PiechartCapability. If the question can be answered directly with just text use ChatReplyCapability. Use BarchartChatReplyCapability or PiechartChatReplyCapability if the user wants both a bar chart and a verbal explanation. No more than one capability should ever be selected.\n\n<Example1>\n<UserMessage>What new features are most commonly requested? Include a visualization. </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a bar chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a bar chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"BarchartCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>\n\nConsider carefully whether or not you actually need to use following text. It represents PREVIOUS interactions between you and the user. Think of this as an old historical record to be referred to, not to be re-done. \n<ConversationHistory>\n{{history}}\n</ConversationHistory>",
       "variablePassThrough": true,
-      "_id": "66c1629f73bb2816e54e816a"
+      "_id": "66c900b6e952d5c0a4dbdcaa"
     },
     "capabilities": [
+      "66971ba6d2a052885450d744",
       "66971ecfd2a052885450d77c",
       "669c6a3967c3fed48dee5362",
-      "66971ba6d2a052885450d744"
+      "66c8ec09e952d5c0a4dbdb34",
+      "66c8fff0e952d5c0a4dbdc91"
     ],
     "memoryEnabled": true,
     "subscriptionFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "outputFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-07-21T01:04:31.420Z",
-    "updatedAt": "2024-08-18T02:55:27.080Z",
+    "updatedAt": "2024-08-23T22:23:37.420Z",
     "__v": 0
   },
   {

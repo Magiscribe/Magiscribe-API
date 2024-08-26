@@ -4,7 +4,1235 @@
     "userId": "user_2hI4Q3LtR9n7a8TF2kkwhK0WPe6",
     "data": {
       "form": {
-        "title": "Schwartz Tutoring Shareholders",
+        "title": "Schwartz Tutoring Shareholders (NODE VISIT DATA)",
+        "createdAt": 1723680788416,
+        "organizationName": "Schwartz Tutoring",
+        "organizationRole": "Founder",
+        "inputGoals": "Get input from shareholders as to how to improve the company"
+      },
+      "graph": {
+        "explanation": "This graph represents a conversation flow for asking Schwartz Tutoring shareholders about the direction of the business. I want to start off by getting a general sense of satisfaction with the direction, then depending on the sentiment probe deeper into why. After that I will give the user multiple areas where we could consider improving our company and then follow up to get more details on their selections.",
+        "nodes": [
+          {
+            "id": "1",
+            "type": "information",
+            "data": {
+              "type": "start",
+              "text": "Welcome to the Schwartz Tutoring shareholder inquiry. We'd like to ask you a few questions about the direction of our business."
+            }
+          },
+          {
+            "id": "2",
+            "type": "conversation",
+            "data": {
+              "type": "rating-single",
+              "text": "How satisfied are you with the current direction of Schwartz Tutoring?",
+              "ratings": [
+                "Very Unsatisfied",
+                "Unsatisfied",
+                "Neutral",
+                "Satisfied",
+                "Very Satisfied"
+              ]
+            }
+          },
+          {
+            "id": "3",
+            "type": "condition",
+            "data": {
+              "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
+            }
+          },
+          {
+            "id": "4",
+            "type": "conversation",
+            "data": {
+              "type": "open-ended",
+              "text": "What aspects of our current direction do you find most promising?"
+            }
+          },
+          {
+            "id": "5",
+            "type": "conversation",
+            "data": {
+              "type": "open-ended",
+              "text": "What would need to change at the organization to improve your outlook?"
+            }
+          },
+          {
+            "id": "6",
+            "type": "conversation",
+            "data": {
+              "type": "rating-multi",
+              "text": "Which areas should we focus on to improve our business?",
+              "ratings": [
+                "Expanding subject offerings",
+                "Improving technology platform",
+                "Increasing marketing efforts",
+                "Enhancing tutor training",
+                "Developing partnerships with schools"
+              ]
+            }
+          },
+          {
+            "id": "7",
+            "type": "conversation",
+            "data": {
+              "type": "open-ended",
+              "instruction": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
+            }
+          },
+          {
+            "id": "8",
+            "type": "condition",
+            "data": {
+              "instruction": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
+            }
+          },
+          {
+            "id": "9",
+            "type": "conversation",
+            "data": {
+              "type": "open-ended",
+              "instruction": "Construct an insightful follow-up question from the user answer in node 8."
+            }
+          },
+          {
+            "id": "10",
+            "type": "information",
+            "data": {
+              "type": "end",
+              "text": "Thank you for your valuable feedback. Your input will help shape the future of Schwartz Tutoring."
+            }
+          }
+        ],
+        "edges": [
+          {
+            "source": "1",
+            "target": "2"
+          },
+          {
+            "source": "2",
+            "target": "3"
+          },
+          {
+            "source": "3",
+            "target": "4"
+          },
+          {
+            "source": "3",
+            "target": "5"
+          },
+          {
+            "source": "4",
+            "target": "6"
+          },
+          {
+            "source": "5",
+            "target": "6"
+          },
+          {
+            "source": "6",
+            "target": "7"
+          },
+          {
+            "source": "7",
+            "target": "8"
+          },
+          {
+            "source": "8",
+            "target": "9"
+          },
+          {
+            "source": "8",
+            "target": "10"
+          },
+          {
+            "source": "9",
+            "target": "10"
+          }
+        ]
+      },
+      "nodeVisitData": [
+        {
+          "userId": "A",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed negative sentiment so we will send them to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "The organization needs a wholesale overhaul with entirely new leadership"
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Developing partnerships with schools",
+                  "Increasing marketing efforts"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How would developing a partnership with schools serve to increase our marketing efforts?",
+                "text": "Schwartz Tutoring literally had a partnership in place with multiple schools. They partnered with a college to supply tutors, and then facilitated that relationship to have those tutors work with middle schools and high school students. This was an excellent program and I have no idea why they stopped doing it. They seriously gotta stop being bums and get it together!"
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "You seem to really be passionate about fixing Schwartz Tutoring's underperformance. If you were in charge of the business, what would be the first thing you would do?",
+                "text": "There is no reason not to once again go to the department of teachers education and try to utilize the schools tutors to convey legitimacy"
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "B",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I'm really impressed with the recent focus on personalized learning plans. It shows that Schwartz Tutoring is staying ahead of the curve in educational technology."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Improving technology platform",
+                  "Expanding subject offerings"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "Can you dive deeper into how improving our technology platform and expanding subject offerings go together?",
+                "text": "While I'm excited about our current direction, I believe we could further enhance our technology platform to scrape the web for in demand subjects, and then recruit off of job boards to expand subject offerings dynamically. Specifically, I think we should consider adding courses in emerging fields like data science and artificial intelligence to prepare students for the jobs of the future."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "How would you prioritize the competing effects of supplying random tutors off of job boards with the agentic capabilities required to drive demand in various areas? How could you plan for and mitigate a potential imbalance as the number of users scales?",
+                "text": "For example, we could create an AI-agent to scrape social media for people with a certain school/major combination on their LinkedIN. The bot would post an ad to the website and as soon as a sign up is detected with that link, it kicks off another agent to recruit a tutor if we do not have one available in house.  This would be a pretty complex integration, but would theoretically be feasible with an advanced enough Agent lab."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "C",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "We need to completely abandon any AI-assisted tutoring and focus solely on human-to-human interactions. The personal touch and adaptability of human tutors cannot be replicated by AI."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Enhancing tutor training",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you think enhancing tutor training and developing partnerships with schools could help us focus more on human-to-human interactions?",
+                "text": "By enhancing tutor training, we can ensure that our human tutors are equipped with the best skills to connect with students on a personal level. This includes improving their emotional intelligence, adaptability, and ability to tailor their teaching methods to individual students. Developing partnerships with schools will allow us to integrate our human tutors more deeply into the educational ecosystem, creating more opportunities for face-to-face interactions and personalized learning experiences."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user provided a detailed and thoughtful answer, proceeding to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting perspective. Could you share some specific ideas for tutor training programs that would enhance human-to-human interactions and make our service stand out from AI-assisted alternatives?",
+                "text": "Certainly! I believe we should implement a comprehensive training program that focuses on building strong interpersonal skills. This could include workshops on active listening, empathy, and nonverbal communication. We could also incorporate role-playing exercises to help tutors practice adapting their teaching styles to different learning types and personalities. Additionally, training in mindfulness and stress management techniques would help tutors maintain a calm and focused presence during sessions, enhancing the quality of their interactions with students."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "D",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed extreme negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "The organization needs to be shut down immediately. We should pay off any unearned revenue and distribute the remaining assets to shareholders. Continuing operations is just burning through our capital."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "You've suggested increasing marketing efforts. How do you think this could help, given your stance on shutting down the business?",
+                "text": "I only selected that option because the survey forced me to choose something. In reality, I don't think any of these areas matter. The company is fundamentally flawed and no amount of marketing or improvement can save it. We need to cut our losses now and return whatever value is left to the shareholders."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed, albeit negative, response in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "You seem to have a strong opinion about the company's future. Can you elaborate on why you believe the business model is unsalvageable?",
+                "text": "The tutoring market is oversaturated, and our company has failed to differentiate itself. We're hemorrhaging money on ineffective programs and outdated technology. Our competitors are light-years ahead in terms of online platforms and AI-assisted learning. The management has consistently made poor decisions, and I've lost all faith in their ability to turn things around. It's better to liquidate now while we still have some assets rather than running the company into the ground."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "E",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I'm extremely excited about the potential for Schwartz Tutoring to expand its services. The current direction shows promise, but I believe we have an opportunity to revolutionize our offering by integrating life coaching alongside our tutoring services. This holistic approach could set us apart in the market and provide immense value to our clients."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "You've selected expanding subject offerings and developing partnerships with schools. How do you see these aligning with the potential addition of life coaching services?",
+                "text": "I envision life coaching as a natural extension of our subject offerings. We could partner with schools to offer not just academic tutoring, but also life skills workshops and one-on-one coaching sessions. This would help students navigate academic pressures, career choices, and personal development. By expanding our services in this direction, we could position Schwartz Tutoring as a comprehensive educational support system, addressing both academic and personal growth needs."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user provided a detailed and thoughtful answer, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting perspective. How do you think we could integrate life coaching into our existing tutoring model without diluting our core competency in academic support?",
+                "text": "I believe we can seamlessly integrate life coaching by adopting a tiered service model. Our base offering would remain focused on academic tutoring, ensuring we maintain our core competency. We could then offer premium packages that include life coaching sessions. These could be tailored to complement academic goals - for instance, a student struggling with math might receive both subject-specific tutoring and coaching on study habits, time management, and overcoming academic anxiety. This approach would enhance our value proposition without compromising our academic focus. Additionally, we could train our existing tutors in basic coaching techniques, allowing them to incorporate elements of life coaching into their regular sessions, creating a more holistic learning experience."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "F",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Neutral"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed neutral sentiment, routing to node 5 for improvement suggestions"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "I don't know. It's fine as it is."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Improving technology platform"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "Could you elaborate on how you think we could improve our technology platform?",
+                "text": "Maybe make the website faster or something. I don't really care."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "User gave a brief, vague answer, routing to node 10"
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "G",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I believe our current direction is promising, but I think we could be even more focused. We should concentrate on becoming the absolute best in teaching math, science, and business. These three subjects are not only fundamental but also highly interconnected in today's world."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Enhancing tutor training"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "You mentioned expanding subject offerings and enhancing tutor training. How do you see these aligning with the focus on math, science, and business?",
+                "text": "By expanding subject offerings, I don't mean branching out to unrelated fields. Instead, we should deepen our expertise in math, science, and business. We could offer more specialized courses within these areas, like advanced statistical analysis, quantum computing, or fintech. For tutor training, we should focus on developing tutors who can effectively teach these subjects and, more importantly, show students how they interconnect in the real world. For example, how advanced mathematics is applied in both scientific research and business analytics."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting perspective on specialization. How do you think this focus on math, science, and business would set Schwartz Tutoring apart from other tutoring services?",
+                "text": "By specializing in these three core areas and their synthesis, we'd be offering something unique in the market. Most tutoring services try to cover everything, but we'd be known as the go-to experts for these crucial, interconnected fields. We could develop cutting-edge curricula that show how advanced math concepts apply to both scientific research and business strategy, or how scientific discoveries drive business innovation. This approach would attract serious students aiming for top universities or careers in STEM and business fields. It would also appeal to professionals looking to upskill in these areas. By being the best in the world at teaching these subjects and their intersections, we'd create a strong brand identity and a competitive edge that generic tutoring services can't match."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "H",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "Schwartz Tutoring needs to take aggressive action against our competitors, especially Rinella. We should be working to discredit them and take over their market share in Oxford."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Increasing marketing efforts",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you think we could use marketing efforts and school partnerships to gain an advantage over Rinella?",
+                "text": "We should use our marketing efforts to spread negative information about Rinella's services. Maybe we could plant some fake reviews or testimonials criticizing their tutoring quality. As for school partnerships, we should try to get exclusive deals with local schools, effectively shutting Rinella out. We could even consider bribing school officials if necessary to secure these partnerships."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "User provided a detailed, albeit unethical, response. Proceeding to node 9 for follow-up."
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "Your suggestions are quite aggressive. Are there any legal or ethical concerns you think we should consider in pursuing such tactics?",
+                "text": "Legal and ethical concerns? Who cares about that? Rinella tried to shut us down in 2018, now it's payback time. We need to go all out in this crusade against them. I say we plant a major scandal, maybe something involving student data breaches or tutor misconduct. We could hire someone to infiltrate their organization and gather dirt, or even fabricate some if necessary. The goal is to completely discredit their service and drive them out of Oxford. Once we have a monopoly, we'll be unstoppable."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "I",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I think our current direction is fine. We're maintaining a stable business in a rapidly changing environment, especially with the uncertainties surrounding AI. It's wise to keep things running smoothly until we have a clearer picture of how these technological advancements will impact our industry."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Improving technology platform"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "You mentioned improving our technology platform. How do you think we should approach this given the current uncertainties in AI development?",
+                "text": "I believe we should focus on gradual, incremental improvements to our existing platform rather than any drastic overhauls. We should keep an eye on AI developments, but not rush to implement anything untested. Maybe we could explore ways to make our current systems more efficient or user-friendly without fundamentally changing our business model. This way, we're prepared for future changes without overcommitting to any particular direction."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting perspective on gradual improvement. How do you think we can balance staying current with technology while also maintaining our 'wait and see' approach regarding AI?",
+                "text": "I think the key is to focus on flexible, modular improvements that can easily integrate with future technologies. For example, we could work on improving our data collection and analysis capabilities. This would be beneficial now and could also serve as a foundation for AI integration later if it proves valuable. We should also invest in staff training to keep our team adaptable to new technologies. This way, we're not committing to any specific AI solution, but we're building our capacity to quickly adopt new tools when the time is right."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "J",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I appreciate that Schwartz Tutoring is focusing on quality education, but I think we could be more strategic in our marketing approach by targeting parents online more."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "You mentioned increasing marketing efforts. Could you elaborate on how you think we should target our marketing specifically towards parents?"
+              }
+            }
+          ]
+        },
+        {
+          "userId": "K",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed positive sentiment, routing to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I'm particularly excited about the potential for expanding our services to other universities in Ohio. While our operation at Miami University is solid, I believe we have a great opportunity to scale out to new places like the University of Cincinnati, University of Dayton, or Ohio State University."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "That's an interesting perspective on expansion. Could you elaborate on why you think the University of Cincinnati, University of Dayton, or Ohio State University would be good targets for our expansion, and what unique challenges or opportunities you foresee in each of these locations?"
+              }
+            }
+          ]
+        },
+        {
+          "userId": "L",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed positive sentiment, so we will send them to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I think the current direction is promising, especially considering the growing demand for AI-related skills. Reviving and updating our LLM101 course could be a great move to capitalize on this trend and provide value to our customers."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "Could you elaborate on how you envision expanding our subject offerings, particularly in relation to LLM101, and how this might tie into developing partnerships with schools?",
+                "text": "Absolutely. I believe we should update and relaunch our LLM101 course with a focus on practical prompting strategies for various LLMs. We could partner with tech companies or AI research institutions to bring in industry experts as guest lecturers. This would not only enhance the course's credibility but also make it more attractive to schools looking to integrate AI education into their curriculum. We could offer this as a larger group course, making it more affordable than our 1-on-1 tutoring, which could appeal to schools and individual learners alike."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user provided a detailed and thoughtful answer, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting proposal. How do you think we could structure the LLM101 course to cater to both individual learners and school partnerships? What specific topics or skills should we prioritize?",
+                "text": "I think we could structure the course in modules, with a core curriculum focusing on fundamental LLM concepts and prompting strategies. This would be suitable for both individual learners and schools. For school partnerships, we could offer additional modules tailored to specific academic disciplines or age groups. Key topics should include understanding different LLM architectures, crafting effective prompts, ethical considerations in AI use, and practical applications in various fields. We could also include hands-on projects where students apply their skills to real-world scenarios. To make it more engaging for larger groups, we could incorporate interactive elements like group challenges or AI-assisted peer review systems."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "M",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "Schwartz Tutoring needs to pivot entirely. We should rebrand as Schwartz Capital and focus on investing in student-led startups. The tutoring business should be just a small part of our portfolio. We need to aggressively seek out college student founders and get in at the ground floor, even before their ideas are fully formed."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Improving technology platform"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you envision expanding our subject offerings and developing our technology platform in light of your suggestion to pivot towards Schwartz Capital?",
+                "text": "Look, forget about traditional subject offerings and school partnerships. We need to expand our 'subject offerings' to include startup incubation, venture capital basics, and entrepreneurship mentoring. As for schools, we shouldn't partner with them - we should compete with them. Miami University's Entrepreneurship department is full of charlatans. We need to expose them and convince student founders that we're the real deal. We'll offer to 'tutor' these kids on how to start a company, grabbing a piece of the pie at the pre-inception stage."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "User provided a detailed and passionate response, proceeding to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "Your vision for Schwartz Capital is certainly bold. How do you propose we transition from a tutoring company to a venture capital firm while maintaining our existing revenue stream?",
+                "text": "Simple. We keep the tutoring arm as a small cash cow, but we aggressively market to college students, particularly those with entrepreneurial ambitions. We'll offer 'tutoring' sessions that are actually startup mentoring in disguise. We'll identify the most promising ideas and founders, then offer them seed funding in exchange for equity. We can use the tutoring revenue to fund initial investments. As for the transition, we start immediately. We create a separate brand, Schwartz Capital, and slowly phase out the Schwartz Tutoring brand. We'll position ourselves as the anti-establishment alternative to traditional entrepreneurship education."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "N",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed negative sentiment, so we will send them to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "We need to be much more aggressive with our marketing efforts, especially on college campuses. I think we should plaster flyers all over Miami University Oxford campus and try to guest speak at as many clubs as possible. Also, we should implement a commission-based incentive system for our tutors to help sell more tutoring packages."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Increasing marketing efforts",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "Could you elaborate on how you envision the partnership with schools working alongside your increased marketing efforts?",
+                "text": "Absolutely! I think we should start by partnering with the student organizations and academic departments at Miami University. We could offer to give guest lectures or workshops in various clubs and classes, which would give us direct access to potential customers. While doing this, we'd also be plastering the campus with eye-catching flyers advertising our services. This two-pronged approach would significantly increase our visibility on campus. Additionally, we could work with the university's career services to offer discounted tutoring packages to students who are struggling academically. This would not only help us gain more clients but also position us as a valuable resource for the university."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "Your ideas for campus marketing are interesting. How do you think implementing a commission-based incentive system for tutors would impact the quality and effectiveness of our tutoring services?",
+                "text": "I believe a commission-based system would greatly motivate our tutors to not only sell more packages but also to provide higher quality service. When tutors have a direct financial stake in the success of their students, they're more likely to go above and beyond. They might spend extra time preparing for sessions, create additional resources, or follow up with students more frequently. This could lead to better outcomes for students, which in turn would generate positive word-of-mouth and reviews. However, we'd need to carefully structure the commission system to ensure it doesn't lead to overly aggressive sales tactics or neglect of students who've already purchased packages. Perhaps we could implement a hybrid model where tutors receive a base pay plus commission, with bonuses tied to student satisfaction and academic improvement metrics."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "O",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "Yo, Schwartz Tutoring needs to completely change direction. We should pivot to a cannabis delivery service in Oxford. It's where the real money's at, bro!"
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Improving technology platform",
+                  "Increasing marketing efforts"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you think improving our technology platform and increasing marketing efforts could support your idea of a cannabis delivery service?",
+                "text": "Dude, it's simple. We use the tech platform to create a sick app for weed orders. Then we get the frat guys on bikes to deliver it house to house. For marketing, we hit up all the college parties and spread the word. It's gonna be lit!"
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "User provided a detailed, albeit unconventional, response. Proceeding to node 9 for follow-up."
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's certainly an unexpected direction. How do you think this shift would impact our current tutoring business and our relationship with educational institutions?",
+                "text": "Who cares about tutoring when we could be the kings of kush? We'll make way more cash this way. Plus, think about it - we could still call it 'higher' education, if you know what I mean. The colleges might be mad at first, but once they see how chill everyone is, they'll come around."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "P",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Satisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "User expressed positive sentiment, routing to node 4"
+              }
+            },
+            {
+              "id": "4",
+              "data": {
+                "text": "I'm thrilled with the innovative direction Schwartz Tutoring is taking. The idea of a co-ed bathhouse in Oxford heated by bitcoin miners is revolutionary and perfectly aligns with the tech-savvy, forward-thinking image we want to project."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Improving technology platform",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you think the co-ed bathhouse concept could be integrated with our technology platform and school partnerships?",
+                "text": "The bathhouse could serve as a unique study space where students can relax and learn. We could install waterproof tablets and screens, powered by the bitcoin mining operation, to deliver our tutoring content. Partnerships with Oxford colleges could allow us to offer special access or discounts to students, integrating the bathhouse into the academic ecosystem."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "User provided a detailed and creative response, proceeding to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an intriguing concept. How do you envision addressing potential privacy or ethical concerns that might arise from combining a bathhouse environment with educational technology?",
+                "text": "We could implement strict guidelines and cutting-edge privacy technology. For instance, we could use blockchain to secure student data and ensure anonymity. The bathhouse could have designated 'study zones' with private, individual pods for focused learning. We'd also need to work closely with the university ethics board to develop appropriate policies. This unique blend of relaxation and education could revolutionize the learning experience while maintaining the highest standards of privacy and ethics."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        },
+        {
+          "userId": "Q",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed negative sentiment, routing to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "Schwartz Tutoring needs to pivot entirely. We should be leveraging our educational expertise to secure lucrative defense contracts. The future is in military technology, not civilian tutoring."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "How do you envision expanding our subject offerings and developing partnerships with schools in the context of defense contracting?",
+                "text": "We should expand our subject offerings to include advanced military strategy, cybersecurity, and weapons systems engineering. As for partnerships, we need to target military academies and ROTC programs in universities. This would position us as a key player in educating the next generation of military leaders and defense contractors."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user provided a detailed and thoughtful answer, proceeding to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "Interesting perspective. How do you think this shift towards defense-oriented education would impact our current civilian tutoring services and clientele?",
+                "text": "Our civilian tutoring services should be phased out entirely. The real money and influence are in the defense sector. By focusing exclusively on military education and training, we can secure long-term, high-value contracts with the Department of Defense. This would not only increase our profitability but also position Schwartz as a critical component of national security. Any loss in civilian clientele would be more than offset by the lucrative government contracts we'd secure."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "perResponse": {
+          "tags": [
+            {
+              "positive": [
+                "B",
+                "E",
+                "G",
+                "I",
+                "J",
+                "K",
+                "L",
+                "P"
+              ]
+            },
+            {
+              "negative": [
+                "A",
+                "C",
+                "D",
+                "H",
+                "M",
+                "N",
+                "O",
+                "Q"
+              ]
+            },
+            {
+              "creative": [
+                "B",
+                "C",
+                "E",
+                "L",
+                "M",
+                "O",
+                "P",
+                "Q"
+              ]
+            }
+          ]
+        },
+        "perQuestion": {
+          "questions": [
+            {
+              "nodeId": "2",
+              "responseCount": 17,
+              "ratingSummary": {
+                "counts": {
+                  "Very Unsatisfied": 7,
+                  "Unsatisfied": 1,
+                  "Neutral": 1,
+                  "Satisfied": 5,
+                  "Very Satisfied": 3
+                }
+              }
+            },
+            {
+              "nodeId": "4",
+              "responseCount": 8,
+              "textSummary": "Responses indicate a mix of opinions on Schwartz Tutoring's current direction. Key themes include: enthusiasm for personalized learning plans, potential for expanding services (including life coaching and AI-related skills), focus on core subjects (math, science, business), cautious approach to AI uncertainties, improved online marketing to parents, expansion to other Ohio universities, and maintaining stability. One outlier response suggests an unconventional idea involving a bitcoin-miner-heated bathhouse."
+            },
+            {
+              "nodeId": "5",
+              "responseCount": 9,
+              "textSummary": "Responses vary widely, suggesting significant disagreement about the organization's future direction. Themes include: complete leadership overhaul, abandoning AI for human-only tutoring, shutting down operations, maintaining status quo, aggressive competition tactics, pivoting to investment in student startups, increasing marketing efforts, radical shifts to unrelated industries (cannabis delivery, military contracts), and implementing new incentive systems for tutors. The diversity of suggestions indicates a lack of consensus on the organization's core mission and strategy."
+            },
+            {
+              "nodeId": "6",
+              "responseCount": 17,
+              "ratingSummary": {
+                "counts": {
+                  "Developing partnerships with schools": 9,
+                  "Expanding subject offerings": 7,
+                  "Increasing marketing efforts": 6,
+                  "Improving technology platform": 6,
+                  "Enhancing tutor training": 2
+                }
+              }
+            },
+            {
+              "nodeId": "7",
+              "responseCount": 15,
+              "textSummary": "The responses indicate diverse perspectives on improving Schwartz Tutoring's services. Key themes include: expanding subject offerings (particularly in tech and emerging fields), enhancing the technology platform, developing partnerships with schools, increasing marketing efforts, improving tutor training, and focusing on human interactions. Some responses suggest unconventional ideas like pivoting to venture capital or cannabis delivery. A few responses express skepticism about the company's future or propose unethical practices. Overall, there's a mix of strategic suggestions and some off-topic or controversial ideas."
+            },
+            {
+              "nodeId": "9",
+              "responseCount": 14,
+              "textSummary": "Responses vary widely, from innovative ideas to unethical suggestions. Key themes include: specialization in math, science, and business; integrating life coaching; aggressive marketing tactics; transitioning to venture capital; and unconventional ideas like defense-oriented education or combining education with recreational facilities. Some responses propose illegal or unethical actions, while others focus on technological integration and improving tutor training. The diversity of ideas suggests a lack of consensus on the company's future direction."
+            }
+          ]
+        }
+      }
+    },
+    "createdAt": "2024-08-22T17:25:44.727Z",
+    "updatedAt": "2024-08-22T17:25:44.727Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c2683fac3ac39227fd0856",
+    "userId": "user_2hI4Q3LtR9n7a8TF2kkwhK0WPe6",
+    "data": {
+      "form": {
+        "title": "Schwartz Tutoring Shareholders (Better graph)",
         "createdAt": 1723680788416,
         "organizationName": "Schwartz Tutoring",
         "organizationRole": "Founder",
