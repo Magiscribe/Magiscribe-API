@@ -218,9 +218,9 @@
   {
     "_id": "669c6a6167c3fed48dee536c",
     "name": "chatReply",
-    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Your response can use markdown. Please keep your answers as short and concise as possible.\n\nOption 1: Make your markdown string base64 encoded. \n[{\"markdownTextBase64\": markdownTextBase64encoded}]\n\nOption 2: Use a raw string, but without markdown. This will be a nice plaintext answer. This option is generally preferable. Only use option 1 if something explicitly requests something that would require markdown.\n[{\"text\": regularText}]",
+    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Please keep your answers as short and concise as possible.\n\nOption 1: Make your markdown string base64 encoded. Use this if you want to do any sort of formatting (newlines, tabs, lists, etc.)\n[{\"markdownTextBase64\": markdownTextBase64encoded}]\n\nOption 2: Use a raw string, but without markdown. This will be a nice plaintext answer. This option is generally preferable, and more useful for simple concise answers. \n[{\"text\": regularText}]",
     "createdAt": "2024-07-21T01:54:41.710Z",
-    "updatedAt": "2024-08-23T21:32:27.118Z",
+    "updatedAt": "2024-08-26T02:40:28.274Z",
     "__v": 0
   },
   {
