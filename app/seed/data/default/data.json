@@ -14,6 +14,10 @@
         "explanation": "This graph represents a conversation flow for asking Schwartz Tutoring shareholders about the direction of the business. I want to start off by getting a general sense of satisfaction with the direction, then depending on the sentiment probe deeper into why. After that I will give the user multiple areas where we could consider improving our company and then follow up to get more details on their selections.",
         "nodes": [
           {
+            "id": "0",
+            "type": "start"
+          },
+          {
             "id": "1",
             "type": "information",
             "data": {
@@ -104,9 +108,17 @@
               "type": "end",
               "text": "Thank you for your valuable feedback. Your input will help shape the future of Schwartz Tutoring."
             }
+          },
+          {
+            "id": "11",
+            "type": "end"
           }
         ],
         "edges": [
+          {
+            "source": "0",
+            "target": "1"
+          },
           {
             "source": "1",
             "target": "2"
@@ -150,6 +162,10 @@
           {
             "source": "9",
             "target": "10"
+          },
+          {
+            "source": "10",
+            "target": "11"
           }
         ]
       },
@@ -163,9 +179,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -223,9 +237,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Satisfied"
-                ]
+                "ratings": ["Very Satisfied"]
               }
             },
             {
@@ -283,9 +295,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -343,9 +353,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -363,9 +371,7 @@
             {
               "id": "6",
               "data": {
-                "ratings": [
-                  "Increasing marketing efforts"
-                ]
+                "ratings": ["Increasing marketing efforts"]
               }
             },
             {
@@ -402,9 +408,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Satisfied"
-                ]
+                "ratings": ["Very Satisfied"]
               }
             },
             {
@@ -462,9 +466,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Neutral"
-                ]
+                "ratings": ["Neutral"]
               }
             },
             {
@@ -482,9 +484,7 @@
             {
               "id": "6",
               "data": {
-                "ratings": [
-                  "Improving technology platform"
-                ]
+                "ratings": ["Improving technology platform"]
               }
             },
             {
@@ -514,9 +514,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Satisfied"
-                ]
+                "ratings": ["Satisfied"]
               }
             },
             {
@@ -574,9 +572,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -634,9 +630,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Satisfied"
-                ]
+                "ratings": ["Satisfied"]
               }
             },
             {
@@ -654,9 +648,7 @@
             {
               "id": "6",
               "data": {
-                "ratings": [
-                  "Improving technology platform"
-                ]
+                "ratings": ["Improving technology platform"]
               }
             },
             {
@@ -693,9 +685,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Satisfied"
-                ]
+                "ratings": ["Satisfied"]
               }
             },
             {
@@ -713,9 +703,7 @@
             {
               "id": "6",
               "data": {
-                "ratings": [
-                  "Increasing marketing efforts"
-                ]
+                "ratings": ["Increasing marketing efforts"]
               }
             },
             {
@@ -735,9 +723,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Satisfied"
-                ]
+                "ratings": ["Satisfied"]
               }
             },
             {
@@ -778,9 +764,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Satisfied"
-                ]
+                "ratings": ["Satisfied"]
               }
             },
             {
@@ -838,9 +822,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -898,9 +880,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Unsatisfied"
-                ]
+                "ratings": ["Unsatisfied"]
               }
             },
             {
@@ -958,9 +938,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -1018,9 +996,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Satisfied"
-                ]
+                "ratings": ["Very Satisfied"]
               }
             },
             {
@@ -1078,9 +1054,7 @@
             {
               "id": "2",
               "data": {
-                "ratings": [
-                  "Very Unsatisfied"
-                ]
+                "ratings": ["Very Unsatisfied"]
               }
             },
             {
@@ -1134,40 +1108,13 @@
         "perResponse": {
           "tags": [
             {
-              "positive": [
-                "B",
-                "E",
-                "G",
-                "I",
-                "J",
-                "K",
-                "L",
-                "P"
-              ]
+              "positive": ["B", "E", "G", "I", "J", "K", "L", "P"]
             },
             {
-              "negative": [
-                "A",
-                "C",
-                "D",
-                "H",
-                "M",
-                "N",
-                "O",
-                "Q"
-              ]
+              "negative": ["A", "C", "D", "H", "M", "N", "O", "Q"]
             },
             {
-              "creative": [
-                "B",
-                "C",
-                "E",
-                "L",
-                "M",
-                "O",
-                "P",
-                "Q"
-              ]
+              "creative": ["B", "C", "E", "L", "M", "O", "P", "Q"]
             }
           ]
         },
