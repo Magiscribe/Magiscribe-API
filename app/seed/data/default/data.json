@@ -179,7 +179,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -237,7 +239,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -295,7 +299,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -353,7 +359,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -371,7 +379,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -408,7 +418,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -466,7 +478,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Neutral"]
+                "ratings": [
+                  "Neutral"
+                ]
               }
             },
             {
@@ -484,7 +498,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -514,7 +530,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -572,7 +590,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -630,7 +650,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -648,7 +670,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -685,7 +709,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -703,7 +729,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -723,7 +751,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -764,7 +794,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -822,7 +854,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -880,7 +914,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Unsatisfied"]
+                "ratings": [
+                  "Unsatisfied"
+                ]
               }
             },
             {
@@ -938,7 +974,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -996,7 +1034,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -1054,7 +1094,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -1102,19 +1144,106 @@
               "id": "10"
             }
           ]
+        },
+        {
+          "userId": "R",
+          "data": [
+            {
+              "id": "1"
+            },
+            {
+              "id": "2",
+              "data": {
+                "ratings": [
+                  "Neutral"
+                ]
+              }
+            },
+            {
+              "id": "3",
+              "data": {
+                "explanation": "The user expressed neutral sentiment, so we will send them to node 5"
+              }
+            },
+            {
+              "id": "5",
+              "data": {
+                "text": "I believe Schwartz Tutoring could greatly improve its outlook by expanding into life coaching services. This would complement our existing tutoring offerings and provide more comprehensive support to our clients."
+              }
+            },
+            {
+              "id": "6",
+              "data": {
+                "ratings": [
+                  "Expanding subject offerings",
+                  "Developing partnerships with schools"
+                ]
+              }
+            },
+            {
+              "id": "7",
+              "data": {
+                "question": "Could you elaborate on how expanding into life coaching could tie into developing partnerships with schools?",
+                "text": "Absolutely! By offering life coaching services, we could partner with schools to provide a more holistic approach to student development. Many schools lack resources for personal development and career guidance. We could fill this gap by offering life coaching sessions that focus on goal-setting, time management, and career planning. This would make our partnerships more valuable to schools and help students succeed both academically and personally."
+              }
+            },
+            {
+              "id": "8",
+              "data": {
+                "explanation": "The user gave a detailed thoughtful answer in node 7, so we will proceed to node 9"
+              }
+            },
+            {
+              "id": "9",
+              "data": {
+                "question": "That's an interesting perspective. How do you envision integrating life coaching with our current tutoring services to create a unique value proposition for students?",
+                "text": "I see life coaching and tutoring as complementary services that could create a powerful synergy. For instance, we could offer package deals where students receive both academic tutoring and life coaching sessions. The life coaching component could help students identify their long-term goals and motivations, which in turn could inform their academic focus. Our tutors could then tailor their approach based on these insights, making the learning process more relevant and engaging for each student. Additionally, we could develop workshops that blend academic skills with life skills, such as a course on 'Critical Thinking in Academic and Real-Life Scenarios'. This integrated approach would set us apart from competitors and provide a more comprehensive support system for students."
+              }
+            },
+            {
+              "id": "10"
+            }
+          ]
         }
       ],
       "summary": {
         "perResponse": {
           "tags": [
             {
-              "positive": ["B", "E", "G", "I", "J", "K", "L", "P"]
+              "positive": [
+                "B",
+                "E",
+                "G",
+                "I",
+                "J",
+                "K",
+                "L",
+                "P"
+              ]
             },
             {
-              "negative": ["A", "C", "D", "H", "M", "N", "O", "Q"]
+              "negative": [
+                "A",
+                "C",
+                "D",
+                "H",
+                "M",
+                "N",
+                "O",
+                "Q"
+              ]
             },
             {
-              "creative": ["B", "C", "E", "L", "M", "O", "P", "Q"]
+              "creative": [
+                "B",
+                "C",
+                "E",
+                "L",
+                "M",
+                "O",
+                "P",
+                "Q"
+              ]
             }
           ]
         },
@@ -1122,12 +1251,12 @@
           "questions": [
             {
               "nodeId": "2",
-              "responseCount": 17,
+              "responseCount": 18,
               "ratingSummary": {
                 "counts": {
                   "Very Unsatisfied": 7,
                   "Unsatisfied": 1,
-                  "Neutral": 1,
+                  "Neutral": 2,
                   "Satisfied": 5,
                   "Very Satisfied": 3
                 }
@@ -1140,16 +1269,16 @@
             },
             {
               "nodeId": "5",
-              "responseCount": 9,
+              "responseCount": 10,
               "textSummary": "Responses vary widely, suggesting significant disagreement about the organization's future direction. Themes include: complete leadership overhaul, abandoning AI for human-only tutoring, shutting down operations, maintaining status quo, aggressive competition tactics, pivoting to investment in student startups, increasing marketing efforts, radical shifts to unrelated industries (cannabis delivery, military contracts), and implementing new incentive systems for tutors. The diversity of suggestions indicates a lack of consensus on the organization's core mission and strategy."
             },
             {
               "nodeId": "6",
-              "responseCount": 17,
+              "responseCount": 18,
               "ratingSummary": {
                 "counts": {
-                  "Developing partnerships with schools": 9,
-                  "Expanding subject offerings": 7,
+                  "Developing partnerships with schools": 10,
+                  "Expanding subject offerings": 8,
                   "Increasing marketing efforts": 6,
                   "Improving technology platform": 6,
                   "Enhancing tutor training": 2
@@ -1158,12 +1287,12 @@
             },
             {
               "nodeId": "7",
-              "responseCount": 15,
+              "responseCount": 16,
               "textSummary": "The responses indicate diverse perspectives on improving Schwartz Tutoring's services. Key themes include: expanding subject offerings (particularly in tech and emerging fields), enhancing the technology platform, developing partnerships with schools, increasing marketing efforts, improving tutor training, and focusing on human interactions. Some responses suggest unconventional ideas like pivoting to venture capital or cannabis delivery. A few responses express skepticism about the company's future or propose unethical practices. Overall, there's a mix of strategic suggestions and some off-topic or controversial ideas."
             },
             {
               "nodeId": "9",
-              "responseCount": 14,
+              "responseCount": 15,
               "textSummary": "Responses vary widely, from innovative ideas to unethical suggestions. Key themes include: specialization in math, science, and business; integrating life coaching; aggressive marketing tactics; transitioning to venture capital; and unconventional ideas like defense-oriented education or combining education with recreational facilities. Some responses propose illegal or unethical actions, while others focus on technological integration and improving tutor training. The diversity of ideas suggests a lack of consensus on the company's future direction."
             }
           ]
@@ -1337,235 +1466,207 @@
             },
             "measured": {
               "width": 384,
-              "height": 48
+              "height": 46
             }
           },
           {
-            "id": "5y7e",
+            "id": "dhs8",
             "type": "information",
             "position": {
               "x": 390,
-              "y": 465
+              "y": 390
             },
             "data": {
-              "text": "Welcome to the AWS Labor Union participation survey."
+              "text": "Welcome to the optionality centrality!"
             },
             "measured": {
               "width": 384,
-              "height": 212
-            }
+              "height": 186
+            },
+            "selected": false
           },
           {
-            "id": "h6ix",
+            "id": "57ch",
             "type": "conversation",
             "position": {
-              "x": 585,
-              "y": 870
+              "x": 570,
+              "y": 795
             },
             "data": {
-              "text": "What is your role at Amazon?"
+              "text": "Pick your favorite answer!",
+              "type": "rating-single",
+              "ratings": [
+                "Good",
+                "Bad",
+                "Neutral"
+              ]
             },
             "measured": {
               "width": 384,
-              "height": 273
-            }
+              "height": 272
+            },
+            "selected": false
           },
           {
-            "id": "r7lx",
-            "type": "condition",
-            "position": {
-              "x": 586.9858802646177,
-              "y": 1280.8744061461862
-            },
-            "data": {
-              "text": "If managerial go to pio4, if labor go to B"
-            },
-            "measured": {
-              "width": 384,
-              "height": 96
-            }
-          },
-          {
-            "id": "pio4",
+            "id": "nvrt",
             "type": "conversation",
             "position": {
-              "x": -6.043311017283941,
-              "y": 1514.2984967811399
+              "x": 795,
+              "y": 1290
             },
             "data": {
-              "text": "Ask financial related questions to managers. Consider financial implications of hiring and firing decisions. ",
-              "dynamicGeneration": true
+              "text": "Pick any answer you like!",
+              "type": "rating-multi",
+              "ratings": [
+                "Red",
+                "Blue",
+                "Green",
+                "Purple",
+                "Indigo"
+              ]
             },
             "measured": {
               "width": 384,
-              "height": 321
-            }
+              "height": 272
+            },
+            "selected": false
           },
           {
-            "id": "414n",
-            "type": "condition",
-            "position": {
-              "x": 432.26924845160806,
-              "y": 1605.5697365224391
-            },
-            "data": {
-              "text": "If the user seems interested in continuing to give feedback, go back to pio4. If they are done, go to the node 3w7r"
-            },
-            "measured": {
-              "width": 384,
-              "height": 144
-            }
-          },
-          {
-            "id": "3w7r",
-            "type": "information",
-            "position": {
-              "x": 853.5809266547615,
-              "y": 2000.3079549593058
-            },
-            "data": {
-              "text": "Thank them for their input, summarize what's been discussed. This node is the last message you will send in the conversation before ending so treat it accordingly.",
-              "dynamicGeneration": true
-            },
-            "measured": {
-              "width": 384,
-              "height": 284
-            },
-            "selected": true
-          },
-          {
-            "id": "hycq",
+            "id": "9osy",
             "type": "conversation",
             "position": {
-              "x": 866.8587632882584,
-              "y": 1512.9020743055423
+              "x": 1050,
+              "y": 1665
             },
             "data": {
-              "text": "Ask labor related questions to blue collar workforce. Consider human implications of hiring and firing decisions. ",
-              "dynamicGeneration": true
+              "text": "What did you think about that?"
             },
             "measured": {
               "width": 384,
-              "height": 321
-            }
+              "height": 272
+            },
+            "selected": false
           },
           {
-            "id": "3x7m",
-            "type": "condition",
-            "position": {
-              "x": 1437.8879545701602,
-              "y": 1588.8258041197266
-            },
-            "data": {
-              "text": "If the user seems interested in continuing to give feedback, go back to hycq. If they are done, go to the node 3w7r"
-            },
-            "measured": {
-              "width": 384,
-              "height": 144
-            }
-          },
-          {
-            "id": "mcvf",
-            "type": "information",
-            "position": {
-              "x": 1080,
-              "y": 2370
-            },
-            "data": {
-              "text": "Done"
-            },
-            "measured": {
-              "width": 384,
-              "height": 188
-            }
-          },
-          {
-            "id": "qhry",
-            "type": "end",
+            "id": "gufn",
+            "type": "conversation",
             "position": {
               "x": 1260,
-              "y": 2685
+              "y": 2055
+            },
+            "data": {
+              "text": "Ask a final question to the user",
+              "dynamicGeneration": true
+            },
+            "measured": {
+              "width": 384,
+              "height": 272
+            },
+            "selected": false
+          },
+          {
+            "id": "xmtf",
+            "type": "information",
+            "position": {
+              "x": 1440,
+              "y": 2505
+            },
+            "data": {
+              "text": "Summarize interaction",
+              "dynamicGeneration": true
+            },
+            "measured": {
+              "width": 384,
+              "height": 186
+            },
+            "selected": false
+          },
+          {
+            "id": "xcpx",
+            "type": "information",
+            "position": {
+              "x": 1635,
+              "y": 2805
+            },
+            "data": {
+              "text": "You are done"
+            },
+            "measured": {
+              "width": 384,
+              "height": 186
+            },
+            "selected": false
+          },
+          {
+            "id": "ytp8",
+            "type": "end",
+            "position": {
+              "x": 1905,
+              "y": 3150
             },
             "data": {
               "text": ""
             },
             "measured": {
               "width": 384,
-              "height": 48
+              "height": 46
             }
           }
         ],
         "edges": [
           {
-            "id": "507a55d0-8bc1-46bf-8ae3-f752d1c4a703",
+            "id": "0-dhs8",
             "source": "0",
-            "target": "5y7e"
+            "target": "dhs8",
+            "animated": true
           },
           {
-            "id": "9aefdeb2-5c73-4c96-8e86-f7367023577d",
-            "source": "5y7e",
-            "target": "h6ix"
+            "id": "dhs8-57ch",
+            "source": "dhs8",
+            "target": "57ch",
+            "animated": true
           },
           {
-            "id": "3fc21547-096f-43ef-901a-6adaf6198ffc",
-            "source": "h6ix",
-            "target": "r7lx"
+            "id": "57ch-nvrt",
+            "source": "57ch",
+            "target": "nvrt",
+            "animated": true
           },
           {
-            "id": "9b2cfde8-1d11-48d5-8426-5d97437ca68c",
-            "source": "r7lx",
-            "target": "pio4"
+            "id": "nvrt-9osy",
+            "source": "nvrt",
+            "target": "9osy",
+            "animated": true
           },
           {
-            "id": "876eb269-b994-4bcf-bcf5-e3630a215660",
-            "source": "pio4",
-            "target": "414n"
+            "id": "9osy-gufn",
+            "source": "9osy",
+            "target": "gufn",
+            "animated": true
           },
           {
-            "id": "22b02aee-a017-43dd-a94c-d4772b0ff10b",
-            "source": "414n",
-            "target": "3w7r"
+            "id": "gufn-xmtf",
+            "source": "gufn",
+            "target": "xmtf",
+            "animated": true
           },
           {
-            "id": "78c0b666-d1b2-48ac-a9f6-9dd70d5cb72e",
-            "source": "414n",
-            "target": "pio4"
+            "id": "xmtf-xcpx",
+            "source": "xmtf",
+            "target": "xcpx",
+            "animated": true
           },
           {
-            "id": "6647c2a9-becc-4284-bc15-525826963881",
-            "source": "r7lx",
-            "target": "hycq"
-          },
-          {
-            "id": "d40905cf-156d-4197-8ac7-0857807f0913",
-            "source": "hycq",
-            "target": "3x7m"
-          },
-          {
-            "id": "9976775b-efdb-4cea-a85a-e1368ef2d75c",
-            "source": "3x7m",
-            "target": "3w7r"
-          },
-          {
-            "id": "54bbc1e7-fc9d-40ff-b1b4-1b9b2c14be73",
-            "source": "3x7m",
-            "target": "hycq"
-          },
-          {
-            "id": "14943036-8f26-417b-b885-7acf5b43504c",
-            "source": "3w7r",
-            "target": "mcvf"
-          },
-          {
-            "id": "3d4bf737-abb1-4c8a-83a5-d631ec20882c",
-            "source": "mcvf",
-            "target": "qhry"
+            "id": "xcpx-ytp8",
+            "source": "xcpx",
+            "target": "ytp8",
+            "animated": true
           }
         ]
       }
     },
     "createdAt": "2024-08-24T23:09:57.740Z",
-    "updatedAt": "2024-08-24T23:30:22.028Z",
+    "updatedAt": "2024-08-27T01:22:08.195Z",
     "__v": 0
   }
 ]
