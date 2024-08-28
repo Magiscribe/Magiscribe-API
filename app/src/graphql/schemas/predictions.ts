@@ -9,22 +9,22 @@ export default `#graphql
   }
 
   type Prediction {
-    id: String!
-    subscriptionId: String!
+    id: ID!
+    subscriptionId: ID!
     type: String!
     result: String
   }
 
   type Mutation {
     addPrediction(
-      subscriptionId: String!
-      agentId: String!
+      subscriptionId: ID!
+      agentId: ID!
       variables: JSONObject
       attachments: [JSONObject!]
     ): String
   }
 
   type Subscription {
-    predictionAdded(subscriptionId: String!): Prediction
+    predictionAdded(subscriptionId: ID!): Prediction
   }
 `;

@@ -21,7 +21,7 @@ export type Agent = {
   __typename?: 'Agent';
   capabilities: Array<Maybe<Capability>>;
   description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   memoryEnabled: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   outputFilter?: Maybe<Scalars['String']['output']>;
@@ -32,7 +32,7 @@ export type Agent = {
 export type AgentInput = {
   capabilities: Array<InputMaybe<Scalars['String']['input']>>;
   description: Scalars['String']['input'];
-  id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   memoryEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   outputFilter?: InputMaybe<Scalars['String']['input']>;
@@ -57,7 +57,7 @@ export type Capability = {
   __typename?: 'Capability';
   alias: Scalars['String']['output'];
   description: Scalars['String']['output'];
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   llmModel: Scalars['String']['output'];
   name: Scalars['String']['output'];
   outputFilter?: Maybe<Scalars['String']['output']>;
@@ -69,7 +69,7 @@ export type Capability = {
 export type CapabilityInput = {
   alias: Scalars['String']['input'];
   description: Scalars['String']['input'];
-  id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   llmModel?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   outputFilter?: InputMaybe<Scalars['String']['input']>;
@@ -78,105 +78,47 @@ export type CapabilityInput = {
   subscriptionFilter?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DataObject = {
-  __typename?: 'DataObject';
+export type Inquiry = {
+  __typename?: 'Inquiry';
+  createdAt: Scalars['String']['output'];
   data: Scalars['JSONObject']['output'];
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  responses?: Maybe<Array<InquiryResponse>>;
+  updatedAt: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
-export type Element = {
-  __typename?: 'Element';
-  _id: Scalars['String']['output'];
-  elementType: Scalars['String']['output'];
-  offsetX: Scalars['Float']['output'];
-  offsetY: Scalars['Float']['output'];
-  options: Scalars['JSONObject']['output'];
-};
-
-export type ElementCreateInput = {
-  elementType: Scalars['String']['input'];
-  offsetX: Scalars['Float']['input'];
-  offsetY: Scalars['Float']['input'];
-  options: Scalars['JSONObject']['input'];
-};
-
-export type ElementUpdateInput = {
-  elementType?: InputMaybe<Scalars['String']['input']>;
-  offsetX?: InputMaybe<Scalars['Float']['input']>;
-  offsetY?: InputMaybe<Scalars['Float']['input']>;
-  options?: InputMaybe<Scalars['JSONObject']['input']>;
-};
-
-export type Frame = {
-  __typename?: 'Frame';
-  _id: Scalars['String']['output'];
-  childElements: Array<Element>;
-  childFrames: Array<Frame>;
-  endX: Scalars['Float']['output'];
-  endY: Scalars['Float']['output'];
-  height: Scalars['Float']['output'];
-  name: Scalars['String']['output'];
-  offsetX: Scalars['Float']['output'];
-  offsetY: Scalars['Float']['output'];
-  startX: Scalars['Float']['output'];
-  startY: Scalars['Float']['output'];
-  width: Scalars['Float']['output'];
-};
-
-export type FrameCreateInput = {
-  endX: Scalars['Float']['input'];
-  endY: Scalars['Float']['input'];
-  height: Scalars['Float']['input'];
-  name: Scalars['String']['input'];
-  offsetX: Scalars['Float']['input'];
-  offsetY: Scalars['Float']['input'];
-  startX: Scalars['Float']['input'];
-  startY: Scalars['Float']['input'];
-  width: Scalars['Float']['input'];
-};
-
-export type FrameUpdateInput = {
-  endX?: InputMaybe<Scalars['Float']['input']>;
-  endY?: InputMaybe<Scalars['Float']['input']>;
-  height?: InputMaybe<Scalars['Float']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  offsetX?: InputMaybe<Scalars['Float']['input']>;
-  offsetY?: InputMaybe<Scalars['Float']['input']>;
-  startX?: InputMaybe<Scalars['Float']['input']>;
-  startY?: InputMaybe<Scalars['Float']['input']>;
-  width?: InputMaybe<Scalars['Float']['input']>;
+export type InquiryResponse = {
+  __typename?: 'InquiryResponse';
+  createdAt: Scalars['String']['output'];
+  data: Array<Scalars['JSONObject']['output']>;
+  id: Scalars['ID']['output'];
+  updatedAt: Scalars['String']['output'];
+  userId?: Maybe<Scalars['ID']['output']>;
 };
 
 export type Model = {
   __typename?: 'Model';
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   region: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addChildElements?: Maybe<Frame>;
-  addChildFrames?: Maybe<Frame>;
   addMediaAsset?: Maybe<Scalars['String']['output']>;
   addPrediction?: Maybe<Scalars['String']['output']>;
-  addUpdateAgent?: Maybe<Agent>;
-  addUpdateCapability?: Maybe<Capability>;
-  addUpdatePrompt?: Maybe<Prompt>;
-  createElement?: Maybe<Element>;
-  createFrame?: Maybe<Frame>;
-  createUpdateDataObject: DataObject;
   deleteAgent?: Maybe<Agent>;
   deleteCapability?: Maybe<Capability>;
-  deleteDataObject: DataObject;
-  deleteElement?: Maybe<Element>;
-  deleteFrame?: Maybe<Frame>;
+  deleteInquiry?: Maybe<Scalars['Boolean']['output']>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   generateTranscriptionStreamingCredentials?: Maybe<TemporaryCredentials>;
-  insertIntoDataObject: DataObject;
-  updateElement?: Maybe<Element>;
-  updateFrame?: Maybe<Frame>;
+  upsertAgent?: Maybe<Agent>;
+  upsertCapability?: Maybe<Capability>;
+  upsertInquiry?: Maybe<Inquiry>;
+  upsertInquiryResponse?: Maybe<InquiryResponse>;
+  upsertPrompt?: Maybe<Prompt>;
 };
 
 
@@ -199,9 +141,9 @@ export type MutationAddMediaAssetArgs = {
 
 
 export type MutationAddPredictionArgs = {
-  agentId: Scalars['String']['input'];
+  agentId: Scalars['ID']['input'];
   attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
-  subscriptionId: Scalars['String']['input'];
+  subscriptionId: Scalars['ID']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
 };
 
@@ -293,9 +235,9 @@ export type MutationUpdateFrameArgs = {
 
 export type Prediction = {
   __typename?: 'Prediction';
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   result?: Maybe<Scalars['String']['output']>;
-  subscriptionId: Scalars['String']['output'];
+  subscriptionId: Scalars['ID']['output'];
   type: Scalars['String']['output'];
 };
 
@@ -308,21 +250,19 @@ export enum PredictionType {
 
 export type Prompt = {
   __typename?: 'Prompt';
-  id: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   text: Scalars['String']['output'];
 };
 
 export type PromptInput = {
-  id?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
   text: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  dataObject: DataObject;
-  dataObjectsCreated: Array<DataObject>;
   getAgent?: Maybe<Agent>;
   getAgentWithPrompts?: Maybe<Agent>;
   getAllAgents?: Maybe<Array<Maybe<Agent>>>;
@@ -330,8 +270,9 @@ export type Query = {
   getAllModels?: Maybe<Array<Maybe<Model>>>;
   getAllPrompts?: Maybe<Array<Maybe<Prompt>>>;
   getCapability?: Maybe<Capability>;
-  getElement?: Maybe<Element>;
-  getFrame?: Maybe<Frame>;
+  getInquiries?: Maybe<Array<Maybe<Inquiry>>>;
+  getInquiry?: Maybe<Inquiry>;
+  getInquiryResponses?: Maybe<Array<Maybe<InquiryResponse>>>;
   getPrompt?: Maybe<Prompt>;
 };
 
@@ -342,17 +283,17 @@ export type QueryDataObjectArgs = {
 
 
 export type QueryGetAgentArgs = {
-  agentId: Scalars['String']['input'];
+  agentId: Scalars['ID']['input'];
 };
 
 
 export type QueryGetAgentWithPromptsArgs = {
-  agentId: Scalars['String']['input'];
+  agentId: Scalars['ID']['input'];
 };
 
 
 export type QueryGetCapabilityArgs = {
-  capabilityId: Scalars['String']['input'];
+  capabilityId: Scalars['ID']['input'];
 };
 
 
@@ -367,7 +308,7 @@ export type QueryGetFrameArgs = {
 
 
 export type QueryGetPromptArgs = {
-  promptId: Scalars['String']['input'];
+  promptId: Scalars['ID']['input'];
 };
 
 export type Subscription = {
@@ -377,7 +318,7 @@ export type Subscription = {
 
 
 export type SubscriptionPredictionAddedArgs = {
-  subscriptionId: Scalars['String']['input'];
+  subscriptionId: Scalars['ID']['input'];
 };
 
 export type TemporaryCredentials = {
@@ -465,14 +406,9 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Capability: ResolverTypeWrapper<Capability>;
   CapabilityInput: CapabilityInput;
-  DataObject: ResolverTypeWrapper<DataObject>;
-  Element: ResolverTypeWrapper<Element>;
-  ElementCreateInput: ElementCreateInput;
-  ElementUpdateInput: ElementUpdateInput;
-  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
-  Frame: ResolverTypeWrapper<Frame>;
-  FrameCreateInput: FrameCreateInput;
-  FrameUpdateInput: FrameUpdateInput;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Inquiry: ResolverTypeWrapper<Inquiry>;
+  InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -495,14 +431,9 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Capability: Capability;
   CapabilityInput: CapabilityInput;
-  DataObject: DataObject;
-  Element: Element;
-  ElementCreateInput: ElementCreateInput;
-  ElementUpdateInput: ElementUpdateInput;
-  Float: Scalars['Float']['output'];
-  Frame: Frame;
-  FrameCreateInput: FrameCreateInput;
-  FrameUpdateInput: FrameUpdateInput;
+  ID: Scalars['ID']['output'];
+  Inquiry: Inquiry;
+  InquiryResponse: InquiryResponse;
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
   Mutation: {};
@@ -518,7 +449,7 @@ export type ResolversParentTypes = {
 export type AgentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Agent'] = ResolversParentTypes['Agent']> = {
   capabilities?: Resolver<Array<Maybe<ResolversTypes['Capability']>>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   memoryEnabled?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   outputFilter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -537,7 +468,7 @@ export type AgentReasoningResolvers<ContextType = any, ParentType extends Resolv
 export type CapabilityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Capability'] = ResolversParentTypes['Capability']> = {
   alias?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   llmModel?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   outputFilter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -549,7 +480,10 @@ export type CapabilityResolvers<ContextType = any, ParentType extends ResolversP
 
 export type DataObjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['DataObject'] = ResolversParentTypes['DataObject']> = {
   data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  responses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -616,7 +550,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type PredictionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Prediction'] = ResolversParentTypes['Prediction']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  subscriptionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subscriptionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -654,13 +588,12 @@ export type TemporaryCredentialsResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = Context> = {
   Agent?: AgentResolvers<ContextType>;
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
-  DataObject?: DataObjectResolvers<ContextType>;
-  Element?: ElementResolvers<ContextType>;
-  Frame?: FrameResolvers<ContextType>;
+  Inquiry?: InquiryResolvers<ContextType>;
+  InquiryResponse?: InquiryResponseResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

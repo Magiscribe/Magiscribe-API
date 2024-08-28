@@ -1,24 +1,24 @@
 export default `#graphql
   type Model {
-    id: String!
+    id: ID!
     name: String!
     region: String!
   }
 
   input PromptInput {
-    id: String
+    id: ID
     name: String!
     text: String!
   }
 
   type Prompt {
-    id: String!
+    id: ID!
     name: String!
     text: String!
   }
 
   input CapabilityInput {
-    id: String
+    id: ID
     name: String!
     alias: String!
     llmModel: String
@@ -31,7 +31,7 @@ export default `#graphql
   }
 
   type Capability {
-    id: String!
+    id: ID!
     name: String!
     alias: String!
     llmModel: String!
@@ -50,7 +50,7 @@ export default `#graphql
   }
 
   input AgentInput {
-    id: String
+    id: ID
     name: String!
     description: String!
     reasoning: AgentReasoningInput
@@ -69,7 +69,7 @@ export default `#graphql
   }
 
   type Agent {
-    id: String!
+    id: ID!
     name: String!
     description: String!
     reasoning: AgentReasoning
@@ -82,28 +82,28 @@ export default `#graphql
   }
 
   type Mutation {
-    addUpdatePrompt(prompt: PromptInput!): Prompt @auth(requires: admin)
-    deletePrompt(promptId: String!): Prompt @auth(requires: admin)
+    upsertPrompt(prompt: PromptInput!): Prompt @auth(requires: admin)
+    deletePrompt(promptId: ID!): Prompt @auth(requires: admin)
 
-    addUpdateCapability(capability: CapabilityInput!): Capability
+    upsertCapability(capability: CapabilityInput!): Capability
       @auth(requires: admin)
-    deleteCapability(capabilityId: String!): Capability @auth(requires: admin)
+    deleteCapability(capabilityId: ID!): Capability @auth(requires: admin)
 
-    addUpdateAgent(agent: AgentInput!): Agent @auth(requires: admin)
-    deleteAgent(agentId: String!): Agent @auth(requires: admin)
+    upsertAgent(agent: AgentInput!): Agent @auth(requires: admin)
+    deleteAgent(agentId: ID!): Agent @auth(requires: admin)
   }
 
   type Query {
     getAllModels: [Model] @auth(requires: admin)
 
-    getPrompt(promptId: String!): Prompt @auth(requires: admin)
+    getPrompt(promptId: ID!): Prompt @auth(requires: admin)
     getAllPrompts: [Prompt] @auth(requires: admin)
 
-    getCapability(capabilityId: String!): Capability @auth(requires: admin)
+    getCapability(capabilityId: ID!): Capability @auth(requires: admin)
     getAllCapabilities: [Capability] @auth(requires: admin)
 
-    getAgent(agentId: String!): Agent
-    getAgentWithPrompts(agentId: String!): Agent
+    getAgent(agentId: ID!): Agent
+    getAgentWithPrompts(agentId: ID!): Agent
     getAllAgents: [Agent]
   }
 `;

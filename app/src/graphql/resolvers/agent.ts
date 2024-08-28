@@ -4,7 +4,7 @@ import { LLM_MODELS_VERSION } from '@utils/ai/models';
 
 export default {
   Mutation: {
-    addUpdatePrompt: async (_, { prompt }: { prompt }) => {
+    upsertPrompt: async (_, { prompt }: { prompt }) => {
       if (!prompt.id) {
         return await Prompt.create(prompt);
       }
@@ -18,7 +18,7 @@ export default {
     deletePrompt: async (_, { promptId }: { promptId: string }) => {
       return await Prompt.findOneAndDelete({ _id: promptId });
     },
-    addUpdateCapability: async (_, { capability }: { capability }) => {
+    upsertCapability: async (_, { capability }: { capability }) => {
       if (!capability.id) {
         return (await Capability.create(capability)).populate('prompts');
       }
@@ -36,7 +36,7 @@ export default {
     deleteCapability: async (_, { capabilityId }: { capabilityId: string }) => {
       return await Capability.findOneAndDelete({ _id: capabilityId });
     },
-    addUpdateAgent: async (_, { agent }: { agent }) => {
+    upsertAgent: async (_, { agent }: { agent }) => {
       if (!agent.id) {
         return (await Agent.create(agent)).populate('capabilities');
       }
