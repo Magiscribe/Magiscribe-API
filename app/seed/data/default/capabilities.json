@@ -231,7 +231,7 @@
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "669dae465414a7bb2bbf9e2d",
+      "66a1c05daee5ed4db1547b05",
       "66971df6d2a052885450d767",
       "6695d849888b8bcf4b03be85"
     ],
@@ -239,7 +239,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-18T03:02:02.613Z",
+    "updatedAt": "2024-08-23T21:22:48.346Z",
     "__v": 0
   },
   {
@@ -250,15 +250,15 @@
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
+      "66a1c05daee5ed4db1547b05",
       "66971f23d2a052885450d78c",
-      "669dae465414a7bb2bbf9e2d",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-18T03:01:52.450Z",
+    "updatedAt": "2024-08-23T21:22:27.204Z",
     "__v": 0
   },
   {
@@ -281,12 +281,13 @@
   },
   {
     "_id": "669c6a3967c3fed48dee5362",
-    "name": "Analysis Chat Reply Capability",
-    "alias": "AnalysisChatReplyCapability",
+    "name": "Chat Reply Capability",
+    "alias": "ChatReplyCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
+      "66a1c05daee5ed4db1547b05",
       "669c6a6167c3fed48dee536c",
       "6695d849888b8bcf4b03be85"
     ],
@@ -294,7 +295,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-08-18T18:00:40.650Z",
+    "updatedAt": "2024-08-26T02:37:29.010Z",
     "__v": 0
   },
   {
@@ -412,7 +413,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-08-22T22:37:22.197Z",
+    "updatedAt": "2024-08-27T02:29:41.740Z",
     "__v": 0
   },
   {
@@ -428,11 +429,11 @@
       "669dae465414a7bb2bbf9e2d",
       "66bf8d0aa9430d3fa1391448"
     ],
-    "outputMode": "STREAMING_INDIVIDUAL",
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-08-16T18:10:31.050Z",
+    "updatedAt": "2024-08-26T02:19:36.175Z",
     "__v": 0
   },
   {
@@ -515,6 +516,88 @@
     "outputFilter": null,
     "createdAt": "2024-08-22T03:13:27.124Z",
     "updatedAt": "2024-08-22T04:09:02.885Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c8a9f8d28a5133dd801ab7",
+    "name": "Dynamic Question Generation",
+    "alias": "DynamicQuestionGenerationCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
+      "66bf8ccba9430d3fa1391445",
+      "669dae465414a7bb2bbf9e2d",
+      "669541137ceb83a7fb75eb17"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-23T15:25:44.507Z",
+    "updatedAt": "2024-08-23T15:35:18.354Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c95576ae782803372bd9f8",
+    "name": "Dynamic Information Generation",
+    "alias": "DynamicInformationGenerationCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
+      "66bf8ccba9430d3fa1391445",
+      "669dae465414a7bb2bbf9e2d",
+      "66c9558dae782803372bda00"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-24T03:37:26.531Z",
+    "updatedAt": "2024-08-24T23:27:22.938Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c8ec09e952d5c0a4dbdb34",
+    "name": "Barchart Chat Reply",
+    "alias": "BarchartChatReplyCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Creates the data for a bar chart and does a chat reply",
+    "prompts": [
+      "669c694867c3fed48dee5343",
+      "66a1c05daee5ed4db1547b05",
+      "66971f23d2a052885450d78c",
+      "669c6a6167c3fed48dee536c",
+      "66c8ec59e952d5c0a4dbdb3c",
+      "6695d849888b8bcf4b03be85"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-23T20:07:37.601Z",
+    "updatedAt": "2024-08-23T21:32:28.353Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c8fff0e952d5c0a4dbdc91",
+    "name": "Piechart Chat Reply",
+    "alias": "PiechartChatReplyCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Creates the data for a bar chart and does a chat reply",
+    "prompts": [
+      "669c694867c3fed48dee5343",
+      "66a1c05daee5ed4db1547b05",
+      "66971df6d2a052885450d767",
+      "669c6a6167c3fed48dee536c",
+      "66c8ec59e952d5c0a4dbdb3c",
+      "6695d849888b8bcf4b03be85"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-23T21:32:32.514Z",
+    "updatedAt": "2024-08-23T21:33:30.061Z",
     "__v": 0
   }
 ]
