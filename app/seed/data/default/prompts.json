@@ -186,17 +186,17 @@
   {
     "_id": "66971df6d2a052885450d767",
     "name": "pieChart",
-    "text": "<pieChartJSON>\nIdentify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. \nNote: Provide additional explanation in the \"explanation\" key in the json.\n[{\"explanation\": \"How and why you decided to group the categories as is.\", \n\"title\":\"Commonly requested features\",\n\"chartType\": \"PieChart\", \n\"data\": [{\"name\": \"Social features \",\"value\":2}, {\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]\n}]'\n</pieChartJSON>",
+    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. \nNote: Provide additional explanation in the \"explanation\" key in the json.\n\n```json\n{\"explanation\": \"How and why you decided to group the categories as is.\", \n\"title\":\"Commonly requested features\",\n\"chartType\": \"PieChart\", \n\"data\": [{\"name\": \"Social features \",\"value\":2}, {\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]\n}'\n```",
     "createdAt": "2024-07-17T01:27:18.241Z",
-    "updatedAt": "2024-08-23T21:22:47.120Z",
+    "updatedAt": "2024-08-28T20:02:29.790Z",
     "__v": 0
   },
   {
     "_id": "66971f23d2a052885450d78c",
     "name": "barChart",
-    "text": "<barChartJSON>\nIdentify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. Provide an explanation in the \"explanation\" key first as a string.\n[{\"explanation\": \"How and why you decide to break things up.\", \n\"title\":\"Commonly requested features\",\n\"chartType\": \"BarChart\", \n\"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]\n}]\n</barChartJSON>",
+    "text": "Identify and categorize the most common features. Create a summary of the top concepts, including their frequency, in a format suitable for generating a chart. Focus on concepts mentioned by multiple users and group similar ideas together. Present the results as a JSON object with a title, chart type, and data array containing the feature names and their corresponding values (frequency of requests). You are welcome to use \"Other\" for the remaining categories. You should not have more than 5 categories total. An example transformation is provided below. Provide an explanation in the \"explanation\" key first as a string.\n\n```json\n{\"explanation\": \"How and why you decide to break things up.\", \n\"title\":\"Commonly requested features\",\n\"chartType\": \"BarChart\", \n\"data\": [{\"name\": \"Social features \",\"value\":2},{\"name\": \"Carbon Footprint Tracker\", \"value\": 3}]\n}\n```",
     "createdAt": "2024-07-17T01:32:19.074Z",
-    "updatedAt": "2024-08-23T21:22:25.898Z",
+    "updatedAt": "2024-08-28T20:02:07.460Z",
     "__v": 0
   },
   {
@@ -212,15 +212,15 @@
     "name": "conversationData",
     "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user in <prompt>. Do not mention the existence of <conversationData> tags in your output, this is hidden from the user interface.\n\n<conversationData> has the following JSON structure and type definition:\ninterface ConversationData {\n    userId: string;\n    data: {\n        form: Form\n        graph: Graph\n        nodeVisitData: IndividualConversationData[]\n    }\n}\n\ninterface Form {\n    organizationName: string;\n    organizationRole: string;\n    inputGoals: string;\n    title: string;\n    createdAt: number;\n}\n\ninterface Graph {\n    explanation: string;\n    nodes: GraphNode[];\n    edges: GraphEdge[];\n}\n\ninterface GraphNode {\n    id: string;\n    type: NodeType;\n    data?: ConversationNodeData | ConditionNodeData | InformationNodeData;\n}\n\ninterface ConversationNodeData {\n    text?: string;\n    instruction?: string;\n    type: 'rating-single' | 'rating-multi' | 'open-ended' | 'scalar-single' | 'scalar-multi';\n    ratings?: string[];\n    scalars?: string[];\n}\n\ninterface ConditionNodeData {\n    instruction: string;\n}\n\ninterface InformationNodeData {\n    type: 'start' | 'end' | 'general';\n    text?: string;\n}\n\ninterface GraphEdge {\n    source: string;\n    target: string;\n}\n\ninterface IndividualConversationData {\n    userId?: string;\n    data: NodeVisitData[]\n}\n\ninterface NodeVisitData {\n    id: string,\n    data?: {\n        explanation?: string,\n        text?: string\n        ratings?: string[]\n        scalars?: number[]\n    }\n}\n\n<conversationData>\n{{conversationData}}\n</conversationData>\n\n<metadata>\nThere are {{numResponses}} responses total in the dataset\n</metadata>",
     "createdAt": "2024-07-21T01:50:00.060Z",
-    "updatedAt": "2024-08-18T18:07:33.670Z",
+    "updatedAt": "2024-08-28T20:03:07.032Z",
     "__v": 0
   },
   {
     "_id": "669c6a6167c3fed48dee536c",
     "name": "chatReply",
-    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Please keep your answers as short and concise as possible.\n\nOption 1: Make your markdown string base64 encoded. Use this if you want to do any sort of formatting (newlines, tabs, lists, etc.)\n[{\"markdownTextBase64\": markdownTextBase64encoded}]\n\nOption 2: Use a raw string, but without markdown. This will be a nice plaintext answer. This option is generally preferable, and more useful for simple concise answers. \n[{\"text\": regularText}]",
+    "text": "Analyze the responses in the <conversationData> tag pertinent to the question asked by the user. Create a summary of the top concepts. Focus on ideas mentioned by multiple users and group similar ideas together into a larger concept. Look at the {{history}} if you need to as well. Please keep your answers as short and concise as possible.\n\nRespond using markdown in the following format \n```markdown\nmarkdownText\n```",
     "createdAt": "2024-07-21T01:54:41.710Z",
-    "updatedAt": "2024-08-26T02:40:28.274Z",
+    "updatedAt": "2024-08-28T20:02:58.360Z",
     "__v": 0
   },
   {
@@ -394,9 +394,9 @@
   {
     "_id": "66c8ec59e952d5c0a4dbdb3c",
     "name": "combinedAnalysisResponse",
-    "text": "Please give your answer in the following format. Return it as a list with the index 0 element being a chart JSON and the index 1 element being json with the key \"markdownTextBase64\" a string as the markdown text you want to write, after having been base64 encoded\n\nOption 1\n[\nchartJSON,\n{\"markdownTextBase64\": markdownStringBase64encoded}\n]\n\nOption 2 (Preferred if possible)\n[\nchartJSON,\n{\"text\": regularText}\n]\n\nYou should only respond with this list. There should not be any additional comments before or after the list.",
+    "text": "Please give your answer in the following format. Return the chart JSON and markdownText as indicated below.\n\n```json\nchartJSON\n```\n\n```markdown\nmarkdownText\n```\n\nYou should only respond with these two blocks. There should not be any additional comments before or after these results.",
     "createdAt": "2024-08-23T20:08:57.677Z",
-    "updatedAt": "2024-08-23T21:19:53.299Z",
+    "updatedAt": "2024-08-28T20:01:22.890Z",
     "__v": 0
   },
   {

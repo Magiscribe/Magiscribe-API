@@ -44,7 +44,7 @@
             "id": "3",
             "type": "condition",
             "data": {
-              "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
+              "text": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
             }
           },
           {
@@ -83,14 +83,14 @@
             "type": "conversation",
             "data": {
               "type": "open-ended",
-              "instruction": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
+              "text": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
             }
           },
           {
             "id": "8",
             "type": "condition",
             "data": {
-              "instruction": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
+              "text": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
             }
           },
           {
@@ -98,7 +98,7 @@
             "type": "conversation",
             "data": {
               "type": "open-ended",
-              "instruction": "Construct an insightful follow-up question from the user answer in node 8."
+              "text": "Construct an insightful follow-up question from the user answer in node 8."
             }
           },
           {
@@ -179,7 +179,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -237,7 +239,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -295,7 +299,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -353,7 +359,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -371,7 +379,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -408,7 +418,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -466,7 +478,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Neutral"]
+                "ratings": [
+                  "Neutral"
+                ]
               }
             },
             {
@@ -484,7 +498,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -514,7 +530,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -572,7 +590,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -630,7 +650,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -648,7 +670,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Improving technology platform"]
+                "ratings": [
+                  "Improving technology platform"
+                ]
               }
             },
             {
@@ -685,7 +709,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -703,7 +729,9 @@
             {
               "id": "6",
               "data": {
-                "ratings": ["Increasing marketing efforts"]
+                "ratings": [
+                  "Increasing marketing efforts"
+                ]
               }
             },
             {
@@ -723,7 +751,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -764,7 +794,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Satisfied"]
+                "ratings": [
+                  "Satisfied"
+                ]
               }
             },
             {
@@ -822,7 +854,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -880,7 +914,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Unsatisfied"]
+                "ratings": [
+                  "Unsatisfied"
+                ]
               }
             },
             {
@@ -938,7 +974,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -996,7 +1034,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Satisfied"]
+                "ratings": [
+                  "Very Satisfied"
+                ]
               }
             },
             {
@@ -1054,7 +1094,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Very Unsatisfied"]
+                "ratings": [
+                  "Very Unsatisfied"
+                ]
               }
             },
             {
@@ -1112,7 +1154,9 @@
             {
               "id": "2",
               "data": {
-                "ratings": ["Neutral"]
+                "ratings": [
+                  "Neutral"
+                ]
               }
             },
             {
@@ -1166,13 +1210,40 @@
         "perResponse": {
           "tags": [
             {
-              "positive": ["B", "E", "G", "I", "J", "K", "L", "P"]
+              "positive": [
+                "B",
+                "E",
+                "G",
+                "I",
+                "J",
+                "K",
+                "L",
+                "P"
+              ]
             },
             {
-              "negative": ["A", "C", "D", "H", "M", "N", "O", "Q"]
+              "negative": [
+                "A",
+                "C",
+                "D",
+                "H",
+                "M",
+                "N",
+                "O",
+                "Q"
+              ]
             },
             {
-              "creative": ["B", "C", "E", "L", "M", "O", "P", "Q"]
+              "creative": [
+                "B",
+                "C",
+                "E",
+                "L",
+                "M",
+                "O",
+                "P",
+                "Q"
+              ]
             }
           ]
         },

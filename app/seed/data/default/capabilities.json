@@ -154,7 +154,10 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -168,7 +171,10 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -182,7 +188,10 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -215,7 +224,10 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -231,7 +243,6 @@
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66a1c05daee5ed4db1547b05",
       "66971df6d2a052885450d767",
       "6695d849888b8bcf4b03be85"
     ],
@@ -239,7 +250,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-23T21:22:48.346Z",
+    "updatedAt": "2024-08-28T20:02:30.941Z",
     "__v": 0
   },
   {
@@ -250,7 +261,6 @@
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66a1c05daee5ed4db1547b05",
       "66971f23d2a052885450d78c",
       "6695d849888b8bcf4b03be85"
     ],
@@ -258,7 +268,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-23T21:22:27.204Z",
+    "updatedAt": "2024-08-28T20:02:13.093Z",
     "__v": 0
   },
   {
@@ -287,7 +297,6 @@
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66a1c05daee5ed4db1547b05",
       "669c6a6167c3fed48dee536c",
       "6695d849888b8bcf4b03be85"
     ],
@@ -295,7 +304,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-08-26T02:37:29.010Z",
+    "updatedAt": "2024-08-28T20:03:08.388Z",
     "__v": 0
   },
   {
@@ -566,7 +575,6 @@
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66a1c05daee5ed4db1547b05",
       "66971f23d2a052885450d78c",
       "669c6a6167c3fed48dee536c",
       "66c8ec59e952d5c0a4dbdb3c",
@@ -576,7 +584,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T20:07:37.601Z",
-    "updatedAt": "2024-08-23T21:32:28.353Z",
+    "updatedAt": "2024-08-28T19:47:05.799Z",
     "__v": 0
   },
   {
@@ -587,7 +595,6 @@
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
-      "66a1c05daee5ed4db1547b05",
       "66971df6d2a052885450d767",
       "669c6a6167c3fed48dee536c",
       "66c8ec59e952d5c0a4dbdb3c",
@@ -597,7 +604,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
-    "updatedAt": "2024-08-23T21:33:30.061Z",
+    "updatedAt": "2024-08-28T20:01:25.303Z",
     "__v": 0
   }
 ]
