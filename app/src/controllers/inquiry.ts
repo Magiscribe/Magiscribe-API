@@ -1,5 +1,8 @@
 import { Inquiry, InquiryResponse } from '@database/models/inquiry';
-import { Inquiry as InquiryObject } from '@generated/graphql';
+import {
+  Inquiry as TInquiry,
+  InquiryResponse as TInquiryResponse,
+} from '@generated/graphql';
 import log from '@log';
 
 /**
@@ -7,11 +10,7 @@ import log from '@log';
  * @param data The data object to create or update.
  * @returns The created or updated data object.
  */
-export async function createInquiry({
-  id,
-  userId,
-  data,
-}): Promise<InquiryObject> {
+export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
   if (!id) {
     log.info({
       message: 'Creating new data object',
@@ -46,14 +45,10 @@ export async function createInquiry({
 /**
  * Deletes a data object by its ID.
  * @param id The ID of the data object to delete.
+ * @param userId The ID of the user who owns the data object.
+ * @returns {Promise<void>} A promise that resolves when the data object is deleted.
  */
-export async function deleteInquiry({
-  id,
-  userId,
-}: {
-  id: string;
-  userId: string;
-}): Promise<void> {
+export async function deleteInquiry({ id, userId }): Promise<void> {
   log.info({
     message: 'Deleting data object',
     id,
@@ -80,7 +75,7 @@ export async function deleteInquiry({
  * @param id {string} The ID of the data object to retrieve.
  * @returns {Promise<IData | null>} The data object with the specified ID, or null if not found.
  */
-export async function getInquiry(id: string): Promise<InquiryObject> {
+export async function getInquiry(id: string): Promise<TInquiry> {
   const result = await Inquiry.findOne({ _id: id });
   if (!result) {
     log.warn({
@@ -97,7 +92,7 @@ export async function getInquiry(id: string): Promise<InquiryObject> {
  * @param userId {string} The ID of the user whose forms we want to retrieve.
  * @returns {Promise<DataObject[]>} An array of data objects associated with the user.
  */
-export async function getInquiries(userId: string): Promise<InquiryObject[]> {
+export async function getInquiries(userId: string): Promise<TInquiry[]> {
   log.info({
     message: 'Fetching user data',
     userId,
@@ -125,14 +120,14 @@ export async function getInquiries(userId: string): Promise<InquiryObject[]> {
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
  * @param data The data object to create or update.
- * @returns The created or updated data object.
+ * @returns {Promise<TInquiry>} The created or updated data object.
  */
 export async function createInquiryResponse({
   id,
   inquiryId,
   userId,
   data,
-}): Promise<InquiryObject> {
+}): Promise<TInquiry> {
   if (!id) {
     log.info({
       message: 'Creating new inquiry response',
@@ -171,11 +166,12 @@ export async function createInquiryResponse({
   }
 }
 
-export async function getInquiryResponses({
-  id,
-}: {
-  id: string;
-}): Promise<InquiryObject> {
+/**
+ * Retrieves all responses associated with a specific inquiry ID.
+ * @param data The data object to create or update.
+ * @returns {Promise<InquiryResponse[]>} An array of responses associated with the inquiry.
+ */
+export async function getInquiryResponses({ id }): Promise<TInquiryResponse[]> {
   const inquiry = await Inquiry.findById({
     _id: id,
   }).populate('responses');
@@ -184,5 +180,9 @@ export async function getInquiryResponses({
     throw new Error('Inquiry not found');
   }
 
-  return inquiry['responses'];
+  if (!inquiry.responses) {
+    throw new Error('Inquiry responses not found');
+  }
+
+  return inquiry.responses;
 }

@@ -1,12 +1,4 @@
 import {
-  MutationDeleteInquiryArgs,
-  MutationUpsertInquiryArgs,
-  MutationUpsertInquiryResponseArgs,
-  QueryGetInquiryArgs,
-  QueryGetInquiryResponsesArgs,
-} from '@generated/graphql';
-import { Context } from '@customTypes/context';
-import {
   createInquiry,
   createInquiryResponse,
   deleteInquiry,
@@ -14,11 +6,19 @@ import {
   getInquiry,
   getInquiryResponses,
 } from '@controllers/inquiry';
+import { Context } from '@customTypes/context';
+import {
+  MutationDeleteInquiryArgs,
+  MutationUpsertInquiryArgs,
+  MutationUpsertInquiryResponseArgs,
+  QueryGetInquiryArgs,
+  QueryGetInquiryResponsesArgs,
+} from '@generated/graphql';
 
 export default {
   Mutation: {
     upsertInquiry: async (
-      _parent,
+      _,
       args: MutationUpsertInquiryArgs,
       context: Context,
     ) =>
@@ -29,7 +29,7 @@ export default {
       }),
 
     deleteInquiry: async (
-      _parent,
+      _,
       args: MutationDeleteInquiryArgs,
       context: Context,
     ) =>
@@ -39,7 +39,7 @@ export default {
       }),
 
     upsertInquiryResponse: async (
-      _parent,
+      _,
       args: MutationUpsertInquiryResponseArgs,
       context: Context,
     ) => {
@@ -52,13 +52,12 @@ export default {
     },
   },
   Query: {
-    getInquiries: async (_parent, _args, context: Context) =>
+    getInquiries: async (_, _args, context: Context) =>
       getInquiries(context.auth.sub),
 
-    getInquiry: async (_parent, args: QueryGetInquiryArgs) =>
-      getInquiry(args.id),
+    getInquiry: async (_, args: QueryGetInquiryArgs) => getInquiry(args.id),
 
-    getInquiryResponses: async (_parent, args: QueryGetInquiryResponsesArgs) =>
+    getInquiryResponses: async (_, args: QueryGetInquiryResponsesArgs) =>
       getInquiryResponses(args),
   },
 };
