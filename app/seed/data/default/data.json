@@ -44,7 +44,7 @@
             "id": "3",
             "type": "condition",
             "data": {
-              "instruction": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
+              "text": "If the user answer in node 2 expresses positive sentiment, send them to node 4 if express neutral or negative sentiment send them to node 5"
             }
           },
           {
@@ -83,14 +83,14 @@
             "type": "conversation",
             "data": {
               "type": "open-ended",
-              "instruction": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
+              "text": "Construct a follow-up question from the user answer in node 6 asking for more details regarding their selected option(s)."
             }
           },
           {
             "id": "8",
             "type": "condition",
             "data": {
-              "instruction": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
+              "text": "If the user gives a detailed thoughtful answer in node 7, go to node 9, otherwise go to node 10"
             }
           },
           {
@@ -98,7 +98,7 @@
             "type": "conversation",
             "data": {
               "type": "open-ended",
-              "instruction": "Construct an insightful follow-up question from the user answer in node 8."
+              "text": "Construct an insightful follow-up question from the user answer in node 8."
             }
           },
           {
