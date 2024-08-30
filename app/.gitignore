@@ -1,5 +1,5 @@
 *.d.ts
-!src/types/**/*.d.ts
+!src/customTypes/**/*.d.ts
 *.js
 node_modules
 cdktf.out

@@ -4,13 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
-    data: {
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-      organizationName: { type: String, required: false },
-      organizationRole: { type: String, required: false },
-      inputGoals: { type: String, required: false },
-    },
+    data: [{ type: Object, required: true }],
   },
   { timestamps: true },
 );
@@ -18,7 +12,15 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 const InquirySchema: Schema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
-    data: [{ type: Object, required: true }],
+    data: {
+      form: {
+        title: { type: String, required: false },
+      organizationName: { type: String, required: false },
+      organizationRole: { type: String, required: false },
+      inputGoals: { type: String, required: false },
+      },
+      graph: { type: Object, required: false },
+    },
     responses: [
       {
         type: mongoose.Schema.Types.ObjectId,
