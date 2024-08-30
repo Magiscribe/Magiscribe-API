@@ -264,7 +264,7 @@ export async function generatePrediction({
   variables,
   attachments,
 }: {
-  auth: { sub: string };
+  auth?: { sub?: string };
   subscriptionId: string;
   agentId: string;
   variables: Record<string, string>;
@@ -280,7 +280,12 @@ export async function generatePrediction({
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
     const thread = await findOrCreateThread(subscriptionId);
-    await addMessageToThread(thread, auth.sub, variables.userMessage, true);
+    await addMessageToThread(
+      thread,
+      auth?.sub ?? 'Unauthenticated',
+      variables.userMessage,
+      true,
+    );
 
     if (agent.memoryEnabled) {
       variables.history = await getHistory(thread);

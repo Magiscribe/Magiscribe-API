@@ -47,7 +47,7 @@ export default {
         id: args.id,
         inquiryId: args.inquiryId,
         data: args.data,
-        userId: context.auth.sub,
+        userId: context?.auth?.sub,
       });
     },
   },

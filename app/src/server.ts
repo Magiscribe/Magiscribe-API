@@ -70,15 +70,9 @@ export default async function startServer() {
           };
         }),
       };
-    } catch (error) {
-      log.error({
-        msg: 'Authorization failed: Invalid token',
-        connectionType,
-        error,
-      });
-      throw new Error(
-        `Invalid authorization token in ${connectionType} connection`,
-      );
+    } catch {
+      // Sometimes the token is invalid, so we just return an empty array if that's the case.
+      return { roles: [], auth: null };
     }
   };
 
