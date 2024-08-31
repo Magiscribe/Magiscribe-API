@@ -232,7 +232,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-08-30T17:41:19.620Z",
+    "updatedAt": "2024-08-30T23:46:01.693Z",
     "__v": 0
   },
   {
@@ -435,14 +435,13 @@
       "6695d854888b8bcf4b03be89",
       "66bf8ca1a9430d3fa1391442",
       "66bf8ccba9430d3fa1391445",
-      "669dae465414a7bb2bbf9e2d",
       "66bf8d0aa9430d3fa1391448"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
-    "outputFilter": null,
+    "outputFilter": "```json\\n((?:[^`]|`(?!``))*)```",
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-08-30T17:40:11.586Z",
+    "updatedAt": "2024-08-31T00:16:34.594Z",
     "__v": 0
   },
   {
