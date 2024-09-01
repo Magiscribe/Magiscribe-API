@@ -4,3 +4,5 @@ export interface Context {
   };
   roles: { roles: string }[];
 }
+
+export default Context;

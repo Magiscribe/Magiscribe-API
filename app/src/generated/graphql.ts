@@ -3,7 +3,6 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
-import { Context } from './src/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -435,7 +434,7 @@ export type ResolversParentTypes = {
 };
 
 export type AgentResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Agent'] = ResolversParentTypes['Agent'],
 > = {
@@ -467,7 +466,7 @@ export type AgentResolvers<
 };
 
 export type AgentReasoningResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['AgentReasoning'] = ResolversParentTypes['AgentReasoning'],
 > = {
@@ -482,7 +481,7 @@ export type AgentReasoningResolvers<
 };
 
 export type CapabilityResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Capability'] = ResolversParentTypes['Capability'],
 > = {
@@ -511,7 +510,7 @@ export type CapabilityResolvers<
 };
 
 export type InquiryResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry'],
 > = {
@@ -529,7 +528,7 @@ export type InquiryResolvers<
 };
 
 export type InquiryResponseResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['InquiryResponse'] = ResolversParentTypes['InquiryResponse'],
 > = {
@@ -547,7 +546,7 @@ export interface JsonObjectScalarConfig
 }
 
 export type ModelResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Model'] = ResolversParentTypes['Model'],
 > = {
@@ -558,7 +557,7 @@ export type ModelResolvers<
 };
 
 export type MutationResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
 > = {
@@ -642,7 +641,7 @@ export type MutationResolvers<
 };
 
 export type PredictionResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Prediction'] = ResolversParentTypes['Prediction'],
 > = {
@@ -654,7 +653,7 @@ export type PredictionResolvers<
 };
 
 export type PromptResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Prompt'] = ResolversParentTypes['Prompt'],
 > = {
@@ -665,7 +664,7 @@ export type PromptResolvers<
 };
 
 export type QueryResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
 > = {
@@ -733,7 +732,7 @@ export type QueryResolvers<
 };
 
 export type SubscriptionResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription'],
 > = {
@@ -747,7 +746,7 @@ export type SubscriptionResolvers<
 };
 
 export type TemporaryCredentialsResolvers<
-  ContextType = Context,
+  ContextType = any,
   ParentType extends
     ResolversParentTypes['TemporaryCredentials'] = ResolversParentTypes['TemporaryCredentials'],
 > = {
@@ -757,7 +756,7 @@ export type TemporaryCredentialsResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = Context> = {
+export type Resolvers<ContextType = any> = {
   Agent?: AgentResolvers<ContextType>;
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;

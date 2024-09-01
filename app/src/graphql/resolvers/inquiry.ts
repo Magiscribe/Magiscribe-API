@@ -6,7 +6,7 @@ import {
   getInquiry,
   getInquiryResponses,
 } from '@controllers/inquiry';
-import { Context } from '@customTypes/context';
+import Context from '@customTypes/context';
 import {
   MutationDeleteInquiryArgs,
   MutationUpsertInquiryArgs,
