@@ -12,8 +12,8 @@ importers:
         specifier: ^4.11.0
         version: 4.11.0(encoding@0.1.13)(graphql@16.9.0)
       '@aws-sdk/client-bedrock-runtime':
-        specifier: ^3.637.0
-        version: 3.637.0
+        specifier: ^3.642.0
+        version: 3.642.0
       '@aws-sdk/client-lambda':
         specifier: ^3.637.0
         version: 3.637.0
@@ -33,11 +33,11 @@ importers:
         specifier: ^3.637.0
         version: 3.637.0
       '@clerk/clerk-sdk-node':
-        specifier: ^5.0.29
-        version: 5.0.29(react@18.3.1)
+        specifier: ^5.0.33
+        version: 5.0.33(react@18.3.1)
       '@graphql-codegen/cli':
         specifier: ^5.0.2
-        version: 5.0.2(@parcel/watcher@2.4.1)(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)
+        version: 5.0.2(@parcel/watcher@2.4.1)(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)
       '@graphql-tools/graphql-file-loader':
         specifier: ^8.0.1
         version: 8.0.1(graphql@16.9.0)
@@ -52,16 +52,16 @@ importers:
         version: 10.5.4(graphql@16.9.0)
       '@langchain/community':
         specifier: ^0.2.31
-        version: 0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+        version: 0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
       '@langchain/core':
-        specifier: ^0.2.29
-        version: 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+        specifier: ^0.2.31
+        version: 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
       '@newrelic/apollo-server-plugin':
         specifier: ^6.0.0
-        version: 6.0.0(newrelic@12.2.0)
+        version: 6.0.0(newrelic@12.3.0)
       '@newrelic/pino-enricher':
         specifier: ^1.1.1
-        version: 1.1.1(newrelic@12.2.0)
+        version: 1.1.1(newrelic@12.3.0)
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -96,11 +96,11 @@ importers:
         specifier: ^5.16.0
         version: 5.16.0(graphql@16.9.0)
       mongoose:
-        specifier: ^8.5.4
-        version: 8.5.4(socks@2.8.3)
+        specifier: ^8.6.0
+        version: 8.6.0(socks@2.8.3)
       newrelic:
-        specifier: ^12.2.0
-        version: 12.2.0
+        specifier: ^12.3.0
+        version: 12.3.0
       pino:
         specifier: ^9.3.2
         version: 9.3.2
@@ -127,8 +127,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       '@types/node':
-        specifier: ^22.5.0
-        version: 22.5.0
+        specifier: ^22.5.2
+        version: 22.5.2
       eslint:
         specifier: ^9.9.1
         version: 9.9.1(jiti@1.21.6)
@@ -142,14 +142,14 @@ importers:
         specifier: ^11.2.2
         version: 11.2.2
       tsx:
-        specifier: ^4.18.0
-        version: 4.18.0
+        specifier: ^4.19.0
+        version: 4.19.0
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
       typescript-eslint:
-        specifier: ^8.3.0
-        version: 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+        specifier: ^8.4.0
+        version: 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
 
 packages:
 
@@ -273,8 +273,8 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-sdk/client-bedrock-runtime@3.637.0':
-    resolution: {integrity: sha512-2pM/LbI0Nc5yfF+Upj48TpiN1Ch+pTvapiOjEoNBpFQqVT57kpHQe4UVaU2+RnhK/x9g18v6QZAm0G8IoUAnQA==}
+  '@aws-sdk/client-bedrock-runtime@3.642.0':
+    resolution: {integrity: sha512-+FY4LEUG4JJZRLGb0U1JZ+qnUcrGSRd5+//bVZuPKOkSUzAiPijba9KajfYh2jSiXzDhPOmCKxVP+thwAsbJaQ==}
     engines: {node: '>=16.0.0'}
 
   '@aws-sdk/client-lambda@3.637.0':
@@ -724,16 +724,16 @@ packages:
     resolution: {integrity: sha512-xm8XrMKz0IlUdocVbYJe0Z9xEgidU7msskG8BbhnTPK/HZ2z/7FP7ykqPgrUH+C+r414mNfNWam1f2vqOjqjYQ==}
     engines: {node: '>=6.9.0'}
 
-  '@clerk/backend@1.8.0':
-    resolution: {integrity: sha512-csIF8eHM84JPP6ZuOdE37saDRIY7Dp5B8Yt26FZSehCveUTeI16iCCbVb8Co4hutlKZa08Mcb2GEcXavRnkvfA==}
+  '@clerk/backend@1.9.0':
+    resolution: {integrity: sha512-yT/WvH4qesWhG6OdllhUMLs0uMrMkTQMURCoC6dX3RZ0BzUMmgf0z6nD3o3zvFEXpWwInfh+vsXCgbIQ7QjBfg==}
     engines: {node: '>=18.17.0'}
 
-  '@clerk/clerk-sdk-node@5.0.29':
-    resolution: {integrity: sha512-e6WPzafy8kzGzLzfAiQUVC733w1i9R8Tu32E/d7TJwHCm7bUbnbS3DMvzwAmOA3ZoAeasRtXee0ZcLRjmvMvgw==}
+  '@clerk/clerk-sdk-node@5.0.33':
+    resolution: {integrity: sha512-GKPvge4k8HSeltCjjQyGNSHlEBeYPpv7cMIaDmDeXA2eu5jU4P7w1jhF8n0aIXcoXHS7yKTduV0NNVnxx66ReA==}
     engines: {node: '>=18.17.0'}
 
-  '@clerk/shared@2.5.2':
-    resolution: {integrity: sha512-3+I5vMhkn3wSqCuoxIIXRma3m8zpLJBH11MO2uxKOAeZJRyeALY0jGPeyptskl+Fl9j9Rtan0OWJIisMN8TiAA==}
+  '@clerk/shared@2.6.0':
+    resolution: {integrity: sha512-ntgDxluwkvtGr73cc6vRQQAa/MAxr49NlroQ4GcAidylmSYTrqouD+SFQp21UQX51sFecGZKPyr2YoTFyxzQoA==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       react: '>=18 || >=19.0.0-beta'
@@ -744,8 +744,8 @@ packages:
       react-dom:
         optional: true
 
-  '@clerk/types@4.14.0':
-    resolution: {integrity: sha512-d3MUcWtXGTOS7QYCRVrOra7NYAGRiNWlb+Ke2KMSb+Z3lea6WlKeHa18uVnAkIVxBXtHlzdU2kwW0PrHkx8j9Q==}
+  '@clerk/types@4.17.0':
+    resolution: {integrity: sha512-/GksPLzWLCTbZ1ZNTUs4CMze89XUQNGNy9KJOP56JUaxCy+9iHbIsDyia6zicHXhH8/oIj9SrZv/nlEPNUFkoA==}
     engines: {node: '>=18.17.0'}
 
   '@colors/colors@1.6.0':
@@ -1565,8 +1565,8 @@ packages:
       youtubei.js:
         optional: true
 
-  '@langchain/core@0.2.29':
-    resolution: {integrity: sha512-5THrGwZGtazBlsTV2DJToo8NL3NeuMZ7kfSBMALMQyWjo9R/HRZI1wkovbvU5zFf+ObII/elzQM3QvlEdFjuqQ==}
+  '@langchain/core@0.2.31':
+    resolution: {integrity: sha512-qGfeaACST7dvovgHItzuag9fEBGK7IjCE9vRuTu/y8/WYGJi28WPD/AwWxnu7YdW1vZSuIXO6ZA76t2G9B/oKg==}
     engines: {node: '>=18'}
 
   '@langchain/openai@0.2.7':
@@ -1577,8 +1577,8 @@ packages:
     resolution: {integrity: sha512-cXWgKE3sdWLSqAa8ykbCcUsUF1Kyr5J3HOWYGuobhPEycXW4WI++d5DhzdpL238mzoEXTi90VqfSCra37l5YqA==}
     engines: {node: '>=18'}
 
-  '@mongodb-js/saslprep@1.1.8':
-    resolution: {integrity: sha512-qKwC/M/nNNaKUBMQ0nuzm47b7ZYWQHN3pcXq4IIcoSBc2hOIrflAxJduIvvqmhoz3gR2TacTAs8vlsCVPkiEdQ==}
+  '@mongodb-js/saslprep@1.1.9':
+    resolution: {integrity: sha512-tVkljjeEaAhCqTzajSdgbQ6gE6f3oneVwa3iXR6csiEwXXOFsiC6Uh9iAjAhXPtqa/XMDHWjjeNH/77m/Yq2dw==}
 
   '@mrmlnc/readdir-enhanced@2.2.1':
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
@@ -1994,11 +1994,11 @@ packages:
   '@types/node@10.17.60':
     resolution: {integrity: sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==}
 
-  '@types/node@18.19.46':
-    resolution: {integrity: sha512-vnRgMS7W6cKa1/0G3/DTtQYpVrZ8c0Xm6UkLaVFrb9jtcVC3okokW09Ki1Qdrj9ISokszD69nY4WDLRlvHlhAA==}
+  '@types/node@18.19.48':
+    resolution: {integrity: sha512-7WevbG4ekUcRQSZzOwxWgi5dZmTak7FaxXDoW7xVxPBmKx1rTzfmRLkeCgJzcbBnOV2dkhAPc8cCeT6agocpjg==}
 
-  '@types/node@22.5.0':
-    resolution: {integrity: sha512-DkFrJOe+rfdHTqqMg0bSNlGlQ85hSoh2TPzZyhHsXnMtligRWpxUySiyw8FY14ITt24HVCiQPWxS3KO/QlGmWg==}
+  '@types/node@22.5.2':
+    resolution: {integrity: sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==}
 
   '@types/node@8.10.66':
     resolution: {integrity: sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==}
@@ -2036,8 +2036,8 @@ packages:
   '@types/ws@8.5.11':
     resolution: {integrity: sha512-4+q7P5h3SpJxaBft0Dzpbr6lmMaqh0Jr2tbhJZ/luAwvD7ohSCniYkwz/pLxuT2h0EOa6QADgJj1Ko+TzRfZ+w==}
 
-  '@typescript-eslint/eslint-plugin@8.3.0':
-    resolution: {integrity: sha512-FLAIn63G5KH+adZosDYiutqkOkYEx0nvcwNNfJAf+c7Ae/H35qWwTYvPZUKFj5AS+WfHG/WJJfWnDnyNUlp8UA==}
+  '@typescript-eslint/eslint-plugin@8.4.0':
+    resolution: {integrity: sha512-rg8LGdv7ri3oAlenMACk9e+AR4wUV0yrrG+XKsGKOK0EVgeEDqurkXMPILG2836fW4ibokTB5v4b6Z9+GYQDEw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       '@typescript-eslint/parser': ^8.0.0 || ^8.0.0-alpha.0
@@ -2047,8 +2047,8 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/parser@8.3.0':
-    resolution: {integrity: sha512-h53RhVyLu6AtpUzVCYLPhZGL5jzTD9fZL+SYf/+hYOx2bDkyQXztXSc4tbvKYHzfMXExMLiL9CWqJmVz6+78IQ==}
+  '@typescript-eslint/parser@8.4.0':
+    resolution: {integrity: sha512-NHgWmKSgJk5K9N16GIhQ4jSobBoJwrmURaLErad0qlLjrpP5bECYg+wxVTGlGZmJbU03jj/dfnb6V9bw+5icsA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -2057,25 +2057,12 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/scope-manager@8.3.0':
-    resolution: {integrity: sha512-mz2X8WcN2nVu5Hodku+IR8GgCOl4C0G/Z1ruaWN4dgec64kDBabuXyPAr+/RgJtumv8EEkqIzf3X2U5DUKB2eg==}
+  '@typescript-eslint/scope-manager@8.4.0':
+    resolution: {integrity: sha512-n2jFxLeY0JmKfUqy3P70rs6vdoPjHK8P/w+zJcV3fk0b0BwRXC/zxRTEnAsgYT7MwdQDt/ZEbtdzdVC+hcpF0A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/type-utils@8.3.0':
-    resolution: {integrity: sha512-wrV6qh//nLbfXZQoj32EXKmwHf4b7L+xXLrP3FZ0GOUU72gSvLjeWUl5J5Ue5IwRxIV1TfF73j/eaBapxx99Lg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
-  '@typescript-eslint/types@8.3.0':
-    resolution: {integrity: sha512-y6sSEeK+facMaAyixM36dQ5NVXTnKWunfD1Ft4xraYqxP0lC0POJmIaL/mw72CUMqjY9qfyVfXafMeaUj0noWw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typescript-eslint/typescript-estree@8.3.0':
-    resolution: {integrity: sha512-Mq7FTHl0R36EmWlCJWojIC1qn/ZWo2YiWYc1XVtasJ7FIgjo0MVv9rZWXEE7IK2CGrtwe1dVOxWwqXUdNgfRCA==}
+  '@typescript-eslint/type-utils@8.4.0':
+    resolution: {integrity: sha512-pu2PAmNrl9KX6TtirVOrbLPLwDmASpZhK/XU7WvoKoCUkdtq9zF7qQ7gna0GBZFN0hci0vHaSusiL2WpsQk37A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -2083,14 +2070,27 @@ packages:
       typescript:
         optional: true
 
-  '@typescript-eslint/utils@8.3.0':
-    resolution: {integrity: sha512-F77WwqxIi/qGkIGOGXNBLV7nykwfjLsdauRB/DOFPdv6LTF3BHHkBpq81/b5iMPSF055oO2BiivDJV4ChvNtXA==}
+  '@typescript-eslint/types@8.4.0':
+    resolution: {integrity: sha512-T1RB3KQdskh9t3v/qv7niK6P8yvn7ja1mS7QK7XfRVL6wtZ8/mFs/FHf4fKvTA0rKnqnYxl/uHFNbnEt0phgbw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/typescript-estree@8.4.0':
+    resolution: {integrity: sha512-kJ2OIP4dQw5gdI4uXsaxUZHRwWAGpREJ9Zq6D5L0BweyOrWsL6Sz0YcAZGWhvKnH7fm1J5YFE1JrQL0c9dd53A==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@typescript-eslint/utils@8.4.0':
+    resolution: {integrity: sha512-swULW8n1IKLjRAgciCkTCafyTHHfwVQFt8DovmaF69sKbOxTSFMmIZaSHjqO9i/RV0wIblaawhzvtva8Nmm7lQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@typescript-eslint/visitor-keys@8.3.0':
-    resolution: {integrity: sha512-RmZwrTbQ9QveF15m/Cl28n0LXD6ea2CjkhH5rQ55ewz3H24w+AMCJHPVYaZ8/0HoG8Z3cLLFFycRXxeO2tz9FA==}
+  '@typescript-eslint/visitor-keys@8.4.0':
+    resolution: {integrity: sha512-zTQD6WLNTre1hj5wp09nBIDiOc2U5r/qmzo7wxPn4ZgAjHql09EofqhF9WF+fZHzL5aCyaIpPcT2hyxl73kr9A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@tyriar/fibonacci-heap@2.0.9':
@@ -2243,8 +2243,8 @@ packages:
     resolution: {integrity: sha512-Hdw8qdNiqdJ8LqT0iK0sVzkFbzg6fhnQqqfWhBDxcHZvU75+B+ayzTy8x+k5Ix0Y92XOhOUlx74ps+bA6BeYMQ==}
     engines: {node: '>=8'}
 
-  axios@1.7.4:
-    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
+  axios@1.7.7:
+    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
 
   babel-plugin-syntax-trailing-function-commas@7.0.0-beta.0:
     resolution: {integrity: sha512-Xj9XuRuz3nTSbaTXWv3itLOcxyF4oPD8douBBmj7U9BBC6nEBYfyOJYQMf/8PJAFotC62UY5dFfIGEPr7WswzQ==}
@@ -2386,8 +2386,8 @@ packages:
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
-  cjs-module-lexer@1.3.1:
-    resolution: {integrity: sha512-a3KdPAANPbNE4ZUv9h6LckSl9zLsYOP4MBmhIPkRaeyybt+r4UghLvq+xw/YwUcC1gqylCkL4rdVs3Lwupjm4Q==}
+  cjs-module-lexer@1.4.0:
+    resolution: {integrity: sha512-N1NGmowPlGBLsOZLPvm48StN04V4YvQRL0i6b7ctrVY3epjP/ct7hFLOItz6pDIvRjwpfPxi52a2UWV2ziir8g==}
 
   class-utils@0.3.6:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
@@ -3001,8 +3001,8 @@ packages:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
     engines: {node: '>=10'}
 
-  get-tsconfig@4.7.6:
-    resolution: {integrity: sha512-ZAqrLlu18NbDdRaHq+AKXzAmqIUPswPWKUchfytdAjiRFnCe5ojG2bstg6mRiZabkKfCoL/e98pbBELIV/YCeA==}
+  get-tsconfig@4.8.0:
+    resolution: {integrity: sha512-Pgba6TExTZ0FJAn1qkJAjIeKoDJ3CsI2ChuLohJnZl/tTU8MVrq3b+2t5UOPfRa4RMsorClBjJALkJUMjG1PAw==}
 
   get-value@2.0.6:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
@@ -3263,8 +3263,8 @@ packages:
   is-buffer@1.1.6:
     resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
 
-  is-core-module@2.15.0:
-    resolution: {integrity: sha512-Dd+Lb2/zvk9SKy1TGCt1wFJFo/MWBPMX5x7KcvLajWTGuomczdQX61PvY5yK6SVACwpoexWo81IfFyoKY2QnTA==}
+  is-core-module@2.15.1:
+    resolution: {integrity: sha512-z0vtXSwucUJtANQWldhbtbt7BnL0vxiFjIdDLAatwhDYty2bad6s+rijD6Ri4YuYJubLzIJLUidCh09e1djEVQ==}
     engines: {node: '>= 0.4'}
 
   is-data-descriptor@1.0.1:
@@ -3661,6 +3661,20 @@ packages:
       openai:
         optional: true
 
+  langsmith@0.1.49:
+    resolution: {integrity: sha512-PI9qzBalZYpN2gu1kf1IX/+unRRXTiZRhtTKYfWcPyQVPZ5exZVJfZy515+FUp1iXdgacr2tS2ZtNGUB2Vdejg==}
+    peerDependencies:
+      '@langchain/core': '*'
+      langchain: '*'
+      openai: '*'
+    peerDependenciesMeta:
+      '@langchain/core':
+        optional: true
+      langchain:
+        optional: true
+      openai:
+        optional: true
+
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -3843,8 +3857,8 @@ packages:
   mongodb-connection-string-url@3.0.1:
     resolution: {integrity: sha512-XqMGwRX0Lgn05TDB4PyG2h2kKO/FfWJyCzYQbIhXUxz7ETt0I/FqHjUeqj37irJ+Dl1ZtU82uYyj14u2XsZKfg==}
 
-  mongodb@6.7.0:
-    resolution: {integrity: sha512-TMKyHdtMcO0fYBNORiYdmM25ijsHs+Njs963r4Tro4OQZzqYigAzYQouwWRg4OIaiLRUEGUh/1UAcH5lxdSLIA==}
+  mongodb@6.8.0:
+    resolution: {integrity: sha512-HGQ9NWDle5WvwMnrvUxsFYPd3JEbqD3RgABHBQRuoCEND0qzhsd0iH5ypHsf1eJ+sXmvmyKpP+FLOKY8Il7jMw==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.188.0
@@ -3870,8 +3884,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.5.4:
-    resolution: {integrity: sha512-nG3eehhWf9l1q80WuHvp5DV+4xDNFpDWLE5ZgcFD5tslUV2USJ56ogun8gaZ62MKAocJnoStjAdno08b8U57hg==}
+  mongoose@8.6.0:
+    resolution: {integrity: sha512-p6VSbYKvD4ZIabqo8C0kS5eKX1Xpji+opTAIJ9wyuPJ8Y/FblgXSMnFRXnB40bYZLKPQT089K5KU8+bqIXtFdw==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -3912,16 +3926,16 @@ packages:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
 
-  newrelic@12.2.0:
-    resolution: {integrity: sha512-+GYdq5OOBuL4RzJ7g750sReXoqMZcgjwMLks5KHr3+fMES0ofooJ6jyGp8OCvT/V/7FpYqHaZdv02lLxtcy6fQ==}
+  newrelic@12.3.0:
+    resolution: {integrity: sha512-/fOqxfyqW6vZ2OT1AUn6ha1xKc24/Fa23lL+Vzf/YqXGdYWyMc9rIywYXVHklMM127EBGUSfOQl/fZPVOySouw==}
     engines: {node: '>=18', npm: '>=6.0.0'}
     hasBin: true
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
 
-  node-abi@3.65.0:
-    resolution: {integrity: sha512-ThjYBfoDNr08AWx6hGaRbfPwxKV9kVzAzOzlLKbk2CuqXE2xnCh+cbAGnwM3t8Lq4v9rUB7VfondlkBckcJrVA==}
+  node-abi@3.67.0:
+    resolution: {integrity: sha512-bLn/fU/ALVBE9wj+p4Y21ZJWYFjUXLXPi/IewyLZkx3ApxKDNBWCKdReeKOtD8dWpOdDCeMyLh6ZewzcLsG2Nw==}
     engines: {node: '>=10'}
 
   node-abort-controller@3.1.1:
@@ -3943,8 +3957,8 @@ packages:
       encoding:
         optional: true
 
-  node-gyp-build@4.8.1:
-    resolution: {integrity: sha512-OSs33Z9yWr148JZcbZd5WiAXhh/n9z8TxQcdMhIOlpN9AhWpLfvVFO73+m77bBABQMaY9XSvIa+qk0jlI7Gcaw==}
+  node-gyp-build@4.8.2:
+    resolution: {integrity: sha512-IRUxE4BVsHWXkV/SFOut4qTlagw2aM8T5/vnTsmrHJvVoKueJHRc/JaFND7QDDc61kLYUJ6qlZM3sqTSyx2dTw==}
     hasBin: true
 
   node-int64@0.4.0:
@@ -4206,8 +4220,8 @@ packages:
   promise@8.3.0:
     resolution: {integrity: sha512-rZPNPKTOYVNEEKFaq1HqTgOwZD+4/YHS5ukLzQCypkj+OkYx7iv0mA91lJlpPPZ8vMau3IIGj5Qlwrx+8iiSmg==}
 
-  protobufjs@7.3.2:
-    resolution: {integrity: sha512-RXyHaACeqXeqAKGLDl68rQKbmObRsTIn4TYVUUug1KfS47YWCo5MacGITEryugIgZqORCvJWEk4l449POg5Txg==}
+  protobufjs@7.4.0:
+    resolution: {integrity: sha512-mRUWCc3KUU4w1jU8sGxICXH/gNS94DvI1gxqDvBzhj1JpcsimQkYiOJfwsPUykUI5ZaspFbSgmBLER8IrQ3tqw==}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.7:
@@ -4390,6 +4404,10 @@ packages:
 
   safe-stable-stringify@2.4.3:
     resolution: {integrity: sha512-e2bDA2WJT0wxseVd4lsDP4+3ONX6HpMXQa1ZhFQ7SU+GjvORCmShbCMltrtIDfkYhVHrOcPtj+KhmDBdPdZD1g==}
+    engines: {node: '>=10'}
+
+  safe-stable-stringify@2.5.0:
+    resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
     engines: {node: '>=10'}
 
   safer-buffer@2.1.2:
@@ -4712,8 +4730,8 @@ packages:
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
-  tsx@4.18.0:
-    resolution: {integrity: sha512-a1jaKBSVQkd6yEc1/NI7G6yHFfefIcuf3QJST7ZEyn4oQnxLYrZR5uZAM8UrwUa3Ge8suiZHcNS1gNrEvmobqg==}
+  tsx@4.19.0:
+    resolution: {integrity: sha512-bV30kM7bsLZKZIOCHeMNVMJ32/LuJzLVajkQI/qf92J2Qr08ueLQvW00PUZGiuLPP760UINwupgUj8qrSCPUKg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -4736,8 +4754,8 @@ packages:
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
 
-  typescript-eslint@8.3.0:
-    resolution: {integrity: sha512-EvWjwWLwwKDIJuBjk2I6UkV8KEQcwZ0VM10nR1rIunRDIP67QJTZAHBXTX0HW/oI1H10YESF8yWie8fRQxjvFA==}
+  typescript-eslint@8.4.0:
+    resolution: {integrity: sha512-67qoc3zQZe3CAkO0ua17+7aCLI0dU+sSQd1eKPGq06QE4rfQjstVXR6woHO5qQvGUa550NfGckT4tzh3b3c8Pw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '*'
@@ -5174,7 +5192,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.7.0
 
-  '@aws-sdk/client-bedrock-runtime@3.637.0':
+  '@aws-sdk/client-bedrock-runtime@3.642.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -6154,10 +6172,10 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@clerk/backend@1.8.0(react@18.3.1)':
+  '@clerk/backend@1.9.0(react@18.3.1)':
     dependencies:
-      '@clerk/shared': 2.5.2(react@18.3.1)
-      '@clerk/types': 4.14.0
+      '@clerk/shared': 2.6.0(react@18.3.1)
+      '@clerk/types': 4.17.0
       cookie: 0.5.0
       snakecase-keys: 5.4.4
       tslib: 2.4.1
@@ -6165,19 +6183,19 @@ snapshots:
       - react
       - react-dom
 
-  '@clerk/clerk-sdk-node@5.0.29(react@18.3.1)':
+  '@clerk/clerk-sdk-node@5.0.33(react@18.3.1)':
     dependencies:
-      '@clerk/backend': 1.8.0(react@18.3.1)
-      '@clerk/shared': 2.5.2(react@18.3.1)
-      '@clerk/types': 4.14.0
+      '@clerk/backend': 1.9.0(react@18.3.1)
+      '@clerk/shared': 2.6.0(react@18.3.1)
+      '@clerk/types': 4.17.0
       tslib: 2.4.1
     transitivePeerDependencies:
       - react
       - react-dom
 
-  '@clerk/shared@2.5.2(react@18.3.1)':
+  '@clerk/shared@2.6.0(react@18.3.1)':
     dependencies:
-      '@clerk/types': 4.14.0
+      '@clerk/types': 4.17.0
       glob-to-regexp: 0.4.1
       js-cookie: 3.0.5
       std-env: 3.7.0
@@ -6185,7 +6203,7 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
 
-  '@clerk/types@4.14.0':
+  '@clerk/types@4.17.0':
     dependencies:
       csstype: 3.1.1
 
@@ -6194,7 +6212,7 @@ snapshots:
   '@contrast/fn-inspect@4.3.0':
     dependencies:
       nan: 2.20.0
-      node-gyp-build: 4.8.1
+      node-gyp-build: 4.8.2
     optional: true
 
   '@esbuild/aix-ppc64@0.23.1':
@@ -6308,7 +6326,7 @@ snapshots:
       graphql: 16.9.0
       tslib: 2.6.3
 
-  '@graphql-codegen/cli@5.0.2(@parcel/watcher@2.4.1)(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)':
+  '@graphql-codegen/cli@5.0.2(@parcel/watcher@2.4.1)(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)':
     dependencies:
       '@babel/generator': 7.24.10
       '@babel/template': 7.24.7
@@ -6319,12 +6337,12 @@ snapshots:
       '@graphql-tools/apollo-engine-loader': 8.0.1(encoding@0.1.13)(graphql@16.9.0)
       '@graphql-tools/code-file-loader': 8.1.2(graphql@16.9.0)
       '@graphql-tools/git-loader': 8.0.6(graphql@16.9.0)
-      '@graphql-tools/github-loader': 8.0.1(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)
+      '@graphql-tools/github-loader': 8.0.1(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)
       '@graphql-tools/graphql-file-loader': 8.0.1(graphql@16.9.0)
       '@graphql-tools/json-file-loader': 8.0.1(graphql@16.9.0)
       '@graphql-tools/load': 8.0.2(graphql@16.9.0)
-      '@graphql-tools/prisma-loader': 8.0.4(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)
-      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)
+      '@graphql-tools/prisma-loader': 8.0.4(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)
+      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@whatwg-node/fetch': 0.8.8
       chalk: 4.1.2
@@ -6332,7 +6350,7 @@ snapshots:
       debounce: 1.2.1
       detect-indent: 6.1.0
       graphql: 16.9.0
-      graphql-config: 5.0.3(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)
+      graphql-config: 5.0.3(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4)
       inquirer: 8.2.6
       is-glob: 4.0.3
       jiti: 1.21.6
@@ -6539,14 +6557,14 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@graphql-tools/executor-http@1.1.4(@types/node@22.5.0)(graphql@16.9.0)':
+  '@graphql-tools/executor-http@1.1.4(@types/node@22.5.2)(graphql@16.9.0)':
     dependencies:
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@repeaterjs/repeater': 3.0.6
       '@whatwg-node/fetch': 0.9.18
       extract-files: 11.0.0
       graphql: 16.9.0
-      meros: 1.3.0(@types/node@22.5.0)
+      meros: 1.3.0(@types/node@22.5.2)
       tslib: 2.6.3
       value-or-promise: 1.0.12
     transitivePeerDependencies:
@@ -6585,10 +6603,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@graphql-tools/github-loader@8.0.1(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)':
+  '@graphql-tools/github-loader@8.0.1(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)':
     dependencies:
       '@ardatan/sync-fetch': 0.0.1(encoding@0.1.13)
-      '@graphql-tools/executor-http': 1.1.4(@types/node@22.5.0)(graphql@16.9.0)
+      '@graphql-tools/executor-http': 1.1.4(@types/node@22.5.2)(graphql@16.9.0)
       '@graphql-tools/graphql-tag-pluck': 8.3.1(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@whatwg-node/fetch': 0.9.18
@@ -6662,9 +6680,9 @@ snapshots:
       graphql: 16.9.0
       tslib: 2.6.3
 
-  '@graphql-tools/prisma-loader@8.0.4(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)':
+  '@graphql-tools/prisma-loader@8.0.4(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)':
     dependencies:
-      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)
+      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@types/js-yaml': 4.0.9
       '@whatwg-node/fetch': 0.9.18
@@ -6714,12 +6732,12 @@ snapshots:
       tslib: 2.7.0
       value-or-promise: 1.0.12
 
-  '@graphql-tools/url-loader@8.0.2(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)':
+  '@graphql-tools/url-loader@8.0.2(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)':
     dependencies:
       '@ardatan/sync-fetch': 0.0.1(encoding@0.1.13)
       '@graphql-tools/delegate': 10.0.13(graphql@16.9.0)
       '@graphql-tools/executor-graphql-ws': 1.2.0(graphql@16.9.0)
-      '@graphql-tools/executor-http': 1.1.4(@types/node@22.5.0)(graphql@16.9.0)
+      '@graphql-tools/executor-http': 1.1.4(@types/node@22.5.2)(graphql@16.9.0)
       '@graphql-tools/executor-legacy-ws': 1.1.0(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@graphql-tools/wrap': 10.0.5(graphql@16.9.0)
@@ -6772,7 +6790,7 @@ snapshots:
     dependencies:
       lodash.camelcase: 4.3.0
       long: 5.2.3
-      protobufjs: 7.3.2
+      protobufjs: 7.4.0
       yargs: 17.7.2
 
   '@humanwhocodes/module-importer@1.0.1': {}
@@ -6803,22 +6821,22 @@ snapshots:
 
   '@kamilkisiela/fast-url-parser@1.1.4': {}
 
-  '@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)':
+  '@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
-      langsmith: 0.1.47(5j35mmxi3ene2fzz4z34rcs7vm)
+      langchain: 0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      langsmith: 0.1.47(4onhf4tuqkg4jb3up3gtkrhdcm)
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.2(zod@3.23.8)
     optionalDependencies:
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-bedrock-runtime': 3.637.0
+      '@aws-sdk/client-bedrock-runtime': 3.642.0
       '@aws-sdk/client-lambda': 3.637.0
       '@aws-sdk/client-s3': 3.637.0
       '@aws-sdk/credential-provider-node': 3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0)
@@ -6826,7 +6844,7 @@ snapshots:
       ignore: 5.3.2
       ioredis: 5.4.1
       lodash: 4.17.21
-      mongodb: 6.7.0(socks@2.8.3)
+      mongodb: 6.8.0(socks@2.8.3)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@gomomento/sdk-web'
@@ -6846,13 +6864,13 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/core@0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/core@0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.14
-      langsmith: 0.1.47(5j35mmxi3ene2fzz4z34rcs7vm)
+      langsmith: 0.1.49(4onhf4tuqkg4jb3up3gtkrhdcm)
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -6863,9 +6881,9 @@ snapshots:
       - langchain
       - openai
 
-  '@langchain/openai@0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))':
+  '@langchain/openai@0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))':
     dependencies:
-      '@langchain/core': 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.14
       openai: 4.56.0(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -6874,15 +6892,15 @@ snapshots:
       - encoding
       - langchain
 
-  '@langchain/textsplitters@0.0.3(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.14
     transitivePeerDependencies:
       - langchain
       - openai
 
-  '@mongodb-js/saslprep@1.1.8':
+  '@mongodb-js/saslprep@1.1.9':
     dependencies:
       sparse-bitfield: 3.0.3
 
@@ -6891,24 +6909,24 @@ snapshots:
       call-me-maybe: 1.0.2
       glob-to-regexp: 0.3.0
 
-  '@newrelic/apollo-server-plugin@6.0.0(newrelic@12.2.0)':
+  '@newrelic/apollo-server-plugin@6.0.0(newrelic@12.3.0)':
     dependencies:
-      newrelic: 12.2.0
+      newrelic: 12.3.0
 
   '@newrelic/native-metrics@11.0.0':
     dependencies:
       nan: 2.20.0
-      node-gyp-build: 4.8.1
+      node-gyp-build: 4.8.2
       prebuildify: 6.0.1
     optional: true
 
-  '@newrelic/pino-enricher@1.1.1(newrelic@12.2.0)':
+  '@newrelic/pino-enricher@1.1.1(newrelic@12.3.0)':
     dependencies:
-      newrelic: 12.2.0
+      newrelic: 12.3.0
 
   '@newrelic/security-agent@1.5.0':
     dependencies:
-      axios: 1.7.4
+      axios: 1.7.7
       check-disk-space: 3.4.0
       content-type: 1.0.5
       fast-safe-stringify: 2.1.1
@@ -7387,26 +7405,26 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/concat-stream@1.6.1':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/express-serve-static-core@4.19.3':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
 
   '@types/express-serve-static-core@4.19.5':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -7420,12 +7438,12 @@ snapshots:
 
   '@types/form-data@0.0.33':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/http-errors@2.0.4': {}
 
@@ -7439,16 +7457,16 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
       form-data: 4.0.0
 
   '@types/node@10.17.60': {}
 
-  '@types/node@18.19.46':
+  '@types/node@18.19.48':
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@22.5.0':
+  '@types/node@22.5.2':
     dependencies:
       undici-types: 6.19.8
 
@@ -7463,12 +7481,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
       '@types/send': 0.17.4
 
   '@types/triple-beam@1.3.5': {}
@@ -7485,16 +7503,16 @@ snapshots:
 
   '@types/ws@8.5.11':
     dependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
-  '@typescript-eslint/eslint-plugin@8.3.0(@typescript-eslint/parser@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
+  '@typescript-eslint/eslint-plugin@8.4.0(@typescript-eslint/parser@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
       '@eslint-community/regexpp': 4.11.0
-      '@typescript-eslint/parser': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
-      '@typescript-eslint/scope-manager': 8.3.0
-      '@typescript-eslint/type-utils': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
-      '@typescript-eslint/utils': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
-      '@typescript-eslint/visitor-keys': 8.3.0
+      '@typescript-eslint/parser': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/scope-manager': 8.4.0
+      '@typescript-eslint/type-utils': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/visitor-keys': 8.4.0
       eslint: 9.9.1(jiti@1.21.6)
       graphemer: 1.4.0
       ignore: 5.3.2
@@ -7505,12 +7523,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
+  '@typescript-eslint/parser@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.3.0
-      '@typescript-eslint/types': 8.3.0
-      '@typescript-eslint/typescript-estree': 8.3.0(typescript@5.5.4)
-      '@typescript-eslint/visitor-keys': 8.3.0
+      '@typescript-eslint/scope-manager': 8.4.0
+      '@typescript-eslint/types': 8.4.0
+      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
+      '@typescript-eslint/visitor-keys': 8.4.0
       debug: 4.3.6
       eslint: 9.9.1(jiti@1.21.6)
     optionalDependencies:
@@ -7518,15 +7536,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/scope-manager@8.3.0':
+  '@typescript-eslint/scope-manager@8.4.0':
     dependencies:
-      '@typescript-eslint/types': 8.3.0
-      '@typescript-eslint/visitor-keys': 8.3.0
+      '@typescript-eslint/types': 8.4.0
+      '@typescript-eslint/visitor-keys': 8.4.0
 
-  '@typescript-eslint/type-utils@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
+  '@typescript-eslint/type-utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
-      '@typescript-eslint/typescript-estree': 8.3.0(typescript@5.5.4)
-      '@typescript-eslint/utils': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       debug: 4.3.6
       ts-api-utils: 1.3.0(typescript@5.5.4)
     optionalDependencies:
@@ -7535,12 +7553,12 @@ snapshots:
       - eslint
       - supports-color
 
-  '@typescript-eslint/types@8.3.0': {}
+  '@typescript-eslint/types@8.4.0': {}
 
-  '@typescript-eslint/typescript-estree@8.3.0(typescript@5.5.4)':
+  '@typescript-eslint/typescript-estree@8.4.0(typescript@5.5.4)':
     dependencies:
-      '@typescript-eslint/types': 8.3.0
-      '@typescript-eslint/visitor-keys': 8.3.0
+      '@typescript-eslint/types': 8.4.0
+      '@typescript-eslint/visitor-keys': 8.4.0
       debug: 4.3.6
       fast-glob: 3.3.2
       is-glob: 4.0.3
@@ -7552,20 +7570,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
+  '@typescript-eslint/utils@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.9.1(jiti@1.21.6))
-      '@typescript-eslint/scope-manager': 8.3.0
-      '@typescript-eslint/types': 8.3.0
-      '@typescript-eslint/typescript-estree': 8.3.0(typescript@5.5.4)
+      '@typescript-eslint/scope-manager': 8.4.0
+      '@typescript-eslint/types': 8.4.0
+      '@typescript-eslint/typescript-estree': 8.4.0(typescript@5.5.4)
       eslint: 9.9.1(jiti@1.21.6)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  '@typescript-eslint/visitor-keys@8.3.0':
+  '@typescript-eslint/visitor-keys@8.4.0':
     dependencies:
-      '@typescript-eslint/types': 8.3.0
+      '@typescript-eslint/types': 8.4.0
       eslint-visitor-keys: 3.4.3
 
   '@tyriar/fibonacci-heap@2.0.9': {}
@@ -7704,7 +7722,7 @@ snapshots:
 
   auto-bind@4.0.0: {}
 
-  axios@1.7.4:
+  axios@1.7.7:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
@@ -7943,7 +7961,7 @@ snapshots:
   chownr@1.1.4:
     optional: true
 
-  cjs-module-lexer@1.3.1: {}
+  cjs-module-lexer@1.4.0: {}
 
   class-utils@0.3.6:
     dependencies:
@@ -8614,7 +8632,7 @@ snapshots:
 
   get-stream@6.0.1: {}
 
-  get-tsconfig@4.7.6:
+  get-tsconfig@4.8.0:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
@@ -8682,13 +8700,13 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-config@5.0.3(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4):
+  graphql-config@5.0.3(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)(typescript@5.5.4):
     dependencies:
       '@graphql-tools/graphql-file-loader': 8.0.1(graphql@16.9.0)
       '@graphql-tools/json-file-loader': 8.0.1(graphql@16.9.0)
       '@graphql-tools/load': 8.0.2(graphql@16.9.0)
       '@graphql-tools/merge': 9.0.6(graphql@16.9.0)
-      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.0)(encoding@0.1.13)(graphql@16.9.0)
+      '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.2)(encoding@0.1.13)(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       cosmiconfig: 8.3.6(typescript@5.5.4)
       graphql: 16.9.0
@@ -8855,7 +8873,7 @@ snapshots:
     dependencies:
       acorn: 8.12.1
       acorn-import-attributes: 1.9.5(acorn@8.12.1)
-      cjs-module-lexer: 1.3.1
+      cjs-module-lexer: 1.4.0
       module-details-from-path: 1.0.3
 
   imurmurhash@0.1.4: {}
@@ -8927,7 +8945,7 @@ snapshots:
 
   is-buffer@1.1.6: {}
 
-  is-core-module@2.15.0:
+  is-core-module@2.15.1:
     dependencies:
       hasown: 2.0.2
 
@@ -9085,16 +9103,16 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0):
+  langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))
-      '@langchain/textsplitters': 0.0.3(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.7(encoding@0.1.13)(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))
+      '@langchain/textsplitters': 0.0.3(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.14
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.47(5j35mmxi3ene2fzz4z34rcs7vm)
+      langsmith: 0.1.47(4onhf4tuqkg4jb3up3gtkrhdcm)
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -9104,18 +9122,18 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.637.0
       '@aws-sdk/credential-provider-node': 3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0)
-      '@langchain/community': 0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
-      axios: 1.7.4
+      '@langchain/community': 0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      axios: 1.7.7
       fast-xml-parser: 4.4.1
       ignore: 5.3.2
       ioredis: 5.4.1
-      mongodb: 6.7.0(socks@2.8.3)
+      mongodb: 6.8.0(socks@2.8.3)
       ws: 8.18.0
     transitivePeerDependencies:
       - encoding
       - openai
 
-  langsmith@0.1.47(5j35mmxi3ene2fzz4z34rcs7vm):
+  langsmith@0.1.47(4onhf4tuqkg4jb3up3gtkrhdcm):
     dependencies:
       '@types/uuid': 10.0.0
       commander: 10.0.1
@@ -9124,8 +9142,21 @@ snapshots:
       semver: 7.6.3
       uuid: 10.0.0
     optionalDependencies:
-      '@langchain/core': 0.2.29(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
-      langchain: 0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.637.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.4)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.7.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      langchain: 0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      openai: 4.56.0(encoding@0.1.13)(zod@3.23.8)
+
+  langsmith@0.1.49(4onhf4tuqkg4jb3up3gtkrhdcm):
+    dependencies:
+      '@types/uuid': 10.0.0
+      commander: 10.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      semver: 7.6.3
+      uuid: 10.0.0
+    optionalDependencies:
+      '@langchain/core': 0.2.31(langchain@0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))
+      langchain: 0.2.17(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@langchain/community@0.2.31(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-bedrock-runtime@3.642.0)(@aws-sdk/client-lambda@3.637.0)(@aws-sdk/client-s3@3.637.0)(@aws-sdk/credential-provider-node@3.637.0(@aws-sdk/client-sso-oidc@3.637.0(@aws-sdk/client-sts@3.637.0))(@aws-sdk/client-sts@3.637.0))(@smithy/util-utf8@2.3.0)(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(lodash@4.17.21)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0))(axios@1.7.7)(encoding@0.1.13)(fast-xml-parser@4.4.1)(ignore@5.3.2)(ioredis@5.4.1)(mongodb@6.8.0(socks@2.8.3))(openai@4.56.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
       openai: 4.56.0(encoding@0.1.13)(zod@3.23.8)
 
   levn@0.4.1:
@@ -9196,7 +9227,7 @@ snapshots:
       '@types/triple-beam': 1.3.5
       fecha: 4.2.3
       ms: 2.1.3
-      safe-stable-stringify: 2.4.3
+      safe-stable-stringify: 2.5.0
       triple-beam: 1.4.1
 
   loglevel@1.9.1: {}
@@ -9241,9 +9272,9 @@ snapshots:
 
   merge2@1.4.1: {}
 
-  meros@1.3.0(@types/node@22.5.0):
+  meros@1.3.0(@types/node@22.5.2):
     optionalDependencies:
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
 
   methods@1.1.2: {}
 
@@ -9311,19 +9342,19 @@ snapshots:
       '@types/whatwg-url': 11.0.5
       whatwg-url: 13.0.0
 
-  mongodb@6.7.0(socks@2.8.3):
+  mongodb@6.8.0(socks@2.8.3):
     dependencies:
-      '@mongodb-js/saslprep': 1.1.8
+      '@mongodb-js/saslprep': 1.1.9
       bson: 6.8.0
       mongodb-connection-string-url: 3.0.1
     optionalDependencies:
       socks: 2.8.3
 
-  mongoose@8.5.4(socks@2.8.3):
+  mongoose@8.6.0(socks@2.8.3):
     dependencies:
       bson: 6.8.0
       kareem: 2.6.3
-      mongodb: 6.7.0(socks@2.8.3)
+      mongodb: 6.8.0(socks@2.8.3)
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
@@ -9379,7 +9410,7 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  newrelic@12.2.0:
+  newrelic@12.3.0:
     dependencies:
       '@grpc/grpc-js': 1.11.1
       '@grpc/proto-loader': 0.7.13
@@ -9410,7 +9441,7 @@ snapshots:
       lower-case: 2.0.2
       tslib: 2.6.3
 
-  node-abi@3.65.0:
+  node-abi@3.67.0:
     dependencies:
       semver: 7.6.3
     optional: true
@@ -9427,7 +9458,7 @@ snapshots:
     optionalDependencies:
       encoding: 0.1.13
 
-  node-gyp-build@4.8.1:
+  node-gyp-build@4.8.2:
     optional: true
 
   node-int64@0.4.0: {}
@@ -9483,7 +9514,7 @@ snapshots:
 
   openai@4.56.0(encoding@0.1.13)(zod@3.23.8):
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 18.19.48
       '@types/node-fetch': 2.6.11
       abort-controller: 3.0.0
       agentkeepalive: 4.5.0
@@ -9672,7 +9703,7 @@ snapshots:
     dependencies:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
-      node-abi: 3.65.0
+      node-abi: 3.67.0
       npm-run-path: 3.1.0
       pump: 3.0.0
       tar-fs: 2.1.1
@@ -9702,7 +9733,7 @@ snapshots:
     dependencies:
       asap: 2.0.6
 
-  protobufjs@7.3.2:
+  protobufjs@7.4.0:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2
@@ -9714,7 +9745,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.5.0
+      '@types/node': 22.5.2
       long: 5.2.3
 
   proxy-addr@2.0.7:
@@ -9851,7 +9882,7 @@ snapshots:
 
   resolve@1.22.8:
     dependencies:
-      is-core-module: 2.15.0
+      is-core-module: 2.15.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -9889,6 +9920,8 @@ snapshots:
       ret: 0.1.15
 
   safe-stable-stringify@2.4.3: {}
+
+  safe-stable-stringify@2.5.0: {}
 
   safer-buffer@2.1.2: {}
 
@@ -10261,10 +10294,10 @@ snapshots:
 
   tslib@2.7.0: {}
 
-  tsx@4.18.0:
+  tsx@4.19.0:
     dependencies:
       esbuild: 0.23.1
-      get-tsconfig: 4.7.6
+      get-tsconfig: 4.8.0
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -10283,11 +10316,11 @@ snapshots:
 
   typedarray@0.0.6: {}
 
-  typescript-eslint@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4):
+  typescript-eslint@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.3.0(@typescript-eslint/parser@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
-      '@typescript-eslint/parser': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
-      '@typescript-eslint/utils': 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/eslint-plugin': 8.4.0(@typescript-eslint/parser@8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/parser': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
+      '@typescript-eslint/utils': 8.4.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
     optionalDependencies:
       typescript: 5.5.4
     transitivePeerDependencies:
