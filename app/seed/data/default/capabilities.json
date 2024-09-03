@@ -232,7 +232,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-08-30T23:46:01.693Z",
+    "updatedAt": "2024-09-02T19:53:18.856Z",
     "__v": 0
   },
   {
@@ -422,7 +422,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-08-27T02:29:41.740Z",
+    "updatedAt": "2024-09-01T20:58:36.117Z",
     "__v": 0
   },
   {
@@ -441,7 +441,7 @@
     "subscriptionFilter": null,
     "outputFilter": "```json\\n((?:[^`]|`(?!``))*)```",
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-08-31T15:05:52.597Z",
+    "updatedAt": "2024-09-03T01:09:24.190Z",
     "__v": 0
   },
   {
@@ -530,11 +530,10 @@
     "_id": "66c8a9f8d28a5133dd801ab7",
     "name": "Dynamic Question Generation",
     "alias": "DynamicQuestionGenerationCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "6695d854888b8bcf4b03be89",
-      "66bf8ca1a9430d3fa1391442",
       "66bf8ccba9430d3fa1391445",
       "669dae465414a7bb2bbf9e2d",
       "669541137ceb83a7fb75eb17"
@@ -543,18 +542,17 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-08-23T15:35:18.354Z",
+    "updatedAt": "2024-09-02T21:27:35.180Z",
     "__v": 0
   },
   {
     "_id": "66c95576ae782803372bd9f8",
     "name": "Dynamic Information Generation",
     "alias": "DynamicInformationGenerationCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
+    "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "6695d854888b8bcf4b03be89",
-      "66bf8ca1a9430d3fa1391442",
       "66bf8ccba9430d3fa1391445",
       "669dae465414a7bb2bbf9e2d",
       "66c9558dae782803372bda00"
@@ -563,7 +561,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-08-24T23:27:22.938Z",
+    "updatedAt": "2024-09-02T21:27:44.182Z",
     "__v": 0
   },
   {
