@@ -127,6 +127,23 @@ const config = {
           port: parseInt(process.env.REDIS_PORT || '6379'),
         }
       : undefined,
+
+  newRelic: {
+    /**
+     * Whether New Relic is enabled.
+     */
+    enabled: process.env.NEW_RELIC_ENABLED,
+
+    /**
+     * The New Relic Application name.
+     */
+    appName: process.env.NEW_RELIC_APP_NAME,
+
+    /**
+     * The New Relic license key.
+     */
+    licenseKey: process.env.NEW_RELIC_LICENSE_KEY,
+  },
 };
 
 export default config;

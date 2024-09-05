@@ -1,4 +1,4 @@
-import { ApolloServer, ApolloServerPlugin } from '@apollo/server';
+import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
@@ -13,7 +13,6 @@ import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
-import createNewRelicPlugin from '@newrelic/apollo-server-plugin';
 
 /**
  * Starts the GraphQL server.
@@ -113,6 +112,8 @@ export default async function startServer() {
 
   log.debug('Plugging in power converters (adding plugins)...');
 
+  const plugins: ApolloServerPlugin<BaseContext>[] = [];
+
   // Proper shutdown for the WebSocket server.
   // This is so that we cleanup websocket connections when the server is shut down.
   // Gotta avoid those dangling connections less there be a memory leak.
@@ -125,6 +126,7 @@ export default async function startServer() {
       };
     },
   };
+  plugins.push(pluginDrainWebSocketServer);
 
   // Proper shutdown for the HTTP server.
   // This is so that we can drain the HTTP server when the server is shut down.
@@ -132,6 +134,7 @@ export default async function startServer() {
   const pluginDrainHttpServer = ApolloServerPluginDrainHttpServer({
     httpServer,
   });
+  plugins.push(pluginDrainHttpServer);
 
   // Disable the landing page in production so that we don't expose
   // any implementation details.
@@ -139,6 +142,7 @@ export default async function startServer() {
     config.environment === 'production'
       ? ApolloServerPluginLandingPageDisabled()
       : {};
+  plugins.push(pluginDisableLandingPage);
 
   // Sets up standard logging for the server. Largely useful for debugging,
   // but can be useful when distributed tracing is needed as well.
@@ -169,8 +173,18 @@ export default async function startServer() {
       };
     },
   };
+  plugins.push(pluginLogging);
 
-  const pluginNewRelic = createNewRelicPlugin<ApolloServerPlugin>({});
+  if (config.newRelic.enabled) {
+    // Performing a dynamic import here so that we don't load the New Relic
+    // in the development environment (if it's not enabled).
+    const { default: createNewRelicPlugin } = await import(
+      '@newrelic/apollo-server-plugin'
+    );
+    const newRelicPlugin =
+      createNewRelicPlugin() as ApolloServerPlugin<BaseContext>;
+    plugins.push(newRelicPlugin);
+  }
 
   /*=============================== DATABASE ==============================*/
 
@@ -183,13 +197,7 @@ export default async function startServer() {
   // Set up ApolloServer.
   const server = new ApolloServer({
     schema,
-    plugins: [
-      pluginDrainWebSocketServer,
-      pluginDrainHttpServer,
-      pluginLogging,
-      pluginDisableLandingPage,
-      pluginNewRelic,
-    ],
+    plugins,
 
     // We do not want to enable introspection in production.
     // introspection enables you to query a GraphQL server for information about the underlying schema.
