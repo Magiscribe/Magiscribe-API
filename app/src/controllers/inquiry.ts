@@ -37,7 +37,7 @@ export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
         setDefaultsOnInsert: true,
       },
     );
-    log.info('Inquiry updated successfully', { result });
+    log.info({ msg: 'Inquiry updated successfully', result });
     return result;
   }
 }

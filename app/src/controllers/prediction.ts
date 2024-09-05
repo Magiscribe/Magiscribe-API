@@ -274,7 +274,7 @@ export async function generatePrediction({
 
   try {
     await publishEvent(PredictionEventType.RECEIVED, variables.userMessage);
-    log.info('Prediction generation started', { auth, variables });
+    log.info({ msg: 'Prediction generation started', auth, variables });
 
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
@@ -302,11 +302,11 @@ export async function generatePrediction({
       false,
     );
 
-    log.info('Prediction generation successful', { auth, result });
+    log.info({ msg: 'Prediction generation successful', auth, result });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';
-    log.warn('Prediction generation failed', { error: errorMessage });
+    log.warn({ msg: 'Prediction generation failed', error: errorMessage });
     await publishEvent(PredictionEventType.ERROR, errorMessage);
   }
 }
