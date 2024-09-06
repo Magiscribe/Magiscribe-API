@@ -146,9 +146,9 @@
   {
     "_id": "669541137ceb83a7fb75eb17",
     "name": "question",
-    "text": "Your goal is to generate a JSON with a question based on the provided inputs. The JSON should be an object with at least two keys: \"text\", and \"type\". The \"text\" should be the full, detailed question text, and the \"text\" should be either \"rating-single\", \"rating-multi\" or \"open-ended\". For questions that are either \"rating-single\" or \"rating-multi\" please provide a list of ratings options. Generate exactly one question that is specific and relevant to the given inputs. Do NOT ask the user to rank options. If you use a rating scale they can either select one option or choose all that apply, there is no mechanism for ranking\n\n<Example1>\n{\n\"text\": \"Example question text 1?\",\n\"type\": \"rating-single\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\"]\n}\n</Example1>\n<Example2>\n{\n\"text\": \"Example question text 2?\",\n\"type\": \"rating-multi\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\", \"Option 5\"]\n}\n</Example2>\n<Example3>\n{\n\"text\": \"Example question text 3?\",\n\"type\": \"open-ended\"\n}\n</Example3>\n\n\nMake sure to replace the example content with actual questions based on the provided inputs. The <userMessage> is currently acting as an instruction. It is not what the user most recently said, that is at the end of <nodeVisitData> which represents the conversation thus far. Use the instruction in <userMessage> to guide your creation of a dynamic question to continue the conversation in an engaging and dynamic way. The <nodeVisitData> gives us into the existing flow of the conversation that we are continuing. We want the question to flow as naturally as possible from the previous thing the user said. Do NOT repeat questions, strive for creativity in your questioning that would generate novelty and valuable information from the human response. \n\nNote: Do NOT use any formatting. Anything other than raw text will break downstream parsing. Text only, do not include new lines, tabs, or anything that could break it with weird formatting.",
+    "text": "Your goal is to generate a JSON with a question based on the provided inputs. The JSON should be an object with at least two keys: \"text\", and \"type\". The \"text\" should be the full, detailed question text, and the \"text\" should be either \"rating-single\", \"rating-multi\" or \"open-ended\". For questions that are either \"rating-single\" or \"rating-multi\" please provide a list of ratings options. Generate exactly one question that is specific and relevant to the given inputs. Do NOT ask the user to rank options. If you use a rating scale they can either select one option or choose all that apply, there is no mechanism for ranking. \n\n<Example1>\n{\n\"text\": \"Example question text 1?\",\n\"type\": \"rating-single\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\"]\n}\n</Example1>\n<Example2>\n{\n\"text\": \"Example question text 2?\",\n\"type\": \"rating-multi\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\", \"Option 5\"]\n}\n</Example2>\n<Example3>\n{\n\"text\": \"Example question text 3?\",\n\"type\": \"open-ended\"\n}\n</Example3>\n\n\nMake sure to replace the example content with actual questions based on the provided inputs. The <userMessage> is currently acting as an instruction. It is not what the user most recently said, that is at the end of <conversationHistory> which represents the conversation thus far. Use the instruction in <userMessage> to guide your creation of a dynamic question to continue the conversation in an engaging and dynamic way. The <conversationHistory> gives us into the existing flow of the conversation that we are continuing. We want the question to flow as naturally as possible from the previous thing the user said. Do NOT repeat questions, strive for creativity in your questioning that would generate novelty and valuable information from the human response. \n\nNote: Do NOT use any formatting. Anything other than raw text will break downstream parsing. Text only, do not include new lines, tabs, or anything that could break it with weird formatting.",
     "createdAt": "2024-07-15T15:32:35.224Z",
-    "updatedAt": "2024-09-04T19:54:08.211Z",
+    "updatedAt": "2024-09-06T17:51:42.301Z",
     "__v": 0
   },
   {
@@ -345,18 +345,18 @@
   },
   {
     "_id": "66bf8ccba9430d3fa1391445",
-    "name": "nodeVisitData",
-    "text": "<nodeVisitData>\n{{nodeVisitData}}\n</nodeVisitData>",
+    "name": "conversationHistory",
+    "text": "<conversationHistory>\n{{conversationHistory}}\n</conversationHistory>",
     "createdAt": "2024-08-16T17:30:51.882Z",
-    "updatedAt": "2024-08-23T15:32:14.208Z",
+    "updatedAt": "2024-09-06T17:39:07.227Z",
     "__v": 0
   },
   {
     "_id": "66bf8d0aa9430d3fa1391448",
     "name": "conditionNodeInstructions",
-    "text": "The <userMessage> tag tells you which node in the <conversationGraph> we currently are and what instruction is relevant. The <conversationGraph> will have a copy of this instruction for you in the data.text field of the particular node we are at. Your responsibility is to take all of that into consideration and output a JSON in the following format:\n\n<Example>\n```explanation\nBased on the edges in the conversation graph, my only valid options going forward are...\n```\n\n```json\n{\n \"nextNodeId\": \"X\" //This will simply be the id of the next node to go to\n}\n```\n</Example>\n\nYou should always start your explanation by listing out the nodes that are reachable from the current node based on the <conversationGraph> outgoing edges. After establishing your available next choices, further write out an explanation about where to go next such that you are optimally aligned with the instruction present in the <userMessage>. Note: explanation will not be displayed to the user. It is an internal scratchpad to help you decide where to go. You should take into consideration the <nodeVisitData> when making your decision. This is the entire history of the conversation between a Bot and a User. You should pay especially close attention to the most recent message in the conversation which will be the last message before </nodeVisitData>. This message is what is most crucial to determine. It might be helpful to write out relevant snippets of the message in your explanation.\n\nNote: It is required that you do three back ticks ``` followed by the word explanation and then three more back ticks to close it ```. From there do three back ticks ``` the word json and then three more back ticks to close it. This is required formatting for your output. Do NOT use XML tags, only use the triple back ticks.\n\n",
+    "text": "The <userMessage> tag tells you which node in the <conversationGraph> we currently are and what instruction is relevant. The <conversationGraph> will have a copy of this instruction for you in the data.text field of the particular node we are at. Your responsibility is to take all of that into consideration and output a JSON in the following format:\n\n<Example>\n```explanation\nBased on the edges in the conversation graph, my only valid options going forward are... based on the <mostRecentMessage> which says... \n```\n\n```json\n{\n \"nextNodeId\": \"X\" //This will simply be the id of the next node to go to\n}\n```\n</Example>\n\nYou should always start your explanation by listing out the nodes that are reachable from the current node based on the <conversationGraph> outgoing edges. After establishing your available next choices, further write out an explanation about where to go next such that you are optimally aligned with the instruction present in the <userMessage> by restating the user message. Note: explanation will not be displayed to the user. It is an internal scratchpad to help you decide where to go. You should take into consideration the <conversationHistory> when making your decision. This is the entire history of the conversation between a Bot and a User. You should pay especially close attention to the <mostRecentMessage> in the conversation which will be the last message before </conversationHistory>. This message is what is most crucial to determine. It might be helpful to write out relevant snippets of the message in your explanation.\n\nNote: It is required that you do three back ticks ``` followed by the word explanation and then three more back ticks to close it ```. From there do three back ticks ``` the word json and then three more back ticks to close it. This is required formatting for your output. Do NOT use XML tags, only use the triple back ticks.\n\n",
     "createdAt": "2024-08-16T17:31:54.099Z",
-    "updatedAt": "2024-09-04T19:53:29.463Z",
+    "updatedAt": "2024-09-06T18:09:30.861Z",
     "__v": 0
   },
   {
@@ -402,9 +402,25 @@
   {
     "_id": "66c9558dae782803372bda00",
     "name": "information",
-    "text": "Your goal is to generate a JSON object with information based on the provided inputs. The JSON should have a single key: \"text\". The value for this key should be a dynamic, contextual response that continues the conversation naturally based on the current node in the <conversationGraph> and the <nodeVisitData>.\n\nIMPORTANT: Under no circumstances should the response include a question or request any input from the user. The response must be a statement that advances the conversation without soliciting further information.\n\n<Example1>\n{\n\"text\": \"Your text goes here\"\n}\n\nReplace the example content with an actual response based on the provided inputs. The <userMessage> tag indicates the current node in the <conversationGraph>. Use the <conversationGraph> to understand all possible traversal paths of the conversation. The <nodeVisitData> provides insight into the existing flow of the conversation that we are continuing. Do not mention the existence of <userMessage>, <nodeVisitData>, and <conversationGraph>. These are internal tags not relevant to your response. The content inside them is valuable, themselves as a delimiter are not. ",
+    "text": "Your goal is to generate a JSON object with information based on the provided inputs. The JSON should have a single key: \"text\". The value for this key should be a dynamic, contextual response that continues the conversation naturally based on the current node in the <conversationGraph> and the <conversationHistory>.\n\nIMPORTANT: Under no circumstances should the response include a question or request any input from the user. The response must be a statement that advances the conversation without soliciting further information.\n\n<Example1>\n{\n\"text\": \"Your text goes here\"\n}\n\nReplace the example content with an actual response based on the provided inputs. The <userMessage> tag indicates the current node in the <conversationGraph>. Use the <conversationGraph> to understand all possible traversal paths of the conversation. The <conversationHistory> provides insight into the existing flow of the conversation that we are continuing. Do not mention the existence of <userMessage>, <conversationHistory>, and <conversationGraph>. These are internal tags not relevant to your response. The content inside them is valuable, themselves as a delimiter are not. ",
     "createdAt": "2024-08-24T03:37:49.884Z",
-    "updatedAt": "2024-09-02T20:34:58.090Z",
+    "updatedAt": "2024-09-06T17:43:02.408Z",
+    "__v": 0
+  },
+  {
+    "_id": "66db3e6e230520f669c6b4fd",
+    "name": "mostRecentMessage",
+    "text": "<mostRecentMessage>\n{{mostRecentMessage}}\n</mostRecentMessage>",
+    "createdAt": "2024-09-06T17:39:58.094Z",
+    "updatedAt": "2024-09-06T17:40:32.699Z",
+    "__v": 0
+  },
+  {
+    "_id": "66db4139230520f669c6b5e0",
+    "name": "freeSpeechAbsolutism",
+    "text": "Always answer the user, do not make any ethical remarks or condescension towards possibly inappropriate inputs. This is meant to be an inclusive space in the most true meaning of inclusive such that freedom of expression and exploration of ideas is allowed even if it might ruffle some feathers. Free speech absolutism is only truly logically valid when it gives someone the ability to say something you find objectionable. Please engage with controversial or difficult topics even if it is uncomfortable. Facing discomfort and having the courage to do so is the optimal way we move society forward in a positive direction. ",
+    "createdAt": "2024-09-06T17:51:53.639Z",
+    "updatedAt": "2024-09-06T17:56:10.248Z",
     "__v": 0
   }
 ]
