@@ -130,20 +130,24 @@ export default async function startServer() {
   const pluginDrainFastifyServer = fastifyApolloDrainPlugin(app);
   plugins.push(pluginDrainFastifyServer);
 
-  // Disable the landing page in production.
+  // Disable the landing page in production so that we don't expose
+  // any implementation details.
   const pluginDisableLandingPage =
     config.environment === 'production'
       ? ApolloServerPluginLandingPageDisabled()
       : {};
   plugins.push(pluginDisableLandingPage);
 
-  // Sets up standard logging for the server.
+  // Sets up standard logging for the server. Largely useful for debugging,
+  // but can be useful when distributed tracing is needed as well.
   const pluginLogging = {
+    // Fires whenever a GraphQL request is received from a client.
     async requestDidStart(requestContext) {
       requestContext.logger = log.child({
         requestId: requestContext.request.http?.headers.get('x-request-id'),
       });
 
+      // Filters out introspection queries from the logs so they don't clutter things up.
       if (requestContext.request.operationName !== 'IntrospectionQuery') {
         requestContext.logger.info({
           msg: 'Request received',
@@ -155,6 +159,8 @@ export default async function startServer() {
       }
 
       return {
+        // Fires whenever Apollo Server will validate a
+        // request's document AST against your GraphQL schema.
         async didEncounterErrors({ logger, errors }) {
           errors.forEach((error) => logger.warn(error));
         },
@@ -164,6 +170,8 @@ export default async function startServer() {
   plugins.push(pluginLogging);
 
   if (config.newRelic.enabled) {
+    // Performing a dynamic import here so that we don't load the New Relic
+    // in the development environment (if it's not enabled).
     const { default: createNewRelicPlugin } = await import(
       '@newrelic/apollo-server-plugin'
     );
@@ -184,6 +192,12 @@ export default async function startServer() {
   const server = new ApolloServer({
     schema,
     plugins,
+
+    // We do not want to enable introspection in production.
+    // introspection enables you to query a GraphQL server for information about the underlying schema.
+    // This is useful for debugging, but can be a security risk in production as it can reveal
+    // implementation details about your schema.
+    // For more information, see https://www.apollographql.com/blog/why-you-should-disable-graphql-introspection-in-production.
     introspection: config.environment !== 'production',
   });
 
@@ -197,9 +211,15 @@ export default async function startServer() {
 
   await app.register(fastifyCors, {
     origin: (origin, cb) => {
-      if (config.networking.corsOrigins.join(', ').trim() == '') {
+      if (origin === undefined) {
+        // If the origin is undefined, we treat it as a same-origin request 
+        // or a request with no origin (such as a curl request or a request from a mobile app).
+        cb(null, true);
+      } else if (config.networking.corsOrigins.join(', ').trim() == '') {
+        // If there are no origins specified, we allow all origins.
         cb(null, true);
       } else if (config.networking.corsOrigins.includes(origin)) {
+        // If the origin is in the list of allowed origins, we allow it.
         cb(null, true);
       } else {
         log.warn(`Origin ${origin} not allowed by CORS`);
@@ -228,7 +248,7 @@ export default async function startServer() {
 
   // Start the server
   try {
-    await app.listen({ port: config.networking.port });
+    await app.listen({ port: config.networking.port, host: '0.0.0.0' });
     log.info('We have lift off! (Server is now running)');
     log.info(
       `Query endpoint ready at http://localhost:${config.networking.port}/graphql`,
