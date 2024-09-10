@@ -1,21 +1,22 @@
 import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server';
-import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { clerkClient, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node';
+import {
+  fastifyApolloDrainPlugin,
+  fastifyApolloHandler,
+} from '@as-integrations/fastify';
+import { clerkClient } from '@clerk/clerk-sdk-node';
 import config from '@config';
 import database from '@database';
+import fastifyCors from '@fastify/cors';
 import { schema } from '@graphql';
 import log from '@log';
-import cors from 'cors';
-import express from 'express';
+import fastify, { FastifyInstance } from 'fastify';
 import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
-import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 
 /**
- * Starts the GraphQL server.
+ * Starts the GraphQL server using Fastify.
  */
 export default async function startServer() {
   log.debug(
@@ -77,13 +78,12 @@ export default async function startServer() {
 
   /*================================ SCHEMA ==============================*/
 
-  // Http server for queries and mutations.
-  const app = express();
-  const httpServer = createServer(app);
+  // Fastify server for queries and mutations.
+  const app: FastifyInstance = fastify();
 
   // WebSocket server for subscriptions.
   const websocketServer = new WebSocketServer({
-    server: httpServer,
+    server: app.server,
     path: '/graphql',
   });
 
@@ -115,8 +115,6 @@ export default async function startServer() {
   const plugins: ApolloServerPlugin<BaseContext>[] = [];
 
   // Proper shutdown for the WebSocket server.
-  // This is so that we cleanup websocket connections when the server is shut down.
-  // Gotta avoid those dangling connections less there be a memory leak.
   const pluginDrainWebSocketServer = {
     async serverWillStart() {
       return {
@@ -128,32 +126,24 @@ export default async function startServer() {
   };
   plugins.push(pluginDrainWebSocketServer);
 
-  // Proper shutdown for the HTTP server.
-  // This is so that we can drain the HTTP server when the server is shut down.
-  // Gotta avoid those dangling connections less there be a memory leak.
-  const pluginDrainHttpServer = ApolloServerPluginDrainHttpServer({
-    httpServer,
-  });
-  plugins.push(pluginDrainHttpServer);
+  // Proper shutdown for the Fastify server.
+  const pluginDrainFastifyServer = fastifyApolloDrainPlugin(app);
+  plugins.push(pluginDrainFastifyServer);
 
-  // Disable the landing page in production so that we don't expose
-  // any implementation details.
+  // Disable the landing page in production.
   const pluginDisableLandingPage =
     config.environment === 'production'
       ? ApolloServerPluginLandingPageDisabled()
       : {};
   plugins.push(pluginDisableLandingPage);
 
-  // Sets up standard logging for the server. Largely useful for debugging,
-  // but can be useful when distributed tracing is needed as well.
+  // Sets up standard logging for the server.
   const pluginLogging = {
-    // Fires whenever a GraphQL request is received from a client.
     async requestDidStart(requestContext) {
       requestContext.logger = log.child({
         requestId: requestContext.request.http?.headers.get('x-request-id'),
       });
 
-      // Filters out introspection queries from the logs so they don't clutter things up.
       if (requestContext.request.operationName !== 'IntrospectionQuery') {
         requestContext.logger.info({
           msg: 'Request received',
@@ -165,8 +155,6 @@ export default async function startServer() {
       }
 
       return {
-        // Fires whenever Apollo Server will validate a
-        // request's document AST against your GraphQL schema.
         async didEncounterErrors({ logger, errors }) {
           errors.forEach((error) => logger.warn(error));
         },
@@ -176,8 +164,6 @@ export default async function startServer() {
   plugins.push(pluginLogging);
 
   if (config.newRelic.enabled) {
-    // Performing a dynamic import here so that we don't load the New Relic
-    // in the development environment (if it's not enabled).
     const { default: createNewRelicPlugin } = await import(
       '@newrelic/apollo-server-plugin'
     );
@@ -198,12 +184,6 @@ export default async function startServer() {
   const server = new ApolloServer({
     schema,
     plugins,
-
-    // We do not want to enable introspection in production.
-    // introspection enables you to query a GraphQL server for information about the underlying schema.
-    // This is useful for debugging, but can be a security risk in production as it can reveal
-    // implementation details about your schema.
-    // For more information, see https://www.apollographql.com/blog/why-you-should-disable-graphql-introspection-in-production.
     introspection: config.environment !== 'production',
   });
 
@@ -214,39 +194,41 @@ export default async function startServer() {
   /*=============================== ROUTES ==============================*/
 
   log.debug('Blasting off (setting up routes)...');
-  app.use(
-    '/graphql',
-    cors<cors.CorsRequest>({
-      origin: function (origin, callback) {
-        if (config.networking.corsOrigins.join(', ').trim() == '') {
-          callback(null, true);
-        } else if (config.networking.corsOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          log.warn(`Origin ${origin} not allowed by CORS`);
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-    }),
-    express.json({
-      limit: '24mb',
-    }),
-    expressMiddleware(server, {
-      context: ({ req }) => {
-        const token = req.headers.authorization as string;
-        return authorizeConnection(token, 'HTTP');
-      },
-    }),
-    ClerkExpressWithAuth(),
-  );
 
-  // So that we can check if the server is running.
-  app.get('/health', (_req, res) => {
-    res.status(200).send('🆗');
+  await app.register(fastifyCors, {
+    origin: (origin, cb) => {
+      if (config.networking.corsOrigins.join(', ').trim() == '') {
+        cb(null, true);
+      } else if (config.networking.corsOrigins.includes(origin)) {
+        cb(null, true);
+      } else {
+        log.warn(`Origin ${origin} not allowed by CORS`);
+        cb(new Error('Not allowed by CORS'), false);
+      }
+    },
   });
 
-  // Now that our HTTP server is fully set up, actually listen.
-  httpServer.listen(config.networking.port, () => {
+  app.register(async (fastify) => {
+    fastify.route({
+      url: '/graphql',
+      method: ['GET', 'POST', 'OPTIONS'],
+      handler: fastifyApolloHandler(server, {
+        context: async (request) => {
+          const token = request.headers.authorization as string;
+          return authorizeConnection(token, 'HTTP');
+        },
+      }),
+    });
+  });
+
+  // Health check route
+  app.get('/health', async (_request, reply) => {
+    reply.status(200).send('🆗');
+  });
+
+  // Start the server
+  try {
+    await app.listen({ port: config.networking.port });
     log.info('We have lift off! (Server is now running)');
     log.info(
       `Query endpoint ready at http://localhost:${config.networking.port}/graphql`,
@@ -254,5 +236,8 @@ export default async function startServer() {
     log.info(
       `Subscription endpoint ready at ws://localhost:${config.networking.port}/graphql`,
     );
-  });
+  } catch (err) {
+    log.error(err);
+    process.exit(1);
+  }
 }
