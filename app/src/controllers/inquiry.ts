@@ -7,10 +7,23 @@ import log from '@log';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
+ * @param id The ID of the data object to create or update.
+ * @param userId The ID of the user who owns the data object.
  * @param data The data object to create or update.
+ * @param fields The fields to update if the data object already exists.
  * @returns The created or updated data object.
  */
-export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
+export async function upsertInquiry({
+  id,
+  userId,
+  data,
+  fields,
+}: {
+  id?: string;
+  userId: string;
+  data: Record<string, string>;
+  fields?: string[];
+}): Promise<TInquiry> {
   if (!id) {
     log.info({
       message: 'Creating new data object',
@@ -25,11 +38,24 @@ export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
       message: 'Updating existing data object',
       data,
     });
+
+    const updateData =
+      fields && fields.length > 0
+        ? // If fields array is present and has elements, use fields to construct updateData
+          fields.reduce((acc, field) => {
+            // For each field, add an entry to acc with the key `data.field`
+            // If data[field] is defined, use its value; otherwise, use null
+            acc[`data.${field}`] =
+              data[field] !== undefined ? data[field] : null;
+            return acc; // Return the accumulator for the next iteration
+          }, {})
+        : // If fields array is not present or empty, use data as is.
+          data;
+
     const result = await Inquiry.findOneAndUpdate(
       { _id: id, userId },
       {
-        data,
-        userId,
+        $set: updateData,
       },
       {
         upsert: true,

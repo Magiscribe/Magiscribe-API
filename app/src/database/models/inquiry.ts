@@ -17,7 +17,6 @@ const InquirySchema: Schema = new mongoose.Schema(
         title: { type: String, required: true },
         description: { type: String, required: false },
         organizationName: { type: String, required: false },
-        organizationRole: { type: String, required: false },
         inputGoals: { type: String, required: false },
       },
       graph: { type: Object, required: false },

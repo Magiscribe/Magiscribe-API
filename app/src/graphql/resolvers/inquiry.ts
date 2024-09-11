@@ -1,5 +1,5 @@
 import {
-  createInquiry,
+  upsertInquiry,
   createInquiryResponse,
   deleteInquiry,
   getInquiries,
@@ -24,10 +24,11 @@ export default {
       args: MutationUpsertInquiryArgs,
       context: Context,
     ) =>
-      createInquiry({
-        id: args.id,
+      upsertInquiry({
+        id: args.id ?? undefined,
         userId: context.auth.sub,
         data: args.data,
+        fields: args.fields ?? undefined,
       }),
 
     deleteInquiry: async (

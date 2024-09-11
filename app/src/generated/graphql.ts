@@ -183,6 +183,7 @@ export type MutationUpsertCapabilityArgs = {
 
 export type MutationUpsertInquiryArgs = {
   data: Scalars['JSONObject']['input'];
+  fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
