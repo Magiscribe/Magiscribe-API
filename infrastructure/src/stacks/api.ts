@@ -244,7 +244,7 @@ export default class ApiStack extends TerraformStack {
       },
       secrets: {
         MONGODB_URL: data.databaseParameters.connectionString.arn,
-        MONGODB_USERNAME: data.databaseParameters.user.arn,
+        MONGODB_USER: data.databaseParameters.user.arn,
         MONGODB_PASSWORD: data.databaseParameters.password.arn,
       },
       executionRole,

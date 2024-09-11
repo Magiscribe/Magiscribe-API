@@ -105,7 +105,7 @@ const config = {
     /**
      * The MongoDB username.
      */
-    username: process.env.MONGODB_USERNAME || 'root',
+    username: process.env.MONGODB_USER || 'root',
 
     /**
      * The MongoDB password.
