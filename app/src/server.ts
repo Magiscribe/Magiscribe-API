@@ -212,7 +212,7 @@ export default async function startServer() {
   await app.register(fastifyCors, {
     origin: (origin, cb) => {
       if (origin === undefined) {
-        // If the origin is undefined, we treat it as a same-origin request 
+        // If the origin is undefined, we treat it as a same-origin request
         // or a request with no origin (such as a curl request or a request from a mobile app).
         cb(null, true);
       } else if (config.networking.corsOrigins.join(', ').trim() == '') {
