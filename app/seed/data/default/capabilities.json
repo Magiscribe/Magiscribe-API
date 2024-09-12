@@ -430,9 +430,9 @@
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
-    "outputFilter": "```json\\n((?:[^`]|`(?!``))*)```",
+    "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-09-11T17:07:46.081Z",
+    "updatedAt": "2024-09-12T22:43:37.857Z",
     "__v": 0
   },
   {
@@ -529,13 +529,14 @@
       "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
       "66e0be6d9337a12aa64c0bc1",
-      "669541137ceb83a7fb75eb17"
+      "669541137ceb83a7fb75eb17",
+      "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-09-11T17:05:58.209Z",
+    "updatedAt": "2024-09-12T23:20:43.454Z",
     "__v": 0
   },
   {
@@ -550,13 +551,14 @@
       "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
       "66e0be6d9337a12aa64c0bc1",
-      "66c9558dae782803372bda00"
+      "66c9558dae782803372bda00",
+      "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-09-11T17:05:49.597Z",
+    "updatedAt": "2024-09-12T23:20:50.630Z",
     "__v": 0
   },
   {
