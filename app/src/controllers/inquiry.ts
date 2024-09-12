@@ -186,3 +186,53 @@ export async function getInquiryResponses({ id }): Promise<TInquiryResponse[]> {
 
   return inquiry.responses;
 }
+
+/**
+ * Retrieves the count of responses for a specific inquiry ID.
+ * @param id {string} The ID of the inquiry.
+ * @param userId {string} The ID of the user making the request.
+ * @returns {Promise<number>} The count of responses for the inquiry.
+ */
+export async function getInquiryResponseCount(
+  id: string,
+  userId: string,
+): Promise<number> {
+  log.info({
+    message: 'Fetching inquiry response count',
+    inquiryId: id,
+    userId,
+  });
+
+  try {
+    const inquiry = await Inquiry.findOne({ _id: id, userId });
+
+    if (!inquiry) {
+      log.warn({
+        message: 'Inquiry not found or user does not have permission',
+        inquiryId: id,
+        userId,
+      });
+      throw new Error(
+        'Inquiry not found or you do not have permission to access it',
+      );
+    }
+
+    const count = await InquiryResponse.countDocuments({
+      _id: { $in: inquiry.responses },
+    });
+
+    log.info({
+      message: 'Inquiry response count fetched successfully',
+      inquiryId: id,
+      count,
+    });
+
+    return count;
+  } catch {
+    log.error({
+      message: 'Failed to fetch inquiry response count',
+      inquiryId: id,
+    });
+    throw new Error('Failed to fetch inquiry response count');
+  }
+}

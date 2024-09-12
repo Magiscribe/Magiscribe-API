@@ -5,6 +5,7 @@ import {
   getInquiries,
   getInquiry,
   getInquiryResponses,
+  getInquiryResponseCount,
 } from '@controllers/inquiry';
 import Context from '@customTypes/context';
 import {
@@ -13,6 +14,7 @@ import {
   MutationUpsertInquiryResponseArgs,
   QueryGetInquiryArgs,
   QueryGetInquiryResponsesArgs,
+  QueryGetInquiryResponseCountArgs,
 } from '@generated/graphql';
 
 export default {
@@ -59,5 +61,11 @@ export default {
 
     getInquiryResponses: async (_, args: QueryGetInquiryResponsesArgs) =>
       getInquiryResponses(args),
+
+    getInquiryResponseCount: async (
+      _,
+      args: QueryGetInquiryResponseCountArgs,
+      context: Context,
+    ) => getInquiryResponseCount(args.id, context.auth.sub),
   },
 };
