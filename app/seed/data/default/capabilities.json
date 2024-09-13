@@ -401,10 +401,10 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Graph Generation",
     "prompts": [
-      "6695d854888b8bcf4b03be89",
-      "669dae465414a7bb2bbf9e2d",
       "66be521d0e262044f7ea39ac",
       "66be4dfa0e262044f7ea39a8",
+      "6695d854888b8bcf4b03be89",
+      "669dae465414a7bb2bbf9e2d",
       "66be5b690e262044f7ea39d6",
       "66e0c5189337a12aa64c0c14"
     ],
@@ -412,7 +412,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-09-10T22:28:14.448Z",
+    "updatedAt": "2024-09-13T02:04:22.023Z",
     "__v": 0
   },
   {
@@ -422,17 +422,16 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
     "prompts": [
-      "6695d854888b8bcf4b03be89",
-      "66bf8ca1a9430d3fa1391442",
-      "66bf8ccba9430d3fa1391445",
       "66bf8d0aa9430d3fa1391448",
+      "6695d854888b8bcf4b03be89",
+      "66bf8ccba9430d3fa1391445",
       "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-09-12T22:43:37.857Z",
+    "updatedAt": "2024-09-13T02:03:04.277Z",
     "__v": 0
   },
   {
@@ -442,19 +441,19 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
     "prompts": [
+      "66c00af8d0935d6985124266",
       "66bf8ca1a9430d3fa1391442",
       "669dae465414a7bb2bbf9e2d",
       "66be4dfa0e262044f7ea39a8",
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
-      "66c00af8d0935d6985124266",
       "6695d854888b8bcf4b03be89"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-08-18T20:58:42.256Z",
+    "updatedAt": "2024-09-13T02:05:51.290Z",
     "__v": 0
   },
   {
@@ -464,19 +463,19 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
     "prompts": [
+      "66c00af8d0935d6985124266",
       "66bf8ca1a9430d3fa1391442",
       "669dae465414a7bb2bbf9e2d",
       "66be4dfa0e262044f7ea39a8",
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
-      "66c00af8d0935d6985124266",
       "6695d849888b8bcf4b03be85"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
-    "updatedAt": "2024-08-18T20:47:26.642Z",
+    "updatedAt": "2024-09-13T02:05:27.634Z",
     "__v": 0
   },
   {
@@ -524,41 +523,40 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
+      "669541137ceb83a7fb75eb17",
       "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
-      "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
+      "66e38eeae162aa12d1a799fb",
       "66e0be6d9337a12aa64c0bc1",
-      "669541137ceb83a7fb75eb17",
       "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-09-12T23:20:43.454Z",
+    "updatedAt": "2024-09-13T02:02:07.966Z",
     "__v": 0
   },
   {
     "_id": "66c95576ae782803372bd9f8",
     "name": "Dynamic Information Generation",
     "alias": "DynamicInformationGenerationCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
+    "llmModel": "CLAUDE_3_HAIKU",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
+      "66c9558dae782803372bda00",
       "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
-      "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
       "66e0be6d9337a12aa64c0bc1",
-      "66c9558dae782803372bda00",
       "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-09-12T23:20:50.630Z",
+    "updatedAt": "2024-09-13T02:02:39.400Z",
     "__v": 0
   },
   {
