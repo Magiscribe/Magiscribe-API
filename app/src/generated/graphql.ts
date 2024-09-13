@@ -235,6 +235,7 @@ export type Query = {
   getCapability?: Maybe<Capability>;
   getInquiries?: Maybe<Array<Maybe<Inquiry>>>;
   getInquiry?: Maybe<Inquiry>;
+  getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<Maybe<InquiryResponse>>>;
   getPrompt?: Maybe<Prompt>;
 };
@@ -252,6 +253,10 @@ export type QueryGetCapabilityArgs = {
 };
 
 export type QueryGetInquiryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type QueryGetInquiryResponseCountArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -396,6 +401,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -421,6 +427,7 @@ export type ResolversParentTypes = {
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryResponse: InquiryResponse;
+  Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
   Mutation: {};
@@ -716,6 +723,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryGetInquiryArgs, 'id'>
+  >;
+  getInquiryResponseCount?: Resolver<
+    ResolversTypes['Int'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetInquiryResponseCountArgs, 'id'>
   >;
   getInquiryResponses?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['InquiryResponse']>>>,
