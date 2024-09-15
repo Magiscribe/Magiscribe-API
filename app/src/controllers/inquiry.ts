@@ -4,6 +4,7 @@ import {
   InquiryResponse as TInquiryResponse,
 } from '@generated/graphql';
 import log from '@log';
+import { createNestedUpdateObject } from '@utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -39,18 +40,11 @@ export async function upsertInquiry({
       data,
     });
 
-    const updateData =
-      fields && fields.length > 0
-        ? // If fields array is present and has elements, use fields to construct updateData
-          fields.reduce((acc, field) => {
-            // For each field, add an entry to acc with the key `data.field`
-            // If data[field] is defined, use its value; otherwise, use null
-            acc[`data.${field}`] =
-              data[field] !== undefined ? data[field] : null;
-            return acc; // Return the accumulator for the next iteration
-          }, {})
-        : // If fields array is not present or empty, use data as is.
-          data;
+    const updateData = createNestedUpdateObject({
+      data,
+      prefix: 'data',
+      fields,
+    });
 
     const result = await Inquiry.findOneAndUpdate(
       { _id: id, userId },
@@ -148,11 +142,16 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
  * @param data The data object to create or update.
  * @returns {Promise<TInquiry>} The created or updated data object.
  */
-export async function createInquiryResponse({
+export async function upsertInquiryResponse({
   id,
   inquiryId,
   userId,
   data,
+}: {
+  id?: string;
+  inquiryId: string;
+  userId: string;
+  data: Record<string, string>[];
 }): Promise<TInquiry> {
   if (!id) {
     log.info({
@@ -177,6 +176,7 @@ export async function createInquiryResponse({
       message: 'Updating existing inquiry response',
       data,
     });
+
     return InquiryResponse.findOneAndUpdate(
       { _id: id, userId },
       {

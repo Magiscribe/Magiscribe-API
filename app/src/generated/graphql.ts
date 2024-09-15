@@ -190,7 +190,7 @@ export type MutationUpsertInquiryArgs = {
 export type MutationUpsertInquiryResponseArgs = {
   data: Array<Scalars['JSONObject']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
-  inquiryId?: InputMaybe<Scalars['ID']['input']>;
+  inquiryId: Scalars['ID']['input'];
 };
 
 export type MutationUpsertPromptArgs = {
@@ -638,7 +638,7 @@ export type MutationResolvers<
     Maybe<ResolversTypes['InquiryResponse']>,
     ParentType,
     ContextType,
-    RequireFields<MutationUpsertInquiryResponseArgs, 'data'>
+    RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId'>
   >;
   upsertPrompt?: Resolver<
     Maybe<ResolversTypes['Prompt']>,
