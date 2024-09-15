@@ -4,16 +4,16 @@ export default `#graphql
         userId: ID!
         data: JSONObject!
         responses: [InquiryResponse!]
-        createdAt: String!
-        updatedAt: String!
+        createdAt: Float!
+        updatedAt: Float!
     }
 
     type InquiryResponse {
         id: ID!
         userId: ID
         data: [JSONObject!]!
-        createdAt: String!
-        updatedAt: String!
+        createdAt: Float!
+        updatedAt: Float!
     }
 
     type Query {

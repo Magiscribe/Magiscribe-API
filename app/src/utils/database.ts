@@ -25,13 +25,14 @@ export function createNestedUpdateObject({
   prefix?: string;
   fields?: string[];
 }): Record<string, string> {
-  if (!fields || fields.length === 0) {
-    return data;
-  }
-
-  return fields.reduce((acc, field) => {
-    const value = data[field];
-    acc[`${prefix}.${field}`] = value !== undefined ? value : null;
-    return acc;
-  }, {});
+  return fields && fields.length > 0
+    ? fields.reduce((acc, field) => {
+        acc[`${prefix}.${field}`] =
+          data[field] !== undefined ? data[field] : null;
+        return acc;
+      }, {})
+    : Object.keys(data).reduce((acc, key) => {
+        acc[`${prefix}.${key}`] = data[key];
+        return acc;
+      }, {});
 }

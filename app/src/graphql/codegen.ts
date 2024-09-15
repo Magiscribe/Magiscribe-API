@@ -80,20 +80,20 @@ export type CapabilityInput = {
 
 export type Inquiry = {
   __typename?: 'Inquiry';
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Float']['output'];
   data: Scalars['JSONObject']['output'];
   id: Scalars['ID']['output'];
   responses?: Maybe<Array<InquiryResponse>>;
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Float']['output'];
   userId: Scalars['ID']['output'];
 };
 
 export type InquiryResponse = {
   __typename?: 'InquiryResponse';
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Float']['output'];
   data: Array<Scalars['JSONObject']['output']>;
   id: Scalars['ID']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Float']['output'];
   userId?: Maybe<Scalars['ID']['output']>;
 };
 
@@ -364,6 +364,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Capability: ResolverTypeWrapper<Capability>;
   CapabilityInput: CapabilityInput;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
@@ -390,6 +391,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Capability: Capability;
   CapabilityInput: CapabilityInput;
+  Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryResponse: InquiryResponse;
@@ -439,20 +441,20 @@ export type CapabilityResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type InquiryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry']> = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type InquiryResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquiryResponse'] = ResolversParentTypes['InquiryResponse']> = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   data?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

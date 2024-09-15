@@ -28,7 +28,6 @@ export async function upsertInquiry({
   if (!id) {
     log.info({
       message: 'Creating new data object',
-      data,
     });
     return Inquiry.create({
       data,
@@ -38,12 +37,18 @@ export async function upsertInquiry({
     log.info({
       message: 'Updating existing data object',
       data,
+      fields
     });
 
     const updateData = createNestedUpdateObject({
       data,
       prefix: 'data',
       fields,
+    });
+
+    log.info({
+      message: 'Update data object',
+      updateData,
     });
 
     const result = await Inquiry.findOneAndUpdate(
@@ -57,7 +62,7 @@ export async function upsertInquiry({
         setDefaultsOnInsert: true,
       },
     );
-    log.info({ msg: 'Inquiry updated successfully', result });
+    log.info({ msg: 'Inquiry updated successfully' });
     return result;
   }
 }
