@@ -2,7 +2,7 @@ import { Inquiry, InquiryResponse } from '@database/models/inquiry';
 import {
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
-} from '@generated/graphql';
+} from '@graphql/codegen';
 import log from '@log';
 import { createNestedUpdateObject } from '@utils/database';
 

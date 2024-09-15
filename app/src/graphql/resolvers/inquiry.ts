@@ -15,7 +15,7 @@ import {
   QueryGetInquiryArgs,
   QueryGetInquiryResponsesArgs,
   QueryGetInquiryResponseCountArgs,
-} from '@generated/graphql';
+} from '@graphql/codegen';
 
 export default {
   Mutation: {

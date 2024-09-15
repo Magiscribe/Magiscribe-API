@@ -1,4 +1,4 @@
-import { Inquiry as InquiryObject } from '@generated/graphql';
+import { Inquiry as InquiryObject } from '@graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(

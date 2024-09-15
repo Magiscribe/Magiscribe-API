@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
-    "predev": "pnpm run generate",
+    "predev": "pnpm run codegen",
     "dev": "sh ./scripts/start.sh",
     "start": "node -r newrelic dist/index.js",
     "start:dev": "tsx watch src",
@@ -18,7 +18,7 @@
     "docker:down": "docker-compose down",
     "db:import": "tsx seed/import.ts",
     "db:export": "tsx seed/export.ts",
-    "generate": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "engines": {
     "node": ">=20.0"
@@ -35,7 +35,6 @@
     "@aws-sdk/s3-request-presigner": "^3.651.1",
     "@clerk/clerk-sdk-node": "^5.0.39",
     "@fastify/cors": "^9.0.1",
-    "@graphql-codegen/cli": "^5.0.2",
     "@graphql-tools/schema": "^10.0.6",
     "@graphql-tools/utils": "^10.5.4",
     "@langchain/community": "^0.3.0",

@@ -17,15 +17,15 @@ export default `#graphql
     }
 
     type Query {
-        getInquiries: [Inquiry] @auth
+        getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
-        getInquiryResponses(id: ID!): [InquiryResponse] @auth
+        getInquiryResponses(id: ID!): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
     }
 
     type Mutation {
-        upsertInquiry(id: ID, data: JSONObject!, fields: [String!]): Inquiry @auth
+        upsertInquiry(id: ID, data: JSONObject!, fields: [String!]): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
-        upsertInquiryResponse(id: ID, inquiryId: ID!, data: [JSONObject!]!): InquiryResponse
+        upsertInquiryResponse(id: ID, inquiryId: ID!, data: [JSONObject!]!): InquiryResponse!
     }
 `;
