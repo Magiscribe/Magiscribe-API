@@ -37,7 +37,7 @@ export async function upsertInquiry({
     log.info({
       message: 'Updating existing data object',
       data,
-      fields
+      fields,
     });
 
     const updateData = createNestedUpdateObject({
@@ -206,7 +206,6 @@ export async function upsertInquiryResponse({
         setDefaultsOnInsert: true,
       },
     );
-
   }
 }
 
