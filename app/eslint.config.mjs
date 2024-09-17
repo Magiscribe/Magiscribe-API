@@ -10,7 +10,7 @@ export default [
       'dist/',
       'node_modules/',
       'cdktf.out/',
-      'src/generated/',
+      'src/graphql/codegen.ts',
     ],
   },
   pluginJs.configs.recommended,

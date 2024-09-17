@@ -2,19 +2,32 @@ import { Inquiry, InquiryResponse } from '@database/models/inquiry';
 import {
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
-} from '@generated/graphql';
+} from '@graphql/codegen';
 import log from '@log';
+import { createNestedUpdateObject } from '@utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
+ * @param id The ID of the data object to create or update.
+ * @param userId The ID of the user who owns the data object.
  * @param data The data object to create or update.
+ * @param fields The fields to update if the data object already exists.
  * @returns The created or updated data object.
  */
-export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
+export async function upsertInquiry({
+  id,
+  userId,
+  data,
+  fields,
+}: {
+  id?: string;
+  userId: string;
+  data: Record<string, string>;
+  fields?: string[];
+}): Promise<TInquiry> {
   if (!id) {
     log.info({
       message: 'Creating new data object',
-      data,
     });
     return Inquiry.create({
       data,
@@ -24,12 +37,24 @@ export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
     log.info({
       message: 'Updating existing data object',
       data,
+      fields,
     });
+
+    const updateData = createNestedUpdateObject({
+      data,
+      prefix: 'data',
+      fields,
+    });
+
+    log.info({
+      message: 'Update data object',
+      updateData,
+    });
+
     const result = await Inquiry.findOneAndUpdate(
       { _id: id, userId },
       {
-        data,
-        userId,
+        $set: updateData,
       },
       {
         upsert: true,
@@ -37,7 +62,7 @@ export async function createInquiry({ id, userId, data }): Promise<TInquiry> {
         setDefaultsOnInsert: true,
       },
     );
-    log.info({ msg: 'Inquiry updated successfully', result });
+    log.info({ msg: 'Inquiry updated successfully' });
     return result;
   }
 }
@@ -122,11 +147,18 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
  * @param data The data object to create or update.
  * @returns {Promise<TInquiry>} The created or updated data object.
  */
-export async function createInquiryResponse({
+export async function upsertInquiryResponse({
   id,
   inquiryId,
   userId,
   data,
+  fields,
+}: {
+  id?: string;
+  inquiryId: string;
+  userId: string;
+  data: Record<string, string>;
+  fields?: string[];
 }): Promise<TInquiry> {
   if (!id) {
     log.info({
@@ -151,11 +183,22 @@ export async function createInquiryResponse({
       message: 'Updating existing inquiry response',
       data,
     });
-    return InquiryResponse.findOneAndUpdate(
+
+    const updateData = createNestedUpdateObject({
+      data,
+      prefix: 'data',
+      fields,
+    });
+
+    log.info({
+      message: 'Update data object',
+      updateData,
+    });
+
+    return await InquiryResponse.findOneAndUpdate(
       { _id: id, userId },
       {
-        data,
-        userId,
+        $set: updateData,
       },
       {
         upsert: true,

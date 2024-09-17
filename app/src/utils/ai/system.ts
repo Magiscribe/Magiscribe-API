@@ -4,7 +4,7 @@ import {
   MessageResponseTypes,
   Thread,
 } from '@database/models/message';
-import { Agent as IAgent, Capability as ICapability } from '@generated/graphql';
+import { Agent as IAgent, Capability as ICapability } from '@graphql/codegen';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { Document } from 'mongoose';
 
