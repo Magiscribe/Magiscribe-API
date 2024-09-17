@@ -91,10 +91,16 @@ export type Inquiry = {
 export type InquiryResponse = {
   __typename?: 'InquiryResponse';
   createdAt: Scalars['Float']['output'];
-  data: Array<Scalars['JSONObject']['output']>;
+  data: InquiryResponseData;
   id: Scalars['ID']['output'];
   updatedAt: Scalars['Float']['output'];
   userId?: Maybe<Scalars['ID']['output']>;
+};
+
+export type InquiryResponseData = {
+  __typename?: 'InquiryResponseData';
+  history: Array<Scalars['JSONObject']['output']>;
+  userDetails?: Maybe<Scalars['JSONObject']['output']>;
 };
 
 export type Model = {
@@ -180,7 +186,8 @@ export type MutationUpsertInquiryArgs = {
 
 
 export type MutationUpsertInquiryResponseArgs = {
-  data: Array<Scalars['JSONObject']['input']>;
+  data: Scalars['JSONObject']['input'];
+  fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   inquiryId: Scalars['ID']['input'];
 };
@@ -368,6 +375,7 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
+  InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -395,6 +403,7 @@ export type ResolversParentTypes = {
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryResponse: InquiryResponse;
+  InquiryResponseData: InquiryResponseData;
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
@@ -452,10 +461,16 @@ export type InquiryResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type InquiryResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquiryResponse'] = ResolversParentTypes['InquiryResponse']> = {
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  data?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['InquiryResponseData'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InquiryResponseDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquiryResponseData'] = ResolversParentTypes['InquiryResponseData']> = {
+  history?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  userDetails?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -533,6 +548,7 @@ export type Resolvers<ContextType = any> = {
   Capability?: CapabilityResolvers<ContextType>;
   Inquiry?: InquiryResolvers<ContextType>;
   InquiryResponse?: InquiryResponseResolvers<ContextType>;
+  InquiryResponseData?: InquiryResponseDataResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

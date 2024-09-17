@@ -4,7 +4,10 @@ import mongoose, { Schema } from 'mongoose';
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
     userId: { type: String, required: false },
-    data: [{ type: Object, required: true }],
+    data: {
+      userDetails: { type: Object, required: false },
+      history: [{ type: Object, required: false }],
+    },
   },
   { timestamps: true },
 );

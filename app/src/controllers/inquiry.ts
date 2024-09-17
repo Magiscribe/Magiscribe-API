@@ -152,11 +152,13 @@ export async function upsertInquiryResponse({
   inquiryId,
   userId,
   data,
+  fields,
 }: {
   id?: string;
   inquiryId: string;
   userId: string;
-  data: Record<string, string>[];
+  data: Record<string, string>;
+  fields?: string[];
 }): Promise<TInquiry> {
   if (!id) {
     log.info({
@@ -182,11 +184,21 @@ export async function upsertInquiryResponse({
       data,
     });
 
-    return InquiryResponse.findOneAndUpdate(
+    const updateData = createNestedUpdateObject({
+      data,
+      prefix: 'data',
+      fields,
+    });
+
+    log.info({
+      message: 'Update data object',
+      updateData,
+    });
+
+    return await InquiryResponse.findOneAndUpdate(
       { _id: id, userId },
       {
-        data,
-        userId,
+        $set: updateData,
       },
       {
         upsert: true,
@@ -194,6 +206,7 @@ export async function upsertInquiryResponse({
         setDefaultsOnInsert: true,
       },
     );
+
   }
 }
 

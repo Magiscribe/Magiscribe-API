@@ -8,10 +8,15 @@ export default `#graphql
         updatedAt: Float!
     }
 
+    type InquiryResponseData {
+        userDetails: JSONObject
+        history: [JSONObject!]!
+    }
+
     type InquiryResponse {
         id: ID!
         userId: ID
-        data: [JSONObject!]!
+        data: InquiryResponseData!
         createdAt: Float!
         updatedAt: Float!
     }
@@ -26,6 +31,6 @@ export default `#graphql
     type Mutation {
         upsertInquiry(id: ID, data: JSONObject!, fields: [String!]): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
-        upsertInquiryResponse(id: ID, inquiryId: ID!, data: [JSONObject!]!): InquiryResponse!
+        upsertInquiryResponse(id: ID, inquiryId: ID!, data: JSONObject!, fields: [String!]): InquiryResponse!
     }
 `;

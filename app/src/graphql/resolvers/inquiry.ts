@@ -50,6 +50,7 @@ export default {
         id: args.id ?? undefined,
         inquiryId: args.inquiryId,
         data: args.data,
+        fields: args.fields ?? undefined,
         userId: context?.auth?.sub,
       });
     },
