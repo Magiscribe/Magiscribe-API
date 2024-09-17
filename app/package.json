@@ -33,7 +33,7 @@
     "@aws-sdk/client-transcribe": "^3.651.1",
     "@aws-sdk/lib-storage": "^3.651.1",
     "@aws-sdk/s3-request-presigner": "^3.651.1",
-    "@clerk/clerk-sdk-node": "^5.0.39",
+    "@clerk/clerk-sdk-node": "^5.0.40",
     "@fastify/cors": "^9.0.1",
     "@graphql-tools/schema": "^10.0.6",
     "@graphql-tools/utils": "^10.5.4",
