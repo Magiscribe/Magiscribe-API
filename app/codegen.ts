@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   watch: false,
   schema: typeDefs,
   generates: {
-    'src/generated/graphql.ts': {
+    'src/graphql/codegen.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
     },
   },

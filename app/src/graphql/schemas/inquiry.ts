@@ -4,28 +4,33 @@ export default `#graphql
         userId: ID!
         data: JSONObject!
         responses: [InquiryResponse!]
-        createdAt: String!
-        updatedAt: String!
+        createdAt: Float!
+        updatedAt: Float!
+    }
+
+    type InquiryResponseData {
+        userDetails: JSONObject
+        history: [JSONObject!]!
     }
 
     type InquiryResponse {
         id: ID!
         userId: ID
-        data: [JSONObject!]!
-        createdAt: String!
-        updatedAt: String!
+        data: InquiryResponseData!
+        createdAt: Float!
+        updatedAt: Float!
     }
 
     type Query {
-        getInquiries: [Inquiry] @auth
+        getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
-        getInquiryResponses(id: ID!): [InquiryResponse] @auth
+        getInquiryResponses(id: ID!): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
     }
 
     type Mutation {
-        upsertInquiry(id: ID, data: JSONObject!): Inquiry @auth
+        upsertInquiry(id: ID, data: JSONObject!, fields: [String!]): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
-        upsertInquiryResponse(id: ID, inquiryId: ID, data: [JSONObject!]!): InquiryResponse
+        upsertInquiryResponse(id: ID, inquiryId: ID!, data: JSONObject!, fields: [String!]): InquiryResponse!
     }
 `;

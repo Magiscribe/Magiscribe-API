@@ -1,6 +1,6 @@
 import {
-  createInquiry,
-  createInquiryResponse,
+  upsertInquiry,
+  upsertInquiryResponse,
   deleteInquiry,
   getInquiries,
   getInquiry,
@@ -15,7 +15,7 @@ import {
   QueryGetInquiryArgs,
   QueryGetInquiryResponsesArgs,
   QueryGetInquiryResponseCountArgs,
-} from '@generated/graphql';
+} from '@graphql/codegen';
 
 export default {
   Mutation: {
@@ -24,10 +24,11 @@ export default {
       args: MutationUpsertInquiryArgs,
       context: Context,
     ) =>
-      createInquiry({
-        id: args.id,
+      upsertInquiry({
+        id: args.id ?? undefined,
         userId: context.auth.sub,
         data: args.data,
+        fields: args.fields ?? undefined,
       }),
 
     deleteInquiry: async (
@@ -45,10 +46,11 @@ export default {
       args: MutationUpsertInquiryResponseArgs,
       context: Context,
     ) => {
-      return createInquiryResponse({
-        id: args.id,
+      return upsertInquiryResponse({
+        id: args.id ?? undefined,
         inquiryId: args.inquiryId,
         data: args.data,
+        fields: args.fields ?? undefined,
         userId: context?.auth?.sub,
       });
     },

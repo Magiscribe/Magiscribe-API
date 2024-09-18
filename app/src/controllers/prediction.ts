@@ -1,6 +1,6 @@
 import config from '@config';
 import { OutputReturnMode } from '@database/models/agent';
-import { Agent, Capability } from '@generated/graphql';
+import { Agent, Capability } from '@graphql/codegen';
 import { SubscriptionEvent } from '@graphql/subscription-events';
 import log from '@log';
 import { Content, ContentType, makeRequest } from '@utils/ai/requests';

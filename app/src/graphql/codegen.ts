@@ -38,7 +38,7 @@ export type Scalars = {
 
 export type Agent = {
   __typename?: 'Agent';
-  capabilities: Array<Maybe<Capability>>;
+  capabilities: Array<Capability>;
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   memoryEnabled: Scalars['Boolean']['output'];
@@ -81,7 +81,7 @@ export type Capability = {
   name: Scalars['String']['output'];
   outputFilter?: Maybe<Scalars['String']['output']>;
   outputMode: Scalars['String']['output'];
-  prompts?: Maybe<Array<Maybe<Prompt>>>;
+  prompts: Array<Prompt>;
   subscriptionFilter?: Maybe<Scalars['String']['output']>;
 };
 
@@ -99,21 +99,27 @@ export type CapabilityInput = {
 
 export type Inquiry = {
   __typename?: 'Inquiry';
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['Float']['output'];
   data: Scalars['JSONObject']['output'];
   id: Scalars['ID']['output'];
   responses?: Maybe<Array<InquiryResponse>>;
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Float']['output'];
   userId: Scalars['ID']['output'];
 };
 
 export type InquiryResponse = {
   __typename?: 'InquiryResponse';
-  createdAt: Scalars['String']['output'];
-  data: Array<Scalars['JSONObject']['output']>;
+  createdAt: Scalars['Float']['output'];
+  data: InquiryResponseData;
   id: Scalars['ID']['output'];
-  updatedAt: Scalars['String']['output'];
+  updatedAt: Scalars['Float']['output'];
   userId?: Maybe<Scalars['ID']['output']>;
+};
+
+export type InquiryResponseData = {
+  __typename?: 'InquiryResponseData';
+  history: Array<Scalars['JSONObject']['output']>;
+  userDetails?: Maybe<Scalars['JSONObject']['output']>;
 };
 
 export type Model = {
@@ -135,8 +141,8 @@ export type Mutation = {
   generateTranscriptionStreamingCredentials?: Maybe<TemporaryCredentials>;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
-  upsertInquiry?: Maybe<Inquiry>;
-  upsertInquiryResponse?: Maybe<InquiryResponse>;
+  upsertInquiry: Inquiry;
+  upsertInquiryResponse: InquiryResponse;
   upsertPrompt?: Maybe<Prompt>;
 };
 
@@ -183,13 +189,15 @@ export type MutationUpsertCapabilityArgs = {
 
 export type MutationUpsertInquiryArgs = {
   data: Scalars['JSONObject']['input'];
+  fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type MutationUpsertInquiryResponseArgs = {
-  data: Array<Scalars['JSONObject']['input']>;
+  data: Scalars['JSONObject']['input'];
+  fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
-  inquiryId?: InputMaybe<Scalars['ID']['input']>;
+  inquiryId: Scalars['ID']['input'];
 };
 
 export type MutationUpsertPromptArgs = {
@@ -228,15 +236,15 @@ export type Query = {
   __typename?: 'Query';
   getAgent?: Maybe<Agent>;
   getAgentWithPrompts?: Maybe<Agent>;
-  getAllAgents?: Maybe<Array<Maybe<Agent>>>;
-  getAllCapabilities?: Maybe<Array<Maybe<Capability>>>;
-  getAllModels?: Maybe<Array<Maybe<Model>>>;
+  getAllAgents: Array<Agent>;
+  getAllCapabilities: Array<Capability>;
+  getAllModels: Array<Model>;
   getAllPrompts?: Maybe<Array<Maybe<Prompt>>>;
   getCapability?: Maybe<Capability>;
-  getInquiries?: Maybe<Array<Maybe<Inquiry>>>;
+  getInquiries?: Maybe<Array<Inquiry>>;
   getInquiry?: Maybe<Inquiry>;
   getInquiryResponseCount: Scalars['Int']['output'];
-  getInquiryResponses?: Maybe<Array<Maybe<InquiryResponse>>>;
+  getInquiryResponses?: Maybe<Array<InquiryResponse>>;
   getPrompt?: Maybe<Prompt>;
 };
 
@@ -398,9 +406,11 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Capability: ResolverTypeWrapper<Capability>;
   CapabilityInput: CapabilityInput;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
+  InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -424,9 +434,11 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Capability: Capability;
   CapabilityInput: CapabilityInput;
+  Float: Scalars['Float']['output'];
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryResponse: InquiryResponse;
+  InquiryResponseData: InquiryResponseData;
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
@@ -446,7 +458,7 @@ export type AgentResolvers<
     ResolversParentTypes['Agent'] = ResolversParentTypes['Agent'],
 > = {
   capabilities?: Resolver<
-    Array<Maybe<ResolversTypes['Capability']>>,
+    Array<ResolversTypes['Capability']>,
     ParentType,
     ContextType
   >;
@@ -503,11 +515,7 @@ export type CapabilityResolvers<
     ContextType
   >;
   outputMode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  prompts?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Prompt']>>>,
-    ParentType,
-    ContextType
-  >;
+  prompts?: Resolver<Array<ResolversTypes['Prompt']>, ParentType, ContextType>;
   subscriptionFilter?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
@@ -521,7 +529,7 @@ export type InquiryResolvers<
   ParentType extends
     ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry'],
 > = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   responses?: Resolver<
@@ -529,7 +537,7 @@ export type InquiryResolvers<
     ParentType,
     ContextType
   >;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -539,11 +547,33 @@ export type InquiryResponseResolvers<
   ParentType extends
     ResolversParentTypes['InquiryResponse'] = ResolversParentTypes['InquiryResponse'],
 > = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  data?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  data?: Resolver<
+    ResolversTypes['InquiryResponseData'],
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InquiryResponseDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['InquiryResponseData'] = ResolversParentTypes['InquiryResponseData'],
+> = {
+  history?: Resolver<
+    Array<ResolversTypes['JSONObject']>,
+    ParentType,
+    ContextType
+  >;
+  userDetails?: Resolver<
+    Maybe<ResolversTypes['JSONObject']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -628,16 +658,16 @@ export type MutationResolvers<
     RequireFields<MutationUpsertCapabilityArgs, 'capability'>
   >;
   upsertInquiry?: Resolver<
-    Maybe<ResolversTypes['Inquiry']>,
+    ResolversTypes['Inquiry'],
     ParentType,
     ContextType,
     RequireFields<MutationUpsertInquiryArgs, 'data'>
   >;
   upsertInquiryResponse?: Resolver<
-    Maybe<ResolversTypes['InquiryResponse']>,
+    ResolversTypes['InquiryResponse'],
     ParentType,
     ContextType,
-    RequireFields<MutationUpsertInquiryResponseArgs, 'data'>
+    RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId'>
   >;
   upsertPrompt?: Resolver<
     Maybe<ResolversTypes['Prompt']>,
@@ -688,17 +718,17 @@ export type QueryResolvers<
     RequireFields<QueryGetAgentWithPromptsArgs, 'agentId'>
   >;
   getAllAgents?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Agent']>>>,
+    Array<ResolversTypes['Agent']>,
     ParentType,
     ContextType
   >;
   getAllCapabilities?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Capability']>>>,
+    Array<ResolversTypes['Capability']>,
     ParentType,
     ContextType
   >;
   getAllModels?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Model']>>>,
+    Array<ResolversTypes['Model']>,
     ParentType,
     ContextType
   >;
@@ -714,7 +744,7 @@ export type QueryResolvers<
     RequireFields<QueryGetCapabilityArgs, 'capabilityId'>
   >;
   getInquiries?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Inquiry']>>>,
+    Maybe<Array<ResolversTypes['Inquiry']>>,
     ParentType,
     ContextType
   >;
@@ -731,7 +761,7 @@ export type QueryResolvers<
     RequireFields<QueryGetInquiryResponseCountArgs, 'id'>
   >;
   getInquiryResponses?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['InquiryResponse']>>>,
+    Maybe<Array<ResolversTypes['InquiryResponse']>>,
     ParentType,
     ContextType,
     RequireFields<QueryGetInquiryResponsesArgs, 'id'>
@@ -775,6 +805,7 @@ export type Resolvers<ContextType = any> = {
   Capability?: CapabilityResolvers<ContextType>;
   Inquiry?: InquiryResolvers<ContextType>;
   InquiryResponse?: InquiryResponseResolvers<ContextType>;
+  InquiryResponseData?: InquiryResponseDataResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

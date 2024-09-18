@@ -36,7 +36,7 @@ export default `#graphql
     alias: String!
     llmModel: String!
     description: String!
-    prompts: [Prompt]
+    prompts: [Prompt!]!
 
     outputMode: String!
     subscriptionFilter: String
@@ -74,7 +74,7 @@ export default `#graphql
     description: String!
     reasoning: AgentReasoning
 
-    capabilities: [Capability]!
+    capabilities: [Capability!]!
 
     memoryEnabled: Boolean!
     subscriptionFilter: String
@@ -94,16 +94,16 @@ export default `#graphql
   }
 
   type Query {
-    getAllModels: [Model] @auth(requires: admin)
+    getAllModels: [Model!]! @auth(requires: admin)
 
     getPrompt(promptId: ID!): Prompt @auth(requires: admin)
     getAllPrompts: [Prompt] @auth(requires: admin)
 
     getCapability(capabilityId: ID!): Capability @auth(requires: admin)
-    getAllCapabilities: [Capability] @auth(requires: admin)
+    getAllCapabilities: [Capability!]! @auth(requires: admin)
 
     getAgent(agentId: ID!): Agent
     getAgentWithPrompts(agentId: ID!): Agent
-    getAllAgents: [Agent]
+    getAllAgents: [Agent!]!
   }
 `;

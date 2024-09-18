@@ -1,10 +1,13 @@
-import { Inquiry as InquiryObject } from '@generated/graphql';
+import { Inquiry as InquiryObject } from '@graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
     userId: { type: String, required: false },
-    data: [{ type: Object, required: true }],
+    data: {
+      userDetails: { type: Object, required: false },
+      history: [{ type: Object, required: false }],
+    },
   },
   { timestamps: true },
 );
@@ -17,7 +20,6 @@ const InquirySchema: Schema = new mongoose.Schema(
         title: { type: String, required: true },
         description: { type: String, required: false },
         organizationName: { type: String, required: false },
-        organizationRole: { type: String, required: false },
         inputGoals: { type: String, required: false },
       },
       graph: { type: Object, required: false },

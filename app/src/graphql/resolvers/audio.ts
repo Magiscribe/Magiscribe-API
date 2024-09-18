@@ -2,7 +2,7 @@ import {
   generateAudio,
   generateTranscriptionStreamingCredentials,
 } from '@controllers/audio';
-import { MutationGenerateAudioArgs } from '@generated/graphql';
+import { MutationGenerateAudioArgs } from '@graphql/codegen';
 
 export default {
   Mutation: {
