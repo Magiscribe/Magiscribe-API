@@ -268,13 +268,14 @@
     "prompts": [
       "6695d854888b8bcf4b03be89",
       "669dae465414a7bb2bbf9e2d",
+      "66db4139230520f669c6b5e0",
       "669bef586773961cdf4604b4"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-08-31T17:14:27.554Z",
+    "updatedAt": "2024-09-17T04:48:49.502Z",
     "__v": 0
   },
   {
@@ -401,18 +402,17 @@
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Graph Generation",
     "prompts": [
+      "6695d854888b8bcf4b03be89",
       "66be521d0e262044f7ea39ac",
       "66be4dfa0e262044f7ea39a8",
-      "6695d854888b8bcf4b03be89",
       "669dae465414a7bb2bbf9e2d",
-      "66be5b690e262044f7ea39d6",
-      "66e0c5189337a12aa64c0c14"
+      "66be5b690e262044f7ea39d6"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-09-13T02:04:22.023Z",
+    "updatedAt": "2024-09-19T20:29:55.893Z",
     "__v": 0
   },
   {
