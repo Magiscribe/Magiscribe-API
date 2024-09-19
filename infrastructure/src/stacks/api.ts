@@ -180,41 +180,6 @@ export default class ApiStack extends TerraformStack {
       ],
     });
 
-    // An IAM role that allows Transcribe streaming
-    const transcribeRole = new IamRole(this, 'TranscribeRole', {
-      name: 'transcribe-role',
-      assumeRolePolicy: JSON.stringify({
-        Version: '2012-10-17',
-        Statement: [
-          {
-            Effect: 'Allow',
-            Principal: {
-              AWS: taskRole.arn,
-            },
-            Action: 'sts:AssumeRole',
-          },
-        ],
-      }),
-      inlinePolicy: [
-        {
-          name: 'transcribe-policy',
-          policy: JSON.stringify({
-            Version: '2012-10-17',
-            Statement: [
-              {
-                Effect: 'Allow',
-                Action: [
-                  'transcribe:StartStreamTranscription',
-                  'transcribe:StartStreamTranscriptionWebSocket',
-                ],
-                Resource: '*',
-              },
-            ],
-          }),
-        },
-      ],
-    });
-
     const cluster = new Cluster(this, 'Cluster');
 
     const task = cluster.runDockerImage({
@@ -239,7 +204,6 @@ export default class ApiStack extends TerraformStack {
         NEW_RELIC_LICENSE_KEY: '3a603d0ce9a9f66822a4977c85dc875fFFFFNRAL',
         NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLE: 'true',
 
-        TRANSRIBE_STREAMING_ROLE: transcribeRole.arn,
         MEDIA_ASSETS_BUCKET_NAME: data.s3Bucket.bucket,
       },
       secrets: {

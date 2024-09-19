@@ -1,56 +1,12 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { AssumeRoleCommand } from '@aws-sdk/client-sts';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
 import log from '@log';
-import { s3Client, stsClient } from '@utils/clients';
+import { s3Client } from '@utils/clients';
 import { ELEVENLABS_VOICES } from '@utils/voices';
 import { ElevenLabsClient } from 'elevenlabs';
 import { uuid } from 'uuidv4';
-
-/**
- * This returns a set of temporary credentials that can be used to transcribe an audio file.
- * @returns {Promise<{ accessKeyId: string, secretAccessKey: string, sessionToken: string }>} The temporary credentials.
- */
-export async function generateTranscriptionStreamingCredentials(): Promise<{
-  accessKeyId: string;
-  secretAccessKey: string;
-  sessionToken: string;
-}> {
-  // Uses STS to generate temporary credentials for the transcription job.
-  // This is to ensure that the transcription job has access to the audio file.
-  log.debug({ msg: 'Generating transcription streaming credentials' });
-  const result = await stsClient.send(
-    new AssumeRoleCommand({
-      RoleArn: config.transcribeStreamingRole,
-      RoleSessionName: 'transcribe-session',
-      DurationSeconds: 900, // 15 minutes
-    }),
-  );
-
-  log.debug({ msg: 'Transcription streaming credentials generated' });
-
-  if (!result.Credentials) {
-    throw new Error('Failed to generate transcription streaming credentials');
-  }
-
-  if (
-    !result.Credentials.AccessKeyId ||
-    !result.Credentials.SecretAccessKey ||
-    !result.Credentials.SessionToken
-  ) {
-    throw new Error(
-      'Missing required fields in transcription streaming credentials',
-    );
-  }
-
-  return {
-    accessKeyId: result.Credentials.AccessKeyId,
-    secretAccessKey: result.Credentials.SecretAccessKey,
-    sessionToken: result.Credentials.SessionToken,
-  };
-}
 
 /**
  * Generates an audio URL blob from given text and streams it to the client.

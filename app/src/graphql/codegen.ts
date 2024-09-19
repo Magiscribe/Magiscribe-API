@@ -138,7 +138,6 @@ export type Mutation = {
   deleteInquiry?: Maybe<Inquiry>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
-  generateTranscriptionStreamingCredentials?: Maybe<TemporaryCredentials>;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
   upsertInquiry: Inquiry;
@@ -285,13 +284,6 @@ export type SubscriptionPredictionAddedArgs = {
   subscriptionId: Scalars['ID']['input'];
 };
 
-export type TemporaryCredentials = {
-  __typename?: 'TemporaryCredentials';
-  accessKeyId: Scalars['String']['output'];
-  secretAccessKey: Scalars['String']['output'];
-  sessionToken: Scalars['String']['output'];
-};
-
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
@@ -422,7 +414,6 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subscription: ResolverTypeWrapper<{}>;
-  TemporaryCredentials: ResolverTypeWrapper<TemporaryCredentials>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -449,7 +440,6 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String']['output'];
   Subscription: {};
-  TemporaryCredentials: TemporaryCredentials;
 };
 
 export type AgentResolvers<
@@ -640,11 +630,6 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>
   >;
-  generateTranscriptionStreamingCredentials?: Resolver<
-    Maybe<ResolversTypes['TemporaryCredentials']>,
-    ParentType,
-    ContextType
-  >;
   upsertAgent?: Resolver<
     Maybe<ResolversTypes['Agent']>,
     ParentType,
@@ -788,17 +773,6 @@ export type SubscriptionResolvers<
   >;
 };
 
-export type TemporaryCredentialsResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['TemporaryCredentials'] = ResolversParentTypes['TemporaryCredentials'],
-> = {
-  accessKeyId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  secretAccessKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  sessionToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type Resolvers<ContextType = any> = {
   Agent?: AgentResolvers<ContextType>;
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
@@ -813,5 +787,4 @@ export type Resolvers<ContextType = any> = {
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
-  TemporaryCredentials?: TemporaryCredentialsResolvers<ContextType>;
 };
