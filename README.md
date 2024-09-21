@@ -1,4 +1,4 @@
-# ![GraphQL API](docs/banner.png) <!-- omit in toc -->
+# ![GraphQL API](./docs/imgs/banner.png) <!-- omit in toc -->
 
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![GraphQL](https://img.shields.io/badge/-GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
@@ -13,6 +13,7 @@
 # Table of Contents <!-- omit in toc -->
 
 - [Overview](#overview)
+  - [Short Demos](#short-demos)
   - [Architecture](#architecture)
 - [Zero to Hero](#zero-to-hero)
     - [Pre-requisites](#pre-requisites)
@@ -27,9 +28,19 @@
 
 This repository contains a Node.js application that uses Expresses and Apollo Server to create a GraphQL API.
 
+## Short Demos
+
+**Agent Lab:**
+The following video demonstrates the GraphQL API in action. The API is used to query the database for agents, capabilities, and their related prompts. It allows easy creation of new agents, capabilities, and prompts as well as additional features like per-organization authorization through Clerk.
+
+
+**Inquiry Builder:**
+The following video demonstrates the GraphQL API in action. The API is used to query the database for inquiry graphs. An inquiry graph is a dictated conversation flows that can be used to generate a conversation between an agent and a user. It allows for stakeholders to get a dynamic conversation flow between a user and an agent to probe for information or insights, while ensuring that the agent stays on tasks, asks the right questions in the right order, and does not miss any important information while still allowing the user and conversation to go off script at certain times depending on the graph.
+
+
 ## Architecture
 
-![Architecture](docs/architecture.svg)
+![Architecture](docs/diagrams/architecture.svg)
 
 # Zero to Hero
 
