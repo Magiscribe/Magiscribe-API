@@ -33,10 +33,12 @@ This repository contains a Node.js application that uses Expresses and Apollo Se
 **Agent Lab:**
 The following video demonstrates the GraphQL API in action. The API is used to query the database for agents, capabilities, and their related prompts. It allows easy creation of new agents, capabilities, and prompts as well as additional features like per-organization authorization through Clerk.
 
+https://github.com/user-attachments/assets/e14adb08-8c24-457a-aa5d-026ca2e519d5
 
 **Inquiry Builder:**
 The following video demonstrates the GraphQL API in action. The API is used to query the database for inquiry graphs. An inquiry graph is a dictated conversation flows that can be used to generate a conversation between an agent and a user. It allows for stakeholders to get a dynamic conversation flow between a user and an agent to probe for information or insights, while ensuring that the agent stays on tasks, asks the right questions in the right order, and does not miss any important information while still allowing the user and conversation to go off script at certain times depending on the graph.
 
+https://github.com/user-attachments/assets/e8a35125-d78b-4207-bc50-59879643d1c1
 
 ## Architecture
 
