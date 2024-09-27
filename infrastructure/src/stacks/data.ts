@@ -1,14 +1,15 @@
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { S3Bucket } from '@cdktf/provider-aws/lib/s3-bucket';
+import { S3BucketLifecycleConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-lifecycle-configuration';
 import { SsmParameter } from '@cdktf/provider-aws/lib/ssm-parameter';
 import * as mongodb from '@cdktf/provider-mongodbatlas';
 import { Repository } from '@constructs/ecs-repository';
+import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
+
 import config from '../../bin/config';
 import NetworkStack from './network';
-import { S3BucketLifecycleConfiguration } from '@cdktf/provider-aws/lib/s3-bucket-lifecycle-configuration';
-import { TagsAddingAspect } from 'aspects/tag-aspect';
 
 interface DataStackProps {
   network: NetworkStack;
@@ -85,6 +86,8 @@ export default class DataStack extends TerraformStack {
       name: 'magiscribe-api',
     });
 
+    /*================= MONGODB =================*/
+
     this.database = new mongodb.serverlessInstance.ServerlessInstance(
       this,
       'MongoDBInstance',
@@ -94,6 +97,7 @@ export default class DataStack extends TerraformStack {
         providerSettingsBackingProviderName: 'AWS',
         providerSettingsProviderName: 'SERVERLESS',
         providerSettingsRegionName: 'US_EAST_1',
+        continuousBackupEnabled: config.db.backupsEnabled ?? false,
       },
     );
 
@@ -103,6 +107,8 @@ export default class DataStack extends TerraformStack {
       ipAddress: network.vpc.natIp.publicIp,
       comment: 'Allow the NAT Gateway IP to access the database',
     });
+
+    /*================= PARAMETERS =================*/
 
     this.databaseParameters = {
       connectionString: new SsmParameter(this, 'MongoDBConnectionString', {

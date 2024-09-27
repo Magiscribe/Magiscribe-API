@@ -54,6 +54,8 @@ interface Config {
   };
 
   db: {
+    backupsEnabled?: boolean;
+
     publicKey: string;
     privateKey: string;
     projectId: string;
@@ -77,6 +79,7 @@ const config: Record<Environment, Config> = {
       apexDomainName: 'dev.magiscribe.com',
     },
     db: {
+      backupsEnabled: false,
       publicKey: 'tywsqgup',
       privateKey: '62e2857c-72bf-43b7-abb4-c6a2c8fea359',
       projectId: '665caf78bdea6c1a9ef26d7c',
@@ -167,6 +170,7 @@ const config: Record<Environment, Config> = {
     },
 
     db: {
+      backupsEnabled: true,
       publicKey: 'aoajfedt',
       privateKey: '1ff1b1ab-3d43-461f-80ae-1b5fa61904b8',
       projectId: '665fbb59b0b7bf7406fc2b0e',
