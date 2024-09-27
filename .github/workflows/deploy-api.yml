@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    # Everday at 9:30am EST
-    - cron:  '30 13 * * *'
   workflow_dispatch:
 
 permissions:

@@ -14,8 +14,8 @@
     "format:check": "prettier --check .",
     "check": "pnpm run lint && pnpm run format",
     "fix": "pnpm run lint:fix && pnpm run format",
-    "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
     "db:import": "tsx seed/import.ts",
     "db:export": "tsx seed/export.ts",
     "codegen": "graphql-codegen --config codegen.ts"
