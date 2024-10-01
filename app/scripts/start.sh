@@ -37,10 +37,21 @@ else
 fi
 
 # Check if Docker is running
+echo -e "${GREEN}Checking if Docker is installed...${NC}"
+if ! command -v docker &> /dev/null; then
+    echo -e "${RED}Docker is not installed.${NC} Please install Docker."
+    exit 1
+fi
+
 echo -e "${GREEN}Checking if Docker is running...${NC}"
 if ! docker info &> /dev/null; then
-    echo -e "${RED}Docker is not running.${NC} Please start Docker."
-    exit 1
+    echo -e "${YELLOW}Docker is not running. Attempting to start Docker...${NC}"
+    if ! sudo systemctl start docker; then
+        echo -e "${RED}Failed to start Docker.${NC} Please start Docker manually."
+        exit 1
+    else
+        echo -e "${GREEN}Docker has been started.${NC}"
+    fi
 else
     echo -e "${GREEN}Docker is running.${NC}"
 fi
