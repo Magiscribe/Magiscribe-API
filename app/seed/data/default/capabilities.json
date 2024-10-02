@@ -405,6 +405,7 @@
       "6695d854888b8bcf4b03be89",
       "66be521d0e262044f7ea39ac",
       "66be4dfa0e262044f7ea39a8",
+      "66fd7691860752b2cc63f532",
       "66db4139230520f669c6b5e0",
       "669dae465414a7bb2bbf9e2d",
       "66e0c57e9337a12aa64c0c17",
@@ -414,7 +415,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-09-29T17:07:37.480Z",
+    "updatedAt": "2024-10-02T19:42:45.597Z",
     "__v": 0
   },
   {
@@ -433,7 +434,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-09-17T03:40:02.262Z",
+    "updatedAt": "2024-10-02T02:20:09.141Z",
     "__v": 0
   },
   {
@@ -537,7 +538,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-09-13T02:02:07.966Z",
+    "updatedAt": "2024-10-02T02:20:45.883Z",
     "__v": 0
   },
   {
@@ -601,6 +602,30 @@
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
     "updatedAt": "2024-09-10T22:04:35.668Z",
+    "__v": 0
+  },
+  {
+    "_id": "66fd748f860752b2cc63f50f",
+    "name": "Graph Edit",
+    "alias": "GraphEditCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Graph edit takes in an existing graph and a request to modify it and returns a list of nodes to upsesrt, a list of nodes to delete, a list of edges to add, and a list of edges to delete. ",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66be4dfa0e262044f7ea39a8",
+      "66fd7691860752b2cc63f532",
+      "66bf8ca1a9430d3fa1391442",
+      "66db4139230520f669c6b5e0",
+      "669dae465414a7bb2bbf9e2d",
+      "66fd775c860752b2cc63f546",
+      "66be5b690e262044f7ea39d6",
+      "66fd97e8860752b2cc63f750"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-10-02T16:27:59.334Z",
+    "updatedAt": "2024-10-02T20:00:44.789Z",
     "__v": 0
   }
 ]
