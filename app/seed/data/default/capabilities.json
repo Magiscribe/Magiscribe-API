@@ -154,7 +154,10 @@
     "alias": "StreamCapability",
     "llmModel": "MISTRAL_LARGE",
     "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667ae9a67ed1fd8cdf11ad0f",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "STREAMING_INDIVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -168,7 +171,10 @@
     "alias": "ScrapeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667aef8dacf7000556d2ddb9",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -182,7 +188,10 @@
     "alias": "ReasoningPromptCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "667d9c1f69b67704281c4e2c",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -215,7 +224,10 @@
     "alias": "QuestionGeneration",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
+    "prompts": [
+      "669541137ceb83a7fb75eb17",
+      "6695d854888b8bcf4b03be89"
+    ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -415,7 +427,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-10-02T19:42:45.597Z",
+    "updatedAt": "2024-10-03T03:04:21.894Z",
     "__v": 0
   },
   {
@@ -612,20 +624,20 @@
     "description": "Graph edit takes in an existing graph and a request to modify it and returns a list of nodes to upsesrt, a list of nodes to delete, a list of edges to add, and a list of edges to delete. ",
     "prompts": [
       "6695d854888b8bcf4b03be89",
+      "66bf8ca1a9430d3fa1391442",
       "66be4dfa0e262044f7ea39a8",
       "66fd7691860752b2cc63f532",
-      "66bf8ca1a9430d3fa1391442",
       "66db4139230520f669c6b5e0",
       "669dae465414a7bb2bbf9e2d",
-      "66fd775c860752b2cc63f546",
       "66be5b690e262044f7ea39d6",
-      "66fd97e8860752b2cc63f750"
+      "66fd97e8860752b2cc63f750",
+      "66fd775c860752b2cc63f546"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-02T16:27:59.334Z",
-    "updatedAt": "2024-10-02T20:00:44.789Z",
+    "updatedAt": "2024-10-03T03:47:43.120Z",
     "__v": 0
   }
 ]
