@@ -32,6 +32,18 @@ const InquirySchema: Schema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// A pre-hook to delete all responses when an inquiry is deleted so that orphaned responses are not left behind.
+InquirySchema.pre(
+  'deleteOne',
+  { document: false, query: true },
+  async function () {
+    const doc = await this.model.findOne(this.getFilter());
+    if (doc) {
+      await InquiryResponse.deleteMany({ _id: { $in: doc.responses } });
+    }
+  },
+);
+
 export const Inquiry = mongoose.model<InquiryObject>('Inquiry', InquirySchema);
 export const InquiryResponse = mongoose.model<InquiryObject>(
   'InquiryResponse',
