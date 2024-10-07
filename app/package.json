@@ -26,17 +26,17 @@
   "dependencies": {
     "@apollo/server": "^4.11.0",
     "@as-integrations/fastify": "^2.1.1",
-    "@aws-sdk/client-bedrock-runtime": "^3.662.0",
-    "@aws-sdk/client-lambda": "^3.662.0",
-    "@aws-sdk/client-s3": "^3.662.0",
-    "@aws-sdk/lib-storage": "^3.662.0",
-    "@aws-sdk/s3-request-presigner": "^3.662.0",
-    "@clerk/clerk-sdk-node": "^5.0.46",
+    "@aws-sdk/client-bedrock-runtime": "^3.666.0",
+    "@aws-sdk/client-lambda": "^3.666.0",
+    "@aws-sdk/client-s3": "^3.665.0",
+    "@aws-sdk/lib-storage": "^3.665.0",
+    "@aws-sdk/s3-request-presigner": "^3.665.0",
+    "@clerk/clerk-sdk-node": "^5.0.48",
     "@fastify/cors": "^10.0.1",
     "@graphql-tools/schema": "^10.0.6",
     "@graphql-tools/utils": "^10.5.4",
     "@langchain/community": "^0.3.4",
-    "@langchain/core": "^0.3.5",
+    "@langchain/core": "^0.3.7",
     "@newrelic/apollo-server-plugin": "^6.0.0",
     "dotenv": "^16.4.5",
     "elevenlabs": "^0.36.4",
@@ -56,17 +56,17 @@
     "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.2",
-    "@graphql-codegen/typescript": "4.0.9",
-    "@graphql-codegen/typescript-resolvers": "4.2.1",
+    "@graphql-codegen/cli": "5.0.3",
+    "@graphql-codegen/typescript": "4.1.0",
+    "@graphql-codegen/typescript-resolvers": "4.3.0",
     "@parcel/watcher": "^2.4.1",
     "@types/node": "^22.7.4",
-    "eslint": "^9.11.1",
+    "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "pino-pretty": "^11.2.2",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.0"
+    "typescript-eslint": "^8.8.1"
   }
 }
