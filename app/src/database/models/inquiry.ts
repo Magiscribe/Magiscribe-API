@@ -21,6 +21,7 @@ const InquirySchema: Schema = new mongoose.Schema(
         goals: { type: String, required: false },
       },
       graph: { type: Object, required: false },
+      draftGraph: { type: Object, required: false },
     },
     responses: [
       {
