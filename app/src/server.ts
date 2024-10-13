@@ -4,7 +4,7 @@ import {
   fastifyApolloDrainPlugin,
   fastifyApolloHandler,
 } from '@as-integrations/fastify';
-import { clerkClient } from '@clerk/clerk-sdk-node';
+import { createClerkClient, verifyToken } from '@clerk/backend';
 import config from '@config';
 import database from '@database';
 import fastifyCors from '@fastify/cors';
@@ -24,6 +24,8 @@ export default async function startServer() {
   );
 
   /*=============================== Auth ==============================*/
+
+  const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
 
   const sandboxAuthToken = 'Sandbox';
   const sandboxSub = 'Sandbox';
@@ -50,7 +52,9 @@ export default async function startServer() {
     }
 
     try {
-      const auth = await clerkClient.verifyToken(token);
+      const auth = await verifyToken(token, {
+        secretKey: config.auth.secretKey,
+      });
       const roles = (
         await clerkClient.users.getOrganizationMembershipList({
           userId: auth.sub,
