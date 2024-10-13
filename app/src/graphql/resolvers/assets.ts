@@ -1,8 +1,10 @@
-import { uploadAsset } from '@controllers/assets';
+import { downloadAsset, uploadAsset } from '@controllers/assets';
 
 export default {
   Mutation: {
-    addMediaAsset: async (_, { fileName, fileType }) =>
-      uploadAsset({ fileName, fileType }),
+    addMediaAsset: async (_, { s3Key }) =>
+      uploadAsset({ s3Key }),
+    getMediaAsset: async (_, { s3Key }) =>
+      downloadAsset({ s3Key }),
   },
 };

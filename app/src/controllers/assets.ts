@@ -1,4 +1,4 @@
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
 import { s3Client } from '@utils/clients';
@@ -11,15 +11,23 @@ import { uuid } from 'uuidv4';
  * @returns {Promise<string>} The URL of the uploaded asset.
  */
 export async function uploadAsset({
-  fileName,
-  fileType,
+  s3Key
 }: {
-  fileName: string;
-  fileType: string;
+  s3Key: string
 }): Promise<string> {
-  const s3Key = `${fileType}/${uuid()}.${fileName}`;
-
   const command = new PutObjectCommand({
+    Bucket: config.mediaAssetsBucketName,
+    Key: s3Key,
+  });
+  return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+}
+
+export async function downloadAsset({
+  s3Key
+}: {
+  s3Key: string
+}): Promise<string> {
+  const command = new GetObjectCommand({
     Bucket: config.mediaAssetsBucketName,
     Key: s3Key,
   });

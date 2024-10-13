@@ -1,5 +1,6 @@
 export default `#graphql
   type Mutation {
-    addMediaAsset(fileType: String!, fileName: String!): String @auth
+    addMediaAsset(s3Key: String!): String @auth
+    getMediaAsset(s3Key: String!): String @auth
   }
 `;
