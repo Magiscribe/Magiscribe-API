@@ -1,22 +1,17 @@
 export const ELEVENLABS_VOICES = {
-  PHOEBE: {
+  phoebe: {
     name: 'Phoebe',
-    voiceId: 'yDVJJro0Ps3lfjmIfiEz',
+    voiceId: 'EBT3lEYA1lornx7ol8CK',
     modelId: 'eleven_multilingual_v2',
   },
-  ROBERT: {
+  robert: {
     name: 'Robert',
-    voiceId: 'HSfoD6J8NIkB77ANbB7H',
+    voiceId: 'kq4bJPv9nKXIlfI5XQFK',
     modelId: 'eleven_multilingual_v2',
   },
-  JOANNA: {
-    name: 'Joanna',
-    voiceId: 'eVItLK1UvXctxuaRV2Oq',
-    modelId: 'eleven_multilingual_v2',
-  },
-  OXLEY: {
+  oxley: {
     name: 'Mathieu',
-    voiceId: '2gPFXx8pN3Avh27Dw5Ma',
+    voiceId: 'fbIG6gEosVIM95R5qOna',
     modelId: 'eleven_multilingual_v2',
   },
 };

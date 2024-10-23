@@ -1,24 +1,5 @@
 [
   {
-    "_id": "6670ab02f446b4f1a67b332e",
-    "name": " Arrow Capability",
-    "alias": "ArrowCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Arrow Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b3300",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-08-15T17:32:59.208Z",
-    "__v": 0
-  },
-  {
     "_id": "6670ab02f446b4f1a67b3330",
     "name": " Function Capability",
     "alias": "FunctionCapability",
@@ -35,101 +16,6 @@
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.617Z",
     "updatedAt": "2024-08-13T00:46:30.677Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3332",
-    "name": " Line Capability",
-    "alias": "LineCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Line Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fa",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.625Z",
-    "updatedAt": "2024-07-08T03:12:28.393Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3334",
-    "name": " Point Capability",
-    "alias": "PointCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Point Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fb",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.635Z",
-    "updatedAt": "2024-07-08T03:12:58.424Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3336",
-    "name": " Text Capability",
-    "alias": "TextCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Text Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fc",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.645Z",
-    "updatedAt": "2024-07-08T02:31:57.145Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3338",
-    "name": " Ellipse Capability",
-    "alias": "EllipseCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Ellipse Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32ff",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.650Z",
-    "updatedAt": "2024-07-11T22:34:13.861Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b333a",
-    "name": " Polygon Capability",
-    "alias": "PolygonCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for Polygon Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fe",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.658Z",
-    "updatedAt": "2024-07-08T03:12:35.824Z",
     "__v": 0
   },
   {
@@ -188,25 +74,6 @@
     "outputFilter": null,
     "createdAt": "2024-06-27T21:11:52.294Z",
     "updatedAt": "2024-07-16T02:21:52.444Z",
-    "__v": 0
-  },
-  {
-    "_id": "6688969bb32be1363c756056",
-    "name": "Freedraw Capability",
-    "alias": "FreedrawCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "Allows the model to freedraw without going through using a function",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6688a06ab32be1363c756078",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-07-06T00:58:03.553Z",
-    "updatedAt": "2024-07-06T01:40:10.469Z",
     "__v": 0
   },
   {
@@ -527,6 +394,7 @@
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "669541137ceb83a7fb75eb17",
+      "671915616adb6894464339df",
       "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
       "66db4139230520f669c6b5e0",
@@ -538,7 +406,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-10-02T02:20:45.883Z",
+    "updatedAt": "2024-10-23T15:26:48.412Z",
     "__v": 0
   },
   {
@@ -549,6 +417,7 @@
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "66c9558dae782803372bda00",
+      "671915616adb6894464339df",
       "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
       "66db4139230520f669c6b5e0",
@@ -559,7 +428,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-09-13T02:02:39.400Z",
+    "updatedAt": "2024-10-23T15:44:01.624Z",
     "__v": 0
   },
   {
