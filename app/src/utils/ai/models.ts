@@ -4,11 +4,6 @@ export const LLM_MODELS_VERSION = {
     name: 'Claude 3 Haiku',
     region: 'us-east-1',
   },
-  CLAUDE_3_SONNET: {
-    id: 'anthropic.claude-3-sonnet-20240229-v1:0',
-    name: 'Claude 3 Sonnet',
-    region: 'us-east-1',
-  },
   CLAUDE_3_OPUS: {
     id: 'anthropic.claude-3-opus-20240229-v1:0',
     name: 'Claude 3 Opus',
@@ -19,14 +14,29 @@ export const LLM_MODELS_VERSION = {
     name: 'Claude 3.5 Sonnet',
     region: 'us-east-1',
   },
-  LLAMA_3_8B_INSTRUCT: {
-    id: 'meta.llama3-8b-instruct-v1:0',
-    name: 'Llama 3 8B Instruct',
+  CLAUDE_3_5_SONNET_V2: {
+    id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    name: 'Claude 3.5 Sonnet v2',
+    region: 'us-west-2',
+  },
+  LLAMA_3_2_1B_INSTRUCT: {
+    id: 'meta.llama3-2-1b-instruct-v1:0',
+    name: 'Llama 3.2 1B Instruct',
     region: 'us-east-1',
   },
-  LLAMA_3_70B_INSTRUCT: {
-    id: 'meta.llama3-70b-instruct-v1:0',
-    name: 'Llama 3 70B Instruct',
+  LLAMA_3_2_3B_INSTRUCT: {
+    id: 'meta.llama3-2-3b-instruct-v1:0',
+    name: 'Llama 3.2 3B Instruct',
+    region: 'us-east-1',
+  },
+  LLAMA_3_2_11B_INSTRUCT: {
+    id: 'meta.llama3-2-11b-instruct-v1:0',
+    name: 'Llama 3.2 11B Instruct',
+    region: 'us-east-1',
+  },
+  LLAMA_3_2_90B_INSTRUCT: {
+    id: 'meta.llama3-2-90b-instruct-v1:0',
+    name: 'Llama 3.2 90B Instruct',
     region: 'us-east-1',
   },
   MISTRAL_7B_INSTRUCT: {
