@@ -4,7 +4,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
 import log from '@log';
 import { s3Client } from '@utils/clients';
-import { ELEVENLABS_VOICES } from '@utils/voices';
+import { VOICES } from '@utils/voices';
 import { ElevenLabsClient } from 'elevenlabs';
 import { uuid } from 'uuidv4';
 
@@ -24,7 +24,7 @@ export async function generateAudio(
     textLength: text.length,
   });
 
-  if (!ELEVENLABS_VOICES[voice]) {
+  if (!VOICES[voice]) {
     log.error({ msg: 'Invalid voice provided', voice });
     throw new Error(`Invalid voice: ${voice}`);
   }
@@ -37,13 +37,13 @@ export async function generateAudio(
     log.debug({
       msg: 'Initiating ElevenLabs API call',
       voice,
-      modelId: ELEVENLABS_VOICES[voice].modelId,
+      modelId: VOICES[voice].modelId,
     });
     const audioStream = await client.generate({
       stream: true,
       text,
-      voice: ELEVENLABS_VOICES[voice].voiceId,
-      model_id: ELEVENLABS_VOICES[voice].modelId,
+      voice: VOICES[voice].voiceId,
+      model_id: VOICES[voice].modelId,
     });
     log.debug({ msg: 'Audio stream received from ElevenLabs' });
 

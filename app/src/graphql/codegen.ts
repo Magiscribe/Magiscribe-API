@@ -243,6 +243,7 @@ export type Query = {
   getAgent?: Maybe<Agent>;
   getAgentWithPrompts?: Maybe<Agent>;
   getAllAgents: Array<Agent>;
+  getAllAudioVoices: Array<Voice>;
   getAllCapabilities: Array<Capability>;
   getAllModels: Array<Model>;
   getAllPrompts?: Maybe<Array<Maybe<Prompt>>>;
@@ -297,6 +298,12 @@ export type Subscription = {
 
 export type SubscriptionPredictionAddedArgs = {
   subscriptionId: Scalars['ID']['input'];
+};
+
+export type Voice = {
+  __typename?: 'Voice';
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 
@@ -395,6 +402,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subscription: ResolverTypeWrapper<{}>;
+  Voice: ResolverTypeWrapper<Voice>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -423,6 +431,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String']['output'];
   Subscription: {};
+  Voice: Voice;
 };
 
 export type AgentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Agent'] = ResolversParentTypes['Agent']> = {
@@ -541,6 +550,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentArgs, 'agentId'>>;
   getAgentWithPrompts?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentWithPromptsArgs, 'agentId'>>;
   getAllAgents?: Resolver<Array<ResolversTypes['Agent']>, ParentType, ContextType>;
+  getAllAudioVoices?: Resolver<Array<ResolversTypes['Voice']>, ParentType, ContextType>;
   getAllCapabilities?: Resolver<Array<ResolversTypes['Capability']>, ParentType, ContextType>;
   getAllModels?: Resolver<Array<ResolversTypes['Model']>, ParentType, ContextType>;
   getAllPrompts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Prompt']>>>, ParentType, ContextType>;
@@ -554,6 +564,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   predictionAdded?: SubscriptionResolver<Maybe<ResolversTypes['Prediction']>, "predictionAdded", ParentType, ContextType, RequireFields<SubscriptionPredictionAddedArgs, 'subscriptionId'>>;
+};
+
+export type VoiceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Voice'] = ResolversParentTypes['Voice']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -572,5 +588,6 @@ export type Resolvers<ContextType = any> = {
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  Voice?: VoiceResolvers<ContextType>;
 };
 

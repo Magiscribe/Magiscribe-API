@@ -1,6 +1,7 @@
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 import { HumanMessage } from '@langchain/core/messages';
 import log from '@log';
+
 import { LLM_MODELS_VERSION } from './models';
 
 export enum ContentType {
@@ -39,7 +40,7 @@ export async function makeRequest({
 }): Promise<string> {
   const chat = new BedrockChat({
     region: LLM_MODELS_VERSION[model].region,
-    model: LLM_MODELS_VERSION[model].id,
+    model: LLM_MODELS_VERSION[model].id, 
     maxTokens: 4096,
     temperature: 0,
   });
