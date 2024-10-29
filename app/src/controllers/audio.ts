@@ -11,7 +11,7 @@ import { uuid } from 'uuidv4';
 
 /**
  * Generates an audio URL blob from given text and streams it to the client.
- * 
+ *
  * @description
  * This function handles the following operations:
  * 1. Validates the voice ID against available voices
@@ -19,7 +19,7 @@ import { uuid } from 'uuidv4';
  * 3. Generates new audio using ElevenLabs API if needed
  * 4. Uploads the audio to S3
  * 5. Returns a signed URL for the audio file
- * 
+ *
  * @param voice - The voice ID to use for audio generation
  * @param text - The text to generate audio from
  * @returns A promise that resolves to a signed URL for the generated audio
@@ -33,7 +33,11 @@ export async function generateAudio(
   const S3_PREFIX = 'audio';
 
   // Start with input validation
-  log.info({ msg: 'Starting audio generation', voice, textLength: text.length });
+  log.info({
+    msg: 'Starting audio generation',
+    voice,
+    textLength: text.length,
+  });
 
   if (!VOICES[voice]) {
     const error = new Error(`Invalid voice: ${voice}`);
@@ -44,7 +48,7 @@ export async function generateAudio(
   try {
     // Check cache first
     const existingAudio = await Audio.findOne({ text, voiceId: voice });
-    
+
     if (existingAudio) {
       log.info({ msg: 'Audio cache hit', s3Key: existingAudio.s3Key });
       return await getSignedUrl(
@@ -53,7 +57,7 @@ export async function generateAudio(
           Bucket: config.mediaAssetsBucketName,
           Key: existingAudio.s3Key,
         }),
-        { expiresIn: SIGNED_URL_EXPIRATION }
+        { expiresIn: SIGNED_URL_EXPIRATION },
       );
     }
 
@@ -90,7 +94,7 @@ export async function generateAudio(
     // Save metadata and complete upload in parallel
     await Promise.all([
       Audio.create({ text, voiceId: voice, s3Key }),
-      upload.done()
+      upload.done(),
     ]);
 
     log.info({ msg: 'Audio generation and upload completed', s3Key });
@@ -102,11 +106,11 @@ export async function generateAudio(
         Bucket: config.mediaAssetsBucketName,
         Key: s3Key,
       }),
-      { expiresIn: SIGNED_URL_EXPIRATION }
+      { expiresIn: SIGNED_URL_EXPIRATION },
     );
-
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
     log.error({
       msg: 'Audio generation failed',
       voice,

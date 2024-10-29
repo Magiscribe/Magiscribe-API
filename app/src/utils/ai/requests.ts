@@ -40,7 +40,7 @@ export async function makeRequest({
 }): Promise<string> {
   const chat = new BedrockChat({
     region: LLM_MODELS_VERSION[model].region,
-    model: LLM_MODELS_VERSION[model].id, 
+    model: LLM_MODELS_VERSION[model].id,
     maxTokens: 4096,
     temperature: 0,
   });

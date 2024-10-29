@@ -5,21 +5,34 @@ export default `#graphql
     region: String!
   }
 
+  input CollectionInput {
+    id: ID
+    name: String!
+  }
+
+  type Collection {
+    id: ID!
+    name: String!
+  }
+
   input PromptInput {
     id: ID
     name: String!
+    logicalCollection: String!
     text: String!
   }
 
   type Prompt {
     id: ID!
     name: String!
+    logicalCollection: Collection!
     text: String!
   }
 
   input CapabilityInput {
     id: ID
     name: String!
+    logicalCollection: String!
     alias: String!
     llmModel: String
     description: String!
@@ -33,6 +46,7 @@ export default `#graphql
   type Capability {
     id: ID!
     name: String!
+    logicalCollection: Collection!
     alias: String!
     llmModel: String!
     description: String!
@@ -52,6 +66,7 @@ export default `#graphql
   input AgentInput {
     id: ID
     name: String!
+    logicalCollection: String!
     description: String!
     reasoning: AgentReasoningInput
 
@@ -71,6 +86,7 @@ export default `#graphql
   type Agent {
     id: ID!
     name: String!
+    logicalCollection: Collection!
     description: String!
     reasoning: AgentReasoning
 
@@ -91,19 +107,25 @@ export default `#graphql
 
     upsertAgent(agent: AgentInput!): Agent @auth(requires: admin)
     deleteAgent(agentId: ID!): Agent @auth(requires: admin)
+
+    upsertCollection(input: CollectionInput!): Collection @auth(requires: admin)
+    deleteCollection(collectionId: ID!): Collection @auth(requires: admin)
   }
 
   type Query {
     getAllModels: [Model!]! @auth(requires: admin)
 
     getPrompt(promptId: ID!): Prompt @auth(requires: admin)
-    getAllPrompts: [Prompt] @auth(requires: admin)
+    getAllPrompts(logicalCollection: String): [Prompt] @auth(requires: admin)
 
     getCapability(capabilityId: ID!): Capability @auth(requires: admin)
-    getAllCapabilities: [Capability!]! @auth(requires: admin)
+    getAllCapabilities(logicalCollection: String): [Capability!]! @auth(requires: admin)
 
     getAgent(agentId: ID!): Agent
     getAgentWithPrompts(agentId: ID!): Agent
-    getAllAgents: [Agent!]!
+    getAllAgents(logicalCollection: String): [Agent!]!
+
+    getCollection(collectionId: ID!): Collection @auth(requires: admin)
+    getAllCollections: [Collection!]! @auth(requires: admin)
   }
 `;

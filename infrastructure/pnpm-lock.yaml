@@ -4734,7 +4734,7 @@ snapshots:
       regexp.prototype.flags: 1.5.2
       side-channel: 1.0.6
       which-boxed-primitive: 1.0.2
-      which-collection: 1.0.2
+      which-logicalCollection: 1.0.2
       which-typed-array: 1.1.15
 
   deep-extend@0.6.0: {}

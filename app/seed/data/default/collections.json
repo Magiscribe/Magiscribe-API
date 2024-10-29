@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "67200e060a342cc6ff42ddee",
+    "name": "Inquiry",
+    "createdAt": "2024-10-28T22:19:50.860Z",
+    "updatedAt": "2024-10-28T22:19:50.860Z",
+    "__v": 0
+  },
+  {
+    "_id": "67200e060a342cc6ff42dd22",
+    "name": "Drawing",
+    "createdAt": "2024-10-28T22:19:50.860Z",
+    "updatedAt": "2024-10-28T22:19:50.860Z",
+    "__v": 0
+  },
+  {
+    "_id": "67211aca1648c17f768ea367",
+    "name": "Smoke Testing",
+    "createdAt": "2024-10-29T17:26:34.090Z",
+    "updatedAt": "2024-10-29T17:26:34.090Z",
+    "__v": 0
+  }
+]
