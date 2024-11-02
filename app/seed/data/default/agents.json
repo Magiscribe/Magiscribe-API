@@ -168,5 +168,31 @@
     "createdAt": "2024-10-29T17:50:31.053Z",
     "updatedAt": "2024-10-29T17:50:31.053Z",
     "__v": 0
+  },
+  {
+    "_id": "66ad631ab5b289898ce68de9",
+    "name": "Graph of Thought Agent",
+    "description": "Agent that has the ability to expand along and evaluate a graph of thoughts with the initial user input as a root node.",
+    "reasoning": {
+      "llmModel": "CLAUDE_3_HAIKU",
+      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\ncapabilityAlias can ONLY be one of the following: ExpandGraphCapability, EvaluateOptionsCapability, CheckCompletionCapability, GenericPythonExecutionCapability, NextStepCapability, BingWebSearchCapability\nDo NOT include any other capabilities.\n\nAnalyze the input and choose the appropriate capability based on these rules:\n1. If the instruction mentions branching or coming up with additional options, use ExpandGraphCapability.\n2. If the instruction mentions evaluating or deciding between options, use EvaluateOptionsCapability.\n3. If the instruction wants to know if the problem has been solved or if the reasoning is complete, use CheckCompletionCapability.\n4. If the instruction mentions to write python to perform an algorithmic search then use GenericPythonExecutionCapability\n5. If the instruction mentions to figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought> use NextStepCapability\n6. If the instruction mentions to search the web for data then use BingWebSearchCapability\n\n<Example1>\n<instruction>Branch off of node 1</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Branch off of node 1\", \"capabilityAlias\": \"ExpandGraphCapability\"},\n  ]}\n```\n<Example/1>\n\n<Example2>\n<instruction>Evaluate nodes 2, 3, 4, 5, 6</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Evaluate nodes 2, 3, 4, 5, 6\", \"capabilityAlias\": \"EvaluateOptionsCapability\"},\n  ]}\n```\n</Example2>\n\n<Example3>\n{\n<instruction>Check to see if the current chain of thought completes the task</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Check to see if the current chain of thought completes the task\", \"capabilityAlias\": \"CheckCompletionCapability\"},\n  ]}\n```\n</Example3>\n\n<Example4>\n<instruction>Execute the current chain of thought using python</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Execute the current chain of thought using python\", \"capabilityAlias\": \"GenericPythonExecutionCapability\"},\n  ]}\n```\n</Example4>\n\n<Example5>\n<instruction>Figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought></instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought>\", \"capabilityAlias\": \"NextStepCapability\"},\n  ]}\n```\n</Example5>\n<Example6>\n<instruction>Use the Bing Web Search capability to execute the task in accordance with the <currentChainOfThought> with sourceNode ${lastChainOfThoughtNodeId}</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Use python to execute the task in accordance with the <currentChainOfThought> with sourceNode ${lastChainOfThoughtNodeId}\", \"capabilityAlias\": \"BingWebSearchCapability\"},\n  ]}\n```\n</Example6>\n\n<instruction>{{userMessage}}</instruction>",
+      "variablePassThrough": true,
+      "_id": "66c6b1f275e86c38e8cd512f"
+    },
+    "capabilities": [
+      "66ad68b1b5b289898ce68dfe",
+      "66ad7093b5b289898ce68e39",
+      "66ad733cb5b289898ce68e5b",
+      "66ad9cff395f8759f8bd44ab",
+      "66b1605669a8280877a01f47",
+      "66c6acd775e86c38e8cd5107"
+    ],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-02T22:52:10.706Z",
+    "updatedAt": "2024-08-22T03:35:14.201Z",
+    "__v": 0
   }
 ]

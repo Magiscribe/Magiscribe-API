@@ -480,5 +480,128 @@
     "createdAt": "2024-10-29T17:47:42.375Z",
     "updatedAt": "2024-10-29T17:47:42.375Z",
     "__v": 0
+  },
+  {
+    "_id": "66ad68b1b5b289898ce68dfe",
+    "name": "Expand Graph",
+    "alias": "ExpandGraphCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Give a current step in thought process will output additional possible continuations",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad6892b5b289898ce68df6"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-02T23:16:01.354Z",
+    "updatedAt": "2024-08-10T00:26:41.559Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad7093b5b289898ce68e39",
+    "name": "Evaluate Options",
+    "alias": "EvaluateOptionsCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "26ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad6e42b5b289898ce68e29"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-02T23:49:39.879Z",
+    "updatedAt": "2024-08-22T03:46:48.269Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad733cb5b289898ce68e5b",
+    "name": "Check Completion",
+    "alias": "CheckCompletionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad72cdb5b289898ce68e52"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-03T00:01:00.296Z",
+    "updatedAt": "2024-08-08T17:58:14.313Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad9cff395f8759f8bd44ab",
+    "name": "Generic Python Execution",
+    "alias": "GenericPythonExecutionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849848b8bcf4b03be85",
+      "5670ab02f446b4f1a67b32f6",
+      "66b1a78069a8280877a02014"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-03T02:59:11.229Z",
+    "updatedAt": "2024-08-22T04:06:47.996Z",
+    "__v": 0
+  },
+  {
+    "_id": "66b1605669a8280877a01f47",
+    "name": "Next Step Capability",
+    "alias": "NextStepCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "669dae465414a7bb2bbf9e2b",
+      "26ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "66b0298f0075e6e99a63e2a1",
+      "16c54e29db377407969153d0"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-05T23:29:26.754Z",
+    "updatedAt": "2024-08-22T03:51:42.948Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6acd775e86c38e8cd5107",
+    "name": "Bing Web Search",
+    "alias": "BingWebSearchCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849848b8bcf4b03be85",
+      "5670ab02f446b4f1a67b32f6",
+      "66c6ad1071e86c38e8cd5116"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-22T03:13:27.124Z",
+    "updatedAt": "2024-08-22T04:09:02.885Z",
+    "__v": 0
   }
 ]
