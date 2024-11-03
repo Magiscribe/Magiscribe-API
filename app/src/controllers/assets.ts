@@ -1,4 +1,4 @@
-import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, DeleteObjectCommandOutput, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
 import { s3Client } from '@utils/clients';
@@ -31,5 +31,19 @@ export async function downloadAsset({
     Bucket: config.mediaAssetsBucketName,
     Key: s3Key,
   });
+
   return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+}
+
+export async function deleteAsset({
+  s3Key
+}: {
+  s3Key: string
+}): Promise<number> {
+  const command = new DeleteObjectCommand({
+    Bucket: config.mediaAssetsBucketName,
+    Key: s3Key,
+  });
+
+  return (await s3Client.send(command)).$metadata.httpStatusCode as number;
 }
