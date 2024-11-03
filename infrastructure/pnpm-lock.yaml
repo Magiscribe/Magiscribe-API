@@ -2968,8 +2968,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.7.0-dev.20241028:
-    resolution: {integrity: sha512-2bRur4Sn9Y5JQYZjE2Nfy4W/Cf5b8ppVkyNxWludTdPN/xuAR9kk4si+51AWFo+tCJup9qymMafRqTTtdqvKhQ==}
+  typescript@5.7.0-dev.20241029:
+    resolution: {integrity: sha512-3aXt1i2woT3j471mo6wFtEg44jqF8Qnfwh+pUFdPuIEltQ36GmP7JjewpLcO0IwYiVruip1J52P3XK3/R9K33A==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -4778,7 +4778,7 @@ snapshots:
     dependencies:
       semver: 7.6.3
       shelljs: 0.8.5
-      typescript: 5.7.0-dev.20241028
+      typescript: 5.7.0-dev.20241029
 
   eastasianwidth@0.2.0: {}
 
@@ -6604,7 +6604,7 @@ snapshots:
 
   typescript@5.6.3: {}
 
-  typescript@5.7.0-dev.20241028: {}
+  typescript@5.7.0-dev.20241029: {}
 
   undici-types@5.26.5: {}
 

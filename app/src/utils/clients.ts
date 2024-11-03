@@ -1,4 +1,3 @@
-import { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
 import { LambdaClient } from '@aws-sdk/client-lambda';
 import { S3Client } from '@aws-sdk/client-s3';
 import config from '@config';
@@ -21,9 +20,8 @@ const pubsubClient = config.redis
 /*================================ AWS ==============================*/
 
 const s3Client = new S3Client();
-const bedrockClient = new BedrockRuntimeClient();
 const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
 });
 
-export { bedrockClient, lambdaClient, pubsubClient, s3Client };
+export { lambdaClient, pubsubClient, s3Client };

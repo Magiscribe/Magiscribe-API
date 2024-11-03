@@ -1,4 +1,16 @@
 export default `#graphql
+    type InquiryDataForm {
+        title: String!
+        goals: String!
+        voice: String
+    }
+    
+    type InquiryData {
+        form: InquiryDataForm!
+        graph: JSONObject
+        draftGraph: JSONObject
+    }
+
     type Inquiry {
         id: ID!
         userId: ID!

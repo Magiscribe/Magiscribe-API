@@ -14,9 +14,20 @@ export enum OutputReturnMode {
   STREAMING_INDIVIDUAL = 'STREAMING_INDIVIDUAL', // The AI response is streamed to the client as it is received.
 }
 
+const CollectionSchema: Schema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+  },
+  { timestamps: true },
+);
+
 const PromptSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    logicalCollection: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Collection',
+    },
     text: { type: String, required: true },
   },
   { timestamps: true },
@@ -25,7 +36,11 @@ const PromptSchema: Schema = new mongoose.Schema(
 const CapabilitySchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    alias: { type: String, required: true, unique: true },
+    logicalCollection: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Collection',
+    },
+    alias: { type: String, required: true },
     llmModel: {
       type: String,
       enum: Object.keys(LLM_MODELS_VERSION),
@@ -52,6 +67,10 @@ const CapabilitySchema: Schema = new mongoose.Schema(
 const agentSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    logicalCollection: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Collection',
+    },
     description: { type: String },
     reasoning: {
       type: {
@@ -80,6 +99,7 @@ const agentSchema: Schema = new mongoose.Schema(
   { timestamps: true },
 );
 
+export const Collection = mongoose.model('Collection', CollectionSchema);
 export const Prompt = mongoose.model<IPrompt>('Prompt', PromptSchema);
 export const Capability = mongoose.model<ICapability>(
   'Capability',

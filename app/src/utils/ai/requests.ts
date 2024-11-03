@@ -1,6 +1,7 @@
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 import { HumanMessage } from '@langchain/core/messages';
 import log from '@log';
+
 import { LLM_MODELS_VERSION } from './models';
 
 export enum ContentType {

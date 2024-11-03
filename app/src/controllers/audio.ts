@@ -2,92 +2,121 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
+import { Audio } from '@database/models/audio';
 import log from '@log';
 import { s3Client } from '@utils/clients';
-import { ELEVENLABS_VOICES } from '@utils/voices';
+import { VOICES } from '@utils/voices';
 import { ElevenLabsClient } from 'elevenlabs';
 import { uuid } from 'uuidv4';
 
 /**
  * Generates an audio URL blob from given text and streams it to the client.
- * @param voice {string} The voice ID to use for audio generation.
- * @param text {string} The text to generate audio from.
- * @returns {Promise<string>} The signed URL of the generated audio blob.
+ *
+ * @description
+ * This function handles the following operations:
+ * 1. Validates the voice ID against available voices
+ * 2. Checks for existing audio in the database
+ * 3. Generates new audio using ElevenLabs API if needed
+ * 4. Uploads the audio to S3
+ * 5. Returns a signed URL for the audio file
+ *
+ * @param voice - The voice ID to use for audio generation
+ * @param text - The text to generate audio from
+ * @returns A promise that resolves to a signed URL for the generated audio
+ * @throws {Error} If the voice is invalid or audio generation fails
  */
 export async function generateAudio(
   voice: string,
   text: string,
 ): Promise<string> {
+  const SIGNED_URL_EXPIRATION = 3600; // 1 hour
+  const S3_PREFIX = 'audio';
+
+  // Start with input validation
   log.info({
     msg: 'Starting audio generation',
     voice,
     textLength: text.length,
   });
 
-  if (!ELEVENLABS_VOICES[voice]) {
-    log.error({ msg: 'Invalid voice provided', voice });
-    throw new Error(`Invalid voice: ${voice}`);
+  if (!VOICES[voice]) {
+    const error = new Error(`Invalid voice: ${voice}`);
+    log.error({ msg: 'Invalid voice provided', voice, error: error.message });
+    throw error;
   }
 
-  const client = new ElevenLabsClient({
-    apiKey: config.elevenlabs.apiKey,
-  });
-
   try {
+    // Check cache first
+    const existingAudio = await Audio.findOne({ text, voiceId: voice });
+
+    if (existingAudio) {
+      log.info({ msg: 'Audio cache hit', s3Key: existingAudio.s3Key });
+      return await getSignedUrl(
+        s3Client,
+        new GetObjectCommand({
+          Bucket: config.mediaAssetsBucketName,
+          Key: existingAudio.s3Key,
+        }),
+        { expiresIn: SIGNED_URL_EXPIRATION },
+      );
+    }
+
+    // Generate new audio
+    const client = new ElevenLabsClient({ apiKey: config.elevenlabs.apiKey });
+    const s3Key = `${S3_PREFIX}/${uuid()}.mp3`;
+
     log.debug({
-      msg: 'Initiating ElevenLabs API call',
+      msg: 'Generating audio',
       voice,
-      modelId: ELEVENLABS_VOICES[voice].modelId,
+      modelId: VOICES[voice].modelId,
+      s3Key,
     });
+
     const audioStream = await client.generate({
       stream: true,
       text,
-      voice: ELEVENLABS_VOICES[voice].voiceId,
-      model_id: ELEVENLABS_VOICES[voice].modelId,
+      voice: VOICES[voice].voiceId,
+      model_id: VOICES[voice].modelId,
     });
-    log.debug({ msg: 'Audio stream received from ElevenLabs' });
 
-    const s3Key = `audio/${uuid()}.mp3`;
-    log.trace({ msg: 'Generated S3 key for audio file', s3Key });
-
-    const uploadParams = {
-      Bucket: config.mediaAssetsBucketName,
-      Key: s3Key,
-      Body: audioStream,
-    };
-
-    log.debug({
-      msg: 'Initiating S3 upload',
-      bucket: uploadParams.Bucket,
-      key: uploadParams.Key,
-    });
+    // Upload to S3 with optimized settings
     const upload = new Upload({
       client: s3Client,
-      queueSize: 4,
+      queueSize: 4, // Optimal for most use cases
       leavePartsOnError: false,
-      params: uploadParams,
+      params: {
+        Bucket: config.mediaAssetsBucketName,
+        Key: s3Key,
+        Body: audioStream,
+      },
     });
 
-    await upload.done();
-    log.info({ msg: 'Audio file uploaded to S3 successfully', s3Key });
+    // Save metadata and complete upload in parallel
+    await Promise.all([
+      Audio.create({ text, voiceId: voice, s3Key }),
+      upload.done(),
+    ]);
 
-    const getObjectCommand = new GetObjectCommand({
-      Bucket: config.mediaAssetsBucketName,
-      Key: s3Key,
-    });
+    log.info({ msg: 'Audio generation and upload completed', s3Key });
 
-    log.debug({ msg: 'Generating signed URL for audio file' });
-    const signedUrl = await getSignedUrl(s3Client, getObjectCommand, {
-      expiresIn: 3600,
-    });
-    log.info({ msg: 'Audio generation completed successfully', s3Key });
-
-    return signedUrl;
+    // Generate signed URL for the new audio
+    return await getSignedUrl(
+      s3Client,
+      new GetObjectCommand({
+        Bucket: config.mediaAssetsBucketName,
+        Key: s3Key,
+      }),
+      { expiresIn: SIGNED_URL_EXPIRATION },
+    );
   } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
     log.error({
-      msg: 'Failed to generate audio',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      msg: 'Audio generation failed',
+      voice,
+      textLength: text.length,
+      error: errorMessage,
     });
-    throw new Error('Failed to generate audio');
+    throw new Error('Failed to generate audio: ' + errorMessage);
   }
 }

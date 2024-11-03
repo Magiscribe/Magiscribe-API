@@ -1,231 +1,8 @@
 [
   {
-    "_id": "6670ab02f446b4f1a67b332e",
-    "name": " Arrow Capability",
-    "alias": "ArrowCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Arrow Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b3300",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-08-15T17:32:59.208Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3330",
-    "name": " Function Capability",
-    "alias": "FunctionCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Function Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32f9",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.617Z",
-    "updatedAt": "2024-08-13T00:46:30.677Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3332",
-    "name": " Line Capability",
-    "alias": "LineCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Line Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fa",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.625Z",
-    "updatedAt": "2024-07-08T03:12:28.393Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3334",
-    "name": " Point Capability",
-    "alias": "PointCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Point Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fb",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.635Z",
-    "updatedAt": "2024-07-08T03:12:58.424Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3336",
-    "name": " Text Capability",
-    "alias": "TextCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Text Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fc",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.645Z",
-    "updatedAt": "2024-07-08T02:31:57.145Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b3338",
-    "name": " Ellipse Capability",
-    "alias": "EllipseCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Ellipse Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32ff",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.650Z",
-    "updatedAt": "2024-07-11T22:34:13.861Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b333a",
-    "name": " Polygon Capability",
-    "alias": "PolygonCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for Polygon Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6670ab02f446b4f1a67b32fe",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-17T21:30:42.658Z",
-    "updatedAt": "2024-07-08T03:12:35.824Z",
-    "__v": 0
-  },
-  {
-    "_id": "6670ab02f446b4f1a67b333e",
-    "name": " Code Fix Capability",
-    "alias": "CodeFixCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "This is a description for  Code Fix Capability agent.",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f7",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "createdAt": "2024-06-17T21:30:42.688Z",
-    "updatedAt": "2024-06-17T21:30:42.688Z",
-    "__v": 0
-  },
-  {
-    "_id": "667ae47c6d5e4973f402e1f4",
-    "name": "Author Stream Capability",
-    "alias": "StreamCapability",
-    "llmModel": "MISTRAL_LARGE",
-    "description": "Responds in the form of a stream.",
-    "prompts": ["667ae9a67ed1fd8cdf11ad0f", "6695d854888b8bcf4b03be89"],
-    "outputMode": "STREAMING_INDIVIDUAL",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-25T15:38:36.123Z",
-    "updatedAt": "2024-07-16T02:21:58.980Z",
-    "__v": 0
-  },
-  {
-    "_id": "667aef4cacf7000556d2ddb3",
-    "name": "Scrape Capability",
-    "alias": "ScrapeCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Scrapes a webpage",
-    "prompts": ["667aef8dacf7000556d2ddb9", "6695d854888b8bcf4b03be89"],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-25T16:24:44.734Z",
-    "updatedAt": "2024-08-21T17:50:21.155Z",
-    "__v": 0
-  },
-  {
-    "_id": "667dd59869b67704281c4e6b",
-    "name": "Reasoning Prompt Generator Capability",
-    "alias": "ReasoningPromptCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "This capability is used to write a reasoning prompt for an agent based on its equipped capabilities",
-    "prompts": ["667d9c1f69b67704281c4e2c", "6695d854888b8bcf4b03be89"],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-06-27T21:11:52.294Z",
-    "updatedAt": "2024-07-16T02:21:52.444Z",
-    "__v": 0
-  },
-  {
-    "_id": "6688969bb32be1363c756056",
-    "name": "Freedraw Capability",
-    "alias": "FreedrawCapability",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "Allows the model to freedraw without going through using a function",
-    "prompts": [
-      "6670ab02f446b4f1a67b32f6",
-      "6670ab02f446b4f1a67b32f8",
-      "6688a06ab32be1363c756078",
-      "6695d849888b8bcf4b03be85"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-07-06T00:58:03.553Z",
-    "updatedAt": "2024-07-06T01:40:10.469Z",
-    "__v": 0
-  },
-  {
-    "_id": "669541217ceb83a7fb75eb1a",
-    "name": "Question Generation",
-    "alias": "QuestionGeneration",
-    "llmModel": "CLAUDE_3_HAIKU",
-    "description": "Generates Questions",
-    "prompts": ["669541137ceb83a7fb75eb17", "6695d854888b8bcf4b03be89"],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-07-15T15:32:49.292Z",
-    "updatedAt": "2024-09-02T19:53:18.856Z",
-    "__v": 0
-  },
-  {
     "_id": "66971ba6d2a052885450d744",
     "name": "Piechart Capability",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates Piecharts from data to be rendered",
@@ -238,12 +15,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-08-28T20:02:30.941Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66971ecfd2a052885450d77c",
     "name": "Barchart Capability",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart",
@@ -256,12 +34,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-08-28T20:02:13.093Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "669bee8d6773961cdf4604ae",
     "name": "Per Question Summary",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PerQuestionSummaryCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
@@ -275,12 +54,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-09-17T04:48:49.502Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "669c6a3967c3fed48dee5362",
     "name": "Chat Reply Capability",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ChatReplyCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Gives a textual description of what the response is",
@@ -294,110 +74,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-09-10T22:04:16.839Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad68b1b5b289898ce68dfe",
-    "name": "Expand Graph",
-    "alias": "ExpandGraphCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Give a current step in thought process will output additional possible continuations",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad6892b5b289898ce68df6"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-02T23:16:01.354Z",
-    "updatedAt": "2024-08-10T00:26:41.559Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad7093b5b289898ce68e39",
-    "name": "Evaluate Options",
-    "alias": "EvaluateOptionsCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad9019b5b289898ce68f21",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad6e42b5b289898ce68e29"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-02T23:49:39.879Z",
-    "updatedAt": "2024-08-22T03:46:48.269Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad733cb5b289898ce68e5b",
-    "name": "Check Completion",
-    "alias": "CheckCompletionCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "66ad993a395f8759f8bd448a",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad72cdb5b289898ce68e52"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-03T00:01:00.296Z",
-    "updatedAt": "2024-08-08T17:58:14.313Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad9cff395f8759f8bd44ab",
-    "name": "Generic Python Execution",
-    "alias": "GenericPythonExecutionCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Allows the model to write generic python code that will be executed",
-    "prompts": [
-      "66ad993a395f8759f8bd448a",
-      "6695d849888b8bcf4b03be85",
-      "6670ab02f446b4f1a67b32f6",
-      "66b1a78069a8280877a02014"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-03T02:59:11.229Z",
-    "updatedAt": "2024-08-22T04:06:47.996Z",
-    "__v": 0
-  },
-  {
-    "_id": "66b1605669a8280877a01f47",
-    "name": "Next Step Capability",
-    "alias": "NextStepCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
-    "prompts": [
-      "6695d849888b8bcf4b03be85",
-      "669dae465414a7bb2bbf9e2d",
-      "66ad9019b5b289898ce68f21",
-      "66ad993a395f8759f8bd448a",
-      "66b0298f0075e6e99a63e2a1",
-      "66c54e29db377407969153d0"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-05T23:29:26.754Z",
-    "updatedAt": "2024-08-22T03:51:42.948Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66be4cd00e262044f7ea398f",
     "name": "Graph Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "GraphGenerationCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Graph Generation",
@@ -415,12 +98,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-10-05T18:50:32.218Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66bf8c22a9430d3fa139143a",
     "name": "Condition Node",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ConditionNodeCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
@@ -434,12 +118,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-10-02T02:20:09.141Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c0040e525628d5c5861ed8",
     "name": "Synthetic Data Generation Level 0",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SyntheticDataGenerationCapability_0",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
@@ -456,12 +141,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-09-13T02:05:51.290Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c25d95cbd9c2075c1e5f4e",
     "name": "Synthetic Data Generation Level 1",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SyntheticDataGenerationCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Synthetic generation of node data",
@@ -478,50 +164,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
-    "updatedAt": "2024-09-13T02:05:27.634Z",
-    "__v": 0
-  },
-  {
-    "_id": "66c6288a75e86c38e8cd5056",
-    "name": "Python Web Scraper",
-    "alias": "WebScrapeCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Allows the model to write generic python code that will be executed to scrape the web",
-    "prompts": [
-      "66ad993a395f8759f8bd448a",
-      "6695d849888b8bcf4b03be85",
-      "6670ab02f446b4f1a67b32f6",
-      "667aef8dacf7000556d2ddb9"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-21T17:48:58.620Z",
-    "updatedAt": "2024-08-21T18:20:38.677Z",
-    "__v": 0
-  },
-  {
-    "_id": "66c6acd775e86c38e8cd5107",
-    "name": "Bing Web Search",
-    "alias": "BingWebSearchCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
-    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
-    "prompts": [
-      "66ad993a395f8759f8bd448a",
-      "6695d849888b8bcf4b03be85",
-      "6670ab02f446b4f1a67b32f6",
-      "66c6ad1075e86c38e8cd5116"
-    ],
-    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-22T03:13:27.124Z",
-    "updatedAt": "2024-08-22T04:09:02.885Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c8a9f8d28a5133dd801ab7",
     "name": "Dynamic Question Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "DynamicQuestionGenerationCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
@@ -538,12 +187,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-10-02T02:20:45.883Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c95576ae782803372bd9f8",
     "name": "Dynamic Information Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "DynamicInformationGenerationCapability",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
@@ -559,12 +209,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-09-13T02:02:39.400Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c8ec09e952d5c0a4dbdb34",
     "name": "Barchart Chat Reply",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartChatReplyCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart and does a chat reply",
@@ -580,12 +231,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T20:07:37.601Z",
-    "updatedAt": "2024-09-10T22:04:45.765Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66c8fff0e952d5c0a4dbdc91",
     "name": "Piechart Chat Reply",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartChatReplyCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Creates the data for a bar chart and does a chat reply",
@@ -601,12 +253,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
-    "updatedAt": "2024-09-10T22:04:35.668Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66fd748f860752b2cc63f50f",
     "name": "Graph Edit (Haiku)",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "GraphEditCapability-Haiku",
     "llmModel": "CLAUDE_3_HAIKU",
     "description": "Graph edit takes in an existing graph and a request to modify it and returns a list of nodes to upsesrt, a list of nodes to delete, a list of edges to add, and a list of edges to delete. ",
@@ -625,12 +278,13 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-02T16:27:59.334Z",
-    "updatedAt": "2024-10-05T18:47:21.378Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
     "__v": 0
   },
   {
     "_id": "66fed2ad135939f6d3130fa6",
     "name": "Graph Edit (Sonnet)",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "GraphEditCapability-Sonnet",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Graph edit takes in an existing graph and a request to modify it and returns a list of nodes to upsesrt, a list of nodes to delete, a list of edges to add, and a list of edges to delete. ",
@@ -649,7 +303,305 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-03T17:21:49.205Z",
-    "updatedAt": "2024-10-07T18:44:43.918Z",
+    "updatedAt": "2024-10-29T17:17:08.562Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b332e",
+    "name": " Arrow Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "ArrowCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Arrow Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b3300",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.597Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b3330",
+    "name": " Function Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "FunctionCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Function Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32f9",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.617Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b3332",
+    "name": " Line Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "LineCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Line Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32fa",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.625Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b3334",
+    "name": " Point Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "PointCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Point Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32fb",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.635Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b3336",
+    "name": " Text Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "TextCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Text Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32fc",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.645Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b3338",
+    "name": " Ellipse Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "EllipseCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for  Ellipse Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32ff",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.650Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6670ab02f446b4f1a67b333a",
+    "name": " Polygon Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "PolygonCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "This is a description for Polygon Capability agent.",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6670ab02f446b4f1a67b32fe",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-06-17T21:30:42.658Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "6688969bb32be1363c756056",
+    "name": "Freedraw Capability",
+    "logicalCollection": "67200e060a342cc6ff42dd22",
+    "alias": "FreedrawCapability",
+    "llmModel": "CLAUDE_3_HAIKU",
+    "description": "Allows the model to freedraw without going through using a function",
+    "prompts": [
+      "6670ab02f446b4f1a67b32f6",
+      "6670ab02f446b4f1a67b32f8",
+      "6688a06ab32be1363c756078",
+      "6695d849888b8bcf4b03be32"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-06T00:58:03.553Z",
+    "updatedAt": "2024-10-29T17:12:52.248Z",
+    "__v": 0
+  },
+  {
+    "_id": "67211fbe1648c17f768ea387",
+    "name": "Author",
+    "logicalCollection": "67211aca1648c17f768ea367",
+    "alias": "author",
+    "llmModel": "CLAUDE_3_5_SONNET_V2",
+    "description": "A test agent for verifying the Agent are working.",
+    "prompts": [],
+    "outputMode": "STREAMING_INDIVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-10-29T17:47:42.375Z",
+    "updatedAt": "2024-10-29T17:47:42.375Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad68b1b5b289898ce68dfe",
+    "name": "Expand Graph",
+    "alias": "ExpandGraphCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Give a current step in thought process will output additional possible continuations",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad6892b5b289898ce68df6"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-02T23:16:01.354Z",
+    "updatedAt": "2024-08-10T00:26:41.559Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad7093b5b289898ce68e39",
+    "name": "Evaluate Options",
+    "alias": "EvaluateOptionsCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Given a previous set of steps and a current list of options chooses the best one. ",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "26ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad6e42b5b289898ce68e29"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-02T23:49:39.879Z",
+    "updatedAt": "2024-08-22T03:46:48.269Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad733cb5b289898ce68e5b",
+    "name": "Check Completion",
+    "alias": "CheckCompletionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Checks to see if the sequence of thoughts satisfy the original goal",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "66ad993a395f8759f8bd448a",
+      "669dae465414a7bb2bbf9e2b",
+      "66ad72cdb5b289898ce68e52"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-03T00:01:00.296Z",
+    "updatedAt": "2024-08-08T17:58:14.313Z",
+    "__v": 0
+  },
+  {
+    "_id": "66ad9cff395f8759f8bd44ab",
+    "name": "Generic Python Execution",
+    "alias": "GenericPythonExecutionCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849848b8bcf4b03be85",
+      "5670ab02f446b4f1a67b32f6",
+      "66b1a78069a8280877a02014"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-03T02:59:11.229Z",
+    "updatedAt": "2024-08-22T04:06:47.996Z",
+    "__v": 0
+  },
+  {
+    "_id": "66b1605669a8280877a01f47",
+    "name": "Next Step Capability",
+    "alias": "NextStepCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
+    "prompts": [
+      "6695d849848b8bcf4b03be85",
+      "669dae465414a7bb2bbf9e2b",
+      "26ad9019b5b289898ce68f21",
+      "66ad993a395f8759f8bd448a",
+      "66b0298f0075e6e99a63e2a1",
+      "16c54e29db377407969153d0"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-05T23:29:26.754Z",
+    "updatedAt": "2024-08-22T03:51:42.948Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c6acd775e86c38e8cd5107",
+    "name": "Bing Web Search",
+    "alias": "BingWebSearchCapability",
+    "llmModel": "CLAUDE_3_5_SONNET",
+    "description": "Allows the model to write generic python code that will be executed use Bing Search API",
+    "prompts": [
+      "66ad993a395f8759f8bd448a",
+      "6695d849848b8bcf4b03be85",
+      "5670ab02f446b4f1a67b32f6",
+      "66c6ad1071e86c38e8cd5116"
+    ],
+    "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "logicalCollection": "67211aca1658c17f768ea367",
+    "createdAt": "2024-08-22T03:13:27.124Z",
+    "updatedAt": "2024-08-22T04:09:02.885Z",
     "__v": 0
   }
 ]

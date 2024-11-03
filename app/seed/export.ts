@@ -1,9 +1,15 @@
-import database from '../src/database';
-import { Agent, Capability, Prompt } from '../src/database/models/agent';
-import log from '../src/log';
 import fs from 'fs';
 import { Model } from 'mongoose';
 import path from 'path';
+
+import database from '../src/database';
+import {
+  Agent,
+  Capability,
+  Collection,
+  Prompt,
+} from '../src/database/models/agent';
+import log from '../src/log';
 
 (async () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,6 +17,7 @@ import path from 'path';
     { model: Agent, name: 'agents' },
     { model: Capability, name: 'capabilities' },
     { model: Prompt, name: 'prompts' },
+    { model: Collection, name: 'collections' },
   ];
 
   try {

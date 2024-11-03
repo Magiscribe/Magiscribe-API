@@ -1,5 +1,10 @@
-import { Agent, Capability, Prompt } from '@database/models/agent';
-
+import { Agent, Capability, Collection, Prompt } from '@database/models/agent';
+import {
+  MutationUpsertCollectionArgs,
+  QueryGetAllAgentsArgs,
+  QueryGetAllCapabilitiesArgs,
+  QueryGetAllPromptsArgs,
+} from '@graphql/codegen';
 import { LLM_MODELS_VERSION } from '@utils/ai/models';
 
 export default {
@@ -52,6 +57,27 @@ export default {
     deleteAgent: async (_, { agentId }: { agentId: string }) => {
       return await Agent.findOneAndDelete({ _id: agentId });
     },
+    upsertCollection: async (_, args: MutationUpsertCollectionArgs) => {
+      if (!args.input.id) {
+        return await Collection.create(args.input);
+      }
+
+      return await Collection.findOneAndUpdate(
+        { _id: args.input.id },
+        args.input,
+        { upsert: true, new: true, setDefaultsOnInsert: true },
+      );
+    },
+    deleteCollection: async (_, { collectionId }: { collectionId: string }) => {
+      // Delete all agents, capabilities, and prompts associated with the collection
+      await Promise.all([
+        await Agent.deleteMany({ logicalCollection: collectionId }),
+        await Capability.deleteMany({ logicalCollection: collectionId }),
+        await Prompt.deleteMany({ logicalCollection: collectionId }),
+      ]);
+
+      return await Collection.findOneAndDelete({ _id: collectionId });
+    },
   },
   Query: {
     getAllModels: async () => {
@@ -64,30 +90,57 @@ export default {
       });
     },
     getPrompt: async (_, { promptId }: { promptId: string }) => {
-      return await Prompt.findOne({ _id: promptId });
+      return await Prompt.findOne({ _id: promptId }).populate(
+        'logicalCollection',
+      );
     },
-    getAllPrompts: async () => {
-      return await Prompt.find();
+    getAllPrompts: async (_, args: QueryGetAllPromptsArgs) => {
+      const query = args.logicalCollection
+        ? { logicalCollection: args.logicalCollection }
+        : {};
+      return await Prompt.find(query).populate('logicalCollection');
     },
     getCapability: async (_, { capabilityId }: { capabilityId: string }) => {
-      return Capability.findOne({ _id: capabilityId }).populate('prompts');
+      return Capability.findOne({ _id: capabilityId })
+        .populate('prompts')
+        .populate('logicalCollection');
     },
-    getAllCapabilities: async () => {
-      return await Capability.find().populate('prompts');
+    getAllCapabilities: async (_, args: QueryGetAllCapabilitiesArgs) => {
+      const query = args.logicalCollection
+        ? { logicalCollection: args.logicalCollection }
+        : {};
+      return await Capability.find(query)
+        .populate('prompts')
+        .populate('logicalCollection');
     },
     getAgent: async (_, { agentId }: { agentId: string }) => {
       return await Agent.findOne({ _id: agentId }).populate('capabilities');
     },
     getAgentWithPrompts: async (_, { agentId }: { agentId: string }) => {
-      return await Agent.findOne({ _id: agentId }).populate({
-        path: 'capabilities',
-        populate: {
-          path: 'prompts',
-        },
+      return await Agent.findOne({ _id: agentId })
+        .populate({
+          path: 'capabilities',
+          populate: {
+            path: 'prompts',
+          },
+        })
+        .populate('logicalCollection');
+    },
+    getAllAgents: async (_, args: QueryGetAllAgentsArgs) => {
+      const query = args.logicalCollection
+        ? { logicalCollection: args.logicalCollection }
+        : {};
+      return await Agent.find(query)
+        .populate('capabilities')
+        .populate('logicalCollection');
+    },
+    getCollection: async (_, { collectionId }: { collectionId: string }) => {
+      return await Collection.findOne({
+        _id: collectionId,
       });
     },
-    getAllAgents: async () => {
-      return await Agent.find().populate('capabilities');
+    getAllCollections: async () => {
+      return await Collection.find();
     },
   },
 };
