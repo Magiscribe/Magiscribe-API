@@ -1,4 +1,4 @@
-import { downloadAsset, uploadAsset } from '@controllers/assets';
+import { deleteAsset, downloadAsset, uploadAsset } from '@controllers/assets';
 
 export default {
   Mutation: {
@@ -6,5 +6,7 @@ export default {
       uploadAsset({ s3Key }),
     getMediaAsset: async (_, { s3Key }) =>
       downloadAsset({ s3Key }),
+    deleteMediaAsset: async (_, { s3Key }) =>
+      deleteAsset({ s3Key }),
   },
 };
