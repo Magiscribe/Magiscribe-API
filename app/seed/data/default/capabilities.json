@@ -303,7 +303,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-03T17:21:49.205Z",
-    "updatedAt": "2024-10-29T17:17:08.562Z",
+    "updatedAt": "2024-11-04T17:09:18.125Z",
     "__v": 0
   },
   {
@@ -484,6 +484,7 @@
   {
     "_id": "66ad68b1b5b289898ce68dfe",
     "name": "Expand Graph",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "ExpandGraphCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Give a current step in thought process will output additional possible continuations",
@@ -496,7 +497,6 @@
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-02T23:16:01.354Z",
     "updatedAt": "2024-08-10T00:26:41.559Z",
     "__v": 0
@@ -504,6 +504,7 @@
   {
     "_id": "66ad7093b5b289898ce68e39",
     "name": "Evaluate Options",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "EvaluateOptionsCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Given a previous set of steps and a current list of options chooses the best one. ",
@@ -517,7 +518,6 @@
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-02T23:49:39.879Z",
     "updatedAt": "2024-08-22T03:46:48.269Z",
     "__v": 0
@@ -525,6 +525,7 @@
   {
     "_id": "66ad733cb5b289898ce68e5b",
     "name": "Check Completion",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "CheckCompletionCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Checks to see if the sequence of thoughts satisfy the original goal",
@@ -537,7 +538,6 @@
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-03T00:01:00.296Z",
     "updatedAt": "2024-08-08T17:58:14.313Z",
     "__v": 0
@@ -545,6 +545,7 @@
   {
     "_id": "66ad9cff395f8759f8bd44ab",
     "name": "Generic Python Execution",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "GenericPythonExecutionCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Allows the model to write generic python code that will be executed",
@@ -557,7 +558,6 @@
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-03T02:59:11.229Z",
     "updatedAt": "2024-08-22T04:06:47.996Z",
     "__v": 0
@@ -565,6 +565,7 @@
   {
     "_id": "66b1605669a8280877a01f47",
     "name": "Next Step Capability",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "NextStepCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "After the model checks for completion and determines that the path is not yet complete, this capability decides what to do next",
@@ -579,7 +580,6 @@
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-05T23:29:26.754Z",
     "updatedAt": "2024-08-22T03:51:42.948Z",
     "__v": 0
@@ -587,6 +587,7 @@
   {
     "_id": "66c6acd775e86c38e8cd5107",
     "name": "Bing Web Search",
+    "logicalCollection": "67211aca1658c17f768ea367",
     "alias": "BingWebSearchCapability",
     "llmModel": "CLAUDE_3_5_SONNET",
     "description": "Allows the model to write generic python code that will be executed use Bing Search API",
@@ -599,7 +600,6 @@
     "outputMode": "SYNCHRONOUS_EXECUTION_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
-    "logicalCollection": "67211aca1658c17f768ea367",
     "createdAt": "2024-08-22T03:13:27.124Z",
     "updatedAt": "2024-08-22T04:09:02.885Z",
     "__v": 0
