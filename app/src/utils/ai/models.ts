@@ -4,9 +4,9 @@ export const LLM_MODELS_VERSION = {
     name: 'Claude 3 Haiku',
     region: 'us-east-1',
   },
-  CLAUDE_3_OPUS: {
-    id: 'anthropic.claude-3-opus-20240229-v1:0',
-    name: 'Claude 3 Opus',
+  CLAUDE_3_5_HAIKU: {
+    id: 'anthropic.claude-3-5-haiku-20241022-v1:0',
+    name: 'Claude 3.5 Haiku',
     region: 'us-west-2',
   },
   CLAUDE_3_5_SONNET: {
