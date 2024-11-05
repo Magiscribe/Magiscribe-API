@@ -7,7 +7,7 @@ export const LLM_MODELS_VERSION = {
   CLAUDE_3_5_HAIKU: {
     id: 'anthropic.claude-3-5-haiku-20241022-v1:0',
     name: 'Claude 3.5 Haiku',
-    region: 'us-east-1',
+    region: 'us-west-2',
   },
   CLAUDE_3_5_SONNET: {
     id: 'anthropic.claude-3-5-sonnet-20240620-v1:0',
