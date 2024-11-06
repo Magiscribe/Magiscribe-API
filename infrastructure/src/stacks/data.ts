@@ -7,9 +7,8 @@ import { Repository } from '@constructs/ecs-repository';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
-
-import config from '../../bin/config';
 import NetworkStack from './network';
+import config from '../../bin/config';
 
 interface DataStackProps {
   network: NetworkStack;
@@ -38,8 +37,8 @@ export default class DataStack extends TerraformStack {
     });
 
     new mongodb.provider.MongodbatlasProvider(this, 'mongodb', {
-      publicKey: config.db.publicKey,
-      privateKey: config.db.privateKey,
+      publicKey: config.data.db.publicKey,
+      privateKey: config.data.db.privateKey,
     });
 
     Aspects.of(this).add(
@@ -57,6 +56,13 @@ export default class DataStack extends TerraformStack {
 
     this.s3Bucket = new S3Bucket(this, 'MediaAssets', {
       bucketPrefix: 'media-assets-',
+      corsRule: config.data.media.cors.map((origin) => ({
+        allowedHeaders: ['*'],
+        allowedMethods: ['GET', 'PUT', 'POST', 'DELETE'],
+        allowedOrigins: [origin],
+        exposeHeaders: ['ETag'],
+        maxAgeSeconds: 3000,
+      })),
     });
 
     // Add lifecycle rules to the bucket.
@@ -93,17 +99,17 @@ export default class DataStack extends TerraformStack {
       'MongoDBInstance',
       {
         name: 'mongodb-instance',
-        projectId: config.db.projectId,
+        projectId: config.data.db.projectId,
         providerSettingsBackingProviderName: 'AWS',
         providerSettingsProviderName: 'SERVERLESS',
         providerSettingsRegionName: 'US_EAST_1',
-        continuousBackupEnabled: config.db.backupsEnabled ?? false,
+        continuousBackupEnabled: config.data.db.backupsEnabled ?? false,
       },
     );
 
     // Whitelist the NAT Gateway IP.
     new mongodb.projectIpAccessList.ProjectIpAccessList(this, 'WhitelistNAT', {
-      projectId: config.db.projectId,
+      projectId: config.data.db.projectId,
       ipAddress: network.vpc.natIp.publicIp,
       comment: 'Allow the NAT Gateway IP to access the database',
     });

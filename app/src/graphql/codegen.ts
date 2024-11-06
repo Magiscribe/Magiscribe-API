@@ -36,6 +36,12 @@ export type Scalars = {
   JSONObject: { input: any; output: any };
 };
 
+export type AddMediaAssetResponse = {
+  __typename?: 'AddMediaAssetResponse';
+  signedUrl: Scalars['String']['output'];
+  uuid: Scalars['String']['output'];
+};
+
 export type Agent = {
   __typename?: 'Agent';
   capabilities: Array<Capability>;
@@ -174,12 +180,13 @@ export type Model = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addMediaAsset?: Maybe<Scalars['String']['output']>;
+  addMediaAsset?: Maybe<AddMediaAssetResponse>;
   addPrediction?: Maybe<Scalars['String']['output']>;
   deleteAgent?: Maybe<Agent>;
   deleteCapability?: Maybe<Capability>;
   deleteCollection?: Maybe<Collection>;
   deleteInquiry?: Maybe<Inquiry>;
+  deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   upsertAgent?: Maybe<Agent>;
@@ -188,11 +195,6 @@ export type Mutation = {
   upsertInquiry: Inquiry;
   upsertInquiryResponse: InquiryResponse;
   upsertPrompt?: Maybe<Prompt>;
-};
-
-export type MutationAddMediaAssetArgs = {
-  fileName: Scalars['String']['input'];
-  fileType: Scalars['String']['input'];
 };
 
 export type MutationAddPredictionArgs = {
@@ -216,6 +218,10 @@ export type MutationDeleteCollectionArgs = {
 
 export type MutationDeleteInquiryArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type MutationDeleteMediaAssetArgs = {
+  uuid: Scalars['String']['input'];
 };
 
 export type MutationDeletePromptArgs = {
@@ -302,6 +308,7 @@ export type Query = {
   getInquiry?: Maybe<Inquiry>;
   getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
+  getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
 };
 
@@ -344,6 +351,10 @@ export type QueryGetInquiryResponseCountArgs = {
 export type QueryGetInquiryResponsesArgs = {
   filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
+};
+
+export type QueryGetMediaAssetArgs = {
+  uuid: Scalars['String']['input'];
 };
 
 export type QueryGetPromptArgs = {
@@ -479,6 +490,7 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AddMediaAssetResponse: ResolverTypeWrapper<AddMediaAssetResponse>;
   Agent: ResolverTypeWrapper<Agent>;
   AgentInput: AgentInput;
   AgentReasoning: ResolverTypeWrapper<AgentReasoning>;
@@ -514,6 +526,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AddMediaAssetResponse: AddMediaAssetResponse;
   Agent: Agent;
   AgentInput: AgentInput;
   AgentReasoning: AgentReasoning;
@@ -544,6 +557,16 @@ export type ResolversParentTypes = {
   StringFilter: StringFilter;
   Subscription: {};
   Voice: Voice;
+};
+
+export type AddMediaAssetResponseResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['AddMediaAssetResponse'] = ResolversParentTypes['AddMediaAssetResponse'],
+> = {
+  signedUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AgentResolvers<
@@ -743,10 +766,9 @@ export type MutationResolvers<
     ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation'],
 > = {
   addMediaAsset?: Resolver<
-    Maybe<ResolversTypes['String']>,
+    Maybe<ResolversTypes['AddMediaAssetResponse']>,
     ParentType,
-    ContextType,
-    RequireFields<MutationAddMediaAssetArgs, 'fileName' | 'fileType'>
+    ContextType
   >;
   addPrediction?: Resolver<
     Maybe<ResolversTypes['String']>,
@@ -777,6 +799,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationDeleteInquiryArgs, 'id'>
+  >;
+  deleteMediaAsset?: Resolver<
+    Maybe<ResolversTypes['Int']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteMediaAssetArgs, 'uuid'>
   >;
   deletePrompt?: Resolver<
     Maybe<ResolversTypes['Prompt']>,
@@ -941,6 +969,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetInquiryResponsesArgs, 'id'>
   >;
+  getMediaAsset?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMediaAssetArgs, 'uuid'>
+  >;
   getPrompt?: Resolver<
     Maybe<ResolversTypes['Prompt']>,
     ParentType,
@@ -974,6 +1008,7 @@ export type VoiceResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  AddMediaAssetResponse?: AddMediaAssetResponseResolvers<ContextType>;
   Agent?: AgentResolvers<ContextType>;
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
