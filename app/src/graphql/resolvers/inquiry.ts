@@ -68,6 +68,6 @@ export default {
       _,
       args: QueryGetInquiryResponseCountArgs,
       context: Context,
-    ) => getInquiryResponseCount(args.id, context.auth.sub),
+    ) => getInquiryResponseCount({ ...args, userId: context.auth.sub }),
   },
 };

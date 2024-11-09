@@ -33,11 +33,18 @@ export default `#graphql
         updatedAt: Float!
     }
 
+    input InquiryResponseFilters {
+        startDate: Float       # When to start looking from
+        endDate: Float        # When to stop looking
+        userName: String      # Filter by name in userDetails
+        userEmail: String     # Filter by email in userDetails
+    }
+
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
-        getInquiryResponses(id: ID!): [InquiryResponse!] @auth
-        getInquiryResponseCount(id: ID!): Int! @auth
+        getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
+        getInquiryResponseCount(id: ID!, filters: InquiryResponseFilters): Int! @auth
     }
 
     type Mutation {

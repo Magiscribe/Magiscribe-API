@@ -1,5 +1,7 @@
 import { Inquiry, InquiryResponse } from '@database/models/inquiry';
 import {
+  QueryGetInquiryResponseCountArgs,
+  QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
 } from '@graphql/codegen';
@@ -211,13 +213,46 @@ export async function upsertInquiryResponse({
 
 /**
  * Retrieves all responses associated with a specific inquiry ID.
- * @param data The data object to create or update.
- * @returns {Promise<InquiryResponse[]>} An array of responses associated with the inquiry.
+ * @param args The arguments containing id and optional filters
+ * @returns {Promise<InquiryResponse[]>} An array of filtered responses associated with the inquiry.
  */
-export async function getInquiryResponses({ id }): Promise<TInquiryResponse[]> {
+export async function getInquiryResponses({
+  id,
+  filters,
+}: QueryGetInquiryResponsesArgs): Promise<TInquiryResponse[]> {
   const inquiry = await Inquiry.findById({
     _id: id,
-  }).populate('responses');
+  }).populate({
+    path: 'responses',
+    match: {
+      $and: [
+        ...(filters?.startDate
+          ? [{ createdAt: { $gte: filters.startDate } }]
+          : []),
+        ...(filters?.endDate ? [{ createdAt: { $lte: filters.endDate } }] : []),
+        ...(filters?.userName
+          ? [
+              {
+                'data.userDetails.name': {
+                  $regex: filters.userName,
+                  $options: 'i',
+                },
+              },
+            ]
+          : []),
+        ...(filters?.userEmail
+          ? [
+              {
+                'data.userDetails.email': {
+                  $regex: filters.userEmail,
+                  $options: 'i',
+                },
+              },
+            ]
+          : []),
+      ].filter((condition) => Object.keys(condition).length > 0),
+    },
+  });
 
   if (!inquiry) {
     throw new Error('Inquiry not found');
@@ -231,19 +266,20 @@ export async function getInquiryResponses({ id }): Promise<TInquiryResponse[]> {
 }
 
 /**
- * Retrieves the count of responses for a specific inquiry ID.
- * @param id {string} The ID of the inquiry.
- * @param userId {string} The ID of the user making the request.
- * @returns {Promise<number>} The count of responses for the inquiry.
+ * Retrieves the count of filtered responses for a specific inquiry ID.
+ * @param args The arguments containing id, userId, and optional filters
+ * @returns {Promise<number>} The count of filtered responses for the inquiry.
  */
-export async function getInquiryResponseCount(
-  id: string,
-  userId: string,
-): Promise<number> {
+export async function getInquiryResponseCount({
+  id,
+  userId,
+  filters,
+}: QueryGetInquiryResponseCountArgs & { userId: string }): Promise<number> {
   log.info({
     message: 'Fetching inquiry response count',
     inquiryId: id,
     userId,
+    filters,
   });
 
   try {
@@ -260,21 +296,33 @@ export async function getInquiryResponseCount(
       );
     }
 
-    const count = await InquiryResponse.countDocuments({
+    const filterConditions = {
       _id: { $in: inquiry.responses },
-    });
+      ...(filters?.startDate && { createdAt: { $gte: filters.startDate } }),
+      ...(filters?.endDate && { createdAt: { $lte: filters.endDate } }),
+      ...(filters?.userName && {
+        'data.userDetails.name': { $regex: filters.userName, $options: 'i' },
+      }),
+      ...(filters?.userEmail && {
+        'data.userDetails.email': { $regex: filters.userEmail, $options: 'i' },
+      }),
+    };
+
+    const count = await InquiryResponse.countDocuments(filterConditions);
 
     log.info({
       message: 'Inquiry response count fetched successfully',
       inquiryId: id,
       count,
+      appliedFilters: filters,
     });
 
     return count;
-  } catch {
+  } catch (error) {
     log.error({
       message: 'Failed to fetch inquiry response count',
       inquiryId: id,
+      error,
     });
     throw new Error('Failed to fetch inquiry response count');
   }
