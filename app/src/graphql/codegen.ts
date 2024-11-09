@@ -151,6 +151,13 @@ export type InquiryResponseData = {
   userDetails?: Maybe<Scalars['JSONObject']['output']>;
 };
 
+export type InquiryResponseFilters = {
+  endDate?: InputMaybe<Scalars['Float']['input']>;
+  startDate?: InputMaybe<Scalars['Float']['input']>;
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+  userName?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Model = {
   __typename?: 'Model';
   id: Scalars['ID']['output'];
@@ -324,10 +331,12 @@ export type QueryGetInquiryArgs = {
 };
 
 export type QueryGetInquiryResponseCountArgs = {
+  filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
 };
 
 export type QueryGetInquiryResponsesArgs = {
+  filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
 };
 
@@ -473,6 +482,7 @@ export type ResolversTypes = {
   InquiryDataForm: ResolverTypeWrapper<InquiryDataForm>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
   InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
+  InquiryResponseFilters: InquiryResponseFilters;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -505,6 +515,7 @@ export type ResolversParentTypes = {
   InquiryDataForm: InquiryDataForm;
   InquiryResponse: InquiryResponse;
   InquiryResponseData: InquiryResponseData;
+  InquiryResponseFilters: InquiryResponseFilters;
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
