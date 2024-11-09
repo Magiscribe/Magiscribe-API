@@ -331,7 +331,6 @@ export type QueryGetInquiryArgs = {
 };
 
 export type QueryGetInquiryResponseCountArgs = {
-  filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
 };
 

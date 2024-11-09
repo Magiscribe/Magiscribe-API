@@ -1,6 +1,5 @@
 import { Inquiry, InquiryResponse } from '@database/models/inquiry';
 import {
-  QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
@@ -266,25 +265,23 @@ export async function getInquiryResponses({
 }
 
 /**
- * Retrieves the count of filtered responses for a specific inquiry ID.
- * @param args The arguments containing id, userId, and optional filters
- * @returns {Promise<number>} The count of filtered responses for the inquiry.
+ * Retrieves the count of responses for a specific inquiry ID.
+ * @param id {string} The ID of the inquiry.
+ * @param userId {string} The ID of the user making the request.
+ * @returns {Promise<number>} The count of responses for the inquiry.
  */
-export async function getInquiryResponseCount({
-  id,
-  userId,
-  filters,
-}: QueryGetInquiryResponseCountArgs & { userId: string }): Promise<number> {
+export async function getInquiryResponseCount(
+  id: string,
+  userId: string,
+): Promise<number> {
   log.info({
     message: 'Fetching inquiry response count',
     inquiryId: id,
     userId,
-    filters,
   });
 
   try {
     const inquiry = await Inquiry.findOne({ _id: id, userId });
-
     if (!inquiry) {
       log.warn({
         message: 'Inquiry not found or user does not have permission',
@@ -296,33 +293,21 @@ export async function getInquiryResponseCount({
       );
     }
 
-    const filterConditions = {
+    const count = await InquiryResponse.countDocuments({
       _id: { $in: inquiry.responses },
-      ...(filters?.startDate && { createdAt: { $gte: filters.startDate } }),
-      ...(filters?.endDate && { createdAt: { $lte: filters.endDate } }),
-      ...(filters?.userName && {
-        'data.userDetails.name': { $regex: filters.userName, $options: 'i' },
-      }),
-      ...(filters?.userEmail && {
-        'data.userDetails.email': { $regex: filters.userEmail, $options: 'i' },
-      }),
-    };
-
-    const count = await InquiryResponse.countDocuments(filterConditions);
+    });
 
     log.info({
       message: 'Inquiry response count fetched successfully',
       inquiryId: id,
       count,
-      appliedFilters: filters,
     });
 
     return count;
-  } catch (error) {
+  } catch {
     log.error({
       message: 'Failed to fetch inquiry response count',
       inquiryId: id,
-      error,
     });
     throw new Error('Failed to fetch inquiry response count');
   }

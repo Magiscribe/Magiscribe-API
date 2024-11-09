@@ -44,7 +44,7 @@ export default `#graphql
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
         getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
-        getInquiryResponseCount(id: ID!, filters: InquiryResponseFilters): Int! @auth
+        getInquiryResponseCount(id: ID!): Int! @auth
     }
 
     type Mutation {
