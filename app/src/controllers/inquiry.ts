@@ -5,7 +5,7 @@ import {
   InquiryResponse as TInquiryResponse,
 } from '@graphql/codegen';
 import log from '@log';
-import { createNestedUpdateObject } from '@utils/database';
+import { createNestedUpdateObject, createFilterQuery } from '@utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -219,38 +219,28 @@ export async function getInquiryResponses({
   id,
   filters,
 }: QueryGetInquiryResponsesArgs): Promise<TInquiryResponse[]> {
+  // Transform filters into MongoDB-compatible format
+  const filterQuery = filters
+    ? createFilterQuery({
+        // Map our new filter structure to field paths
+        createdAt: {
+          gte: filters.createdAt?.gte ?? undefined,
+          lte: filters.createdAt?.lte ?? undefined,
+        },
+        'data.userDetails.name': {
+          contains: filters.userName?.contains ?? undefined,
+        },
+        'data.userDetails.email': {
+          contains: filters.userEmail?.contains ?? undefined,
+        },
+      })
+    : {};
+
   const inquiry = await Inquiry.findById({
     _id: id,
   }).populate({
     path: 'responses',
-    match: {
-      $and: [
-        ...(filters?.startDate
-          ? [{ createdAt: { $gte: filters.startDate } }]
-          : []),
-        ...(filters?.endDate ? [{ createdAt: { $lte: filters.endDate } }] : []),
-        ...(filters?.userName
-          ? [
-              {
-                'data.userDetails.name': {
-                  $regex: filters.userName,
-                  $options: 'i',
-                },
-              },
-            ]
-          : []),
-        ...(filters?.userEmail
-          ? [
-              {
-                'data.userDetails.email': {
-                  $regex: filters.userEmail,
-                  $options: 'i',
-                },
-              },
-            ]
-          : []),
-      ].filter((condition) => Object.keys(condition).length > 0),
-    },
+    match: filterQuery,
   });
 
   if (!inquiry) {

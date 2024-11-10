@@ -33,11 +33,25 @@ export default `#graphql
         updatedAt: Float!
     }
 
+    input FloatFilter {
+        eq: Float      # Exact match
+        gt: Float      # Greater than
+        gte: Float     # Greater than or equal
+        lt: Float      # Less than
+        lte: Float     # Less than or equal
+    }
+
+    input StringFilter {
+        eq: String         # Exact match
+        contains: String   # Contains text (case-insensitive)
+        startsWith: String # Starts with text
+        endsWith: String   # Ends with text
+    }
+
     input InquiryResponseFilters {
-        startDate: Float       # When to start looking from
-        endDate: Float        # When to stop looking
-        userName: String      # Filter by name in userDetails
-        userEmail: String     # Filter by email in userDetails
+        createdAt: FloatFilter 
+        userName: StringFilter    
+        userEmail: StringFilter   
     }
 
     type Query {
