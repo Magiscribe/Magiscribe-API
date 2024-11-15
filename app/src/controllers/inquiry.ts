@@ -222,16 +222,24 @@ export async function getInquiryResponses({
   // Transform filters into MongoDB-compatible format
   const filterQuery = filters
     ? createFilterQuery({
-        // Map our new filter structure to field paths
         createdAt: {
+          eq: filters.createdAt?.eq ?? undefined,
+          gt: filters.createdAt?.gt ?? undefined,
           gte: filters.createdAt?.gte ?? undefined,
+          lt: filters.createdAt?.lt ?? undefined,
           lte: filters.createdAt?.lte ?? undefined,
         },
         'data.userDetails.name': {
-          contains: filters.userName?.contains ?? undefined,
+          eq: filters.name?.eq ?? undefined,
+          startsWith: filters.name?.startsWith ?? undefined,
+          contains: filters.name?.contains ?? undefined,
+          endsWith: filters.name?.endsWith ?? undefined,
         },
         'data.userDetails.email': {
-          contains: filters.userEmail?.contains ?? undefined,
+          eq: filters.email?.eq ?? undefined,
+          startsWith: filters.email?.startsWith ?? undefined,
+          contains: filters.email?.contains ?? undefined,
+          endsWith: filters.email?.endsWith ?? undefined,
         },
       })
     : {};

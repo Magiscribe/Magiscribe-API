@@ -161,8 +161,8 @@ export type InquiryResponseData = {
 
 export type InquiryResponseFilters = {
   createdAt?: InputMaybe<FloatFilter>;
-  userEmail?: InputMaybe<StringFilter>;
-  userName?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
 };
 
 export type Model = {

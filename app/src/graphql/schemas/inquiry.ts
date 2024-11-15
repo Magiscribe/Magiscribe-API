@@ -50,8 +50,8 @@ export default `#graphql
 
     input InquiryResponseFilters {
         createdAt: FloatFilter 
-        userName: StringFilter    
-        userEmail: StringFilter   
+        name: StringFilter    
+        email: StringFilter   
     }
 
     type Query {
