@@ -6,10 +6,9 @@ import {
 
 export default {
   Query: {
-    getMediaAsset: async (_, { uuid }: QueryGetMediaAssetArgs, context) =>
+    getMediaAsset: async (_, { id }: QueryGetMediaAssetArgs, context) =>
       getAsset({
-        userId: context.auth.sub,
-        uuid,
+        id
       }),
   },
   Mutation: {
@@ -20,12 +19,12 @@ export default {
 
     deleteMediaAsset: async (
       _,
-      { uuid }: MutationDeleteMediaAssetArgs,
+      { id }: MutationDeleteMediaAssetArgs,
       context,
     ) =>
       deleteAsset({
         userId: context.auth.sub,
-        uuid,
+        id,
       }),
   },
 };
