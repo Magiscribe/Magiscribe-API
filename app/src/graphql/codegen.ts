@@ -112,6 +112,14 @@ export type CollectionInput = {
   name: Scalars['String']['input'];
 };
 
+export type FloatFilter = {
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+};
+
 export type Inquiry = {
   __typename?: 'Inquiry';
   createdAt: Scalars['Float']['output'];
@@ -149,6 +157,12 @@ export type InquiryResponseData = {
   __typename?: 'InquiryResponseData';
   history: Array<Scalars['JSONObject']['output']>;
   userDetails?: Maybe<Scalars['JSONObject']['output']>;
+};
+
+export type InquiryResponseFilters = {
+  createdAt?: InputMaybe<FloatFilter>;
+  email?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
 };
 
 export type Model = {
@@ -328,11 +342,19 @@ export type QueryGetInquiryResponseCountArgs = {
 };
 
 export type QueryGetInquiryResponsesArgs = {
+  filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
 };
 
 export type QueryGetPromptArgs = {
   promptId: Scalars['ID']['input'];
+};
+
+export type StringFilter = {
+  contains?: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Subscription = {
@@ -467,12 +489,14 @@ export type ResolversTypes = {
   Collection: ResolverTypeWrapper<Collection>;
   CollectionInput: CollectionInput;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  FloatFilter: FloatFilter;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryData: ResolverTypeWrapper<InquiryData>;
   InquiryDataForm: ResolverTypeWrapper<InquiryDataForm>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
   InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
+  InquiryResponseFilters: InquiryResponseFilters;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -483,6 +507,7 @@ export type ResolversTypes = {
   PromptInput: PromptInput;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
   Voice: ResolverTypeWrapper<Voice>;
 };
@@ -499,12 +524,14 @@ export type ResolversParentTypes = {
   Collection: Collection;
   CollectionInput: CollectionInput;
   Float: Scalars['Float']['output'];
+  FloatFilter: FloatFilter;
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryData: InquiryData;
   InquiryDataForm: InquiryDataForm;
   InquiryResponse: InquiryResponse;
   InquiryResponseData: InquiryResponseData;
+  InquiryResponseFilters: InquiryResponseFilters;
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
@@ -514,6 +541,7 @@ export type ResolversParentTypes = {
   PromptInput: PromptInput;
   Query: {};
   String: Scalars['String']['output'];
+  StringFilter: StringFilter;
   Subscription: {};
   Voice: Voice;
 };

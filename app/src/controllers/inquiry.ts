@@ -1,10 +1,11 @@
 import { Inquiry, InquiryResponse } from '@database/models/inquiry';
 import {
+  QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
 } from '@graphql/codegen';
 import log from '@log';
-import { createNestedUpdateObject } from '@utils/database';
+import { createNestedUpdateObject, createFilterQuery } from '@utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -211,13 +212,44 @@ export async function upsertInquiryResponse({
 
 /**
  * Retrieves all responses associated with a specific inquiry ID.
- * @param data The data object to create or update.
- * @returns {Promise<InquiryResponse[]>} An array of responses associated with the inquiry.
+ * @param args The arguments containing id and optional filters
+ * @returns {Promise<InquiryResponse[]>} An array of filtered responses associated with the inquiry.
  */
-export async function getInquiryResponses({ id }): Promise<TInquiryResponse[]> {
+export async function getInquiryResponses({
+  id,
+  filters,
+}: QueryGetInquiryResponsesArgs): Promise<TInquiryResponse[]> {
+  // Transform filters into MongoDB-compatible format
+  const filterQuery = filters
+    ? createFilterQuery({
+        createdAt: {
+          eq: filters.createdAt?.eq ?? undefined,
+          gt: filters.createdAt?.gt ?? undefined,
+          gte: filters.createdAt?.gte ?? undefined,
+          lt: filters.createdAt?.lt ?? undefined,
+          lte: filters.createdAt?.lte ?? undefined,
+        },
+        'data.userDetails.name': {
+          eq: filters.name?.eq ?? undefined,
+          startsWith: filters.name?.startsWith ?? undefined,
+          contains: filters.name?.contains ?? undefined,
+          endsWith: filters.name?.endsWith ?? undefined,
+        },
+        'data.userDetails.email': {
+          eq: filters.email?.eq ?? undefined,
+          startsWith: filters.email?.startsWith ?? undefined,
+          contains: filters.email?.contains ?? undefined,
+          endsWith: filters.email?.endsWith ?? undefined,
+        },
+      })
+    : {};
+
   const inquiry = await Inquiry.findById({
     _id: id,
-  }).populate('responses');
+  }).populate({
+    path: 'responses',
+    match: filterQuery,
+  });
 
   if (!inquiry) {
     throw new Error('Inquiry not found');
@@ -248,7 +280,6 @@ export async function getInquiryResponseCount(
 
   try {
     const inquiry = await Inquiry.findOne({ _id: id, userId });
-
     if (!inquiry) {
       log.warn({
         message: 'Inquiry not found or user does not have permission',

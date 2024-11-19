@@ -33,10 +33,31 @@ export default `#graphql
         updatedAt: Float!
     }
 
+    input FloatFilter {
+        eq: Float      # Exact match
+        gt: Float      # Greater than
+        gte: Float     # Greater than or equal
+        lt: Float      # Less than
+        lte: Float     # Less than or equal
+    }
+
+    input StringFilter {
+        eq: String         # Exact match
+        contains: String   # Contains text (case-insensitive)
+        startsWith: String # Starts with text
+        endsWith: String   # Ends with text
+    }
+
+    input InquiryResponseFilters {
+        createdAt: FloatFilter 
+        name: StringFilter    
+        email: StringFilter   
+    }
+
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
-        getInquiryResponses(id: ID!): [InquiryResponse!] @auth
+        getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
     }
 
