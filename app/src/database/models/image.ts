@@ -1,13 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
-export interface IImage {
+export interface IAsset {
   s3Key: string;
   owners: string[];
 }
 
-const ImageSchema = new Schema<IImage>({
-  owners: [{ type: String, required: true}],
+const AssetSchema = new Schema<IAsset>({
+  owners: [{ type: String, required: true }],
   s3Key: { type: String, required: true },
 });
 
-export const Image = mongoose.model<IImage>('Image', ImageSchema);
+export const Asset = mongoose.model<IAsset>('Asset', AssetSchema);

@@ -5,9 +5,9 @@ import {
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@config';
-import { Image } from '@database/models/image';
-import { s3Client } from '@utils/clients';
+import { Asset } from '@database/models/image';
 import log from '@log';
+import { s3Client } from '@utils/clients';
 import { uuid } from 'uuidv4';
 
 /**
@@ -19,7 +19,7 @@ import { uuid } from 'uuidv4';
 export async function uploadAsset({ userId }: { userId: string }) {
   const s3Key = uuid();
   // Store the image s3Key to owner mapping in MongoDB
-  const result = await Image.create({ owners: [userId], s3Key });
+  const result = await Asset.create({ owners: [userId], s3Key });
 
   const command = new PutObjectCommand({
     Bucket: config.mediaAssetsBucketName,
@@ -33,7 +33,7 @@ export async function uploadAsset({ userId }: { userId: string }) {
 }
 
 export async function getAsset({ id }: { id: string }): Promise<string> {
-  const result = await Image.findOne({ _id: id });
+  const result = await Asset.findOne({ _id: id });
 
   const command = new GetObjectCommand({
     Bucket: config.mediaAssetsBucketName,
@@ -50,7 +50,7 @@ export async function deleteAsset({
   userId: string;
   id: string;
 }): Promise<number> {
-  const result = await Image.findOne({ _id: id });
+  const result = await Asset.findOne({ _id: id });
 
   if (result?.owners.find((owner) => owner === userId)) {
     const command = new DeleteObjectCommand({
@@ -58,9 +58,9 @@ export async function deleteAsset({
       Key: result?.s3Key,
     });
 
-    const mongodbResult = await Image.deleteOne({ _id: id });
+    const deleteResult = await Asset.deleteOne({ _id: id });
 
-    if (result.deletedCount === 0) {
+    if (deleteResult.deletedCount === 0) {
       log.warn({
         message: `Image object with id ${id} not found`,
         id,
@@ -69,8 +69,7 @@ export async function deleteAsset({
     }
 
     return (await s3Client.send(command)).$metadata.httpStatusCode as number;
-  }
-  else {
+  } else {
     // A user can only delete images they own.
     return 401;
   }

@@ -6,9 +6,9 @@ import {
 
 export default {
   Query: {
-    getMediaAsset: async (_, { id }: QueryGetMediaAssetArgs, context) =>
+    getMediaAsset: async (_, { id }: QueryGetMediaAssetArgs) =>
       getAsset({
-        id
+        id,
       }),
   },
   Mutation: {
