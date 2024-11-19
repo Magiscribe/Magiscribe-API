@@ -81,8 +81,8 @@ importers:
         specifier: ^5.16.0
         version: 5.16.0(graphql@16.9.0)
       mongoose:
-        specifier: ^8.8.1
-        version: 8.8.1(socks@2.8.3)
+        specifier: ^8.8.2
+        version: 8.8.2(socks@2.8.3)
       newrelic:
         specifier: ^12.7.0
         version: 12.7.0
@@ -3981,8 +3981,8 @@ packages:
       socks:
         optional: true
 
-  mongoose@8.8.1:
-    resolution: {integrity: sha512-l7DgeY1szT98+EKU8GYnga5WnyatAu+kOQ2VlVX1Mxif6A0Umt0YkSiksCiyGxzx8SPhGe9a53ND1GD4yVDrPA==}
+  mongoose@8.8.2:
+    resolution: {integrity: sha512-jCTSqDANfRzk909v4YoZQi7jlGRB2MTvgG+spVBc/BA4tOs1oWJr//V6yYujqNq9UybpOtsSfBqxI0dSOEFJHQ==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -9746,7 +9746,7 @@ snapshots:
     optionalDependencies:
       socks: 2.8.3
 
-  mongoose@8.8.1(socks@2.8.3):
+  mongoose@8.8.2(socks@2.8.3):
     dependencies:
       bson: 6.9.0
       kareem: 2.6.3
