@@ -29,7 +29,10 @@ export default {
   Subscription: {
     predictionAdded: {
       subscribe: withFilter(
-        () => pubsubClient.asyncIterator(SubscriptionEvent.PREDICTION_ADDED),
+        () =>
+          pubsubClient.asyncIterableIterator(
+            SubscriptionEvent.PREDICTION_ADDED,
+          ),
         (payload, variables) =>
           payload.predictionAdded.subscriptionId === variables.subscriptionId,
       ),

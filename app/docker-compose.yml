@@ -25,10 +25,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
 
   #================= Redis =================
+  # TODO: Uncomment when we add Redis to prod.
   # Description: Redis is used to handle GraphQL subscriptions and session management.
-  session-store:
-    image: redis:latest
-    ports:
-      - '6379:6379'
-    environment:
-      REDIS_PASSWORD: redis_password
+  # session-store:
+  #   image: redis:latest
+  #   ports:
+  #     - '6379:6379'
+  #   environment:
+  #     REDIS_PASSWORD: redis_password
