@@ -1,5 +1,15 @@
 export default `#graphql
+  type AddMediaAssetResponse {
+    signedUrl: String!
+    id: String!
+  }
+
+  type Query {
+    getMediaAsset(id: String!): String @auth
+  } 
+
   type Mutation {
-    addMediaAsset(fileType: String!, fileName: String!): String @auth
+    addMediaAsset: AddMediaAssetResponse @auth
+    deleteMediaAsset(id: String!): Int @auth
   }
 `;
