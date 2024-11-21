@@ -17,7 +17,7 @@ import { uuid } from 'uuidv4';
  * @returns {Promise<{ signedUrl: string, uuid: string }>} - The signed URL and UUID of the uploaded asset.
  */
 export async function uploadAsset({ userId }: { userId: string }) {
-  const s3Key = uuid();
+  const s3Key = `uploads/${uuid()}`;
   // Store the image s3Key to owner mapping in MongoDB
   const result = await Asset.create({ owners: [userId], s3Key });
 

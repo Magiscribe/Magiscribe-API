@@ -7,8 +7,9 @@ import { Repository } from '@constructs/ecs-repository';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
-import NetworkStack from './network';
+
 import config from '../../bin/config';
+import NetworkStack from './network';
 
 interface DataStackProps {
   network: NetworkStack;
@@ -16,14 +17,18 @@ interface DataStackProps {
 
 export default class DataStack extends TerraformStack {
   readonly s3Bucket: S3Bucket;
+
   readonly repositoryPythonExecutor: Repository;
   readonly repositoryApp: Repository;
+
   readonly database: mongodb.serverlessInstance.ServerlessInstance;
   readonly databaseParameters: {
     connectionString: SsmParameter;
     user: SsmParameter;
     password: SsmParameter;
   };
+
+  readonly elevenLabsParameter: SsmParameter;
 
   constructor(scope: Construct, id: string, props: DataStackProps) {
     super(scope, id);
@@ -50,6 +55,48 @@ export default class DataStack extends TerraformStack {
     new S3Backend(this, {
       ...config.terraformBackend,
       key: `${id}.tfstate`,
+    });
+
+    /*================= PARAMETERS =================*/
+
+    this.databaseParameters = {
+      connectionString: new SsmParameter(this, 'MongoDBConnectionString', {
+        name: 'MONGODB_CONNECTION_STRING',
+        type: 'SecureString',
+        value: 'mongodb+srv://mongodb-instance.pdodhhx.mongodb.net',
+        description: 'The connection string to the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
+      }),
+      user: new SsmParameter(this, 'MongoDBUser', {
+        name: 'MONGODB_USER',
+        type: 'SecureString',
+        value: 'admin',
+        description: 'The user to access the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
+      }),
+      password: new SsmParameter(this, 'MongoDBPassword', {
+        name: 'MONGODB_PASSWORD',
+        type: 'SecureString',
+        value: 'adminadmin',
+        description: 'The password to access the MongoDB instance.',
+        lifecycle: {
+          ignoreChanges: ['value'],
+        },
+      }),
+    };
+
+    this.elevenLabsParameter = new SsmParameter(this, 'ElevenLabsParameter', {
+      name: 'ELEVEN_LABS',
+      type: 'SecureString',
+      value: 'elevenlabs',
+      description: 'The password to access the Eleven Labs API.',
+      lifecycle: {
+        ignoreChanges: ['value'],
+      },
     });
 
     /*================= S3 =================*/
@@ -113,37 +160,5 @@ export default class DataStack extends TerraformStack {
       ipAddress: network.vpc.natIp.publicIp,
       comment: 'Allow the NAT Gateway IP to access the database',
     });
-
-    /*================= PARAMETERS =================*/
-
-    this.databaseParameters = {
-      connectionString: new SsmParameter(this, 'MongoDBConnectionString', {
-        name: 'MONGODB_CONNECTION_STRING',
-        type: 'SecureString',
-        value: 'mongodb+srv://mongodb-instance.pdodhhx.mongodb.net',
-        description: 'The connection string to the MongoDB instance.',
-        lifecycle: {
-          ignoreChanges: ['value'],
-        },
-      }),
-      user: new SsmParameter(this, 'MongoDBUser', {
-        name: 'MONGODB_USER',
-        type: 'SecureString',
-        value: 'admin',
-        description: 'The user to access the MongoDB instance.',
-        lifecycle: {
-          ignoreChanges: ['value'],
-        },
-      }),
-      password: new SsmParameter(this, 'MongoDBPassword', {
-        name: 'MONGODB_PASSWORD',
-        type: 'SecureString',
-        value: 'adminadmin',
-        description: 'The password to access the MongoDB instance.',
-        lifecycle: {
-          ignoreChanges: ['value'],
-        },
-      }),
-    };
   }
 }

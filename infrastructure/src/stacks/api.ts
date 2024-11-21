@@ -1,3 +1,4 @@
+import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 import { Route53Record } from '@cdktf/provider-aws/lib/route53-record';
 import { SecurityGroup } from '@cdktf/provider-aws/lib/security-group';
@@ -7,10 +8,10 @@ import { LoadBalancer } from '@constructs/loadbalancer';
 import { TagsAddingAspect } from 'aspects/tag-aspect';
 import { Aspects, S3Backend, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
+
 import config from '../../bin/config';
 import DataStack from './data';
 import NetworkStack from './network';
-import { IamRole } from '@cdktf/provider-aws/lib/iam-role';
 
 interface ApiStackProps {
   network: NetworkStack;
@@ -134,6 +135,7 @@ export default class ApiStack extends TerraformStack {
         ],
       }),
       inlinePolicy: [
+        // Grants access to push logs to CloudWatch.
         {
           name: 'allow-logs',
           policy: JSON.stringify({
@@ -147,6 +149,8 @@ export default class ApiStack extends TerraformStack {
             ],
           }),
         },
+        // Grants access to call Bedrock APIs.
+        // TODO: Remove this once we have a more fine-grained policy.
         {
           name: 'bedrock-policy',
           policy: JSON.stringify({
@@ -160,6 +164,7 @@ export default class ApiStack extends TerraformStack {
             ],
           }),
         },
+        // Grants execution of the Lambda function for the Python executor.
         {
           name: 'invoke-policy',
           policy: JSON.stringify({
@@ -172,7 +177,24 @@ export default class ApiStack extends TerraformStack {
                   'lambda:GetFunction',
                   'lambda:DescribeFunction',
                 ],
-                Resource: '*',
+                Resource: [executorFn.function.arn],
+              },
+            ],
+          }),
+        },
+        // Grants access to upload and retrieve files from S3.
+        {
+          name: 's3-policy',
+          policy: JSON.stringify({
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['s3:GetObject', 's3:PutObject'],
+                Resource: [
+                  `arn:aws:s3:::${data.s3Bucket.bucket}`,
+                  `arn:aws:s3:::${data.s3Bucket.bucket}/*`,
+                ],
               },
             ],
           }),
@@ -207,9 +229,13 @@ export default class ApiStack extends TerraformStack {
         MEDIA_ASSETS_BUCKET_NAME: data.s3Bucket.bucket,
       },
       secrets: {
+        // Database
         MONGODB_URL: data.databaseParameters.connectionString.arn,
         MONGODB_USER: data.databaseParameters.user.arn,
         MONGODB_PASSWORD: data.databaseParameters.password.arn,
+
+        // ElevenLabs
+        ELEVENLABS_API_KEY: data.elevenLabsParameter.arn,
       },
       executionRole,
       taskRole,

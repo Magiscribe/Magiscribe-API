@@ -5,7 +5,7 @@ export default `#graphql
   }
 
   type Query {
-    getMediaAsset(id: String!): String @auth
+    getMediaAsset(id: String!): String
   } 
 
   type Mutation {
