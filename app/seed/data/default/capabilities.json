@@ -9,13 +9,14 @@
     "prompts": [
       "669c694867c3fed48dee5343",
       "66971df6d2a052885450d767",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-11-09T15:49:27.160Z",
+    "updatedAt": "2024-11-21T05:39:22.836Z",
     "__v": 0
   },
   {
@@ -28,33 +29,35 @@
     "prompts": [
       "669c694867c3fed48dee5343",
       "66971f23d2a052885450d78c",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-11-09T15:49:35.943Z",
+    "updatedAt": "2024-11-21T05:39:31.133Z",
     "__v": 0
   },
   {
     "_id": "669bee8d6773961cdf4604ae",
-    "name": "Per Question Summary",
+    "name": "Summary Generator",
     "logicalCollection": "67200e060a342cc6ff42ddee",
-    "alias": "PerQuestionSummaryCapability",
+    "alias": "SummaryGeneratorCapability",
     "llmModel": "CLAUDE_3_5_SONNET_V2",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
       "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
-      "669bef586773961cdf4604b4"
+      "669bef586773961cdf4604b4",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-11-09T15:50:02.965Z",
+    "updatedAt": "2024-11-25T03:08:32.337Z",
     "__v": 0
   },
   {
@@ -68,13 +71,14 @@
       "669c694867c3fed48dee5343",
       "669c6a6167c3fed48dee536c",
       "66e0be6d9337a12aa64c0bc1",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-11-09T15:50:09.864Z",
+    "updatedAt": "2024-11-21T05:39:51.037Z",
     "__v": 0
   },
   {
@@ -92,13 +96,14 @@
       "66db4139230520f669c6b5e0",
       "66e38eeae162aa12d1a799fb",
       "66e0c57e9337a12aa64c0c17",
-      "66be5b690e262044f7ea39d6"
+      "66be5b690e262044f7ea39d6",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-11-09T15:50:22.723Z",
+    "updatedAt": "2024-11-21T05:41:10.271Z",
     "__v": 0
   },
   {
@@ -112,13 +117,14 @@
       "66bf8d0aa9430d3fa1391448",
       "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
-      "66db3e6e230520f669c6b4fd"
+      "66db3e6e230520f669c6b4fd",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-11-09T15:50:30.996Z",
+    "updatedAt": "2024-11-22T03:02:48.611Z",
     "__v": 0
   },
   {
@@ -135,13 +141,14 @@
       "66be4dfa0e262044f7ea39a8",
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
-      "6695d854888b8bcf4b03be89"
+      "6695d854888b8bcf4b03be89",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-11-09T15:50:38.312Z",
+    "updatedAt": "2024-11-21T05:40:23.086Z",
     "__v": 0
   },
   {
@@ -158,13 +165,14 @@
       "66be4dfa0e262044f7ea39a8",
       "66be5b690e262044f7ea39d6",
       "66c004e4525628d5c5861ef4",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_INVIDUAL",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
-    "updatedAt": "2024-11-09T15:50:46.252Z",
+    "updatedAt": "2024-11-21T05:40:37.255Z",
     "__v": 0
   },
   {
@@ -181,13 +189,14 @@
       "66db4139230520f669c6b5e0",
       "66e38eeae162aa12d1a799fb",
       "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
       "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-11-09T15:51:03.872Z",
+    "updatedAt": "2024-11-24T19:41:38.447Z",
     "__v": 0
   },
   {
@@ -203,13 +212,14 @@
       "66bf8ccba9430d3fa1391445",
       "66db4139230520f669c6b5e0",
       "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
       "66db3e6e230520f669c6b4fd"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-11-09T15:51:16.765Z",
+    "updatedAt": "2024-11-24T19:41:25.321Z",
     "__v": 0
   },
   {
@@ -225,13 +235,14 @@
       "669c6a6167c3fed48dee536c",
       "66c8ec59e952d5c0a4dbdb3c",
       "66e0be6d9337a12aa64c0bc1",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T20:07:37.601Z",
-    "updatedAt": "2024-11-09T15:51:26.460Z",
+    "updatedAt": "2024-11-21T05:39:14.623Z",
     "__v": 0
   },
   {
@@ -247,13 +258,14 @@
       "669c6a6167c3fed48dee536c",
       "66c8ec59e952d5c0a4dbdb3c",
       "66e0be6d9337a12aa64c0bc1",
-      "6695d849888b8bcf4b03be85"
+      "6695d849888b8bcf4b03be85",
+      "673ebeedf85550a742a85875"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
-    "updatedAt": "2024-11-09T15:51:33.408Z",
+    "updatedAt": "2024-11-21T05:40:04.788Z",
     "__v": 0
   },
   {
@@ -278,7 +290,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-02T16:27:59.334Z",
-    "updatedAt": "2024-11-09T15:51:39.509Z",
+    "updatedAt": "2024-11-24T19:20:56.144Z",
     "__v": 0
   },
   {
@@ -303,7 +315,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-03T17:21:49.205Z",
-    "updatedAt": "2024-11-09T15:51:45.989Z",
+    "updatedAt": "2024-11-24T19:20:47.348Z",
     "__v": 0
   },
   {
