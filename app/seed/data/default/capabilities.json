@@ -111,7 +111,7 @@
     "name": "Condition Node",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ConditionNodeCapability",
-    "llmModel": "CLAUDE_3_5_SONNET",
+    "llmModel": "CLAUDE_3_5_SONNET_V2",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
     "prompts": [
       "66bf8d0aa9430d3fa1391448",
