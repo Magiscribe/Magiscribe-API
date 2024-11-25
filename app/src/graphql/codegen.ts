@@ -267,7 +267,7 @@ export type Prediction = {
   id: Scalars['ID']['output'];
   result?: Maybe<Scalars['String']['output']>;
   subscriptionId: Scalars['ID']['output'];
-  type: Scalars['String']['output'];
+  type: PredictionType;
 };
 
 export enum PredictionType {
@@ -864,7 +864,7 @@ export type PredictionResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   subscriptionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['PredictionType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

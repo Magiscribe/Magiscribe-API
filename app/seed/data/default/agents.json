@@ -1,16 +1,16 @@
 [
   {
     "_id": "669714d6d2a052885450d6ef",
-    "name": "Per Question Summary",
+    "name": "Summary Generator",
     "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "Analyzes data received by the Stakeholder Input Synthesizer",
+    "description": "Analyzes data received by the Inquiry and provides either a conversation summary or a summary for all possible answers to a particular question.",
     "reasoning": null,
     "capabilities": ["669bee8d6773961cdf4604ae"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T00:48:22.792Z",
-    "updatedAt": "2024-08-31T17:03:24.676Z",
+    "updatedAt": "2024-11-25T03:09:16.758Z",
     "__v": 0
   },
   {

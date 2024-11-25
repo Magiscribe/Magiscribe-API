@@ -11,7 +11,7 @@ export default `#graphql
   type Prediction {
     id: ID!
     subscriptionId: ID!
-    type: String!
+    type: PredictionType!
     result: String
   }
 
