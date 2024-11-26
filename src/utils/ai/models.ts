@@ -17,7 +17,7 @@ export const LLM_MODELS_VERSION = {
   CLAUDE_3_5_SONNET_V2: {
     id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
     name: 'Claude 3.5 Sonnet v2',
-    region: 'us-east-1',
+    region: 'us-west-2',
   },
   LLAMA_3_2_1B_INSTRUCT: {
     id: 'meta.llama3-2-1b-instruct-v1:0',
