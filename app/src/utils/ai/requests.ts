@@ -1,6 +1,7 @@
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 import { HumanMessage } from '@langchain/core/messages';
 import log from '@log';
+import { withExponentialBackoff } from '@utils/exponential-backoff';
 
 import { LLM_MODELS_VERSION } from './models';
 
@@ -60,17 +61,21 @@ export async function makeRequest({
       throw new Error('Callback function is required for streaming mode');
     }
 
-    const stream = await chat.stream([message]);
-    let buffer = '';
-    for await (const chunk of stream) {
-      buffer += chunk.content;
-      await streaming.callback(chunk.content as string);
-      log.debug({ msg: 'AI response chunk received', content: buffer });
-    }
-    return buffer;
+    return await withExponentialBackoff(async () => {
+      const stream = await chat.stream([message]);
+      let buffer = '';
+      for await (const chunk of stream) {
+        buffer += chunk.content;
+        await streaming.callback!(chunk.content as string);
+        log.debug({ msg: 'AI response chunk received', content: buffer });
+      }
+      return buffer;
+    });
   } else {
-    const completion = await chat.invoke([message]);
-    log.debug({ msg: 'AI response received', content: completion.content });
-    return completion.content as string;
+    return await withExponentialBackoff(async () => {
+      const completion = await chat.invoke([message]);
+      log.debug({ msg: 'AI response received', content: completion.content });
+      return completion.content as string;
+    });
   }
 }
