@@ -186,6 +186,7 @@ export type Mutation = {
   deleteCapability?: Maybe<Capability>;
   deleteCollection?: Maybe<Collection>;
   deleteInquiry?: Maybe<Inquiry>;
+  deleteInquiryResponse?: Maybe<InquiryResponse>;
   deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
@@ -218,6 +219,11 @@ export type MutationDeleteCollectionArgs = {
 
 export type MutationDeleteInquiryArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type MutationDeleteInquiryResponseArgs = {
+  id: Scalars['ID']['input'];
+  inquiryId: Scalars['ID']['input'];
 };
 
 export type MutationDeleteMediaAssetArgs = {
@@ -381,6 +387,7 @@ export type Voice = {
   __typename?: 'Voice';
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  tags: Array<Scalars['String']['output']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -800,6 +807,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationDeleteInquiryArgs, 'id'>
   >;
+  deleteInquiryResponse?: Resolver<
+    Maybe<ResolversTypes['InquiryResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationDeleteInquiryResponseArgs, 'id' | 'inquiryId'>
+  >;
   deleteMediaAsset?: Resolver<
     Maybe<ResolversTypes['Int']>,
     ParentType,
@@ -1004,6 +1017,7 @@ export type VoiceResolvers<
 > = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

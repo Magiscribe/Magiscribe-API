@@ -5,7 +5,7 @@ import {
   InquiryResponse as TInquiryResponse,
 } from '@graphql/codegen';
 import log from '@log';
-import { createNestedUpdateObject, createFilterQuery } from '@utils/database';
+import { createFilterQuery, createNestedUpdateObject } from '@utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -208,6 +208,55 @@ export async function upsertInquiryResponse({
       },
     );
   }
+}
+
+/**
+ * Deletes a response by its ID.
+ * @param data The data object with the specified ID, or null if not found.
+ * @returns {Promise<void>} A promise that resolves when the response is deleted.
+ */
+export async function deleteInquiryResponse({
+  id,
+  inquiryId,
+  userId,
+}): Promise<void> {
+  log.info({
+    message: 'Deleting inquiry response',
+    id,
+  });
+
+  // Checks if the user is the owner of the inquiry, as
+  // responses can only be deleted by the inquiry owner.
+  const inquiryResponse = await Inquiry.findOne({
+    _id: inquiryId,
+    userId,
+  });
+
+  if (!inquiryResponse) {
+    log.warn({
+      message: 'Inquiry not found or user does not have permission',
+      inquiryId,
+      userId,
+    });
+    throw new Error(
+      'Inquiry not found or you do not have permission to access it',
+    );
+  }
+
+  const result = await InquiryResponse.deleteOne({ _id: id });
+
+  if (result.deletedCount === 0) {
+    log.warn({
+      message: 'Inquiry response not found',
+      id,
+    });
+    throw new Error('Inquiry response not found');
+  }
+
+  log.info({
+    message: 'Inquiry response deleted successfully',
+    id,
+  });
 }
 
 /**
