@@ -50,6 +50,21 @@ InquirySchema.pre(
   },
 );
 
+// A hook to remove the reference to the response when a response is deleted.
+InquiryResponseSchema.pre(
+  'deleteOne',
+  { document: false, query: true },
+  async function () {
+    const doc = await this.model.findOne(this.getFilter());
+    if (doc) {
+      await Inquiry.updateMany(
+        { responses: doc._id },
+        { $pull: { responses: doc._id } },
+      );
+    }
+  },
+);
+
 export const Inquiry = mongoose.model<InquiryObject>('Inquiry', InquirySchema);
 export const InquiryResponse = mongoose.model<InquiryObject>(
   'InquiryResponse',
