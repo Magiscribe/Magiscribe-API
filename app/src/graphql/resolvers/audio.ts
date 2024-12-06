@@ -9,6 +9,7 @@ export default {
         return {
           id: key,
           name: VOICES[key].name,
+          tags: VOICES[key].tags,
         };
       });
     },

@@ -2,6 +2,7 @@ export default `#graphql
   type Voice {
     id: String!
     name: String!
+    tags: [String!]!
   }
 
   type Query {
