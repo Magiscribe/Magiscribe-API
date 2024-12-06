@@ -192,5 +192,33 @@
     "createdAt": "2024-08-02T22:52:10.706Z",
     "updatedAt": "2024-11-09T15:55:11.862Z",
     "__v": 0
+  },
+  {
+    "_id": "67525375e1a86ba3300aa425",
+    "name": "Dynamic Question Generation EXPERIMENTAL",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Generates the question to ask next given the node visit history and graph. Assumes that it is a networking agent attempting to ask a question to another networking agent.",
+    "capabilities": ["67525bfa4c232a81947a8b96"],
+    "memoryEnabled": false,
+    "createdAt": "2024-12-06T01:29:25.093Z",
+    "updatedAt": "2024-12-06T03:49:05.999Z",
+    "__v": 0,
+    "outputFilter": null,
+    "reasoning": null,
+    "subscriptionFilter": null
+  },
+  {
+    "_id": "67525a6e4c232a81947a8b4c",
+    "name": "Dynamic Information Generation EXPERIMENTAL",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Generates the information given the node visit history and graph. Assumes that it is a networking agent attempting to provide information to another networking agent.",
+    "capabilities": ["67525c004c232a81947a8b9c"],
+    "memoryEnabled": false,
+    "createdAt": "2024-12-06T01:59:10.671Z",
+    "updatedAt": "2024-12-06T03:49:37.888Z",
+    "__v": 0,
+    "outputFilter": null,
+    "reasoning": null,
+    "subscriptionFilter": null
   }
 ]

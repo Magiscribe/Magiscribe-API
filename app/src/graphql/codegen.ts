@@ -381,6 +381,7 @@ export type Voice = {
   __typename?: 'Voice';
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  tags: Array<Scalars['String']['output']>;
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -1004,6 +1005,7 @@ export type VoiceResolvers<
 > = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

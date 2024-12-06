@@ -16,7 +16,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-11-21T05:39:22.836Z",
+    "updatedAt": "2024-12-06T01:51:09.215Z",
     "__v": 0
   },
   {
@@ -196,7 +196,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-11-24T19:41:38.447Z",
+    "updatedAt": "2024-12-06T02:05:41.012Z",
     "__v": 0
   },
   {
@@ -614,6 +614,52 @@
     "outputFilter": null,
     "createdAt": "2024-08-22T03:13:27.124Z",
     "updatedAt": "2024-11-09T15:55:02.435Z",
+    "__v": 0
+  },
+  {
+    "_id": "67525bfa4c232a81947a8b96",
+    "name": "Dynamic Question Generation EXPERIMENTAL",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "alias": "DynamicQuestionGenerationEXPERIMENTALCapability",
+    "llmModel": "CLAUDE_3_5_SONNET_V2",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66bf8ccba9430d3fa1391445",
+      "66db4139230520f669c6b5e0",
+      "66e38eeae162aa12d1a799fb",
+      "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
+      "66db3e6e230520f669c6b4fd",
+      "67527478ae781f9d7ef51b47"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-12-06T02:05:46.968Z",
+    "updatedAt": "2024-12-06T04:50:11.570Z",
+    "__v": 0
+  },
+  {
+    "_id": "67525c004c232a81947a8b9c",
+    "name": "Dynamic Information Generation EXPERIMENTAL",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "alias": "DynamicInformationGenerationEXPERIMENTALCapability",
+    "llmModel": "CLAUDE_3_5_SONNET_V2",
+    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
+    "prompts": [
+      "6695d854888b8bcf4b03be89",
+      "66bf8ccba9430d3fa1391445",
+      "66db4139230520f669c6b5e0",
+      "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
+      "67527b13ae781f9d7ef51bd1"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-12-06T02:05:52.795Z",
+    "updatedAt": "2024-12-06T04:48:46.433Z",
     "__v": 0
   }
 ]
