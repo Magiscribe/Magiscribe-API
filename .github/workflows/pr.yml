@@ -20,7 +20,7 @@ jobs:
         with:
           script: |
             const labels = context.payload.pull_request.labels.map(label => label.name);
-            const requiredLabels = ["review-ready", "work-in-progress"];
+            const requiredLabels = ["review ready", "work-in-progress"];
             const hasRequiredLabel = labels.some(label => requiredLabels.includes(label));
             if (!hasRequiredLabel) {
               core.setFailed(`PR must have one of the following labels: ${requiredLabels.join(", ")}`);
