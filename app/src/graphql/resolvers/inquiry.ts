@@ -1,20 +1,22 @@
 import {
-  upsertInquiry,
-  upsertInquiryResponse,
   deleteInquiry,
+  deleteInquiryResponse,
   getInquiries,
   getInquiry,
-  getInquiryResponses,
   getInquiryResponseCount,
+  getInquiryResponses,
+  upsertInquiry,
+  upsertInquiryResponse,
 } from '@controllers/inquiry';
 import Context from '@customTypes/context';
 import {
   MutationDeleteInquiryArgs,
+  MutationDeleteInquiryResponseArgs,
   MutationUpsertInquiryArgs,
   MutationUpsertInquiryResponseArgs,
   QueryGetInquiryArgs,
-  QueryGetInquiryResponsesArgs,
   QueryGetInquiryResponseCountArgs,
+  QueryGetInquiryResponsesArgs,
 } from '@graphql/codegen';
 
 export default {
@@ -54,6 +56,16 @@ export default {
         userId: context?.auth?.sub,
       });
     },
+    deleteInquiryResponse: async (
+      _,
+      args: MutationDeleteInquiryResponseArgs,
+      context: Context,
+    ) =>
+      deleteInquiryResponse({
+        id: args.id,
+        inquiryId: args.inquiryId,
+        userId: context.auth.sub,
+      }),
   },
   Query: {
     getInquiries: async (_, _args, context: Context) =>
