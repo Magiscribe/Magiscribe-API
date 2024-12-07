@@ -4,6 +4,9 @@
   "main": "dist/index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "setup": "pnpm run setup:install && pnpm run setup:env",
+    "setup:install": "pnpm install",
+    "setup:env": "cp .env.example .env",
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
     "predev": "pnpm run codegen",
     "dev": "sh ./scripts/start.sh",

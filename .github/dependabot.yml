@@ -6,41 +6,20 @@
 version: 2
 updates:
   # Root
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     groups:
       github-actions:
         patterns:
-          - "*"
-    schedule:
-      interval: "weekly"
-      
-  # API
-  - package-ecosystem: 'npm'
-    directory: '/app'
-    groups:
-      app:
-        patterns:
-          - "*"
+          - '*'
     schedule:
       interval: 'weekly'
 
-  # Infrastructure
   - package-ecosystem: 'npm'
-    directory: '/infrastructure'
+    directory: '/'
     groups:
-      infrastructure:
+      app:
         patterns:
-          - "*"
+          - '*'
     schedule:
-      interval: 'weekly'  
-
-  # Bootstrap
-  - package-ecosystem: 'npm'
-    directory: '/bootstrap'
-    groups:
-      bootstrap:
-        patterns:
-          - "*"
-    schedule:
-      interval: 'weekly'  
+      interval: 'weekly'
