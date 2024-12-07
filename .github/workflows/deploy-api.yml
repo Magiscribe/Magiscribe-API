@@ -138,10 +138,16 @@ jobs:
         run: |
           atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId $MONGODB_ATLAS_PROJECT_ID --comment "GitHub Actions Runner"
 
+      - name: Wait for MongoDB access list to update
+        shell: bash
+        run : |
+          sleep 10
+
       - name: Migrate Database
         run: pnpm run db:import
 
       - name: Remove runner IP from MongoDB access list
+        if: always()
         shell: bash
         env:
           MONGODB_ATLAS_PUBLIC_API_KEY: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PUBLIC_API_KEY_PROD || secrets.MONGODB_ATLAS_PUBLIC_API_KEY_DEV }}
