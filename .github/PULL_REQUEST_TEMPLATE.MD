@@ -14,4 +14,5 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 Please describe the reason for the changes.
 
 ## ClickUp Task 📌
+
 [CU-XXXX](https://app.clickup.com/t/XXXX)

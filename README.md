@@ -13,10 +13,10 @@
 - [Overview](#overview)
   - [Short Demos](#short-demos)
 - [Zero to Hero](#zero-to-hero)
-    - [Pre-requisites](#pre-requisites)
-    - [General Setup](#general-setup)
-    - [API Development Setup](#api-development-setup)
-      - [Docker Build and Run](#docker-build-and-run)
+  - [Pre-requisites](#pre-requisites)
+  - [General Setup](#general-setup)
+  - [API Development Setup](#api-development-setup)
+    - [Docker Build and Run](#docker-build-and-run)
 
 # Overview
 
@@ -38,12 +38,13 @@ https://github.com/user-attachments/assets/908ae6d8-e7e9-4fb1-8964-90411095353e
 
 ### Pre-requisites
 
-- [ ] [Node.js](https://nodejs.org/en) (version 20.x or later)
+- [ ] [Node.js](https://nodejs.org/en) (version 22.x or later)
 - [ ] [AWS CLI](https://aws.amazon.com/cli)
 - [ ] [Terraform CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install)
 - [ ] [Docker](https://www.docker.com/get-started)
 
 ### General Setup
+
 > The following steps are required to setup the project for local development and deployment.
 
 1. Configure AWS CLI. You can do this with `aws configure`. If the environment you working with is managed by AWS SSO, you can run `aws configure sso`. For more on this see [AWS CLI Configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
@@ -58,13 +59,13 @@ corepack use pnpm@latest
 3. Download the repository
 
 ```bash
-git clone git@github.com:Magiscribe/Apollo-GraphQL-API.git
+git clone git@github.com:Magiscribe/Magiscribe-API.git
 ```
 
 4. Change directory to the project root
 
 ```bash
-cd Apollo-GraphQL-API
+cd Magiscribe-API
 ```
 
 5. Run the install script. This will install the dependencies for the API and Infrastructure projects.
@@ -74,6 +75,7 @@ pnpm i
 ```
 
 ### API Development Setup
+
 > The following steps are required for local development of the API.
 
 1. Check into `/app` directory
@@ -113,12 +115,13 @@ pnpm dev
 ```
 
 5. Open the browser and navigate to `http://localhost:3000/graphql` to access the GraphQL playground.
-  - Important Note: To bypass Clerk authentication, you can use the following header in the GraphQL playground:
-    ```json
-    {
-      "Authorization": "Sandbox"
-    }
-    ```
+
+- Important Note: To bypass Clerk authentication, you can use the following header in the GraphQL playground:
+  ```json
+  {
+    "Authorization": "Sandbox"
+  }
+  ```
 
 #### Docker Build and Run
 

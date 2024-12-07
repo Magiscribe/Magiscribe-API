@@ -140,7 +140,7 @@ jobs:
 
       - name: Wait for MongoDB access list to update
         shell: bash
-        run : |
+        run: |
           sleep 30
 
       - name: Migrate Database
