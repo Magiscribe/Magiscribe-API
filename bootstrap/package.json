@@ -2,6 +2,7 @@
   "name": "bootstrap",
   "version": "1.0.0",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "get": "cdktf get",
     "build": "tsc",
     "synth": "cdktf synth",

@@ -62,6 +62,7 @@ https://github.com/user-attachments/assets/908ae6d8-e7e9-4fb1-8964-90411095353e
 
 ```bash
 corepack enable pnpm
+corepack use pnpm@latest
 ```
 
 3. Download the repository
@@ -140,6 +141,8 @@ docker run -p 3000:3000 graphql-api -e PORT=3000 -d
 
 ### Infrastructure Deployment
 > The following steps are required to setup the project for deployment to AWS.
+>
+> ! IMPORTANT ! As of writing, the both the bootstrap and infrastructure stacks are on Node 20.x. This is because the CDKTF project has not been updated to support Node 22.x. This will be updated in the future. See [here](https://github.com/cdktf/node-pty-prebuilt-multiarch/blob/prebuilt-multiarch/.prebuild/buildify.js) for the build targets supported by the CDKTF project.
 
 #### Bootstrap Deployment
 The bootstrap setup is a one-time setup that will create the necessary resources in AWS to manage the remote state of the Terraform projects. For more information on this, see [Terraform Remote State](https://developer.hashicorp.com/terraform/language/state/remote).

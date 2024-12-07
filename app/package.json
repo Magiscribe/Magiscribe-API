@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "tsc -p tsconfig.json && tscpaths -p tsconfig.json -s src -o dist",
     "predev": "pnpm run codegen",
     "dev": "sh ./scripts/start.sh",
