@@ -141,7 +141,7 @@ jobs:
       - name: Wait for MongoDB access list to update
         shell: bash
         run : |
-          sleep 10
+          sleep 30
 
       - name: Migrate Database
         run: pnpm run db:import
