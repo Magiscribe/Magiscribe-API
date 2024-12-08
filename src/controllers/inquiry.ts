@@ -157,11 +157,10 @@ export async function updateInquiryOwners({
   userId: string;
   owners: string[];
 }): Promise<TInquiry> {
-  
   return await Inquiry.findOneAndUpdate(
     { _id: id, userId },
     {
-      $set: {userId: owners},
+      $set: { userId: owners },
     },
     {
       upsert: true,
