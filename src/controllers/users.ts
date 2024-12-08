@@ -1,5 +1,5 @@
-import { createClerkClient, User } from '@clerk/backend';
-import config from '@config';
+import { User } from '@clerk/backend';
+import { clerkClient } from '@utils/clients';
 
 // Max Clerk user list page size is 501: https://clerk.com/docs/references/backend/user/get-user-list
 export const USER_LIST_PAGE_SIZE = 501;
@@ -18,8 +18,6 @@ export async function getUsersById({
 }: {
   userIds: string[];
 }): Promise<UserInternal[]> {
-  // Move clerk client to common clients?  Is auth secret key available?
-  const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
   // For now we are assuming that a graph does not have > 501 owners, and will therefore only read the first page.
   const apiResult = await clerkClient.users.getUserList({
     userId: userIds,
@@ -33,8 +31,6 @@ export async function getUsersByEmail({
 }: {
   userEmails: string[];
 }): Promise<UserInternal[]> {
-  // Move clerk client to common clients?  Is auth secret key available?
-  const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
   // For now we are assuming that a graph does not have > 501 owners, and will therefore only read the first page.
   const apiResult = await clerkClient.users.getUserList({
     emailAddress: userEmails,

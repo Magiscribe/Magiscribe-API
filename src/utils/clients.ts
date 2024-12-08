@@ -1,5 +1,6 @@
 import { LambdaClient } from '@aws-sdk/client-lambda';
 import { S3Client } from '@aws-sdk/client-s3';
+import { createClerkClient } from '@clerk/backend';
 import config from '@config';
 import { PubSub } from 'graphql-subscriptions';
 
@@ -24,4 +25,8 @@ const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
 });
 
-export { lambdaClient, pubsubClient, s3Client };
+/*================================ CLERK ==============================*/
+
+const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
+
+export { lambdaClient, pubsubClient, s3Client, clerkClient };
