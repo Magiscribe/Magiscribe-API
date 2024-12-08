@@ -14,7 +14,7 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 
 const InquirySchema: Schema = new mongoose.Schema(
   {
-    userId: { type: String, required: true },
+    userId: [{ type: String, required: true }],
     data: {
       form: {
         title: { type: String, required: true },
