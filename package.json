@@ -34,6 +34,7 @@
     "@aws-sdk/client-bedrock-runtime": "^3.706.0",
     "@aws-sdk/client-lambda": "^3.699.0",
     "@aws-sdk/client-s3": "^3.705.0",
+    "@aws-sdk/client-ses": "^3.709.0",
     "@aws-sdk/lib-storage": "^3.705.0",
     "@aws-sdk/s3-request-presigner": "^3.705.0",
     "@clerk/backend": "^1.20.2",
