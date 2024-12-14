@@ -28,9 +28,15 @@
     "baseUrl": ".",
     "paths": {
       "types/*": ["./@types/*"],
-      "@*": ["src/*"]
+      "@/*": ["src/*"]
     }
   },
-  "include": ["./src/**/*", "./**/*.ts", "./**/*.graphql", "seed"],
+  "include": [
+    "./src/**/*",
+    "./**/*.ts",
+    "./**/*.graphql",
+    "seed",
+    "jest.config.js"
+  ],
   "exclude": ["node_modules", "dist", "seed", "./codegen.ts"]
 }

@@ -2,7 +2,7 @@ import { LambdaClient } from '@aws-sdk/client-lambda';
 import { S3Client } from '@aws-sdk/client-s3';
 import { SESClient } from '@aws-sdk/client-ses';
 import { createClerkClient } from '@clerk/backend';
-import config from '@config';
+import config from '@/config';
 import { PubSub } from 'graphql-subscriptions';
 
 /*================================ Apollo ==============================*/

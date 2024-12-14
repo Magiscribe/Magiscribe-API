@@ -1,4 +1,4 @@
-import log from '@log';
+import log from '@/log';
 
 /**
  * Executes a function with exponential backoff retry logic

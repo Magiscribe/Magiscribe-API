@@ -4,8 +4,8 @@ import {
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
 } from '@graphql/codegen';
-import log from '@log';
-import { createFilterQuery, createNestedUpdateObject } from '@utils/database';
+import log from '@/log';
+import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.

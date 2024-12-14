@@ -1,14 +1,16 @@
 import { SendEmailCommand, SendEmailCommandInput } from '@aws-sdk/client-ses';
-import { sesClient } from '@utils/clients';
+import { sesClient } from '@/utils/clients';
 
 import { applyTemplate, EmailTemplate, getTemplate } from './templates';
+import config from '@/config';
+import log from '@/log';
 
-interface EmailContent {
+export interface EmailContent {
   subject: string;
-  body: string;
   recipientEmail: string;
   senderEmail?: string;
-  templateData?: Record<string, any>;
+  senderName?: string;
+  templateData: Record<string, string>;
 }
 
 /**
@@ -18,12 +20,17 @@ interface EmailContent {
  */
 export const sendEmail = async (
   content: EmailContent,
-  templateName: EmailTemplate = 'BASIC'
+  templateName: EmailTemplate = 'BASIC',
 ): Promise<void> => {
   try {
     const template = getTemplate(templateName);
-    const htmlContent = applyTemplate(template, content.templateData || {});
-    
+    const htmlContent = applyTemplate(template, {
+      ...content.templateData,
+
+      // Base URL for email links will always be provided.
+      baseURL: config.email.baseURL,
+    });
+
     const params: SendEmailCommandInput = {
       Destination: {
         ToAddresses: [content.recipientEmail],
@@ -40,17 +47,28 @@ export const sendEmail = async (
           Data: content.subject,
         },
       },
-      Source: content.senderEmail || process.env.DEFAULT_SENDER_EMAIL,
+      Source: `${content.senderName ?? config.email.fromName} <${content.senderEmail ?? config.email.fromEmail}>`,
     };
 
+    log.info({
+      msg: 'Sending email',
+      recipientEmail: content.recipientEmail,
+      subject: content.subject,
+    });
     const command = new SendEmailCommand(params);
     await sesClient.send(command);
   } catch (error) {
-    console.error('Error sending email:', error);
+    if (error instanceof Error) {
+      log.error({
+        msg: 'Failed to send email',
+        error: error.message,
+        recipientEmail: content.recipientEmail,
+      });
+    }
     throw error;
   }
 };
 
 export const emailUtils = {
-  sendEmail
+  sendEmail,
 };

@@ -3,7 +3,7 @@ import {
   Capability as ICapability,
   Prompt as IPrompt,
 } from '@graphql/codegen';
-import { LLM_MODELS_VERSION } from '@utils/ai/models';
+import { LLM_MODELS_VERSION } from '@/utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 
 export enum OutputReturnMode {

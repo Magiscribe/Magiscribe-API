@@ -5,7 +5,7 @@ import {
   QueryGetAllCapabilitiesArgs,
   QueryGetAllPromptsArgs,
 } from '@graphql/codegen';
-import { LLM_MODELS_VERSION } from '@utils/ai/models';
+import { LLM_MODELS_VERSION } from '@/utils/ai/models';
 
 export default {
   Mutation: {

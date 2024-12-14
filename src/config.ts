@@ -51,6 +51,28 @@ const config = {
     secretKey: process.env.CLERK_SECRET_KEY,
   },
 
+  email: {
+    /**
+     * The URL base to use for emails with links to the application (e.g., https://magiscribe.com/terms).
+     */
+    baseURL: process.env.EMAIL_BASE_URL || 'http://localhost:3000',
+
+    /**
+     * The email address to send emails from.
+     */
+    fromEmail: process.env.EMAIL_FROM_EMAIL || 'dev.magiscribe.com',
+
+    /**
+     * The name to send emails from.
+     */
+    fromName: process.env.EMAIL_FROM_NAME || 'Magiscribe',
+
+    /**
+     * The email address to send test emails to.
+     */
+    testEmailTo: process.env.EMAIL_TEST_TO,
+  },
+
   aws: {
     /**
      * The region the application is running in.

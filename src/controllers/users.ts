@@ -1,5 +1,5 @@
 import { User } from '@clerk/backend';
-import { clerkClient } from '@utils/clients';
+import { clerkClient } from '@/utils/clients';
 
 // Max Clerk user list page size is 501: https://clerk.com/docs/references/backend/user/get-user-list
 export const USER_LIST_PAGE_SIZE = 501;

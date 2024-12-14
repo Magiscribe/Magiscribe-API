@@ -10,3 +10,4 @@ tsconfig.tsbuildinfo
 !.env.example
 newrelic_agent.log
 debug.log
+coverage

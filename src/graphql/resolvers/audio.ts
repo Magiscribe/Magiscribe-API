@@ -1,6 +1,6 @@
 import { generateAudio } from '@controllers/audio';
 import { MutationGenerateAudioArgs } from '@graphql/codegen';
-import { VOICES } from '@utils/voices';
+import { VOICES } from '@/utils/voices';
 
 export default {
   Query: {
