@@ -133,7 +133,7 @@ export type Inquiry = {
   id: Scalars['ID']['output'];
   responses?: Maybe<Array<InquiryResponse>>;
   updatedAt: Scalars['Float']['output'];
-  userId: Scalars['ID']['output'];
+  userId?: Maybe<Array<Scalars['ID']['output']>>;
 };
 
 export type InquiryData = {
@@ -190,6 +190,7 @@ export type Mutation = {
   deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
+  updateInquiryOwners: Inquiry;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
   upsertCollection?: Maybe<Collection>;
@@ -237,6 +238,11 @@ export type MutationDeletePromptArgs = {
 export type MutationGenerateAudioArgs = {
   text: Scalars['String']['input'];
   voice: Scalars['String']['input'];
+};
+
+export type MutationUpdateInquiryOwnersArgs = {
+  id: Scalars['ID']['input'];
+  owners: Array<Scalars['String']['input']>;
 };
 
 export type MutationUpsertAgentArgs = {
@@ -316,6 +322,8 @@ export type Query = {
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
+  getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
+  getUsersById?: Maybe<Array<UserData>>;
 };
 
 export type QueryGetAgentArgs = {
@@ -367,6 +375,14 @@ export type QueryGetPromptArgs = {
   promptId: Scalars['ID']['input'];
 };
 
+export type QueryGetUsersByEmailArgs = {
+  userEmails: Array<Scalars['String']['input']>;
+};
+
+export type QueryGetUsersByIdArgs = {
+  userIds: Array<Scalars['String']['input']>;
+};
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
@@ -381,6 +397,15 @@ export type Subscription = {
 
 export type SubscriptionPredictionAddedArgs = {
   subscriptionId: Scalars['ID']['input'];
+};
+
+export type UserData = {
+  __typename?: 'UserData';
+  firstName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  lastName?: Maybe<Scalars['String']['output']>;
+  primaryEmailAddress: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Voice = {
@@ -528,6 +553,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
+  UserData: ResolverTypeWrapper<UserData>;
   Voice: ResolverTypeWrapper<Voice>;
 };
 
@@ -563,6 +589,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   StringFilter: StringFilter;
   Subscription: {};
+  UserData: UserData;
   Voice: Voice;
 };
 
@@ -682,7 +709,11 @@ export type InquiryResolvers<
     ContextType
   >;
   updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  userId?: Resolver<
+    Maybe<Array<ResolversTypes['ID']>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -830,6 +861,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>
+  >;
+  updateInquiryOwners?: Resolver<
+    ResolversTypes['Inquiry'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>
   >;
   upsertAgent?: Resolver<
     Maybe<ResolversTypes['Agent']>,
@@ -994,6 +1031,18 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetPromptArgs, 'promptId'>
   >;
+  getUsersByEmail?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['UserData']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>
+  >;
+  getUsersById?: Resolver<
+    Maybe<Array<ResolversTypes['UserData']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUsersByIdArgs, 'userIds'>
+  >;
 };
 
 export type SubscriptionResolvers<
@@ -1008,6 +1057,27 @@ export type SubscriptionResolvers<
     ContextType,
     RequireFields<SubscriptionPredictionAddedArgs, 'subscriptionId'>
   >;
+};
+
+export type UserDataResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['UserData'] = ResolversParentTypes['UserData'],
+> = {
+  firstName?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  primaryEmailAddress?: Resolver<
+    ResolversTypes['String'],
+    ParentType,
+    ContextType
+  >;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type VoiceResolvers<
@@ -1039,5 +1109,6 @@ export type Resolvers<ContextType = any> = {
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  UserData?: UserDataResolvers<ContextType>;
   Voice?: VoiceResolvers<ContextType>;
 };

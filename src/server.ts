@@ -4,12 +4,13 @@ import {
   fastifyApolloDrainPlugin,
   fastifyApolloHandler,
 } from '@as-integrations/fastify';
-import { createClerkClient, verifyToken } from '@clerk/backend';
+import { verifyToken } from '@clerk/backend';
 import config from '@config';
 import database from '@database';
 import fastifyCors from '@fastify/cors';
 import { schema } from '@graphql';
 import log from '@log';
+import { clerkClient } from '@utils/clients';
 import fastify, { FastifyInstance } from 'fastify';
 import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
@@ -24,8 +25,6 @@ export default async function startServer() {
   );
 
   /*=============================== Auth ==============================*/
-
-  const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
 
   const sandboxAuthToken = 'Sandbox';
   const sandboxSub = 'Sandbox';

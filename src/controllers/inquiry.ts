@@ -125,7 +125,7 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
   });
 
   try {
-    const result = await Inquiry.find({ userId });
+    const result = await Inquiry.find({ userId: userId });
 
     log.info({
       message: 'User data fetched successfully',
@@ -141,6 +141,33 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
     });
     throw new Error('Failed to fetch user forms');
   }
+}
+
+/**
+ * Creates a new data object or updates an existing one based on the presence of an ID.
+ * @param data The data object to create or update.
+ * @returns {Promise<TInquiry>} The created or updated data object.
+ */
+export async function updateInquiryOwners({
+  id,
+  userId,
+  owners,
+}: {
+  id: string;
+  userId: string;
+  owners: string[];
+}): Promise<TInquiry> {
+  return await Inquiry.findOneAndUpdate(
+    { _id: id, userId },
+    {
+      $set: { userId: owners },
+    },
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+    },
+  );
 }
 
 /**
