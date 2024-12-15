@@ -31,6 +31,7 @@ const InquirySchema: Schema = new mongoose.Schema(
       settings: {
         title: { type: String, required: true },
         goals: { type: String, required: false },
+        context: { type: String, required: false },
         voice: { type: String, required: false },
         notifications: {
           recieveEmailOnResponse: { type: Boolean, required: false },
