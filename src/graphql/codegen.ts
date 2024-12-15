@@ -129,7 +129,7 @@ export type FloatFilter = {
 export type Inquiry = {
   __typename?: 'Inquiry';
   createdAt: Scalars['Float']['output'];
-  data: Scalars['JSONObject']['output'];
+  data: InquiryData;
   id: Scalars['ID']['output'];
   responses?: Maybe<Array<InquiryResponse>>;
   updatedAt: Scalars['Float']['output'];
@@ -162,6 +162,7 @@ export type InquiryResponse = {
 export type InquiryResponseData = {
   __typename?: 'InquiryResponseData';
   history: Array<Scalars['JSONObject']['output']>;
+  status: InquiryResponseStatus;
   userDetails?: Maybe<Scalars['JSONObject']['output']>;
 };
 
@@ -170,6 +171,12 @@ export type InquiryResponseFilters = {
   email?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
 };
+
+export enum InquiryResponseStatus {
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  Pending = 'PENDING',
+}
 
 export type Model = {
   __typename?: 'Model';
@@ -541,6 +548,7 @@ export type ResolversTypes = {
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
   InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
   InquiryResponseFilters: InquiryResponseFilters;
+  InquiryResponseStatus: InquiryResponseStatus;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -701,7 +709,7 @@ export type InquiryResolvers<
     ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry'],
 > = {
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['InquiryData'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   responses?: Resolver<
     Maybe<Array<ResolversTypes['InquiryResponse']>>,
@@ -771,6 +779,11 @@ export type InquiryResponseDataResolvers<
 > = {
   history?: Resolver<
     Array<ResolversTypes['JSONObject']>,
+    ParentType,
+    ContextType
+  >;
+  status?: Resolver<
+    ResolversTypes['InquiryResponseStatus'],
     ParentType,
     ContextType
   >;

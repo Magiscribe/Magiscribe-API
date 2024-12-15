@@ -1,11 +1,23 @@
-import { Inquiry as InquiryObject } from '@graphql/codegen';
+import {
+  Inquiry as InquiryObject,
+  InquiryResponse as InquiryResponseObject,
+} from '@/graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
     userId: { type: String, required: false },
     data: {
-      userDetails: { type: Object, required: false },
+      status: {
+        type: String,
+        required: true,
+        enum: ['PENDING', 'IN_PROGRESS', 'COMPLETED'],
+      },
+      userDetails: {
+        name: { type: String, required: false },
+        email: { type: String, required: false },
+        recieveEmails: { type: Boolean, required: false },
+      },
       history: [{ type: Object, required: false }],
     },
   },
@@ -66,7 +78,7 @@ InquiryResponseSchema.pre(
 );
 
 export const Inquiry = mongoose.model<InquiryObject>('Inquiry', InquirySchema);
-export const InquiryResponse = mongoose.model<InquiryObject>(
+export const InquiryResponse = mongoose.model<InquiryResponseObject>(
   'InquiryResponse',
   InquiryResponseSchema,
 );

@@ -7,7 +7,7 @@ import {
   getInquiryResponses,
   upsertInquiry,
   upsertInquiryResponse,
-} from '@controllers/inquiry';
+} from '@/controllers/inquiry';
 import Context from '@customTypes/context';
 import {
   MutationDeleteInquiryArgs,
@@ -17,7 +17,7 @@ import {
   QueryGetInquiryArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 
 export default {
   Mutation: {

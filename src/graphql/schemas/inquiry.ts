@@ -14,14 +14,27 @@ export default `#graphql
     type Inquiry {
         id: ID!
         userId: [ID!]
-        data: JSONObject!
+        data: InquiryData!
         responses: [InquiryResponse!]
         createdAt: Float!
         updatedAt: Float!
     }
 
+    enum InquiryResponseStatus {
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+    }
+
+    type InquiryResponseUserDetails {
+        name: String
+        email: String
+        recieveEmails: Boolean
+    }
+
     type InquiryResponseData {
-        userDetails: JSONObject
+        status: InquiryResponseStatus!
+        userDetails: InquiryResponseUserDetails
         history: [JSONObject!]!
     }
 

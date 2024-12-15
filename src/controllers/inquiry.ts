@@ -1,11 +1,15 @@
-import { Inquiry, InquiryResponse } from '@database/models/inquiry';
+import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
 import {
+  InquiryResponseStatus,
   QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
+import { sendEmail } from '@/utils/emails/email';
+import { getUsersById } from './users';
+import config from '@/config';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -185,9 +189,17 @@ export async function upsertInquiryResponse({
   id?: string;
   inquiryId: string;
   userId: string;
-  data: Record<string, string>;
+  data: TInquiryResponse['data'];
   fields?: string[];
-}): Promise<TInquiry> {
+}) {
+  const inquiry = await Inquiry.findOne({
+    _id: inquiryId,
+  });
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found');
+  }
+
   if (!id) {
     log.info({
       message: 'Creating new inquiry response',
@@ -223,7 +235,7 @@ export async function upsertInquiryResponse({
       updateData,
     });
 
-    return await InquiryResponse.findOneAndUpdate(
+    const result = await InquiryResponse.findOneAndUpdate(
       { _id: id, userId },
       {
         $set: updateData,
@@ -234,6 +246,35 @@ export async function upsertInquiryResponse({
         setDefaultsOnInsert: true,
       },
     );
+
+    if (data.status === InquiryResponseStatus.Completed) {
+      const users = await getUsersById({ userIds: inquiry.userId! });
+
+      sendEmail({
+        recipientEmail: users[0].primaryEmailAddress!,
+        subject: `New response recorded | ${inquiry.data.form.title}`,
+        templateData: {
+          title: 'You have received a new response!',
+          content: [
+            `${result.data.userDetails.name} has submitted a response for ${inquiry.data.form.title}.`,
+            `You can view the response at <a href="${config.email.baseURL}/dashboard/inquiry-builder/${inquiryId}" target="_blank">here</a>.`,
+          ].join('\n\n'),
+        },
+      });
+
+      if (result.data.userDetails.email) {
+        sendEmail({
+          recipientEmail: result.data.userDetails.email,
+          subject: `Response record | ${inquiry.data.form.title}`,
+          templateData: {
+            title: 'Your response has been recorded!',
+            content: `Thank you for submitting your response for ${inquiry.data.form.title}. It has been successfully recorded at ${new Date().toISOString()}.`,
+          },
+        });
+      }
+    }
+
+    return result;
   }
 }
 

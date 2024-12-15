@@ -2,7 +2,7 @@ import {
   Agent as IAgent,
   Capability as ICapability,
   Prompt as IPrompt,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 import { LLM_MODELS_VERSION } from '@/utils/ai/models';
 import mongoose, { Schema } from 'mongoose';
 

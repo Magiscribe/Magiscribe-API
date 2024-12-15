@@ -1,10 +1,10 @@
-import { Agent, Capability } from '@database/models/agent';
+import { Agent, Capability } from '@/database/models/agent';
 import {
   IThread,
   MessageResponseTypes,
   Thread,
-} from '@database/models/message';
-import { Agent as IAgent, Capability as ICapability } from '@graphql/codegen';
+} from '@/database/models/message';
+import { Agent as IAgent, Capability as ICapability } from '@/graphql/codegen';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { Document } from 'mongoose';
 

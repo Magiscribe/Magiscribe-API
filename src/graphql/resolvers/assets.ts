@@ -1,8 +1,8 @@
-import { deleteAsset, getAsset, uploadAsset } from '@controllers/assets';
+import { deleteAsset, getAsset, uploadAsset } from '@/controllers/assets';
 import {
   MutationDeleteMediaAssetArgs,
   QueryGetMediaAssetArgs,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 
 export default {
   Query: {

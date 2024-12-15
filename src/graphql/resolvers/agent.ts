@@ -1,10 +1,10 @@
-import { Agent, Capability, Collection, Prompt } from '@database/models/agent';
+import { Agent, Capability, Collection, Prompt } from '@/database/models/agent';
 import {
   MutationUpsertCollectionArgs,
   QueryGetAllAgentsArgs,
   QueryGetAllCapabilitiesArgs,
   QueryGetAllPromptsArgs,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 import { LLM_MODELS_VERSION } from '@/utils/ai/models';
 
 export default {

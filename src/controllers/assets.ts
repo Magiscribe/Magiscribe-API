@@ -5,7 +5,7 @@ import {
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@/config';
-import { Asset } from '@database/models/image';
+import { Asset } from '@/database/models/image';
 import log from '@/log';
 import { s3Client } from '@/utils/clients';
 import { v4 as uuid } from 'uuid';
