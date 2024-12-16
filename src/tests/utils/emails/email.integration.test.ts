@@ -6,7 +6,7 @@ describe('Email Integration Tests', () => {
     const emailContent: EmailContent = {
       subject: 'Test Subject',
       templateData: { title: 'Test Title', content: 'Test Content' },
-      recipientEmail: config.email.testEmailTo!,
+      recipientEmails: [config.email.testEmailTo!],
     };
 
     await sendEmail(emailContent, 'BASIC');
@@ -17,7 +17,7 @@ describe('Email Integration Tests', () => {
     const emailContent: EmailContent = {
       subject: 'Test Subject',
       templateData: { title: 'Test Title', content: 'Test Content' },
-      recipientEmail: config.email.testEmailTo!,
+      recipientEmails: [config.email.testEmailTo!],
       senderEmail: 'invalid-email',
     };
 

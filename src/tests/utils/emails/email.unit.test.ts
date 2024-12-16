@@ -28,7 +28,7 @@ describe('Email Unit Tests', () => {
     const emailContent = {
       subject: 'Test Subject',
       templateData: { content: 'Test Content' },
-      recipientEmail: 'test@example.com',
+      recipientEmails: ['test@example.com'],
       senderEmail: 'custom@sender.com',
       senderName: 'Custom Sender',
     };
@@ -38,7 +38,7 @@ describe('Email Unit Tests', () => {
     expect(mockSesClient.send).toHaveBeenCalledWith(
       expect.objectContaining({
         input: {
-          Destination: { ToAddresses: [emailContent.recipientEmail] },
+          Destination: { ToAddresses: emailContent.recipientEmails },
           Message: {
             Body: {
               Html: { Charset: 'UTF-8', Data: mockHtmlContent },
@@ -55,7 +55,7 @@ describe('Email Unit Tests', () => {
     const emailContent = {
       subject: 'Test Subject',
       templateData: { content: 'Test Content' },
-      recipientEmail: 'test@example.com',
+      recipientEmails: ['test@example.com'],
       senderEmail: 'custom@sender.com',
       senderName: 'Custom Sender',
     };
@@ -80,7 +80,7 @@ describe('Email Unit Tests', () => {
     const emailContent = {
       subject: 'Test Subject',
       templateData: { content: 'Test Content' },
-      recipientEmail: 'test@example.com',
+      recipientEmails: ['test@example.com'],
     };
 
     await expect(sendEmail(emailContent)).rejects.toThrow('SES error');

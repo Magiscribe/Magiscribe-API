@@ -1,12 +1,19 @@
 export default `#graphql
-    type InquiryDataForm {
+    type InquirySettingsNotifications {
+        recieveEmailOnResponse: Boolean
+    }
+
+    type InquirySettings {
         title: String!
         goals: String!
         voice: String
+        
+        notifications: InquirySettingsNotifications
     }
     
     type InquiryData {
-        form: InquiryDataForm!
+        settings: InquirySettings!
+        metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
     }

@@ -7,7 +7,7 @@ import log from '@/log';
 
 export interface EmailContent {
   subject: string;
-  recipientEmail: string;
+  recipientEmails: string[];
   senderEmail?: string;
   senderName?: string;
   templateData: Record<string, string>;
@@ -33,7 +33,7 @@ export const sendEmail = async (
 
     const params: SendEmailCommandInput = {
       Destination: {
-        ToAddresses: [content.recipientEmail],
+        ToAddresses: content.recipientEmails,
       },
       Message: {
         Body: {
@@ -52,7 +52,7 @@ export const sendEmail = async (
 
     log.info({
       msg: 'Sending email',
-      recipientEmail: content.recipientEmail,
+      recipientEmails: content.recipientEmails,
       subject: content.subject,
     });
     const command = new SendEmailCommand(params);
@@ -62,7 +62,7 @@ export const sendEmail = async (
       log.error({
         msg: 'Failed to send email',
         error: error.message,
-        recipientEmail: content.recipientEmail,
+        recipientEmails: content.recipientEmails,
       });
     }
     throw error;

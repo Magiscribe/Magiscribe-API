@@ -28,10 +28,13 @@ const InquirySchema: Schema = new mongoose.Schema(
   {
     userId: [{ type: String, required: true }],
     data: {
-      form: {
+      settings: {
         title: { type: String, required: true },
         goals: { type: String, required: false },
         voice: { type: String, required: false },
+        notifications: {
+          recieveEmailOnResponse: { type: Boolean, required: false },
+        }
       },
       metadata: {
         images: { type: Object, required: false },

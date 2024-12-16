@@ -8,8 +8,9 @@ import {
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
 import { sendEmail } from '@/utils/emails/email';
-import { getUsersById } from './users';
+import { getUserById, getUsersById } from './users';
 import config from '@/config';
+import { sendOwnerNotification, sendRespondentConfirmation } from '@/utils/emails/types';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -249,27 +250,20 @@ export async function upsertInquiryResponse({
 
     if (data.status === InquiryResponseStatus.Completed) {
       const users = await getUsersById({ userIds: inquiry.userId! });
-
-      sendEmail({
-        recipientEmail: users[0].primaryEmailAddress!,
-        subject: `New response recorded | ${inquiry.data.form.title}`,
-        templateData: {
-          title: 'You have received a new response!',
-          content: [
-            `${result.data.userDetails.name} has submitted a response for ${inquiry.data.form.title}.`,
-            `You can view the response at <a href="${config.email.baseURL}/dashboard/inquiry-builder/${inquiryId}" target="_blank">here</a>.`,
-          ].join('\n\n'),
-        },
+    
+      await sendOwnerNotification({
+        recipientEmails: users.map((user) => user.primaryEmailAddress),
+        respondentName: result.data?.userDetails?.name,
+        inquiryId: inquiryId,
+        InquiryTitle: inquiry.data.settings.title,
       });
-
-      if (result.data.userDetails.email) {
-        sendEmail({
-          recipientEmail: result.data.userDetails.email,
-          subject: `Response record | ${inquiry.data.form.title}`,
-          templateData: {
-            title: 'Your response has been recorded!',
-            content: `Thank you for submitting your response for ${inquiry.data.form.title}. It has been successfully recorded at ${new Date().toISOString()}.`,
-          },
+    
+      if (result.data?.userDetails?.email && result.data.userDetails.recieveEmails) {
+        await sendRespondentConfirmation({
+          recipientEmails: [result.data.userDetails.email],
+          respondentName: result.data.userDetails.name,
+          inquiryId: inquiryId,
+          inquiryTitle: inquiry.data.settings.title
         });
       }
     }
