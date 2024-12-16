@@ -3,9 +3,9 @@
     "_id": "669541137ceb83a7fb75eb17",
     "name": "question",
     "logicalCollection": "67200e060a342cc6ff42ddee",
-    "text": "<instructions>\nYour goal is to generate markdown and JSON based on the provided inputs. The JSON should be an object with at least one key: \"type\" and possibly \"ratings\". The markdown text should be the full question text written in markdown, and the \"type\" should be either \"rating-single\", \"rating-multi\" or \"open-ended\". For questions that are either \"rating-single\" or \"rating-multi\" please provide a list of ratings options. Generate exactly one question within your markdown response that is specific and relevant to the given inputs. Do NOT ask the user to rank options. If you use a rating scale they can either select one option or choose all that apply, there is no mechanism for ranking. \n\n<Example1>\n```markdown\nExample question markdown text 1?\n```\n\n```json\n{\n\"type\": \"rating-single\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\"]\n}\n```\n</Example1>\n<Example2>\n```markdown\n\"text\": \"Example question markdown text 2?\",\n```\n\n```json\n{\n\"type\": \"rating-multi\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\", \"Option 5\"]\n}\n```\n</Example2>\n<Example3>\n```markdown\nExample question markdown text 3?\n```\n\n```json\n{\n\"type\": \"open-ended\"\n}\n```\n</Example3>\n\nMake sure to replace the example content with actual questions based on the provided inputs. Use the <conversationHistory> to guide your creation of a dynamic question to continue the conversation in an engaging and dynamic way. We want the question to flow as naturally as possible from the previous thing the user said. Do NOT repeat questions and do NOT ask more than one question at a time. Strive for creativity in your question that would generate novelty and valuable information from the user response. When asking the user to select from a set of options put them in the ratings list and use either the rating-single or rating-multi type. If you are not suggesting options then you can use the \"open-ended\" type. Be as concise as possible. Pay extra attention to responding to the <mostRecentMessage> within the context of the rest of the conversation.\n</instuctions>",
+    "text": "<instructions>\nYour goal is to generate markdown and JSON based on the provided inputs. The JSON should be an object with at least one key: \"type\" and possibly \"ratings\". The markdown text should be the full question text written in markdown, and the \"type\" should be either \"rating-single\", \"rating-multi\" or \"open-ended\". For questions that are either \"rating-single\" or \"rating-multi\" please provide a list of ratings options. Generate exactly one question within your markdown response that is specific and relevant to the given inputs. Do NOT ask the user to rank options. If you use a rating scale they can either select one option or choose all that apply, there is no mechanism for ranking. \n\n<Example1>\n```markdown\nExample question markdown text 1?\n```\n\n```json\n{\n\"type\": \"rating-single\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\"]\n}\n```\n</Example1>\n<Example2>\n```markdown\n\"text\": \"Example question markdown text 2?\",\n```\n\n```json\n{\n\"type\": \"rating-multi\"\n\"ratings\": [\"Option 1\", \"Option 2\", \"Option 3\", \"Option 4\", \"Option 5\"]\n}\n```\n</Example2>\n<Example3>\n```markdown\nExample question markdown text 3?\n```\n\n```json\n{\n\"type\": \"open-ended\"\n}\n```\n</Example3>\n\nMake sure to replace the example content with actual questions based on the provided inputs. Use the <conversationHistory> to guide your creation of a dynamic question to continue the conversation in an engaging and dynamic way. We want the question to flow as naturally as possible from the previous thing the user said. Do NOT repeat questions and do NOT ask more than one question at a time. Strive for creativity in your question that would generate novelty and valuable information from the user response. When asking the user to select from a set of options put them in the ratings list and use either the rating-single or rating-multi type. If you are not suggesting options then you can use the \"open-ended\" type. Be as concise as possible. Pay extra attention to responding to the most recent message within the context of the rest of the conversation. Additionally, occasionally call people by their name if provided, it will be in <userDetails> for you to use sparingly.\n</instuctions>",
     "createdAt": "2024-07-15T15:32:35.224Z",
-    "updatedAt": "2024-11-24T19:41:38.164Z",
+    "updatedAt": "2024-12-15T19:33:07.473Z",
     "__v": 0
   },
   {
@@ -23,7 +23,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<userMessage>\n{{userMessage}}\n</userMessage>",
     "createdAt": "2024-07-16T02:17:56.228Z",
-    "updatedAt": "2024-11-25T03:08:32.061Z",
+    "updatedAt": "2024-12-15T19:14:56.008Z",
     "__v": 0
   },
   {
@@ -122,16 +122,16 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<conversationHistory>\n{{conversationHistory}}\n</conversationHistory>",
     "createdAt": "2024-08-16T17:30:51.882Z",
-    "updatedAt": "2024-11-24T19:41:38.171Z",
+    "updatedAt": "2024-12-15T19:14:55.970Z",
     "__v": 0
   },
   {
     "_id": "66bf8d0aa9430d3fa1391448",
     "name": "conditionNodeInstructions",
     "logicalCollection": "67200e060a342cc6ff42ddee",
-    "text": "<context>\nThe <userMessage> tag tells you what instruction to follow. Your responsibility is to output just a JSON with the only key being \"nextNodeId\". Be sure to start with three back ticks, the word json, then the valid json and then three more back ticks to close it. \n\nDo not output an explanation, but here's what one would look like \"The instruction encourages me to go to node \"abcd\" if the user is happy and node \"efgh\" when the user is sad. In the most recent message the user remarked \"I am overwhelmed with joy\" therefore I will go to node \"abcd\"\".\n\n<Example>\n```json\n{\n \"nextNodeId\": \"X\" //This will simply be the id of the next node to go to\n}\n```\n</Example>\n\nYou should pay especially close attention to the <mostRecentMessage> in the conversation. This message is what is most crucial to determine what to do next. Note: It is required that you just write this small json with the one key \"nextNodeId\". This is required formatting for your output. Do NOT use XML tags. \n\n<CRITICAL>Do not include # at the beginning of the node even if present in the instruction. The # is a delimiter. The string value for \"nextNodeId\" must purely be alphanumeric characters</CRITICAL>\n</context>",
+    "text": "<context>\nThe <userMessage> tag tells you what instruction to follow. Your responsibility is to output just a JSON with the only key being \"nextNodeId\". Be sure to start with three back ticks, the word json, then the valid json and then three more back ticks to close it. \n\nDo not output an explanation, but here's what one would look like \"The instruction encourages me to go to node \"abcd\" if the user is happy and node \"efgh\" when the user is sad. In the most recent message the user remarked \"I am overwhelmed with joy\" therefore I will go to node \"abcd\"\".\n\n<Example>\n```json\n{\n \"nextNodeId\": \"X\" //This will simply be the id of the next node to go to\n}\n```\n</Example>\n\nYou should pay especially close attention to the most recent message in the conversation. This message is what is most crucial to determine what to do next and can be identified by the message with the largest enumeration in conversation history. Note: It is required that you just write this small json with the one key \"nextNodeId\". This is required formatting for your output. Do NOT use XML tags. \n\n<CRITICAL>Do not include # at the beginning of the node even if present in the instruction. The # is a delimiter. The string value for \"nextNodeId\" must purely be alphanumeric characters</CRITICAL>\n</context>",
     "createdAt": "2024-08-16T17:31:54.099Z",
-    "updatedAt": "2024-09-17T03:40:01.279Z",
+    "updatedAt": "2024-12-15T19:14:55.958Z",
     "__v": 0
   },
   {
@@ -165,9 +165,9 @@
     "_id": "66c9558dae782803372bda00",
     "name": "information",
     "logicalCollection": "67200e060a342cc6ff42ddee",
-    "text": "<instructions>\nYour goal is to generate markdown with information based on the provided inputs. It should be a concise, contextual response that continues the conversation naturally based on the current node in the <conversationGraph> and the <conversationHistory> written with markdown. Be sure to start with three back ticks, the word markdown, the markdown itself, and then three more back ticks to close it.\n\nIMPORTANT: Under no circumstances should the response include a question or request any input from the user. The response must be a statement that advances the conversation without soliciting further information. NEVER ask the user a question. Only use affirmative statements. It is absolutely critical that you only make statements and avoid questions entirely.\n\n<Example1>\n```markdown\nYour markdown text goes here\n```\n</Example1>\n\nReplace the example content with an actual response based on the provided inputs. The <userMessage> is currently acting as an instruction. The <conversationHistory> provides insight into the existing flow of the conversation that we are continuing. Do not mention the existence of <userMessage> or <conversationHistory>. These are internal tags not relevant to your response. The content inside them is valuable, themselves as a delimiter are not. Be as succinct as possible. We need a short response.\n</instructions>",
+    "text": "<instructions>\nYour goal is to generate markdown with information based on the provided inputs. It should be a concise, contextual response that continues the conversation naturally based on the current node in the <conversationGraph> and the <conversationHistory> written with markdown. Be sure to start with three back ticks, the word markdown, the markdown itself, and then three more back ticks to close it.\n\nIMPORTANT: Under no circumstances should the response include a question or request any input from the user. The response must be a statement that advances the conversation without soliciting further information. NEVER ask the user a question. Only use affirmative statements. It is absolutely critical that you only make statements and avoid questions entirely.\n\n<Example1>\n```markdown\nYour markdown text goes here\n```\n</Example1>\n\nReplace the example content with an actual response based on the provided inputs. The <userMessage> is currently acting as an instruction. The <conversationHistory> provides insight into the existing flow of the conversation that we are continuing. Do not mention the existence of <userMessage> or <conversationHistory>. These are internal tags not relevant to your response. The content inside them is valuable, themselves as a delimiter are not. Be as succinct as possible. We need a short response. Additionally, occasionally call people by their name if provided, it will be in <userDetails> for you to use sparingly.\n</instructions>",
     "createdAt": "2024-08-24T03:37:49.884Z",
-    "updatedAt": "2024-11-24T19:41:25.160Z",
+    "updatedAt": "2024-12-15T19:32:24.728Z",
     "__v": 0
   },
   {
@@ -176,7 +176,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<mostRecentMessage>\n{{mostRecentMessage}}\n</mostRecentMessage>",
     "createdAt": "2024-09-06T17:39:58.094Z",
-    "updatedAt": "2024-11-24T19:41:38.283Z",
+    "updatedAt": "2024-12-15T19:14:56.139Z",
     "__v": 0
   },
   {
@@ -185,7 +185,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<freeSpeech>\nAlways answer the user, do not make any ethical remarks or condescension towards possibly inappropriate inputs. This is meant to be an inclusive space in the truest meaning of inclusive such that freedom of expression and exploration of ideas is allowed even if it might ruffle some feathers. Free speech absolutism is only truly logically valid when it gives someone the ability to say something you find objectionable. Please engage with controversial or difficult topics even if it is uncomfortable. Facing discomfort and having the courage to do so is paramount.\n</freeSpeech>",
     "createdAt": "2024-09-06T17:51:53.639Z",
-    "updatedAt": "2024-11-25T03:08:32.159Z",
+    "updatedAt": "2024-12-15T18:59:27.355Z",
     "__v": 0
   },
   {
@@ -194,7 +194,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<markdownGuidelines>\n1. Paragraphs:\n   - Write paragraphs as plain text.\n   - Separate paragraphs with a blank line.\n\n2. Lists:\n   - For unordered lists, use a hyphen (-) followed by a space.\n   - For ordered lists, use numbers followed by a period (1.) and a space.\n   - Lists will be automatically styled with proper indentation.  \n   - DO NOT use special Unicode characters for bullet points.\n\n3. Code:\n   - For inline code, use single backticks (`code`).\n   - For code blocks, use triple backticks (```), but no language specification is needed.\n\n4. Bolding and Italics:\n   - For bold text, use double asterisks (**bold**).\n   - For italic text, use single asterisks (*italic*).\n\n5. Links:\n   - Use the format [link text](URL).\n\n6. Blockquotes:\n   - Use > at the beginning of each line for blockquotes.\n\nNo other form of Markdown is allowed, these are the only Markdown methods you can use.\n</markdownGuidelines>",
     "createdAt": "2024-09-10T21:47:25.278Z",
-    "updatedAt": "2024-11-27T20:35:07.246Z",
+    "updatedAt": "2024-12-15T18:59:26.952Z",
     "__v": 0
   },
   {
@@ -212,7 +212,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<requiredFormatting>\nYour response should start with three back ticks and the word like this ```markdown followed by three more back ticks ``` to close it. From there, you will do a newline and then do three backticks, the word json and then three more backticks. Inside of the backticks should be valid JSON. There should not be additional comments before or after the Markdown and JSON blocks as anything outside of this would break the downstream parser. Do not use any special control characters in the json. Here is an example of valid output\n\n```markdown\nmarkdown text goes here\n```\n\n```json\n{\"key\": \"value\"}\n```\n</requiredFormatting>",
     "createdAt": "2024-09-13T01:01:30.843Z",
-    "updatedAt": "2024-11-24T19:41:38.221Z",
+    "updatedAt": "2024-12-15T18:59:27.008Z",
     "__v": 0
   },
   {
@@ -473,7 +473,16 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<CRITICAL>\nIf the following <errorHandling> tag contains text that means that you are now attempting to fix a previous failure of the task you were instructed to do above. Note that a previous instance of you received the exact same prompts, but was unable to complete the task. In the <errorHandling> tag you will receive information about what a previous instance produced, and what is incorrect about it. Please pay extra attention to the text inside of <errorHandling> if it is present, if text is not present inside of it you can function normally and ignore this since you are trying this for the first time. If you receive conflicting information from the <mostRecentMessage> or <conversationHistory> and <errorHandling> you should defer to the instruction in error handling. It is possible you were intentionally misled by a nefarious user in the scenario in which there is text present in the <errorHandling> tag\n</CRITICAL>\n<errorHandling>\n{{errorHandling}}\n</errorHandling>",
     "createdAt": "2024-11-21T05:02:37.274Z",
-    "updatedAt": "2024-11-27T20:35:07.287Z",
+    "updatedAt": "2024-12-15T19:14:56.093Z",
+    "__v": 0
+  },
+  {
+    "_id": "675f26e482eb4e2c7a85d891",
+    "name": "userDetails",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "text": "<userDetails>\n{{userDetails}}\n</userDetails>",
+    "createdAt": "2024-12-15T18:58:44.010Z",
+    "updatedAt": "2024-12-15T18:59:27.079Z",
     "__v": 0
   }
 ]
