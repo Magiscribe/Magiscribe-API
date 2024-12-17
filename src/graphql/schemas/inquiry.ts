@@ -77,6 +77,7 @@ export default `#graphql
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
+        getInquiryResponse(id: ID!): InquiryResponse
         getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
     }

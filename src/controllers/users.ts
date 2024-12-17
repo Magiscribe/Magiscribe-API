@@ -35,7 +35,11 @@ function convertClerkUserToInternalUserModel(user: User): UserInternal {
  * @throws Error if clerk client fails
  * @returns Array of internal user objects
  */
-export async function getUsersById({ userIds }: { userIds: string[] }): Promise<UserInternal[]> {
+export async function getUsersById({
+  userIds,
+}: {
+  userIds: string[];
+}): Promise<UserInternal[]> {
   if (!userIds.length) return [];
 
   try {
@@ -57,7 +61,11 @@ export async function getUsersById({ userIds }: { userIds: string[] }): Promise<
  * @throws Error if clerk client fails
  * @returns User object or null if not found
  */
-export async function getUserById({ userId }: { userId: string }): Promise<UserInternal | null> {
+export async function getUserById({
+  userId,
+}: {
+  userId: string;
+}): Promise<UserInternal | null> {
   try {
     const user = await clerkClient.users.getUser(userId);
     return user ? convertClerkUserToInternalUserModel(user) : null;
@@ -73,7 +81,11 @@ export async function getUserById({ userId }: { userId: string }): Promise<UserI
  * @throws Error if clerk client fails
  * @returns Array of internal user objects
  */
-export async function getUsersByEmail({ userEmails }: { userEmails: string[] }): Promise<UserInternal[]> {
+export async function getUsersByEmail({
+  userEmails,
+}: {
+  userEmails: string[];
+}): Promise<UserInternal[]> {
   if (!userEmails.length) return [];
 
   try {
@@ -95,7 +107,11 @@ export async function getUsersByEmail({ userEmails }: { userEmails: string[] }):
  * @throws Error if clerk client fails
  * @returns User object or null if not found
  */
-export async function getUserByEmail({ email }: { email: string }): Promise<UserInternal | null> {
+export async function getUserByEmail({
+  email,
+}: {
+  email: string;
+}): Promise<UserInternal | null> {
   try {
     const users = await getUsersByEmail({ userEmails: [email] });
     return users[0] ?? null;

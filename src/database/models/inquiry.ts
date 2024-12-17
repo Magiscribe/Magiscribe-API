@@ -34,7 +34,7 @@ const InquirySchema: Schema = new mongoose.Schema(
         voice: { type: String, required: false },
         notifications: {
           recieveEmailOnResponse: { type: Boolean, required: false },
-        }
+        },
       },
       metadata: {
         images: { type: Object, required: false },

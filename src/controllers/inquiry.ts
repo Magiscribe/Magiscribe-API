@@ -1,16 +1,18 @@
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
 import {
   InquiryResponseStatus,
+  QueryGetInquiryResponseArgs,
   QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
 } from '@/graphql/codegen';
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
-import { sendEmail } from '@/utils/emails/email';
-import { getUserById, getUsersById } from './users';
-import config from '@/config';
-import { sendOwnerNotification, sendRespondentConfirmation } from '@/utils/emails/types';
+import {
+  sendOwnerNotification,
+  sendRespondentConfirmation,
+} from '@/utils/emails/types';
+import { getUsersById } from './users';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -249,21 +251,28 @@ export async function upsertInquiryResponse({
     );
 
     if (data.status === InquiryResponseStatus.Completed) {
-      const users = await getUsersById({ userIds: inquiry.userId! });
-    
-      await sendOwnerNotification({
-        recipientEmails: users.map((user) => user.primaryEmailAddress),
-        respondentName: result.data?.userDetails?.name,
-        inquiryId: inquiryId,
-        InquiryTitle: inquiry.data.settings.title,
-      });
-    
-      if (result.data?.userDetails?.email && result.data.userDetails.recieveEmails) {
+      if (inquiry.data.settings.notifications?.recieveEmailOnResponse) {
+        const users = await getUsersById({ userIds: inquiry.userId! });
+
+        await sendOwnerNotification({
+          recipientEmails: users.map((user) => user.primaryEmailAddress),
+          respondentName: result.data?.userDetails?.name,
+          respondenseId: result._id,
+          inquiryId: inquiryId,
+          InquiryTitle: inquiry.data.settings.title,
+        });
+      }
+
+      if (
+        result.data?.userDetails?.email &&
+        result.data.userDetails.recieveEmails
+      ) {
         await sendRespondentConfirmation({
           recipientEmails: [result.data.userDetails.email],
           respondentName: result.data.userDetails.name,
+          respondenseId: result._id,
           inquiryId: inquiryId,
-          inquiryTitle: inquiry.data.settings.title
+          inquiryTitle: inquiry.data.settings.title,
         });
       }
     }
@@ -319,6 +328,23 @@ export async function deleteInquiryResponse({
     message: 'Inquiry response deleted successfully',
     id,
   });
+}
+
+/**
+ *  Retrieves a response by its ID.
+ * @param args The arguments containing id
+ * @returns {Promise<InquiryResponse>} The response with the specified ID.
+ */
+export async function getInquiryResponse({
+  id,
+}: QueryGetInquiryResponseArgs): Promise<TInquiryResponse> {
+  const inquiryResponse = await InquiryResponse.findById(id);
+
+  if (!inquiryResponse) {
+    throw new Error('Inquiry response not found');
+  }
+
+  return inquiryResponse;
 }
 
 /**
