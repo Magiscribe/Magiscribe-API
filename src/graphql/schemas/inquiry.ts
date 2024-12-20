@@ -1,12 +1,19 @@
 export default `#graphql
-    type InquiryDataForm {
+    type InquirySettingsNotifications {
+        recieveEmailOnResponse: Boolean
+    }
+
+    type InquirySettings {
         title: String!
         goals: String!
         voice: String
+        
+        notifications: InquirySettingsNotifications
     }
     
     type InquiryData {
-        form: InquiryDataForm!
+        settings: InquirySettings!
+        metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
     }
@@ -14,14 +21,27 @@ export default `#graphql
     type Inquiry {
         id: ID!
         userId: [ID!]
-        data: JSONObject!
+        data: InquiryData!
         responses: [InquiryResponse!]
         createdAt: Float!
         updatedAt: Float!
     }
 
+    enum InquiryResponseStatus {
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+    }
+
+    type InquiryResponseUserDetails {
+        name: String
+        email: String
+        recieveEmails: Boolean
+    }
+
     type InquiryResponseData {
-        userDetails: JSONObject
+        status: InquiryResponseStatus!
+        userDetails: InquiryResponseUserDetails
         history: [JSONObject!]!
     }
 
@@ -57,6 +77,7 @@ export default `#graphql
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
+        getInquiryResponse(id: ID!): InquiryResponse
         getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
     }

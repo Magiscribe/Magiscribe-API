@@ -1,5 +1,5 @@
 import { getDirective, MapperKind, mapSchema } from '@graphql-tools/utils';
-import log from '@log';
+import log from '@/log';
 import { defaultFieldResolver, GraphQLSchema } from 'graphql';
 
 function authDirective(

@@ -1,13 +1,13 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import config from '@config';
-import { Audio } from '@database/models/audio';
-import log from '@log';
-import { s3Client } from '@utils/clients';
-import { VOICES } from '@utils/voices';
+import config from '@/config';
+import { Audio } from '@/database/models/audio';
+import log from '@/log';
+import { s3Client } from '@/utils/clients';
+import { VOICES } from '@/utils/voices';
 import { ElevenLabsClient } from 'elevenlabs';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 /**
  * Generates an audio URL blob from given text and streams it to the client.

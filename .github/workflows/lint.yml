@@ -1,4 +1,4 @@
-name: Lint 🔎
+name: Lint and Test 🔎
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint and Test
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout GitHub Action'
@@ -30,3 +30,6 @@ jobs:
 
       - name: 'Lint'
         run: pnpm run check
+
+      - name: 'Test'
+        run: pnpm run test

@@ -1,11 +1,18 @@
-import { Inquiry, InquiryResponse } from '@database/models/inquiry';
+import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
 import {
+  InquiryResponseStatus,
+  QueryGetInquiryResponseArgs,
   QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
-} from '@graphql/codegen';
-import log from '@log';
-import { createFilterQuery, createNestedUpdateObject } from '@utils/database';
+} from '@/graphql/codegen';
+import log from '@/log';
+import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
+import {
+  sendOwnerNotification,
+  sendRespondentConfirmation,
+} from '@/utils/emails/types';
+import { getUsersById } from './users';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -185,9 +192,17 @@ export async function upsertInquiryResponse({
   id?: string;
   inquiryId: string;
   userId: string;
-  data: Record<string, string>;
+  data: TInquiryResponse['data'];
   fields?: string[];
-}): Promise<TInquiry> {
+}) {
+  const inquiry = await Inquiry.findOne({
+    _id: inquiryId,
+  });
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found');
+  }
+
   if (!id) {
     log.info({
       message: 'Creating new inquiry response',
@@ -223,7 +238,7 @@ export async function upsertInquiryResponse({
       updateData,
     });
 
-    return await InquiryResponse.findOneAndUpdate(
+    const result = await InquiryResponse.findOneAndUpdate(
       { _id: id, userId },
       {
         $set: updateData,
@@ -234,6 +249,35 @@ export async function upsertInquiryResponse({
         setDefaultsOnInsert: true,
       },
     );
+
+    if (data.status === InquiryResponseStatus.Completed) {
+      if (inquiry.data.settings.notifications?.recieveEmailOnResponse) {
+        const users = await getUsersById({ userIds: inquiry.userId! });
+
+        await sendOwnerNotification({
+          recipientEmails: users.map((user) => user.primaryEmailAddress),
+          respondentName: result.data?.userDetails?.name,
+          respondenseId: result._id,
+          inquiryId: inquiryId,
+          InquiryTitle: inquiry.data.settings.title,
+        });
+      }
+
+      if (
+        result.data?.userDetails?.email &&
+        result.data.userDetails.recieveEmails
+      ) {
+        await sendRespondentConfirmation({
+          recipientEmails: [result.data.userDetails.email],
+          respondentName: result.data.userDetails.name,
+          respondenseId: result._id,
+          inquiryId: inquiryId,
+          inquiryTitle: inquiry.data.settings.title,
+        });
+      }
+    }
+
+    return result;
   }
 }
 
@@ -284,6 +328,23 @@ export async function deleteInquiryResponse({
     message: 'Inquiry response deleted successfully',
     id,
   });
+}
+
+/**
+ *  Retrieves a response by its ID.
+ * @param args The arguments containing id
+ * @returns {Promise<InquiryResponse>} The response with the specified ID.
+ */
+export async function getInquiryResponse({
+  id,
+}: QueryGetInquiryResponseArgs): Promise<TInquiryResponse> {
+  const inquiryResponse = await InquiryResponse.findById(id);
+
+  if (!inquiryResponse) {
+    throw new Error('Inquiry response not found');
+  }
+
+  return inquiryResponse;
 }
 
 /**

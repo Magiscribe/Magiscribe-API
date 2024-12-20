@@ -1,7 +1,7 @@
-import { generatePrediction } from '@controllers/prediction';
-import { MutationAddPredictionArgs } from '@graphql/codegen';
-import { SubscriptionEvent } from '@graphql/subscription-events';
-import { pubsubClient } from '@utils/clients';
+import { generatePrediction } from '@/controllers/prediction';
+import { MutationAddPredictionArgs } from '@/graphql/codegen';
+import { SubscriptionEvent } from '@/graphql/subscription-events';
+import { pubsubClient } from '@/utils/clients';
 import { withFilter } from 'graphql-subscriptions';
 
 export default {
