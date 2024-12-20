@@ -1,8 +1,8 @@
-import { getUsersByEmail, getUsersById } from '@controllers/users';
+import { getUsersByEmail, getUsersById } from '@/controllers/users';
 import {
   QueryGetUsersByEmailArgs,
   QueryGetUsersByIdArgs,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 
 export default {
   Query: {

@@ -5,12 +5,12 @@ import {
   fastifyApolloHandler,
 } from '@as-integrations/fastify';
 import { verifyToken } from '@clerk/backend';
-import config from '@config';
-import database from '@database';
+import config from '@/config';
+import database from '@/database';
 import fastifyCors from '@fastify/cors';
-import { schema } from '@graphql';
-import log from '@log';
-import { clerkClient } from '@utils/clients';
+import { schema } from '@/graphql';
+import log from '@/log';
+import { clerkClient } from '@/utils/clients';
 import fastify, { FastifyInstance } from 'fastify';
 import { Context } from 'graphql-ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
@@ -23,6 +23,22 @@ export default async function startServer() {
   log.debug(
     'Preparing thrusters, getting ready to launch (setting up schema and resolvers)...',
   );
+
+  /*=============================== Check required configs ==============================*/
+
+  if (!config.auth.secretKey) {
+    log.error(
+      'Missing required configuration: CLERK_SECRET_KEY. Please check environment variables.',
+    );
+    process.exit(1);
+  }
+
+  if (!config.auth.publishableKey) {
+    log.error(
+      'Missing required configuration: CLERK_PUBLISHABLE_KEY. Please check environment variables.',
+    );
+    process.exit(1);
+  }
 
   /*=============================== Auth ==============================*/
 

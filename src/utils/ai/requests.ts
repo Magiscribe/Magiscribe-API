@@ -1,7 +1,7 @@
 import { BedrockChat } from '@langchain/community/chat_models/bedrock';
 import { HumanMessage } from '@langchain/core/messages';
-import log from '@log';
-import { withExponentialBackoff } from '@utils/exponential-backoff';
+import log from '@/log';
+import { withExponentialBackoff } from '@/utils/exponential-backoff';
 
 import { LLM_MODELS_VERSION } from './models';
 

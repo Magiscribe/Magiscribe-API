@@ -3,21 +3,23 @@ import {
   deleteInquiryResponse,
   getInquiries,
   getInquiry,
+  getInquiryResponse,
   getInquiryResponseCount,
   getInquiryResponses,
   upsertInquiry,
   upsertInquiryResponse,
-} from '@controllers/inquiry';
-import Context from '@customTypes/context';
+} from '@/controllers/inquiry';
+import Context from '@/customTypes/context';
 import {
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
   MutationUpsertInquiryArgs,
   MutationUpsertInquiryResponseArgs,
   QueryGetInquiryArgs,
+  QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
-} from '@graphql/codegen';
+} from '@/graphql/codegen';
 
 export default {
   Mutation: {
@@ -73,6 +75,8 @@ export default {
 
     getInquiry: async (_, args: QueryGetInquiryArgs) => getInquiry(args.id),
 
+    getInquiryResponse: async (_, args: QueryGetInquiryResponseArgs) =>
+      getInquiryResponse(args),
     getInquiryResponses: async (_, args: QueryGetInquiryResponsesArgs) =>
       getInquiryResponses(args),
 

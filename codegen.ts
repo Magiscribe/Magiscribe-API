@@ -1,4 +1,4 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
+import type { CodegenConfig } from '@/graphql-codegen/cli';
 import typeDefs from './src/graphql/schemas';
 
 const config: CodegenConfig = {

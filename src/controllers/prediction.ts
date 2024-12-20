@@ -1,9 +1,9 @@
-import config from '@config';
-import { OutputReturnMode } from '@database/models/agent';
-import { Agent, Capability } from '@graphql/codegen';
-import { SubscriptionEvent } from '@graphql/subscription-events';
-import log from '@log';
-import { Content, ContentType, makeRequest } from '@utils/ai/requests';
+import config from '@/config';
+import { OutputReturnMode } from '@/database/models/agent';
+import { Agent, Capability } from '@/graphql/codegen';
+import { SubscriptionEvent } from '@/graphql/subscription-events';
+import log from '@/log';
+import { Content, ContentType, makeRequest } from '@/utils/ai/requests';
 import {
   addMessageToThread,
   buildPrompt,
@@ -11,10 +11,10 @@ import {
   getAgent,
   getCapability,
   getHistory,
-} from '@utils/ai/system';
-import { pubsubClient } from '@utils/clients';
-import * as utils from '@utils/code';
-import { uuid } from 'uuidv4';
+} from '@/utils/ai/system';
+import { pubsubClient } from '@/utils/clients';
+import * as utils from '@/utils/code';
+import { v4 as uuid } from 'uuid';
 
 enum PredictionEventType {
   RECEIVED = 'RECEIVED',

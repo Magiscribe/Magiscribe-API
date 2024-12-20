@@ -129,7 +129,7 @@ export type FloatFilter = {
 export type Inquiry = {
   __typename?: 'Inquiry';
   createdAt: Scalars['Float']['output'];
-  data: Scalars['JSONObject']['output'];
+  data: InquiryData;
   id: Scalars['ID']['output'];
   responses?: Maybe<Array<InquiryResponse>>;
   updatedAt: Scalars['Float']['output'];
@@ -139,15 +139,9 @@ export type Inquiry = {
 export type InquiryData = {
   __typename?: 'InquiryData';
   draftGraph?: Maybe<Scalars['JSONObject']['output']>;
-  form: InquiryDataForm;
   graph?: Maybe<Scalars['JSONObject']['output']>;
-};
-
-export type InquiryDataForm = {
-  __typename?: 'InquiryDataForm';
-  goals: Scalars['String']['output'];
-  title: Scalars['String']['output'];
-  voice?: Maybe<Scalars['String']['output']>;
+  metadata?: Maybe<Scalars['JSONObject']['output']>;
+  settings: InquirySettings;
 };
 
 export type InquiryResponse = {
@@ -162,13 +156,40 @@ export type InquiryResponse = {
 export type InquiryResponseData = {
   __typename?: 'InquiryResponseData';
   history: Array<Scalars['JSONObject']['output']>;
-  userDetails?: Maybe<Scalars['JSONObject']['output']>;
+  status: InquiryResponseStatus;
+  userDetails?: Maybe<InquiryResponseUserDetails>;
 };
 
 export type InquiryResponseFilters = {
   createdAt?: InputMaybe<FloatFilter>;
   email?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+};
+
+export enum InquiryResponseStatus {
+  Completed = 'COMPLETED',
+  InProgress = 'IN_PROGRESS',
+  Pending = 'PENDING',
+}
+
+export type InquiryResponseUserDetails = {
+  __typename?: 'InquiryResponseUserDetails';
+  email?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  recieveEmails?: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type InquirySettings = {
+  __typename?: 'InquirySettings';
+  goals: Scalars['String']['output'];
+  notifications?: Maybe<InquirySettingsNotifications>;
+  title: Scalars['String']['output'];
+  voice?: Maybe<Scalars['String']['output']>;
+};
+
+export type InquirySettingsNotifications = {
+  __typename?: 'InquirySettingsNotifications';
+  recieveEmailOnResponse?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Model = {
@@ -318,6 +339,7 @@ export type Query = {
   getCollection?: Maybe<Collection>;
   getInquiries?: Maybe<Array<Inquiry>>;
   getInquiry?: Maybe<Inquiry>;
+  getInquiryResponse?: Maybe<InquiryResponse>;
   getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
@@ -355,6 +377,10 @@ export type QueryGetCollectionArgs = {
 };
 
 export type QueryGetInquiryArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type QueryGetInquiryResponseArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -537,10 +563,13 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Inquiry: ResolverTypeWrapper<Inquiry>;
   InquiryData: ResolverTypeWrapper<InquiryData>;
-  InquiryDataForm: ResolverTypeWrapper<InquiryDataForm>;
   InquiryResponse: ResolverTypeWrapper<InquiryResponse>;
   InquiryResponseData: ResolverTypeWrapper<InquiryResponseData>;
   InquiryResponseFilters: InquiryResponseFilters;
+  InquiryResponseStatus: InquiryResponseStatus;
+  InquiryResponseUserDetails: ResolverTypeWrapper<InquiryResponseUserDetails>;
+  InquirySettings: ResolverTypeWrapper<InquirySettings>;
+  InquirySettingsNotifications: ResolverTypeWrapper<InquirySettingsNotifications>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   Model: ResolverTypeWrapper<Model>;
@@ -574,10 +603,12 @@ export type ResolversParentTypes = {
   ID: Scalars['ID']['output'];
   Inquiry: Inquiry;
   InquiryData: InquiryData;
-  InquiryDataForm: InquiryDataForm;
   InquiryResponse: InquiryResponse;
   InquiryResponseData: InquiryResponseData;
   InquiryResponseFilters: InquiryResponseFilters;
+  InquiryResponseUserDetails: InquiryResponseUserDetails;
+  InquirySettings: InquirySettings;
+  InquirySettingsNotifications: InquirySettingsNotifications;
   Int: Scalars['Int']['output'];
   JSONObject: Scalars['JSONObject']['output'];
   Model: Model;
@@ -701,7 +732,7 @@ export type InquiryResolvers<
     ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry'],
 > = {
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  data?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
+  data?: Resolver<ResolversTypes['InquiryData'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   responses?: Resolver<
     Maybe<Array<ResolversTypes['InquiryResponse']>>,
@@ -727,23 +758,21 @@ export type InquiryDataResolvers<
     ParentType,
     ContextType
   >;
-  form?: Resolver<ResolversTypes['InquiryDataForm'], ParentType, ContextType>;
   graph?: Resolver<
     Maybe<ResolversTypes['JSONObject']>,
     ParentType,
     ContextType
   >;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type InquiryDataFormResolvers<
-  ContextType = any,
-  ParentType extends
-    ResolversParentTypes['InquiryDataForm'] = ResolversParentTypes['InquiryDataForm'],
-> = {
-  goals?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  voice?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  metadata?: Resolver<
+    Maybe<ResolversTypes['JSONObject']>,
+    ParentType,
+    ContextType
+  >;
+  settings?: Resolver<
+    ResolversTypes['InquirySettings'],
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -774,8 +803,57 @@ export type InquiryResponseDataResolvers<
     ParentType,
     ContextType
   >;
+  status?: Resolver<
+    ResolversTypes['InquiryResponseStatus'],
+    ParentType,
+    ContextType
+  >;
   userDetails?: Resolver<
-    Maybe<ResolversTypes['JSONObject']>,
+    Maybe<ResolversTypes['InquiryResponseUserDetails']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InquiryResponseUserDetailsResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['InquiryResponseUserDetails'] = ResolversParentTypes['InquiryResponseUserDetails'],
+> = {
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  recieveEmails?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InquirySettingsResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['InquirySettings'] = ResolversParentTypes['InquirySettings'],
+> = {
+  goals?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  notifications?: Resolver<
+    Maybe<ResolversTypes['InquirySettingsNotifications']>,
+    ParentType,
+    ContextType
+  >;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  voice?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type InquirySettingsNotificationsResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['InquirySettingsNotifications'] = ResolversParentTypes['InquirySettingsNotifications'],
+> = {
+  recieveEmailOnResponse?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
     ParentType,
     ContextType
   >;
@@ -1007,6 +1085,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetInquiryArgs, 'id'>
   >;
+  getInquiryResponse?: Resolver<
+    Maybe<ResolversTypes['InquiryResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetInquiryResponseArgs, 'id'>
+  >;
   getInquiryResponseCount?: Resolver<
     ResolversTypes['Int'],
     ParentType,
@@ -1099,9 +1183,11 @@ export type Resolvers<ContextType = any> = {
   Collection?: CollectionResolvers<ContextType>;
   Inquiry?: InquiryResolvers<ContextType>;
   InquiryData?: InquiryDataResolvers<ContextType>;
-  InquiryDataForm?: InquiryDataFormResolvers<ContextType>;
   InquiryResponse?: InquiryResponseResolvers<ContextType>;
   InquiryResponseData?: InquiryResponseDataResolvers<ContextType>;
+  InquiryResponseUserDetails?: InquiryResponseUserDetailsResolvers<ContextType>;
+  InquirySettings?: InquirySettingsResolvers<ContextType>;
+  InquirySettingsNotifications?: InquirySettingsNotificationsResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;

@@ -4,8 +4,8 @@ import {
   InvokeCommandInput,
 } from '@aws-sdk/client-lambda';
 import { lambdaClient } from './clients';
-import log from '@log';
-import config from '@config';
+import log from '@/log';
+import config from '@/config';
 
 /**
  * Cleans a code block by removing the ```language and ``` tags

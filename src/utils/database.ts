@@ -1,4 +1,4 @@
-import type { FloatFilter, StringFilter } from '@graphql/codegen';
+import type { FloatFilter, StringFilter } from '@/graphql/codegen';
 
 /**
  * Creates a nested update object for partial updates in databases or APIs.
@@ -23,7 +23,8 @@ export function createNestedUpdateObject({
   prefix = 'data',
   fields,
 }: {
-  data: Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any;
   prefix?: string;
   fields?: string[];
 }): Record<string, string> {
