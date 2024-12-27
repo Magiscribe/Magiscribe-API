@@ -4,3 +4,6 @@ dist
 # Node
 node_modules
 pnpm-lock.yaml
+
+# GraphQl Codegen
+src/graphql/codegen.ts
