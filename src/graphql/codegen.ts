@@ -162,6 +162,7 @@ export type InquiryResponseUserDetails = {
 
 export type InquirySettings = {
   __typename?: 'InquirySettings';
+  context?: Maybe<Scalars['String']['output']>;
   goals: Scalars['String']['output'];
   notifications?: Maybe<InquirySettingsNotifications>;
   title: Scalars['String']['output'];
@@ -689,6 +690,7 @@ export type InquiryResponseUserDetailsResolvers<ContextType = any, ParentType ex
 };
 
 export type InquirySettingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquirySettings'] = ResolversParentTypes['InquirySettings']> = {
+  context?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   goals?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notifications?: Resolver<Maybe<ResolversTypes['InquirySettingsNotifications']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

@@ -6,6 +6,7 @@ export default `#graphql
     type InquirySettings {
         title: String!
         goals: String!
+        context: String
         voice: String
         
         notifications: InquirySettingsNotifications
