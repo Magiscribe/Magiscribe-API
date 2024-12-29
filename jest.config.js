@@ -17,5 +17,6 @@ module.exports = {
     // coverage in the test environment.
     '/src/config.ts',
     '/src/log.ts',
+    '/src/database/index.ts',
   ],
 };

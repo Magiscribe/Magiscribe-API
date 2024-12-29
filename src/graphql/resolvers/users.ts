@@ -1,4 +1,10 @@
-import { getUsersByEmail, getUsersById } from '@/controllers/users';
+import {
+  getUsersByEmail,
+  getUsersById,
+  registerUser,
+} from '@/controllers/users';
+import Context from '@/customTypes/context';
+import { User } from '@/database/models/user';
 import {
   QueryGetUsersByEmailArgs,
   QueryGetUsersByIdArgs,
@@ -15,5 +21,18 @@ export default {
       getUsersById({
         userIds,
       }),
+
+    isUserRegistered: async (_, __, context: Context) => {
+      const user = await User.findOne({ sub: context.auth.sub });
+      return !!user;
+    },
+  },
+  Mutation: {
+    registerUser: async (_, __, context: Context) => {
+      const user = await registerUser({
+        sub: context.auth.sub,
+      });
+      return !!user;
+    },
   },
 };

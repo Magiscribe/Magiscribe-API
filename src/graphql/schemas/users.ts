@@ -10,5 +10,10 @@ export default `#graphql
   type Query {
     getUsersById(userIds: [String!]!): [UserData!]
     getUsersByEmail(userEmails: [String!]!): [UserData]
-  } 
+    isUserRegistered: Boolean!
+  }
+
+  type Mutation {
+    registerUser: Boolean! @auth
+  }
 `;

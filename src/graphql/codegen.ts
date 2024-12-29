@@ -193,6 +193,7 @@ export type Mutation = {
   deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
   generateAudio?: Maybe<Scalars['String']['output']>;
+  registerUser: Scalars['Boolean']['output'];
   updateInquiryOwners: Inquiry;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
@@ -344,6 +345,7 @@ export type Query = {
   getPrompt?: Maybe<Prompt>;
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
   getUsersById?: Maybe<Array<UserData>>;
+  isUserRegistered: Scalars['Boolean']['output'];
 };
 
 
@@ -725,6 +727,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteMediaAsset?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationDeleteMediaAssetArgs, 'id'>>;
   deletePrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<MutationDeletePromptArgs, 'promptId'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
+  registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;
   upsertAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationUpsertAgentArgs, 'agent'>>;
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;
@@ -770,6 +773,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
   getUsersByEmail?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserData']>>>, ParentType, ContextType, RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>>;
   getUsersById?: Resolver<Maybe<Array<ResolversTypes['UserData']>>, ParentType, ContextType, RequireFields<QueryGetUsersByIdArgs, 'userIds'>>;
+  isUserRegistered?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {

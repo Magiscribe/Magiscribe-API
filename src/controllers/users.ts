@@ -1,6 +1,8 @@
-import { User } from '@clerk/backend';
-import { clerkClient } from '@/utils/clients';
 import log from '@/log';
+import { clerkClient } from '@/utils/clients';
+import { User as ClerkUser } from '@clerk/backend';
+import { sendWelcomeEmail } from '@/utils/emails/types';
+import { User } from '@/database/models/user';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;
@@ -8,10 +10,11 @@ export const USER_LIST_PAGE_SIZE = 501;
 /** Internal user data structure */
 export interface UserInternal {
   readonly id: string;
-  readonly primaryEmailAddress: string;
-  readonly username: string | null;
-  readonly firstName: string | null;
-  readonly lastName: string | null;
+  readonly primaryEmailAddress?: string;
+  readonly phone?: string;
+  readonly username?: string | null;
+  readonly firstName?: string | null;
+  readonly lastName?: string | null;
 }
 
 /**
@@ -19,10 +22,11 @@ export interface UserInternal {
  * @param user - Clerk user object
  * @returns Mapped internal user object
  */
-function convertClerkUserToInternalUserModel(user: User): UserInternal {
+function convertClerkUserToInternalUserModel(user: ClerkUser): UserInternal {
   return {
     id: user.id,
-    primaryEmailAddress: user.primaryEmailAddress?.emailAddress ?? '',
+    primaryEmailAddress: user.primaryEmailAddress?.emailAddress,
+    phone: user.primaryPhoneNumber?.phoneNumber,
     username: user.username,
     firstName: user.firstName,
     lastName: user.lastName,
@@ -62,15 +66,17 @@ export async function getUsersById({
  * @returns User object or null if not found
  */
 export async function getUserById({
-  userId,
+  sub,
 }: {
-  userId: string;
+  sub: string;
 }): Promise<UserInternal | null> {
   try {
-    const user = await clerkClient.users.getUser(userId);
-    return user ? convertClerkUserToInternalUserModel(user) : null;
+    const user = await clerkClient.users.getUser(sub);
+    if (!user) return null;
+
+    return convertClerkUserToInternalUserModel(user);
   } catch (error) {
-    log.error({ error, userId }, 'Failed to fetch user by ID');
+    log.error({ error, userId: sub }, 'Failed to fetch user by ID');
     throw new Error('Failed to fetch user');
   }
 }
@@ -114,9 +120,47 @@ export async function getUserByEmail({
 }): Promise<UserInternal | null> {
   try {
     const users = await getUsersByEmail({ userEmails: [email] });
-    return users[0] ?? null;
+    const user = users[0] ?? null;
+
+    return user;
   } catch (error) {
     log.error({ error, email }, 'Failed to fetch user by email');
     throw new Error('Failed to fetch user');
+  }
+}
+
+/**
+ * Registers a new user in the system
+ * @param sub - User's subject ID from auth
+ * @param sendWelcome - Whether to send welcome email
+ * @returns True if registration was successful
+ */
+export async function registerUser({
+  sub,
+  sendWelcome = true,
+}: {
+  sub: string;
+  sendWelcome?: boolean;
+}): Promise<boolean> {
+  try {
+    const user = await getUserById({ sub });
+    if (!user) {
+      throw new Error('User not found in Clerk');
+    }
+
+    await User.findOneAndUpdate({ sub }, { sub }, { upsert: true });
+
+    if (sendWelcome && user.primaryEmailAddress) {
+      await sendWelcomeEmail({
+        recipientEmails: [user.primaryEmailAddress],
+        firstName: user.firstName,
+      });
+    }
+
+    return true;
+  } catch (error) {
+    log.error({ error, sub }, 'Failed to register user');
+    console.log(error);
+    throw new Error('Failed to register user');
   }
 }

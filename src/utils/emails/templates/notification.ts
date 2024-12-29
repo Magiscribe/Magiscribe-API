@@ -65,16 +65,6 @@ export default `
 </head>
 
 <body style="margin: 0; width: 100%; padding: 0; word-break: break-word; -webkit-font-smoothing: antialiased;">
-    <div style="display: none;">
-        {{preview}}
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-        &#847; &#847; &#847; &#847; &#847; &#847; &#847;&#847; &#847; &#847;
-    </div>
     <div role="article" aria-roledescription="email" aria-label="{{title}}" lang="en">
         <table class="sm-w-full" align="center" style="width: 600px;" cellpadding="0" cellspacing="0"
             role="presentation">
