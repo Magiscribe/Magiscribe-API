@@ -41,9 +41,9 @@
     "@aws-sdk/s3-request-presigner": "^3.717.0",
     "@clerk/backend": "^1.21.4",
     "@fastify/cors": "^10.0.1",
-    "@graphql-tools/schema": "^10.0.13",
-    "@graphql-tools/utils": "^10.6.4",
-    "@langchain/community": "^0.3.19",
+    "@graphql-tools/schema": "^10.0.14",
+    "@graphql-tools/utils": "^10.7.0",
+    "@langchain/community": "^0.3.20",
     "@langchain/core": "^0.3.26",
     "@newrelic/apollo-server-plugin": "^6.0.0",
     "dotenv": "^16.4.7",
@@ -78,6 +78,6 @@
     "ts-jest": "^29.2.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2"
+    "typescript-eslint": "^8.19.0"
   }
 }
