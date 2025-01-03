@@ -236,8 +236,8 @@ describe('Users Controller Unit Tests', () => {
       });
 
       expect(User.findOneAndUpdate).toHaveBeenCalledWith(
-        { sub: 'test-sub' },
-        { sub: 'test-sub' },
+        { _id: 'test-sub' },
+        { _id: 'test-sub' },
         { upsert: true },
       );
       expect(sendWelcomeEmail).toHaveBeenCalled();

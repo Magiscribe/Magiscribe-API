@@ -1,8 +1,8 @@
+import { User } from '@/database/models/user';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
-import { User as ClerkUser } from '@clerk/backend';
 import { sendWelcomeEmail } from '@/utils/emails/types';
-import { User } from '@/database/models/user';
+import { User as ClerkUser } from '@clerk/backend';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;
@@ -148,7 +148,7 @@ export async function registerUser({
       throw new Error('User not found in Clerk');
     }
 
-    await User.findOneAndUpdate({ sub }, { sub }, { upsert: true });
+    await User.findOneAndUpdate({ _id: sub }, { _id: sub }, { upsert: true });
 
     if (sendWelcome && user.primaryEmailAddress) {
       await sendWelcomeEmail({
@@ -160,7 +160,6 @@ export async function registerUser({
     return true;
   } catch (error) {
     log.error({ error, sub }, 'Failed to register user');
-    console.log(error);
     throw new Error('Failed to register user');
   }
 }

@@ -65,35 +65,53 @@ export async function findOrCreateThread(subscriptionId: string) {
  * @param {string} senderId - The ID of the sender (user or agent).
  * @param {string} message - The content of the message.
  * @param {boolean} isUser - Whether the sender is a user (true) or an agent (false).
+ * @param {Object} [tokens] - An optional object containing token usage information.
+ * @param {number} tokens.inputTokens - The number of input tokens used.
+ * @param {number} tokens.outputTokens - The number of output tokens used.
+ * @param {number} tokens.totalTokens - The total number of tokens used.
  * @returns {Promise<void>}
  */
-export async function addMessageToThread(
+export async function addToThread(
   thread: Document,
-  senderId: string,
-  message: string,
+  senderId: string | null | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response: any,
   isUser: boolean,
+  tokens?: { inputTokens: number; outputTokens: number; totalTokens: number },
 ): Promise<void> {
   await thread.updateOne({
     $push: {
       messages: {
-        [isUser ? 'userId' : 'agentId']: senderId,
+        userId: isUser ? senderId : null,
+        agentId: isUser ? null : senderId,
         response: {
           type: isUser
             ? MessageResponseTypes.Text
             : MessageResponseTypes.Command,
-          response: message,
+          response,
+          tokens: tokens,
         },
       },
     },
   });
 }
 
-export async function getHistory(thread: IThread) {
+/**
+ * Retrieves the history of a thread and formats it as a string.
+ * @param thread {IThread} - The thread to retrieve the history for.
+ * @returns {string} A promise that resolves to the formatted history string.
+ */
+export function getHistory(thread: IThread): string {
   const history = thread.messages
-    .map(
-      (message) =>
-        `${message.userId ? 'User' : 'Agent'}: ${message.response.response}`,
-    )
+    .map((message) => {
+      let response: string;
+      if (typeof message.response.response === 'string') {
+        response = message.response.response;
+      } else {
+        response = JSON.stringify(message.response.response);
+      }
+      return `${message.userId ? 'User' : 'Agent'}: ${response}`;
+    })
     .join('\n');
   return history;
 }

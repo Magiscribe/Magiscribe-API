@@ -1,7 +1,7 @@
-import { BedrockChat } from '@langchain/community/chat_models/bedrock';
-import { HumanMessage } from '@langchain/core/messages';
 import log from '@/log';
 import { withExponentialBackoff } from '@/utils/exponential-backoff';
+import { BedrockChat } from '@langchain/community/chat_models/bedrock';
+import { HumanMessage } from '@langchain/core/messages';
 
 import { LLM_MODELS_VERSION } from './models';
 
@@ -16,6 +16,15 @@ export interface Content {
     url: string;
   };
   text?: string;
+}
+
+export interface AIResponse {
+  content: string;
+  tokenUsage: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
 }
 
 /**
@@ -38,7 +47,7 @@ export async function makeRequest({
     enabled: boolean;
     callback?: (content: string) => Promise<void>;
   };
-}): Promise<string> {
+}): Promise<AIResponse> {
   const chat = new BedrockChat({
     region: LLM_MODELS_VERSION[model].region,
     model: LLM_MODELS_VERSION[model].id,
@@ -64,18 +73,42 @@ export async function makeRequest({
     return await withExponentialBackoff(async () => {
       const stream = await chat.stream([message]);
       let buffer = '';
+      let totalOutputTokens = 0;
       for await (const chunk of stream) {
         buffer += chunk.content;
+        totalOutputTokens += 1; // Approximate token count for streaming
         await streaming.callback!(chunk.content as string);
         log.debug({ msg: 'AI response chunk received', content: buffer });
       }
-      return buffer;
+      return {
+        content: buffer,
+        tokenUsage: {
+          inputTokens: message.content.length, // Approximate
+          outputTokens: totalOutputTokens,
+          totalTokens: message.content.length + totalOutputTokens,
+        },
+      };
     });
   } else {
     return await withExponentialBackoff(async () => {
       const completion = await chat.invoke([message]);
       log.debug({ msg: 'AI response received', content: completion.content });
-      return completion.content as string;
+
+      const usage = {
+        input_tokens: message.content.length, // Approximate
+        output_tokens: (completion.content as string).length, // Approximate
+        total_tokens:
+          message.content.length + (completion.content as string).length,
+      };
+
+      return {
+        content: completion.content as string,
+        tokenUsage: {
+          inputTokens: usage.input_tokens,
+          outputTokens: usage.output_tokens,
+          totalTokens: usage.total_tokens,
+        },
+      };
     });
   }
 }

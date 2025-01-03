@@ -12,6 +12,7 @@ import {
   sendOwnerNotification,
   sendRespondentConfirmation,
 } from '@/utils/emails/types';
+
 import { getUsersById } from './users';
 
 /**
@@ -185,12 +186,14 @@ export async function updateInquiryOwners({
 export async function upsertInquiryResponse({
   id,
   inquiryId,
+  threadId,
   userId,
   data,
   fields,
 }: {
   id?: string;
   inquiryId: string;
+  threadId: string;
   userId: string;
   data: TInquiryResponse['data'];
   fields?: string[];
@@ -211,6 +214,7 @@ export async function upsertInquiryResponse({
     const result = await InquiryResponse.create({
       data,
       userId,
+      threadId,
     });
 
     // Find the inquiry by ID and add the new response to its responses array if not already present

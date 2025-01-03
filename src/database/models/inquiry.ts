@@ -6,7 +6,12 @@ import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
-    userId: { type: String, required: false },
+    userId: { type: String, ref: 'User', required: false },
+    threadId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Thread',
+      required: true,
+    },
     data: {
       status: {
         type: String,
@@ -18,7 +23,6 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
         email: { type: String, required: false },
         recieveEmails: { type: Boolean, required: false },
       },
-      history: [{ type: Object, required: false }],
     },
   },
   { timestamps: true },
@@ -26,7 +30,7 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 
 const InquirySchema: Schema = new mongoose.Schema(
   {
-    userId: [{ type: String, required: true }],
+    userId: [{ type: String, ref: 'User', required: true }],
     data: {
       settings: {
         title: { type: String, required: true },
