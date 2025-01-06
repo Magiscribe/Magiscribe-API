@@ -73,6 +73,13 @@ const config = {
     testEmailTo: process.env.EMAIL_TEST_TO,
   },
 
+  sns: {
+    /**
+     * The SNS topic ARN for contact us messages.
+     */
+    contactTopicArn: process.env.CONTACT_SNS_TOPIC_ARN,
+  },
+
   aws: {
     /**
      * The region the application is running in.

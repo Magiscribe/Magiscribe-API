@@ -1,3 +1,5 @@
+import templateBranchInquiry from '@/assets/templates/demo';
+import { Inquiry } from '@/database/models/inquiry';
 import { User } from '@/database/models/user';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
@@ -137,23 +139,32 @@ export async function getUserByEmail({
  */
 export async function registerUser({
   sub,
-  sendWelcome = true,
 }: {
   sub: string;
-  sendWelcome?: boolean;
 }): Promise<boolean> {
   try {
-    const user = await getUserById({ sub });
-    if (!user) {
+    const clerkUser = await getUserById({ sub });
+    if (!clerkUser) {
       throw new Error('User not found in Clerk');
     }
 
-    await User.findOneAndUpdate({ _id: sub }, { _id: sub }, { upsert: true });
+    // Create user in our database
+    const user = await User.findOneAndUpdate({ _id: sub }, { _id: sub }, { upsert: true, new: true });
 
-    if (sendWelcome && user.primaryEmailAddress) {
+    if (!user) {
+      throw new Error('Failed to register user');
+    }
+
+    // Add default inquiry to user
+    await Inquiry.create({
+      data: templateBranchInquiry.data,
+      userId: [user._id],
+    });
+
+    if (clerkUser.primaryEmailAddress) {
       await sendWelcomeEmail({
-        recipientEmails: [user.primaryEmailAddress],
-        firstName: user.firstName,
+        recipientEmails: [clerkUser.primaryEmailAddress],
+        firstName: clerkUser.firstName,
       });
     }
 

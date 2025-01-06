@@ -54,21 +54,6 @@ export default `#graphql
         updatedAt: Float!
     }
 
-    input FloatFilter {
-        eq: Float      # Exact match
-        gt: Float      # Greater than
-        gte: Float     # Greater than or equal
-        lt: Float      # Less than
-        lte: Float     # Less than or equal
-    }
-
-    input StringFilter {
-        eq: String         # Exact match
-        contains: String   # Contains text (case-insensitive)
-        startsWith: String # Starts with text
-        endsWith: String   # Ends with text
-    }
-
     input InquiryResponseFilters {
         createdAt: FloatFilter 
         name: StringFilter    
@@ -81,6 +66,7 @@ export default `#graphql
         getInquiryResponse(id: ID!): InquiryResponse
         getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
+        getInquiryTemplates: [JSONObject!]! @auth
     }
 
     type Mutation {
@@ -88,7 +74,7 @@ export default `#graphql
         updateInquiryOwners(id: ID!, owners: [String!]!): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
 
-        upsertInquiryResponse(id: ID, inquiryId: ID!, data: JSONObject!, fields: [String!]): InquiryResponse!
+        upsertInquiryResponse(id: ID, inquiryId: ID!, threadId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
         deleteInquiryResponse(id: ID!, inquiryId: ID!): InquiryResponse @auth
     }
 `;

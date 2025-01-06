@@ -1,17 +1,9 @@
+import templates from '@/assets/templates';
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
-import {
-  InquiryResponseStatus,
-  QueryGetInquiryResponseArgs,
-  QueryGetInquiryResponsesArgs,
-  Inquiry as TInquiry,
-  InquiryResponse as TInquiryResponse,
-} from '@/graphql/codegen';
+import { InquiryResponseStatus, QueryGetInquiryResponseArgs, QueryGetInquiryResponsesArgs, Inquiry as TInquiry, InquiryResponse as TInquiryResponse } from '@/graphql/codegen';
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
-import {
-  sendOwnerNotification,
-  sendRespondentConfirmation,
-} from '@/utils/emails/types';
+import { sendOwnerNotification, sendRespondentConfirmation } from '@/utils/emails/types';
 
 import { getUsersById } from './users';
 
@@ -450,4 +442,12 @@ export async function getInquiryResponseCount(
     });
     throw new Error('Failed to fetch inquiry response count');
   }
+}
+
+/**
+ * Retrieves inquiry graph templates.
+ * @returns 
+ */
+export function getInquiryTemplates() {
+  return templates;
 }

@@ -1,13 +1,7 @@
-import {
-  getUserByEmail,
-  getUserById,
-  getUsersByEmail,
-  getUsersById,
-  registerUser,
-} from '@/controllers/users';
+import { getUserByEmail, getUserById, getUsersByEmail, getUsersById, registerUser } from '@/controllers/users';
+import { User } from '@/database/models/user';
 import { clerkClient } from '@/utils/clients';
 import { sendWelcomeEmail } from '@/utils/emails/types';
-import { User } from '@/database/models/user';
 
 jest.mock('@/utils/clients', () => ({
   clerkClient: {
@@ -241,29 +235,6 @@ describe('Users Controller Unit Tests', () => {
         { upsert: true },
       );
       expect(sendWelcomeEmail).toHaveBeenCalled();
-      expect(result).toBe(true);
-    });
-
-    it('should not send welcome email when disabled', async () => {
-      const mockUser = {
-        id: 'test-id',
-        primaryEmailAddress: { emailAddress: 'test@example.com' },
-        username: 'testuser',
-        firstName: 'Test',
-        lastName: 'User',
-      };
-
-      (clerkClient.users.getUser as jest.Mock).mockResolvedValueOnce(mockUser);
-      (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
-        sub: 'test-sub',
-      });
-
-      const result = await registerUser({
-        sub: 'test-sub',
-        sendWelcome: false,
-      });
-
-      expect(sendWelcomeEmail).not.toHaveBeenCalled();
       expect(result).toBe(true);
     });
 

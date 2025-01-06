@@ -22,7 +22,7 @@ RED="\033[1;31m"             # Red
 NC="\033[0m"                 # No Color
 
 # Set AWS SSO profile based on the first argument
-export AWS_PROFILE=${1:-"magiscribe-dev"}
+export AWS_PROFILE=${1:-"magiscribe-prod"}
 
 # Check if logged in
 echo -e "${GREEN}Checking if logged in...${NC}"
