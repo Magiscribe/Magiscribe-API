@@ -305,7 +305,7 @@ export type MutationUpsertInquiryResponseArgs = {
   fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   inquiryId: Scalars['ID']['input'];
-  threadId: Scalars['ID']['input'];
+  subscriptionId: Scalars['ID']['input'];
 };
 
 
@@ -777,7 +777,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;
   upsertCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<MutationUpsertCollectionArgs, 'input'>>;
   upsertInquiry?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpsertInquiryArgs, 'data'>>;
-  upsertInquiryResponse?: Resolver<ResolversTypes['InquiryResponse'], ParentType, ContextType, RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId' | 'threadId'>>;
+  upsertInquiryResponse?: Resolver<ResolversTypes['InquiryResponse'], ParentType, ContextType, RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId' | 'subscriptionId'>>;
   upsertPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<MutationUpsertPromptArgs, 'prompt'>>;
 };
 

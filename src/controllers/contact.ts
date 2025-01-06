@@ -11,14 +11,12 @@ interface ContactInput {
 
 /**
  * Sends a contact message to an SNS topic.
- * 
+ *
  * @param input - The contact form input containing name, email, and message
  * @returns A promise that resolves to the SNS message ID
  * @throws {Error} If sending the message fails
  */
-export async function sendContactMessage(
-  input: ContactInput
-): Promise<string> {
+export async function sendContactMessage(input: ContactInput): Promise<string> {
   log.info({
     msg: 'Sending contact message',
     email: input.email,
@@ -32,7 +30,7 @@ export async function sendContactMessage(
         timestamp: new Date().toISOString(),
       }),
       MessageAttributes: {
-        'email': {
+        email: {
           DataType: 'String',
           StringValue: input.email,
         },
@@ -40,7 +38,7 @@ export async function sendContactMessage(
     });
 
     const response = await snsClient.send(command);
-    
+
     log.info({
       msg: 'Contact message sent successfully',
       messageId: response.MessageId,
@@ -48,7 +46,8 @@ export async function sendContactMessage(
 
     return response.MessageId || '';
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown error';
     log.error({
       msg: 'Failed to send contact message',
       error: errorMessage,

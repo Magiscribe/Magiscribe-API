@@ -74,7 +74,7 @@ export default `#graphql
         updateInquiryOwners(id: ID!, owners: [String!]!): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
 
-        upsertInquiryResponse(id: ID, inquiryId: ID!, threadId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
+        upsertInquiryResponse(id: ID, inquiryId: ID!, subscriptionId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
         deleteInquiryResponse(id: ID!, inquiryId: ID!): InquiryResponse @auth
     }
 `;

@@ -33,4 +33,11 @@ const lambdaClient = new LambdaClient({
 
 const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
 
-export { snsClient, sesClient, lambdaClient, pubsubClient, s3Client, clerkClient };
+export {
+  snsClient,
+  sesClient,
+  lambdaClient,
+  pubsubClient,
+  s3Client,
+  clerkClient,
+};

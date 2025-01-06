@@ -342,7 +342,7 @@ export async function generatePrediction({
       capabilities: agent.memoryEnabled,
     });
     if (agent.memoryEnabled) {
-      variables.history = await getHistory(thread);
+      variables.history = getHistory(thread);
       log.debug({
         msg: 'history',
         history: variables.history,

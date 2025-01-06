@@ -97,7 +97,13 @@ const templateLinearInquiry: { nodes: Node[]; edges: Edge[] } = {
       data: {
         type: 'rating-multi',
         text: 'Which of the following features do you find most useful? (Select all that apply)',
-        ratings: ['Feature A', 'Feature B', 'Feature C', 'Feature D', 'Feature E'],
+        ratings: [
+          'Feature A',
+          'Feature B',
+          'Feature C',
+          'Feature D',
+          'Feature E',
+        ],
         dynamicGeneration: false,
       },
       measured: {
@@ -115,7 +121,13 @@ const templateLinearInquiry: { nodes: Node[]; edges: Edge[] } = {
       data: {
         type: 'rating-single',
         text: 'How likely are you to recommend our product/service to others?',
-        ratings: ['Not at all likely', 'Unlikely', 'Neutral', 'Likely', 'Very likely'],
+        ratings: [
+          'Not at all likely',
+          'Unlikely',
+          'Neutral',
+          'Likely',
+          'Very likely',
+        ],
         dynamicGeneration: false,
       },
       measured: {

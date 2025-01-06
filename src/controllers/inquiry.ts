@@ -1,11 +1,21 @@
 import templates from '@/assets/templates';
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
-import { InquiryResponseStatus, QueryGetInquiryResponseArgs, QueryGetInquiryResponsesArgs, Inquiry as TInquiry, InquiryResponse as TInquiryResponse } from '@/graphql/codegen';
+import {
+  InquiryResponseStatus,
+  QueryGetInquiryResponseArgs,
+  QueryGetInquiryResponsesArgs,
+  Inquiry as TInquiry,
+  InquiryResponse as TInquiryResponse,
+} from '@/graphql/codegen';
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
-import { sendOwnerNotification, sendRespondentConfirmation } from '@/utils/emails/types';
+import {
+  sendOwnerNotification,
+  sendRespondentConfirmation,
+} from '@/utils/emails/types';
 
 import { getUsersById } from './users';
+import { findOrCreateThread } from '@/utils/ai/system';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -178,14 +188,14 @@ export async function updateInquiryOwners({
 export async function upsertInquiryResponse({
   id,
   inquiryId,
-  threadId,
+  subscriptionId,
   userId,
   data,
   fields,
 }: {
   id?: string;
   inquiryId: string;
-  threadId: string;
+  subscriptionId: string;
   userId: string;
   data: TInquiryResponse['data'];
   fields?: string[];
@@ -198,6 +208,8 @@ export async function upsertInquiryResponse({
     throw new Error('Inquiry not found');
   }
 
+  const thread = await findOrCreateThread(subscriptionId);
+
   if (!id) {
     log.info({
       message: 'Creating new inquiry response',
@@ -206,7 +218,7 @@ export async function upsertInquiryResponse({
     const result = await InquiryResponse.create({
       data,
       userId,
-      threadId,
+      threadId: thread._id,
     });
 
     // Find the inquiry by ID and add the new response to its responses array if not already present
@@ -446,7 +458,7 @@ export async function getInquiryResponseCount(
 
 /**
  * Retrieves inquiry graph templates.
- * @returns 
+ * @returns
  */
 export function getInquiryTemplates() {
   return templates;

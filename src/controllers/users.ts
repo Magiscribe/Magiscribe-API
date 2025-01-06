@@ -137,11 +137,7 @@ export async function getUserByEmail({
  * @param sendWelcome - Whether to send welcome email
  * @returns True if registration was successful
  */
-export async function registerUser({
-  sub,
-}: {
-  sub: string;
-}): Promise<boolean> {
+export async function registerUser({ sub }: { sub: string }): Promise<boolean> {
   try {
     const clerkUser = await getUserById({ sub });
     if (!clerkUser) {
@@ -149,11 +145,11 @@ export async function registerUser({
     }
 
     // Create user in our database
-    const user = await User.findOneAndUpdate({ _id: sub }, { _id: sub }, { upsert: true, new: true });
-
-    if (!user) {
-      throw new Error('Failed to register user');
-    }
+    const user = await User.findOneAndUpdate(
+      { _id: sub },
+      { _id: sub },
+      { upsert: true, new: true },
+    );
 
     // Add default inquiry to user
     await Inquiry.create({

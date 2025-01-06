@@ -1,7 +1,7 @@
 import { mergeSchemas } from '@graphql-tools/schema';
-import { authDirectiveTransformer, authDirectiveTypeDefs } from './directives';
+import { authDirectiveTransformer } from './directives';
 import resolvers from './resolvers';
-import {typeDefs} from './schema';
+import { typeDefs } from './schema';
 
 /*=============================== Merge and Transform Schema ==============================*/
 

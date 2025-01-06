@@ -1,7 +1,26 @@
-import { deleteInquiry, deleteInquiryResponse, getInquiries, getInquiry, getInquiryResponse, getInquiryResponseCount, getInquiryResponses, getInquiryTemplates, upsertInquiry, upsertInquiryResponse } from '@/controllers/inquiry';
+import {
+  deleteInquiry,
+  deleteInquiryResponse,
+  getInquiries,
+  getInquiry,
+  getInquiryResponse,
+  getInquiryResponseCount,
+  getInquiryResponses,
+  getInquiryTemplates,
+  upsertInquiry,
+  upsertInquiryResponse,
+} from '@/controllers/inquiry';
 import Context from '@/customTypes/context';
-import { MutationDeleteInquiryArgs, MutationDeleteInquiryResponseArgs, MutationUpsertInquiryArgs, MutationUpsertInquiryResponseArgs, QueryGetInquiryArgs, QueryGetInquiryResponseArgs, QueryGetInquiryResponseCountArgs, QueryGetInquiryResponsesArgs } from '@/graphql/codegen';
-import log from '@/log';
+import {
+  MutationDeleteInquiryArgs,
+  MutationDeleteInquiryResponseArgs,
+  MutationUpsertInquiryArgs,
+  MutationUpsertInquiryResponseArgs,
+  QueryGetInquiryArgs,
+  QueryGetInquiryResponseArgs,
+  QueryGetInquiryResponseCountArgs,
+  QueryGetInquiryResponsesArgs,
+} from '@/graphql/codegen';
 
 export default {
   Mutation: {
@@ -35,7 +54,7 @@ export default {
       return upsertInquiryResponse({
         id: args.id ?? undefined,
         inquiryId: args.inquiryId,
-        threadId: args.threadId,
+        subscriptionId: args.subscriptionId,
         data: args.data,
         fields: args.fields ?? undefined,
         userId: context?.auth?.sub,
@@ -69,6 +88,6 @@ export default {
       context: Context,
     ) => getInquiryResponseCount(args.id, context.auth.sub),
 
-    getInquiryTemplates: () => getInquiryTemplates()
+    getInquiryTemplates: () => getInquiryTemplates(),
   },
 };
