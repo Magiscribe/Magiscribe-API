@@ -6,7 +6,12 @@ import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
   {
-    userId: { type: String, required: false },
+    userId: { type: String, ref: 'User', required: false },
+    threadId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Thread',
+      required: true,
+    },
     data: {
       status: {
         type: String,
@@ -18,6 +23,10 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
         email: { type: String, required: false },
         recieveEmails: { type: Boolean, required: false },
       },
+
+      // VERY IMPORTANT: This is a history of the responses that the user has made. This is not equivalent with the threadId's history above.
+      //                 The threadId keeps track of all API calls to the LLM, while this keeps track of the responses that the user has made,
+      //                 which may or may not go to the thread history--not every response needs to be sent to the LLM.
       history: [{ type: Object, required: false }],
     },
   },
@@ -26,7 +35,7 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 
 const InquirySchema: Schema = new mongoose.Schema(
   {
-    userId: [{ type: String, required: true }],
+    userId: [{ type: String, ref: 'User', required: true }],
     data: {
       settings: {
         title: { type: String, required: true },

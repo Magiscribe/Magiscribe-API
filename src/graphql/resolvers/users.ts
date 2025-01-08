@@ -23,7 +23,7 @@ export default {
       }),
 
     isUserRegistered: async (_, __, context: Context) => {
-      const user = await User.findOne({ sub: context.auth.sub });
+      const user = await User.findOne({ _id: context.auth.sub });
       return !!user;
     },
   },

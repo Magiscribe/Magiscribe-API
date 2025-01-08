@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
+  // We alias the _id field to sub.
   {
-    sub: {
+    _id: {
       type: String,
-      required: true,
-      unique: true,
+      alias: 'sub',
     },
   },
   {

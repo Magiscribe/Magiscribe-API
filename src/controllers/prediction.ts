@@ -5,7 +5,7 @@ import { SubscriptionEvent } from '@/graphql/subscription-events';
 import log from '@/log';
 import { Content, ContentType, makeRequest } from '@/utils/ai/requests';
 import {
-  addMessageToThread,
+  addToThread,
   buildPrompt,
   findOrCreateThread,
   getAgent,
@@ -24,6 +24,19 @@ enum PredictionEventType {
   DEBUG = 'DEBUG',
 }
 
+interface ReasoningResponse {
+  processingSteps: Array<{
+    prompt: string;
+    context: string;
+    capabilityAlias: string;
+  }>;
+  tokenUsage: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+}
+
 /**
  * Using the reasoning prompt provided in the agent, this function will preprocess and is aimed at
  * providing a more structured approach to the reasoning process. The function will return an array
@@ -39,18 +52,14 @@ enum PredictionEventType {
 async function reason(
   variables: { [key: string]: string },
   agent: Agent,
-): Promise<Array<{
-  prompt: string;
-  context: string;
-  capabilityAlias: string;
-}> | null> {
+): Promise<ReasoningResponse | null> {
   if (!agent.reasoning) {
     return null;
   }
 
   const prompt = await buildPrompt(agent.reasoning.prompt, variables);
 
-  const preprocessingResponse = await makeRequest({
+  const response = await makeRequest({
     content: [
       {
         type: ContentType.TEXT,
@@ -59,13 +68,21 @@ async function reason(
     ],
     model: agent.reasoning.llmModel,
   });
-  const cleanedPreprocessingResponse = utils.cleanCodeBlock(
-    preprocessingResponse,
-  );
+
+  const cleanedPreprocessingResponse = utils.cleanCodeBlock(response.content);
 
   try {
     const parsedResponse = JSON.parse(cleanedPreprocessingResponse);
-    return parsedResponse.processingSteps;
+
+    log.debug({
+      msg: 'Reasoning step token usage',
+      tokenUsage: response.tokenUsage,
+    });
+
+    return {
+      processingSteps: parsedResponse.processingSteps,
+      tokenUsage: response.tokenUsage,
+    };
   } catch (error) {
     log.error({
       msg: 'Failed to parse cleaned preprocessing response',
@@ -76,11 +93,11 @@ async function reason(
 }
 
 async function getSteps(agent: Agent, variables: { [key: string]: string }) {
-  const reasoningSteps = await reason(variables, agent);
+  const reasoningResult = await reason(variables, agent);
 
   // If, we have reasoning steps, we need to return an array of steps
   // with the prompt and a capability object that wlll perform the action.
-  if (reasoningSteps) {
+  if (reasoningResult) {
     // With reasoning, initial variables can be optional passed through to the
     // capability.
     const passThroughVariables = agent.reasoning?.variablePassThrough
@@ -88,7 +105,7 @@ async function getSteps(agent: Agent, variables: { [key: string]: string }) {
       : {};
 
     return (await Promise.all(
-      reasoningSteps.map(async (step) => ({
+      reasoningResult.processingSteps.map(async (step) => ({
         ...passThroughVariables,
         ...step,
         capability: await getCapability(step.capabilityAlias),
@@ -117,7 +134,15 @@ async function executeStep(
   },
   attachments: Array<Content>,
   eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
-): Promise<string> {
+): Promise<{
+  content: string;
+  tokenUsage: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+  model: string;
+}> {
   if (!step.capability) {
     throw new Error(`No capability found.`);
   }
@@ -142,7 +167,7 @@ async function executeStep(
     step as { [key: string]: string },
   );
 
-  const result = await makeRequest({
+  const response = await makeRequest({
     content: [
       {
         type: ContentType.TEXT,
@@ -166,6 +191,9 @@ async function executeStep(
         : undefined,
   });
 
+  const result = response.content;
+  let finalResult: string;
+
   if (
     [
       OutputReturnMode.SYNCHRONOUS_EXECUTION_AGGREGATE,
@@ -182,10 +210,16 @@ async function executeStep(
       eventPublisher(PredictionEventType.DATA, executedResult);
     }
 
-    return utils.applyFilter(executedResult, capability.outputFilter);
+    finalResult = utils.applyFilter(executedResult, capability.outputFilter);
+  } else {
+    finalResult = utils.applyFilter(result, capability.outputFilter);
   }
 
-  return utils.applyFilter(result, capability.outputFilter);
+  return {
+    content: finalResult,
+    tokenUsage: response.tokenUsage,
+    model: llmModelAlias ?? capability.llmModel,
+  };
 }
 
 /**
@@ -200,11 +234,36 @@ async function executeSteps(
   }>,
   attachments: Array<Content>,
   eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
-): Promise<string> {
+): Promise<{
+  content: string;
+  tokenUsage: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+  model: string;
+}> {
   const results = await Promise.all(
     steps.map((step) => executeStep(step, attachments, eventPublisher)),
   );
-  return JSON.stringify(results.filter((item) => item !== null));
+
+  // Aggregate token usage from all steps
+  const totalTokenUsage = results.reduce(
+    (acc, result) => ({
+      inputTokens: acc.inputTokens + result.tokenUsage.inputTokens,
+      outputTokens: acc.outputTokens + result.tokenUsage.outputTokens,
+      totalTokens: acc.totalTokens + result.tokenUsage.totalTokens,
+    }),
+    { inputTokens: 0, outputTokens: 0, totalTokens: 0 },
+  );
+
+  return {
+    content: JSON.stringify(
+      results.map((r) => r.content).filter((item) => item !== null),
+    ),
+    tokenUsage: totalTokenUsage,
+    model: results[results.length - 1].model, // Use the last model used in the chain
+  };
 }
 
 /**
@@ -273,36 +332,50 @@ export async function generatePrediction({
   const publishEvent = createEventPublisher(uuid(), subscriptionId);
 
   try {
-    await publishEvent(PredictionEventType.RECEIVED, variables.userMessage);
+    await publishEvent(PredictionEventType.RECEIVED);
     log.info({ msg: 'Prediction generation started', auth, variables });
 
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
     const thread = await findOrCreateThread(subscriptionId);
-    await addMessageToThread(
-      thread,
-      auth?.sub ?? 'Unauthenticated',
-      variables.userMessage,
-      true,
-    );
+    await addToThread(thread, auth?.sub, variables, true);
 
+    log.debug({
+      msg: 'memoryEnabled',
+      capabilities: agent.memoryEnabled,
+    });
     if (agent.memoryEnabled) {
-      variables.history = await getHistory(thread);
+      variables.history = getHistory(thread);
+      log.debug({
+        msg: 'history',
+        history: variables.history,
+      });
     }
 
     const steps = await getSteps(agent, variables);
-    const result = await executeSteps(steps, attachments, publishEvent);
+    const {
+      content: result,
+      tokenUsage,
+      model,
+    } = await executeSteps(steps, attachments, publishEvent);
 
     await publishEvent(PredictionEventType.SUCCESS, result);
-    await addMessageToThread(
+    await addToThread(
       thread,
       agent.id,
       utils.applyFilter(result, agent.outputFilter),
       false,
+      tokenUsage,
+      model,
     );
 
-    log.info({ msg: 'Prediction generation successful', auth, result });
+    log.info({
+      msg: 'Prediction generation successful',
+      auth,
+      result,
+      tokenUsage,
+    });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';

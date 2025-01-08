@@ -6,6 +6,7 @@ import {
   getInquiryResponse,
   getInquiryResponseCount,
   getInquiryResponses,
+  getInquiryTemplates,
   upsertInquiry,
   upsertInquiryResponse,
 } from '@/controllers/inquiry';
@@ -53,6 +54,7 @@ export default {
       return upsertInquiryResponse({
         id: args.id ?? undefined,
         inquiryId: args.inquiryId,
+        subscriptionId: args.subscriptionId,
         data: args.data,
         fields: args.fields ?? undefined,
         userId: context?.auth?.sub,
@@ -85,5 +87,7 @@ export default {
       args: QueryGetInquiryResponseCountArgs,
       context: Context,
     ) => getInquiryResponseCount(args.id, context.auth.sub),
+
+    getInquiryTemplates: () => getInquiryTemplates(),
   },
 };

@@ -1,8 +1,9 @@
+import config from '@/config';
 import { LambdaClient } from '@aws-sdk/client-lambda';
 import { S3Client } from '@aws-sdk/client-s3';
 import { SESClient } from '@aws-sdk/client-ses';
+import { SQSClient } from '@aws-sdk/client-sqs';
 import { createClerkClient } from '@clerk/backend';
-import config from '@/config';
 import { PubSub } from 'graphql-subscriptions';
 
 /*================================ Apollo ==============================*/
@@ -22,7 +23,8 @@ const pubsubClient = new PubSub();
 /*================================ AWS ==============================*/
 
 const s3Client = new S3Client();
-const sesClient = new SESClient({ region: config.aws.region });
+const sqsClient = new SQSClient();
+const sesClient = new SESClient();
 const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
 });
@@ -31,4 +33,11 @@ const lambdaClient = new LambdaClient({
 
 const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
 
-export { sesClient, lambdaClient, pubsubClient, s3Client, clerkClient };
+export {
+  sqsClient,
+  sesClient,
+  lambdaClient,
+  pubsubClient,
+  s3Client,
+  clerkClient,
+};

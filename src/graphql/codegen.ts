@@ -99,6 +99,18 @@ export type CollectionInput = {
   name: Scalars['String']['input'];
 };
 
+export type ContactInput = {
+  email: Scalars['String']['input'];
+  message: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type ContactResponse = {
+  __typename?: 'ContactResponse';
+  messageId?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type FloatFilter = {
   eq?: InputMaybe<Scalars['Float']['input']>;
   gt?: InputMaybe<Scalars['Float']['input']>;
@@ -185,6 +197,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addMediaAsset?: Maybe<AddMediaAssetResponse>;
   addPrediction?: Maybe<Scalars['String']['output']>;
+  contact: ContactResponse;
   deleteAgent?: Maybe<Agent>;
   deleteCapability?: Maybe<Capability>;
   deleteCollection?: Maybe<Collection>;
@@ -209,6 +222,11 @@ export type MutationAddPredictionArgs = {
   attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
   subscriptionId: Scalars['ID']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
+};
+
+
+export type MutationContactArgs = {
+  input: ContactInput;
 };
 
 
@@ -287,6 +305,7 @@ export type MutationUpsertInquiryResponseArgs = {
   fields?: InputMaybe<Array<Scalars['String']['input']>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   inquiryId: Scalars['ID']['input'];
+  subscriptionId: Scalars['ID']['input'];
 };
 
 
@@ -341,6 +360,7 @@ export type Query = {
   getInquiryResponse?: Maybe<InquiryResponse>;
   getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
+  getInquiryTemplates: Array<Scalars['JSONObject']['output']>;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
@@ -423,6 +443,12 @@ export type QueryGetUsersByEmailArgs = {
 export type QueryGetUsersByIdArgs = {
   userIds: Array<Scalars['String']['input']>;
 };
+
+export enum Role {
+  Admin = 'admin',
+  Default = 'default',
+  Member = 'member'
+}
 
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
@@ -538,6 +564,8 @@ export type ResolversTypes = {
   CapabilityInput: CapabilityInput;
   Collection: ResolverTypeWrapper<Collection>;
   CollectionInput: CollectionInput;
+  ContactInput: ContactInput;
+  ContactResponse: ResolverTypeWrapper<ContactResponse>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   FloatFilter: FloatFilter;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -559,6 +587,7 @@ export type ResolversTypes = {
   Prompt: ResolverTypeWrapper<Prompt>;
   PromptInput: PromptInput;
   Query: ResolverTypeWrapper<{}>;
+  Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
@@ -578,6 +607,8 @@ export type ResolversParentTypes = {
   CapabilityInput: CapabilityInput;
   Collection: Collection;
   CollectionInput: CollectionInput;
+  ContactInput: ContactInput;
+  ContactResponse: ContactResponse;
   Float: Scalars['Float']['output'];
   FloatFilter: FloatFilter;
   ID: Scalars['ID']['output'];
@@ -603,6 +634,12 @@ export type ResolversParentTypes = {
   UserData: UserData;
   Voice: Voice;
 };
+
+export type AuthDirectiveArgs = {
+  requires?: Maybe<Role>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AddMediaAssetResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AddMediaAssetResponse'] = ResolversParentTypes['AddMediaAssetResponse']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -647,6 +684,12 @@ export type CapabilityResolvers<ContextType = any, ParentType extends ResolversP
 export type CollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Collection'] = ResolversParentTypes['Collection']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ContactResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ContactResponse'] = ResolversParentTypes['ContactResponse']> = {
+  messageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -719,6 +762,7 @@ export type ModelResolvers<ContextType = any, ParentType extends ResolversParent
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addMediaAsset?: Resolver<Maybe<ResolversTypes['AddMediaAssetResponse']>, ParentType, ContextType>;
   addPrediction?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddPredictionArgs, 'agentId' | 'subscriptionId'>>;
+  contact?: Resolver<ResolversTypes['ContactResponse'], ParentType, ContextType, RequireFields<MutationContactArgs, 'input'>>;
   deleteAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationDeleteAgentArgs, 'agentId'>>;
   deleteCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationDeleteCapabilityArgs, 'capabilityId'>>;
   deleteCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<MutationDeleteCollectionArgs, 'collectionId'>>;
@@ -733,7 +777,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;
   upsertCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<MutationUpsertCollectionArgs, 'input'>>;
   upsertInquiry?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpsertInquiryArgs, 'data'>>;
-  upsertInquiryResponse?: Resolver<ResolversTypes['InquiryResponse'], ParentType, ContextType, RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId'>>;
+  upsertInquiryResponse?: Resolver<ResolversTypes['InquiryResponse'], ParentType, ContextType, RequireFields<MutationUpsertInquiryResponseArgs, 'data' | 'inquiryId' | 'subscriptionId'>>;
   upsertPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<MutationUpsertPromptArgs, 'prompt'>>;
 };
 
@@ -769,6 +813,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getInquiryResponse?: Resolver<Maybe<ResolversTypes['InquiryResponse']>, ParentType, ContextType, RequireFields<QueryGetInquiryResponseArgs, 'id'>>;
   getInquiryResponseCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QueryGetInquiryResponseCountArgs, 'id'>>;
   getInquiryResponses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType, RequireFields<QueryGetInquiryResponsesArgs, 'id'>>;
+  getInquiryTemplates?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   getMediaAsset?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetMediaAssetArgs, 'id'>>;
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
   getUsersByEmail?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserData']>>>, ParentType, ContextType, RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>>;
@@ -802,6 +847,7 @@ export type Resolvers<ContextType = any> = {
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
   Collection?: CollectionResolvers<ContextType>;
+  ContactResponse?: ContactResponseResolvers<ContextType>;
   Inquiry?: InquiryResolvers<ContextType>;
   InquiryData?: InquiryDataResolvers<ContextType>;
   InquiryResponse?: InquiryResponseResolvers<ContextType>;
@@ -820,3 +866,6 @@ export type Resolvers<ContextType = any> = {
   Voice?: VoiceResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = any> = {
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
+};

@@ -20,6 +20,12 @@ interface IMessage {
 interface IMessageResponse {
   type: MessageResponseTypes;
   response: string;
+  model?: string;
+  tokens?: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
 }
 
 const ThreadSchema = new Schema<IThread>({
@@ -33,7 +39,16 @@ const ThreadSchema = new Schema<IThread>({
           type: String,
           enum: ['text', 'command', 'error'],
         },
-        response: String,
+        response: { type: Object, required: true },
+      },
+      model: { type: String, required: false },
+      tokens: {
+        type: {
+          inputTokens: Number,
+          outputTokens: Number,
+          totalTokens: Number,
+        },
+        required: false,
       },
       createdAt: { type: Date, default: Date.now },
     },

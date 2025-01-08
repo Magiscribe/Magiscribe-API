@@ -5,9 +5,10 @@ import {
   getUsersById,
   registerUser,
 } from '@/controllers/users';
+import { Inquiry } from '@/database/models/inquiry';
+import { User } from '@/database/models/user';
 import { clerkClient } from '@/utils/clients';
 import { sendWelcomeEmail } from '@/utils/emails/types';
-import { User } from '@/database/models/user';
 
 jest.mock('@/utils/clients', () => ({
   clerkClient: {
@@ -25,6 +26,12 @@ jest.mock('@/utils/emails/types', () => ({
 jest.mock('@/database/models/user', () => ({
   User: {
     findOneAndUpdate: jest.fn(),
+  },
+}));
+
+jest.mock('@/database/models/inquiry', () => ({
+  Inquiry: {
+    create: jest.fn(),
   },
 }));
 
@@ -230,40 +237,18 @@ describe('Users Controller Unit Tests', () => {
       (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
         sub: 'test-sub',
       });
+      (Inquiry.create as jest.Mock).mockResolvedValueOnce({ id: 'test-id' });
 
       const result = await registerUser({
         sub: 'test-sub',
       });
 
       expect(User.findOneAndUpdate).toHaveBeenCalledWith(
-        { sub: 'test-sub' },
-        { sub: 'test-sub' },
-        { upsert: true },
+        { _id: 'test-sub' },
+        { _id: 'test-sub' },
+        { upsert: true, new: true },
       );
       expect(sendWelcomeEmail).toHaveBeenCalled();
-      expect(result).toBe(true);
-    });
-
-    it('should not send welcome email when disabled', async () => {
-      const mockUser = {
-        id: 'test-id',
-        primaryEmailAddress: { emailAddress: 'test@example.com' },
-        username: 'testuser',
-        firstName: 'Test',
-        lastName: 'User',
-      };
-
-      (clerkClient.users.getUser as jest.Mock).mockResolvedValueOnce(mockUser);
-      (User.findOneAndUpdate as jest.Mock).mockResolvedValueOnce({
-        sub: 'test-sub',
-      });
-
-      const result = await registerUser({
-        sub: 'test-sub',
-        sendWelcome: false,
-      });
-
-      expect(sendWelcomeEmail).not.toHaveBeenCalled();
       expect(result).toBe(true);
     });
 

@@ -17,6 +17,8 @@
   - [General Setup](#general-setup)
   - [API Development Setup](#api-development-setup)
     - [Docker Build and Run](#docker-build-and-run)
+- [Technical Documentation](#technical-documentation)
+  - [ERD](#erd)
 
 # Overview
 
@@ -130,4 +132,113 @@ To run the application using Docker, you can run the following command:
 ```bash
 docker build -t graphql-api .
 docker run -p 3000:3000 graphql-api -e PORT=3000 -d
+```
+
+# Technical Documentation
+
+## ERD
+
+```mermaid
+erDiagram
+    User {
+        string _id
+        date createdAt
+        date updatedAt
+    }
+
+    Inquiry {
+        string[] userId
+        object data
+        ObjectId[] responses
+        date createdAt
+        date updatedAt
+    }
+
+    InquiryResponse {
+        string userId
+        object data
+        ObjectId threadId
+        date createdAt
+        date updatedAt
+    }
+
+    Collection {
+        string name
+        date createdAt
+        date updatedAt
+    }
+
+    Prompt {
+        string name
+        ObjectId logicalCollection
+        string text
+        date createdAt
+        date updatedAt
+    }
+
+    Capability {
+        string name
+        ObjectId logicalCollection
+        string alias
+        string llmModel
+        string description
+        ObjectId[] prompts
+        string outputMode
+        string subscriptionFilter
+        string outputFilter
+        date createdAt
+        date updatedAt
+    }
+
+    Agent {
+        string name
+        ObjectId logicalCollection
+        string description
+        object reasoning
+        ObjectId[] capabilities
+        boolean memoryEnabled
+        string subscriptionFilter
+        string outputFilter
+        date createdAt
+        date updatedAt
+    }
+
+    Asset {
+        string[] owners
+        string s3Key
+        date createdAt
+        date updatedAt
+    }
+
+    Thread {
+        string subscriptionId
+        object[] messages
+        date createdAt
+        date updatedAt
+    }
+
+    Audio {
+        string text
+        string voiceId
+        string s3Key
+        date expiresAt
+        date createdAt
+        date updatedAt
+    }
+
+    User ||--o{ Inquiry : "creates"
+    User ||--o{ InquiryResponse : "has"
+    User ||--o{ Asset : "owns"
+    User ||--o{ Thread : "participates in"
+    User ||--o{ Audio : "creates"
+    Inquiry ||--o{ InquiryResponse : "has"
+    InquiryResponse ||--|| Thread : "references"
+    Collection ||--o{ Prompt : "contains"
+    Collection ||--o{ Capability : "contains"
+    Collection ||--o{ Agent : "contains"
+    Prompt }|--o{ Capability : "used by"
+    Capability }|--o{ Agent : "belongs to"
+    Agent ||--o{ Thread : "participates in"
+    Thread ||--o{ Message : "contains"
+
 ```

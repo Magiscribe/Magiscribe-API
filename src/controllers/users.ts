@@ -1,8 +1,10 @@
+import templateBranchInquiry from '@/assets/templates/demo';
+import { Inquiry } from '@/database/models/inquiry';
+import { User } from '@/database/models/user';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
-import { User as ClerkUser } from '@clerk/backend';
 import { sendWelcomeEmail } from '@/utils/emails/types';
-import { User } from '@/database/models/user';
+import { User as ClerkUser } from '@clerk/backend';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;
@@ -135,32 +137,36 @@ export async function getUserByEmail({
  * @param sendWelcome - Whether to send welcome email
  * @returns True if registration was successful
  */
-export async function registerUser({
-  sub,
-  sendWelcome = true,
-}: {
-  sub: string;
-  sendWelcome?: boolean;
-}): Promise<boolean> {
+export async function registerUser({ sub }: { sub: string }): Promise<boolean> {
   try {
-    const user = await getUserById({ sub });
-    if (!user) {
+    const clerkUser = await getUserById({ sub });
+    if (!clerkUser) {
       throw new Error('User not found in Clerk');
     }
 
-    await User.findOneAndUpdate({ sub }, { sub }, { upsert: true });
+    // Create user in our database
+    const user = await User.findOneAndUpdate(
+      { _id: sub },
+      { _id: sub },
+      { upsert: true, new: true },
+    );
 
-    if (sendWelcome && user.primaryEmailAddress) {
+    // Add default inquiry to user
+    await Inquiry.create({
+      data: templateBranchInquiry.data,
+      userId: [user._id],
+    });
+
+    if (clerkUser.primaryEmailAddress) {
       await sendWelcomeEmail({
-        recipientEmails: [user.primaryEmailAddress],
-        firstName: user.firstName,
+        recipientEmails: [clerkUser.primaryEmailAddress],
+        firstName: clerkUser.firstName,
       });
     }
 
     return true;
   } catch (error) {
     log.error({ error, sub }, 'Failed to register user');
-    console.log(error);
     throw new Error('Failed to register user');
   }
 }

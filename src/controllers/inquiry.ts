@@ -1,3 +1,4 @@
+import templates from '@/assets/templates';
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
 import {
   InquiryResponseStatus,
@@ -12,7 +13,9 @@ import {
   sendOwnerNotification,
   sendRespondentConfirmation,
 } from '@/utils/emails/types';
+
 import { getUsersById } from './users';
+import { findOrCreateThread } from '@/utils/ai/system';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -185,12 +188,14 @@ export async function updateInquiryOwners({
 export async function upsertInquiryResponse({
   id,
   inquiryId,
+  subscriptionId,
   userId,
   data,
   fields,
 }: {
   id?: string;
   inquiryId: string;
+  subscriptionId: string;
   userId: string;
   data: TInquiryResponse['data'];
   fields?: string[];
@@ -203,6 +208,8 @@ export async function upsertInquiryResponse({
     throw new Error('Inquiry not found');
   }
 
+  const thread = await findOrCreateThread(subscriptionId);
+
   if (!id) {
     log.info({
       message: 'Creating new inquiry response',
@@ -211,6 +218,7 @@ export async function upsertInquiryResponse({
     const result = await InquiryResponse.create({
       data,
       userId,
+      threadId: thread._id,
     });
 
     // Find the inquiry by ID and add the new response to its responses array if not already present
@@ -446,4 +454,12 @@ export async function getInquiryResponseCount(
     });
     throw new Error('Failed to fetch inquiry response count');
   }
+}
+
+/**
+ * Retrieves inquiry graph templates.
+ * @returns
+ */
+export function getInquiryTemplates() {
+  return templates;
 }

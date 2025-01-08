@@ -1,12 +1,7 @@
 import { mergeSchemas } from '@graphql-tools/schema';
-import { authDirectiveTransformer, authDirectiveTypeDefs } from './directives';
+import { authDirectiveTransformer } from './directives';
 import resolvers from './resolvers';
-import schemas from './schemas';
-
-/*=============================== Load Type Definitions ==============================*/
-
-// Combine custom directive type definitions with loaded schema documents.
-const typeDefs = [authDirectiveTypeDefs, ...schemas];
+import { typeDefs } from './schema';
 
 /*=============================== Merge and Transform Schema ==============================*/
 

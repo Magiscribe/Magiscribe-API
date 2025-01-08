@@ -73,6 +73,13 @@ const config = {
     testEmailTo: process.env.EMAIL_TEST_TO,
   },
 
+  sqs: {
+    /**
+     * The SNS topic ARN for contact us messages.
+     */
+    contactQueueUrl: process.env.CONTACT_SQS_TOPIC_URL,
+  },
+
   aws: {
     /**
      * The region the application is running in.
