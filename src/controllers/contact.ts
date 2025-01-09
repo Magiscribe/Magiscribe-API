@@ -2,6 +2,7 @@ import config from '@/config';
 import log from '@/log';
 import { sqsClient } from '@/utils/clients';
 import { SendMessageCommand } from '@aws-sdk/client-sqs';
+import { v4 as uuid } from 'uuid';
 
 interface ContactInput {
   name: string;
@@ -25,6 +26,7 @@ export async function sendContactMessage(input: ContactInput): Promise<string> {
   try {
     const command = new SendMessageCommand({
       QueueUrl: config.sqs.contactQueueUrl,
+      MessageGroupId: uuid(),
       MessageBody: JSON.stringify({
         ...input,
         timestamp: new Date().toISOString(),
