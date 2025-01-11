@@ -190,14 +190,13 @@
       "66e0be6d9337a12aa64c0bc1",
       "673ebeedf85550a742a85875",
       "675f26e482eb4e2c7a85d891",
-      "66bf8ccba9430d3fa1391445",
-      "676fa59ddc25d77e31902ffc"
+      "66bf8ccba9430d3fa1391445"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-12-28T07:17:43.289Z",
+    "updatedAt": "2024-12-15T18:59:27.473Z",
     "__v": 0
   },
   {
@@ -214,14 +213,13 @@
       "66e0be6d9337a12aa64c0bc1",
       "673ebeedf85550a742a85875",
       "675f26e482eb4e2c7a85d891",
-      "66bf8ccba9430d3fa1391445",
-      "676fa59ddc25d77e31902ffc"
+      "66bf8ccba9430d3fa1391445"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-12-28T07:16:15.195Z",
+    "updatedAt": "2024-12-15T18:59:03.364Z",
     "__v": 0
   },
   {
@@ -616,6 +614,27 @@
     "outputFilter": null,
     "createdAt": "2024-08-22T03:13:27.124Z",
     "updatedAt": "2024-11-09T15:55:02.435Z",
+    "__v": 0
+  },
+  {
+    "_id": "6781f34b2bb441a29a7438b3",
+    "name": "Synthetic Product Data",
+    "logicalCollection": "6781f2542bb441a29a74387c",
+    "alias": "SyntheticProductDataGenerator",
+    "llmModel": "CLAUDE_3_5_SONNET_V2",
+    "description": "Synthetic generation of user purchase data",
+    "prompts": [
+      "6781f30f2bb441a29a74389e",
+      "6781f31c2bb441a29a7438a4",
+      "6781f28e2bb441a29a74388a",
+      "6781f2712bb441a29a743884",
+      "6781f2a72bb441a29a743890"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2025-01-11T04:27:55.146Z",
+    "updatedAt": "2025-01-11T04:30:25.546Z",
     "__v": 0
   }
 ]

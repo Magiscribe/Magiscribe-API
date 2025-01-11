@@ -26,5 +26,12 @@
     "createdAt": "2024-10-29T17:26:34.090Z",
     "updatedAt": "2024-10-29T17:26:34.090Z",
     "__v": 0
+  },
+  {
+    "_id": "6781f2542bb441a29a74387c",
+    "name": "User Purchase Data Generator",
+    "createdAt": "2025-01-11T04:23:48.054Z",
+    "updatedAt": "2025-01-11T04:23:48.054Z",
+    "__v": 0
   }
 ]
