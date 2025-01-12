@@ -60,7 +60,16 @@ const templateBranchInquiry = {
         y: 300.5,
       },
       data: {
-        text: "If the user's rating is 'Good' or 'Excellent', route to node y8wj. Otherwise, route to node l5rb.",
+        conditions: [
+          {
+            to: 'y8wj',
+            condition: "If the user's rating is 'Good' or 'Excellent'",
+          },
+          {
+            to: 'l5rb',
+            condition: 'Otherwise',
+          },
+        ],
       },
       measured: {
         width: 384,
@@ -132,7 +141,16 @@ const templateBranchInquiry = {
         y: 300.5,
       },
       data: {
-        text: "If 'Customer Service' is selected in node h6td, route to node s4kf. Otherwise, route to node m1vz.",
+        conditions: [
+          {
+            to: 's4kf',
+            condition: "If 'Customer Service' is selected",
+          },
+          {
+            to: 'm1vz',
+            condition: 'Otherwise',
+          },
+        ],
       },
       measured: {
         width: 384,
@@ -273,5 +291,4 @@ const templateBranchInquiry = {
     },
   ],
 };
-
 export default templateBranchInquiry;

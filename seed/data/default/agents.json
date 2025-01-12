@@ -5,9 +5,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Analyzes data received by the Inquiry and provides either a conversation summary or a summary for all possible answers to a particular question.",
     "reasoning": null,
-    "capabilities": [
-      "669bee8d6773961cdf4604ae"
-    ],
+    "capabilities": ["669bee8d6773961cdf4604ae"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -44,9 +42,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Chooses which node to go to next given the node visit history and graph",
     "reasoning": null,
-    "capabilities": [
-      "66bf8c22a9430d3fa139143a"
-    ],
+    "capabilities": ["66bf8c22a9430d3fa139143a"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -65,9 +61,7 @@
       "variablePassThrough": true,
       "_id": "672f8523750dff3bd2bcb50b"
     },
-    "capabilities": [
-      "66c25d95cbd9c2075c1e5f4e"
-    ],
+    "capabilities": ["66c25d95cbd9c2075c1e5f4e"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -81,9 +75,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "For a given graph, creates synthetic node visit data",
     "reasoning": null,
-    "capabilities": [
-      "66c0040e525628d5c5861ed8"
-    ],
+    "capabilities": ["66c0040e525628d5c5861ed8"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -97,9 +89,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Generates the question to ask next given the node visit history and graph",
     "reasoning": null,
-    "capabilities": [
-      "66c8a9f8d28a5133dd801ab7"
-    ],
+    "capabilities": ["66c8a9f8d28a5133dd801ab7"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -113,9 +103,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Generates the information given the node visit history and graph",
     "reasoning": null,
-    "capabilities": [
-      "66c95576ae782803372bd9f8"
-    ],
+    "capabilities": ["66c95576ae782803372bd9f8"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -129,9 +117,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "This agent takes in an existing graph and a request to modify it and returns a list of nodes to upsert, a list of nodes to delete, a list of edges to add, and a list of edges to delete. Good for making complex modifications to existing graphs.",
     "reasoning": null,
-    "capabilities": [
-      "66fed2ad135939f6d3130fa6"
-    ],
+    "capabilities": ["66fed2ad135939f6d3130fa6"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -173,9 +159,7 @@
     "logicalCollection": "67211aca1648c17f768ea367",
     "description": "A testing agent for verifying agents are working.",
     "reasoning": null,
-    "capabilities": [
-      "67211fbe1648c17f768ea387"
-    ],
+    "capabilities": ["67211fbe1648c17f768ea387"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -220,9 +204,7 @@
       "variablePassThrough": true,
       "_id": "6781f3bb2bb441a29a7438c3"
     },
-    "capabilities": [
-      "6781f34b2bb441a29a7438b3"
-    ],
+    "capabilities": ["6781f34b2bb441a29a7438b3"],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
