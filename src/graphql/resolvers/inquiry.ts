@@ -7,6 +7,7 @@ import {
   getInquiryResponseCount,
   getInquiryResponses,
   getInquiryTemplates,
+  updateInquiryOwners,
   upsertInquiry,
   upsertInquiryResponse,
 } from '@/controllers/inquiry';
@@ -14,6 +15,7 @@ import Context from '@/customTypes/context';
 import {
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
+  MutationUpdateInquiryOwnersArgs,
   MutationUpsertInquiryArgs,
   MutationUpsertInquiryResponseArgs,
   QueryGetInquiryArgs,
@@ -24,6 +26,17 @@ import {
 
 export default {
   Mutation: {
+    updateInquiryOwners: async (
+      _,
+      args: MutationUpdateInquiryOwnersArgs,
+      context: Context,
+    ) =>
+      updateInquiryOwners({
+        id: args.id ?? undefined,
+        userId: context.auth.sub,
+        owners: args.owners,
+      }),
+
     upsertInquiry: async (
       _,
       args: MutationUpsertInquiryArgs,

@@ -1,7 +1,7 @@
 export default `#graphql
   type UserData {
     primaryEmailAddress: String!
-    username: String!
+    username: String
     firstName: String
     lastName: String
     id: String!
