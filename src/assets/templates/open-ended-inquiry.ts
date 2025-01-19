@@ -62,7 +62,22 @@ const templateOpenEnded = {
         y: 385,
       },
       data: {
-        text: 'If the user makes a statement that warrants a follow up question go to eh4e OR if the "Bot" has the most recent message in the conversation go to eh4e\n\nIf the user asked us a question that warrants a direct response go to h7eu\n\nOtherwise go to the node t9ki to end the conversation if the user indicates they want to be finished. \n\nIMPORTANT: Go to t9ki if a total of 10 or more messages have been asked in the conversation history. Once the enumeration reaches this limit you must go to t9ki',
+        conditions: [
+          {
+            to: 'eh4e',
+            condition:
+              'If the user makes a statement that warrants a follow up question OR if the "Bot" has the most recent message in the conversation',
+          },
+          {
+            to: 'h7eu',
+            condition:
+              'If the user asked us a question that warrants a direct response',
+          },
+          {
+            to: 't9ki',
+            condition: 'If the user indicates they want to be finished or done',
+          },
+        ],
       },
       measured: {
         width: 384,
