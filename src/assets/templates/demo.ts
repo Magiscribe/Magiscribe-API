@@ -71,7 +71,16 @@ export const templateBranchInquiry = {
             y: 300.5,
           },
           data: {
-            text: "If the user's rating is 'Good' or 'Excellent', route to node y8wj. Otherwise, route to node l5rb.",
+            conditions: [
+              {
+                to: 'y8wj',
+                condition: "If the user's rating is 'Good' or 'Excellent'",
+              },
+              {
+                to: 'l5rb',
+                condition: 'Otherwise',
+              },
+            ],
           },
           measured: {
             width: 384,
