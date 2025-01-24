@@ -1,19 +1,16 @@
-import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server';
-import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import {
-  fastifyApolloDrainPlugin,
-  fastifyApolloHandler,
-} from '@as-integrations/fastify';
-import { verifyToken } from '@clerk/backend';
 import config from '@/config';
 import database from '@/database';
-import fastifyCors from '@fastify/cors';
 import { schema } from '@/graphql';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
+import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server';
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
+import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
+import { verifyToken } from '@clerk/backend';
+import fastifyCors from '@fastify/cors';
 import fastify, { FastifyInstance } from 'fastify';
 import { Context } from 'graphql-ws';
-import { useServer } from 'graphql-ws/lib/use/ws';
+import { useServer } from 'graphql-ws/dist/use/ws';
 import { WebSocketServer } from 'ws';
 
 /**

@@ -13,8 +13,8 @@ import log from '@/log';
 export async function withExponentialBackoff<T>(
   operation: () => Promise<T>,
   options = {
-    maxAttempts: 3,
-    initialDelay: 1000,
+    maxAttempts: 5,
+    initialDelay: 500,
     maxDelay: 10000,
   },
 ): Promise<T> {
@@ -33,7 +33,7 @@ export async function withExponentialBackoff<T>(
       // Calculate next delay with exponential backoff
       delay = Math.min(delay * 2, options.maxDelay);
 
-      log.debug({
+      log.error({
         msg: `Retry attempt ${attempt}/${options.maxAttempts}`,
         delay,
         error,
