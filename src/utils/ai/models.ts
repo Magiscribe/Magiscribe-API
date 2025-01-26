@@ -1,9 +1,9 @@
 // Note: Any model prefixed with "" is a cross-region inference model.
-//       Cross-region inference uses inference profiles to increase throughput and 
-//       improve resiliency (hopefully) by routing your requests across multiple AWS Regions 
+//       Cross-region inference uses inference profiles to increase throughput and
+//       improve resiliency (hopefully) by routing your requests across multiple AWS Regions
 //       during peak utilization bursts.
-// 
-//       During peak usage, these models may be more expensive than models that are not 
+//
+//       During peak usage, these models may be more expensive than models that are not
 //       prefixed with "" as they incur additional costs for cross-region data transfer.
 //       Latency will also be higher for cross-region models when they get routed to a
 //       different region.
@@ -27,8 +27,28 @@ export const LLM_MODELS_VERSION = {
     region: 'us-east-1',
   },
   CLAUDE_3_5_SONNET_V2: {
-    id: 'us.anthropic.claude-3-5-sonnet-20241022-v2:0',
+    id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
     name: 'Claude 3.5 Sonnet v2',
+    region: 'us-east-1',
+  },
+  REGIONAL_CLAUDE_3_HAIKU: {
+    id: 'us.anthropic.claude-3-haiku-20240307-v1:0',
+    name: 'Regional Claude 3 Haiku',
+    region: 'us-east-1',
+  },
+  REGIONAL_CLAUDE_3_5_HAIKU: {
+    id: 'us.anthropic.claude-3-5-haiku-20241022-v1:0',
+    name: 'Regional Claude 3.5 Haiku',
+    region: 'us-east-1',
+  },
+  REGIONAL_CLAUDE_3_5_SONNET: {
+    id: 'us.anthropic.claude-3-5-sonnet-20240620-v1:0',
+    name: 'Regional Claude 3.5 Sonnet',
+    region: 'us-east-1',
+  },
+  REGIONAL_CLAUDE_3_5_SONNET_V2: {
+    id: 'us.anthropic.claude-3-5-sonnet-20241022-v2:0',
+    name: 'Regional Claude 3.5 Sonnet v2',
     region: 'us-east-1',
   },
   LLAMA_3_2_1B_INSTRUCT: {

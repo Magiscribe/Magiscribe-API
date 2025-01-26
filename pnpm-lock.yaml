@@ -84,8 +84,8 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2(graphql@16.10.0)
       graphql-ws:
-        specifier: ^6.0.1
-        version: 6.0.1(graphql@16.10.0)(ws@8.18.0)
+        specifier: ^5.16.2
+        version: 5.16.2(graphql@16.10.0)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.10.7)
@@ -3802,22 +3802,6 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       graphql: '>=0.11 <=16'
-
-  graphql-ws@6.0.1:
-    resolution: {integrity: sha512-ScU+lpgXMVH+BQecv+veIk6eqF8eNZgvRZU+UNaXGvQ1mGq1uEuQRzmrCvMnaZOW1IX+E5PKZvFNXO39LGZU2Q==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@fastify/websocket': ^10 || ^11
-      graphql: ^15.10.1 || ^16
-      uWebSockets.js: ^20
-      ws: ^8
-    peerDependenciesMeta:
-      '@fastify/websocket':
-        optional: true
-      uWebSockets.js:
-        optional: true
-      ws:
-        optional: true
 
   graphql@16.10.0:
     resolution: {integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==}
@@ -9339,7 +9323,7 @@ snapshots:
   axios@1.7.4(debug@4.4.0):
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
-      form-data: 4.0.0
+      form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -10614,12 +10598,6 @@ snapshots:
   graphql-ws@5.16.2(graphql@16.10.0):
     dependencies:
       graphql: 16.10.0
-
-  graphql-ws@6.0.1(graphql@16.10.0)(ws@8.18.0):
-    dependencies:
-      graphql: 16.10.0
-    optionalDependencies:
-      ws: 8.18.0
 
   graphql@16.10.0: {}
 

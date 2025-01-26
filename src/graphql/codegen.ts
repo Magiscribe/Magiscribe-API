@@ -473,7 +473,7 @@ export type UserData = {
   id: Scalars['String']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   primaryEmailAddress: Scalars['String']['output'];
-  username: Scalars['String']['output'];
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type Voice = {
@@ -830,7 +830,7 @@ export type UserDataResolvers<ContextType = any, ParentType extends ResolversPar
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   primaryEmailAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
