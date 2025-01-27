@@ -205,6 +205,7 @@ export type Mutation = {
   deleteInquiryResponse?: Maybe<InquiryResponse>;
   deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
+  emailInquiryToUsers?: Maybe<Scalars['String']['output']>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   registerUser: Scalars['Boolean']['output'];
   updateInquiryOwners: Inquiry;
@@ -263,6 +264,12 @@ export type MutationDeleteMediaAssetArgs = {
 
 export type MutationDeletePromptArgs = {
   promptId: Scalars['ID']['input'];
+};
+
+
+export type MutationEmailInquiryToUsersArgs = {
+  inquiryId: Scalars['String']['input'];
+  userEmails: Array<Scalars['String']['input']>;
 };
 
 
@@ -770,6 +777,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteInquiryResponse?: Resolver<Maybe<ResolversTypes['InquiryResponse']>, ParentType, ContextType, RequireFields<MutationDeleteInquiryResponseArgs, 'id' | 'inquiryId'>>;
   deleteMediaAsset?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationDeleteMediaAssetArgs, 'id'>>;
   deletePrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<MutationDeletePromptArgs, 'promptId'>>;
+  emailInquiryToUsers?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationEmailInquiryToUsersArgs, 'inquiryId' | 'userEmails'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
   registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;

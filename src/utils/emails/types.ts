@@ -29,6 +29,23 @@ export const sendOwnerNotification = async ({
   });
 };
 
+export const sendInquiryToUsers = async ({userEmails, inquiryId}: {
+  userEmails: string[], inquiryId: string  
+}): Promise<void> => {
+  await sendEmail({
+    recipientEmails: userEmails,
+    subject: `Inquiry Invitation | Magiscribe`,
+    templateData: {
+      title: 'Congratulations, you have been invited to participate in a Magiscribe Inquiry!',
+      content: [
+        `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
+        `<br />`,
+        `<br />`,
+      ].join('\n\n'),
+    },
+  });
+}
+
 /**
  * Sends confirmation email to respondent
  * @param emailData - Data needed for email template

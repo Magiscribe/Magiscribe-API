@@ -1,4 +1,5 @@
 import {
+  emailInquiryToUsers,
   getUsersByEmail,
   getUsersById,
   registerUser,
@@ -6,6 +7,7 @@ import {
 import Context from '@/customTypes/context';
 import { User } from '@/database/models/user';
 import {
+  MutationEmailInquiryToUsersArgs,
   QueryGetUsersByEmailArgs,
   QueryGetUsersByIdArgs,
 } from '@/graphql/codegen';
@@ -34,5 +36,10 @@ export default {
       });
       return !!user;
     },
+
+    emailInquiryToUsers: async (_, {userEmails, inquiryId}: MutationEmailInquiryToUsersArgs) => {
+      const result = emailInquiryToUsers({userEmails, inquiryId});
+      return result;
+    }
   },
 };

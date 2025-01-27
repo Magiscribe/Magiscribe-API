@@ -15,5 +15,6 @@ export default `#graphql
 
   type Mutation {
     registerUser: Boolean! @auth
+    emailInquiryToUsers(userEmails: [String!]!, inquiryId: String!): String
   }
 `;
