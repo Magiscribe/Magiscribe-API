@@ -407,6 +407,20 @@ export async function getInquiryResponses({
   return inquiry.responses;
 }
 
+export async function checkIfUsersRespondedToInquiry(
+  id: string,
+  emails: string[]
+): Promise<string[]> {
+  const inquiry = await Inquiry.findById({
+    _id: id,
+  }).populate({
+    path: 'responses',
+    match: { "data.userDetails.email": {$in: emails }},
+  });
+  const respondentEmails = inquiry?.responses?.map(result => result.data.userDetails?.email ?? "").filter(email => !!email);
+  return respondentEmails ?? [];
+}
+
 /**
  * Retrieves the count of responses for a specific inquiry ID.
  * @param id {string} The ID of the inquiry.

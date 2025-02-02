@@ -19,6 +19,7 @@ export default `#graphql
   type Query {
     getUsersById(userIds: [String!]!): [UserData!]
     getUsersByEmail(userEmails: [String!]!): [UserData]
+    checkIfUsersRespondedToInquiry(userEmails: [String!]!, inquiryId: String!): [String!]
     isUserRegistered: Boolean!
   }
 
