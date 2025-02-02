@@ -40,7 +40,7 @@ export const sendInquiryToUsers = async ({userData, inquiryId}: {
       templateData: {
         title: `Congratulations ${user.firstName}, you have been invited to participate in a Magiscribe Inquiry!`,
         content: [
-          `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
+          `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}?email=${user.primaryEmailAddress}&name=${user.firstName}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
           `<br />`,
           `<br />`,
         ].join('\n\n'),
