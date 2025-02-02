@@ -37,8 +37,8 @@ export default {
       return !!user;
     },
 
-    emailInquiryToUsers: async (_, {userEmails, inquiryId}: MutationEmailInquiryToUsersArgs) => {
-      const result = emailInquiryToUsers({userEmails, inquiryId});
+    emailInquiryToUsers: async (_, {userData, inquiryId}: MutationEmailInquiryToUsersArgs) => {
+      const result = emailInquiryToUsers({userData, inquiryId});
       return result;
     }
   },

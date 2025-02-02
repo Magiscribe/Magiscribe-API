@@ -1,6 +1,7 @@
 import config from '@/config';
 
 import { sendEmail } from './email';
+import { UserDataInput } from '@/graphql/codegen';
 
 /**
  * Sends notification email to inquiry owner about new response
@@ -29,21 +30,24 @@ export const sendOwnerNotification = async ({
   });
 };
 
-export const sendInquiryToUsers = async ({userEmails, inquiryId}: {
-  userEmails: string[], inquiryId: string  
+export const sendInquiryToUsers = async ({userData, inquiryId}: {
+  userData: UserDataInput[], inquiryId: string  
 }): Promise<void> => {
-  await sendEmail({
-    recipientEmails: userEmails,
-    subject: `Inquiry Invitation | Magiscribe`,
-    templateData: {
-      title: 'Congratulations, you have been invited to participate in a Magiscribe Inquiry!',
-      content: [
-        `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
-        `<br />`,
-        `<br />`,
-      ].join('\n\n'),
-    },
-  });
+  Promise.all(userData.map(async user => {
+    await sendEmail({
+      recipientEmails: [user.primaryEmailAddress],
+      subject: `Inquiry Invitation | Magiscribe`,
+      templateData: {
+        title: `Congratulations ${user.firstName}, you have been invited to participate in a Magiscribe Inquiry!`,
+        content: [
+          `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
+          `<br />`,
+          `<br />`,
+        ].join('\n\n'),
+      },
+    });
+  }))
+
 }
 
 /**

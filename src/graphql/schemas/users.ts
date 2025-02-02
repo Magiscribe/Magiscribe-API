@@ -7,6 +7,14 @@ export default `#graphql
     id: String!
   }
 
+  input UserDataInput {
+    primaryEmailAddress: String!
+    username: String
+    firstName: String
+    lastName: String
+    id: String
+  }
+
   type Query {
     getUsersById(userIds: [String!]!): [UserData!]
     getUsersByEmail(userEmails: [String!]!): [UserData]
@@ -15,6 +23,6 @@ export default `#graphql
 
   type Mutation {
     registerUser: Boolean! @auth
-    emailInquiryToUsers(userEmails: [String!]!, inquiryId: String!): String
+    emailInquiryToUsers(userData: [UserDataInput!]!, inquiryId: String!): String
   }
 `;
