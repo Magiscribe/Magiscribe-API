@@ -13,6 +13,7 @@ export default `#graphql
     firstName: String
     lastName: String
     id: String
+    lastContacted: String
   }
 
   type Query {

@@ -49,6 +49,14 @@ const InquirySchema: Schema = new mongoose.Schema(
       metadata: {
         images: { type: Object, required: false },
         text: { type: String, require: false },
+        inviteList: [{
+          primaryEmailAddress: { type: String, required: true },
+          firstName: { type: String, required: true },
+          lastName: { type: String, required: false },
+          id: { type: String, required: false },
+          username: { type: String, required: false },
+          lastContacted: { type: String, required: false },
+        }],
       },
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },
