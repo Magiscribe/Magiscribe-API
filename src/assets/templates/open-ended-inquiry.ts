@@ -148,7 +148,7 @@ const templateOpenEnded = {
       },
       data: {
         text: 'Why are you taking this inquiry?',
-        type: 'rating-multi',
+        type: 'multi-select',
         ratings: [
           'To learn about generic business',
           'To provide a feedback about generic business',

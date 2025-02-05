@@ -48,7 +48,7 @@ export const templateBranchInquiry = {
           id: 'f7nh',
           type: 'question',
           data: {
-            type: 'rating-single',
+            type: 'single-select',
             text: 'How satisfied are you with our current coffee flavor selection?',
             ratings: [
               'Very Unsatisfied',
@@ -97,7 +97,7 @@ export const templateBranchInquiry = {
           id: 'h6td',
           type: 'question',
           data: {
-            type: 'rating-multi',
+            type: 'multi-select',
             text: 'Which flavor categories interest you most for new coffee options?',
             ratings: [
               'Seasonal Flavors',
@@ -279,7 +279,7 @@ export const templateBranchInquiry = {
           id: 'f7nh',
           type: 'question',
           data: {
-            type: 'rating-single',
+            type: 'single-select',
             text: 'How satisfied are you with our current coffee flavor selection?',
             ratings: [
               'Very Unsatisfied',
@@ -328,7 +328,7 @@ export const templateBranchInquiry = {
           id: 'h6td',
           type: 'question',
           data: {
-            type: 'rating-multi',
+            type: 'multi-select',
             text: 'Which flavor categories interest you most for new coffee options?',
             ratings: [
               'Seasonal Flavors',
