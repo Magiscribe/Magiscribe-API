@@ -97,6 +97,18 @@ const config = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 
+  stripe: { 
+    /**
+     * The Stripe publishable key.
+     */
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_51QpgTZBdDSNQEVBKWIAwRW0oBPVQgpDqDVUoPBuuHsiRy1fiGZiKXWeoLX7R3cNmrUH7NBirXDUg5chypKiNFbfW00frpV8PQ4',
+
+    /**
+     * The Stripe secret key.
+     */
+    secretKey: process.env.STRIPE_SECRET_KEY || 'sk_test_51QpgTZBdDSNQEVBKIBBrIGo7H7QhYi8vgHuCIPNeoiisSEnf6PuIyR8HsKxv0511tMYmLLRclncc0V6ew57MBkZ100PgAO2iUV',
+  },
+
   elevenlabs: {
     /**
      * The Eleven Labs API key.

@@ -5,6 +5,7 @@ import { SESClient } from '@aws-sdk/client-ses';
 import { SQSClient } from '@aws-sdk/client-sqs';
 import { createClerkClient } from '@clerk/backend';
 import { PubSub } from 'graphql-subscriptions';
+import Stripe from 'stripe';
 
 /*================================ Apollo ==============================*/
 
@@ -29,6 +30,10 @@ const lambdaClient = new LambdaClient({
   endpoint: config.lambda.endpoint,
 });
 
+/*================================ Stripe ==============================*/
+
+const stripe = new Stripe(config.stripe.secretKey!);
+
 /*================================ CLERK ==============================*/
 
 const clerkClient = createClerkClient({ secretKey: config.auth.secretKey });
@@ -40,4 +45,5 @@ export {
   pubsubClient,
   s3Client,
   clerkClient,
+  stripe,
 };
