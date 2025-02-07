@@ -41,7 +41,7 @@ const templateLinearInquiry = {
         y: 0,
       },
       data: {
-        type: 'rating-single',
+        type: 'single-select',
         text: 'How would you rate your overall experience with our product/service?',
         ratings: ['Very Poor', 'Poor', 'Average', 'Good', 'Excellent'],
         dynamicGeneration: false,
@@ -93,7 +93,7 @@ const templateLinearInquiry = {
         y: 0,
       },
       data: {
-        type: 'rating-multi',
+        type: 'multi-select',
         text: 'Which of the following features do you find most useful? (Select all that apply)',
         ratings: [
           'Feature A',
@@ -117,7 +117,7 @@ const templateLinearInquiry = {
         y: 0,
       },
       data: {
-        type: 'rating-single',
+        type: 'single-select',
         text: 'How likely are you to recommend our product/service to others?',
         ratings: [
           'Not at all likely',

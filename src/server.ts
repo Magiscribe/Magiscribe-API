@@ -5,7 +5,10 @@ import log from '@/log';
 import { clerkClient } from '@/utils/clients';
 import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
+import {
+  fastifyApolloDrainPlugin,
+  fastifyApolloHandler,
+} from '@as-integrations/fastify';
 import { verifyToken } from '@clerk/backend';
 import fastifyCors from '@fastify/cors';
 import fastify, { FastifyInstance } from 'fastify';

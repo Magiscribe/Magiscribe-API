@@ -43,7 +43,7 @@ const templateBranchInquiry = {
         y: 57.5,
       },
       data: {
-        type: 'rating-single',
+        type: 'single-select',
         text: 'How would you rate your overall experience with our service?',
         ratings: ['Very Poor', 'Poor', 'Average', 'Good', 'Excellent'],
       },
@@ -118,7 +118,7 @@ const templateBranchInquiry = {
         y: 57.5,
       },
       data: {
-        type: 'rating-multi',
+        type: 'multi-select',
         text: 'Which of the following areas should we focus on improving?',
         ratings: [
           'Customer Service',
