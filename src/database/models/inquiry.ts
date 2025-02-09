@@ -55,7 +55,7 @@ const InquirySchema: Schema = new mongoose.Schema(
           lastName: { type: String, required: false },
           id: { type: String, required: false },
           username: { type: String, required: false },
-          lastContacted: { type: String, required: false },
+          lastContacted: { type: Date, required: false },
         }],
       },
       graph: { type: Object, required: false },

@@ -378,7 +378,7 @@ export type Query = {
 
 
 export type QueryCheckIfUsersRespondedToInquiryArgs = {
-  inquiryId: Scalars['String']['input'];
+  inquiryId: Scalars['ID']['input'];
   userEmails: Array<Scalars['String']['input']>;
 };
 
