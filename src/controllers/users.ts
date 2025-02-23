@@ -44,7 +44,8 @@ export async function emailInquiryToUsers({userData, inquiryId}: {
   return "Success";
   }
   catch (error) {
-    return `Failed to send email with error ${JSON.stringify(error)}`
+    log.error({ error }, 'Failed to send email with error');
+    return `Failed to send email to users`
   }
 }
 

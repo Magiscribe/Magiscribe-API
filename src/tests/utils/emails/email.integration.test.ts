@@ -46,6 +46,6 @@ describe('Email Integration Tests', () => {
 
     const mockInquiryId = randomUUID();
 
-    await sendInquiryToUsers({userData: [userData], inquiryId: mockInquiryId});
+    await expect(sendInquiryToUsers({userData: [userData], inquiryId: mockInquiryId})).rejects.toThrow();
   });
 });

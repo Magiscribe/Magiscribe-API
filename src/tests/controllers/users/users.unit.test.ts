@@ -1,4 +1,5 @@
 import {
+  emailInquiryToUsers,
   getUserByEmail,
   getUserById,
   getUsersByEmail,
@@ -8,7 +9,9 @@ import {
 import { Inquiry } from '@/database/models/inquiry';
 import { User } from '@/database/models/user';
 import { clerkClient } from '@/utils/clients';
-import { sendWelcomeEmail } from '@/utils/emails/types';
+import { sendInquiryToUsers, sendWelcomeEmail } from '@/utils/emails/types';
+import { UserDataInput } from '@/graphql/codegen';
+import { randomUUID } from 'crypto';
 
 jest.mock('@/utils/clients', () => ({
   clerkClient: {
@@ -21,6 +24,7 @@ jest.mock('@/utils/clients', () => ({
 
 jest.mock('@/utils/emails/types', () => ({
   sendWelcomeEmail: jest.fn(),
+  sendInquiryToUsers: jest.fn(),
 }));
 
 jest.mock('@/database/models/user', () => ({
@@ -39,6 +43,32 @@ describe('Users Controller Unit Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
+  describe('emailInquiryToUsers', () => {
+    it('should return success when email is sent successfully', async () => {
+      (sendInquiryToUsers as jest.Mock).mockResolvedValueOnce("null");
+      const mockUserData: UserDataInput = {
+        primaryEmailAddress: "test@test.com",
+        firstName: "Test"
+      }
+      const mockInquiryId = randomUUID();
+      const result = await emailInquiryToUsers({ userData: [mockUserData], inquiryId: mockInquiryId })
+      expect(result).toEqual("Success")
+    })
+
+    it('should return a failure message when email fails to send', async () => {
+      (sendInquiryToUsers as jest.Mock).mockRejectedValueOnce(
+        new Error('API Error'),
+      );;
+      const mockUserData: UserDataInput = {
+        primaryEmailAddress: "test@test.com",
+        firstName: "Test"
+      }
+      const mockInquiryId = randomUUID();
+      const result = await emailInquiryToUsers({ userData: [mockUserData], inquiryId: mockInquiryId })
+      expect(result).toEqual("Failed to send email to users")
+    })
+  })
 
   describe('getUserById', () => {
     it('should return user when found', async () => {
