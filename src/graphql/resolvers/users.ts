@@ -1,4 +1,6 @@
+import { checkIfUsersRespondedToInquiry } from '@/controllers/inquiry';
 import {
+  emailInquiryToUsers,
   getUsersByEmail,
   getUsersById,
   registerUser,
@@ -6,6 +8,8 @@ import {
 import Context from '@/customTypes/context';
 import { User } from '@/database/models/user';
 import {
+  MutationEmailInquiryToUsersArgs,
+  QueryCheckIfUsersRespondedToInquiryArgs,
   QueryGetUsersByEmailArgs,
   QueryGetUsersByIdArgs,
 } from '@/graphql/codegen';
@@ -26,6 +30,10 @@ export default {
       const user = await User.findOne({ _id: context.auth.sub });
       return !!user;
     },
+    checkIfUsersRespondedToInquiry: async (
+      _,
+      { userEmails, inquiryId }: QueryCheckIfUsersRespondedToInquiryArgs,
+    ) => checkIfUsersRespondedToInquiry(inquiryId, userEmails),
   },
   Mutation: {
     registerUser: async (_, __, context: Context) => {
@@ -33,6 +41,14 @@ export default {
         sub: context.auth.sub,
       });
       return !!user;
+    },
+
+    emailInquiryToUsers: async (
+      _,
+      { userData, inquiryId }: MutationEmailInquiryToUsersArgs,
+    ) => {
+      const result = emailInquiryToUsers({ userData, inquiryId });
+      return result;
     },
   },
 };

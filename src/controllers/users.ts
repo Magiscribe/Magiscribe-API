@@ -3,8 +3,9 @@ import { Inquiry } from '@/database/models/inquiry';
 import { User } from '@/database/models/user';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
-import { sendWelcomeEmail } from '@/utils/emails/types';
+import { sendInquiryToUsers, sendWelcomeEmail } from '@/utils/emails/types';
 import { User as ClerkUser } from '@clerk/backend';
+import { UserDataInput } from '@/graphql/codegen';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;
@@ -33,6 +34,19 @@ function convertClerkUserToInternalUserModel(user: ClerkUser): UserInternal {
     firstName: user.firstName,
     lastName: user.lastName,
   };
+}
+
+export async function emailInquiryToUsers({userData, inquiryId}: {
+  userData: UserDataInput[], inquiryId: string  
+}): Promise<string> {
+  try {
+  await sendInquiryToUsers({userData, inquiryId});
+  return "Success";
+  }
+  catch (error) {
+    log.error({ error }, 'Failed to send email with error');
+    return `Failed to send email to users`
+  }
 }
 
 /**

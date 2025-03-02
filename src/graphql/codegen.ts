@@ -205,6 +205,7 @@ export type Mutation = {
   deleteInquiryResponse?: Maybe<InquiryResponse>;
   deleteMediaAsset?: Maybe<Scalars['Int']['output']>;
   deletePrompt?: Maybe<Prompt>;
+  emailInquiryToUsers?: Maybe<Scalars['String']['output']>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   registerUser: Scalars['Boolean']['output'];
   updateInquiryOwners: Inquiry;
@@ -263,6 +264,12 @@ export type MutationDeleteMediaAssetArgs = {
 
 export type MutationDeletePromptArgs = {
   promptId: Scalars['ID']['input'];
+};
+
+
+export type MutationEmailInquiryToUsersArgs = {
+  inquiryId: Scalars['String']['input'];
+  userData: Array<UserDataInput>;
 };
 
 
@@ -345,6 +352,7 @@ export type PromptInput = {
 
 export type Query = {
   __typename?: 'Query';
+  checkIfUsersRespondedToInquiry?: Maybe<Array<Scalars['String']['output']>>;
   getAgent?: Maybe<Agent>;
   getAgentWithPrompts?: Maybe<Agent>;
   getAllAgents: Array<Agent>;
@@ -366,6 +374,12 @@ export type Query = {
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
   getUsersById?: Maybe<Array<UserData>>;
   isUserRegistered: Scalars['Boolean']['output'];
+};
+
+
+export type QueryCheckIfUsersRespondedToInquiryArgs = {
+  inquiryId: Scalars['ID']['input'];
+  userEmails: Array<Scalars['String']['input']>;
 };
 
 
@@ -474,6 +488,15 @@ export type UserData = {
   lastName?: Maybe<Scalars['String']['output']>;
   primaryEmailAddress: Scalars['String']['output'];
   username?: Maybe<Scalars['String']['output']>;
+};
+
+export type UserDataInput = {
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  lastContacted?: InputMaybe<Scalars['String']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  primaryEmailAddress: Scalars['String']['input'];
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Voice = {
@@ -592,6 +615,7 @@ export type ResolversTypes = {
   StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
   UserData: ResolverTypeWrapper<UserData>;
+  UserDataInput: UserDataInput;
   Voice: ResolverTypeWrapper<Voice>;
 };
 
@@ -632,6 +656,7 @@ export type ResolversParentTypes = {
   StringFilter: StringFilter;
   Subscription: {};
   UserData: UserData;
+  UserDataInput: UserDataInput;
   Voice: Voice;
 };
 
@@ -770,6 +795,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteInquiryResponse?: Resolver<Maybe<ResolversTypes['InquiryResponse']>, ParentType, ContextType, RequireFields<MutationDeleteInquiryResponseArgs, 'id' | 'inquiryId'>>;
   deleteMediaAsset?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationDeleteMediaAssetArgs, 'id'>>;
   deletePrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<MutationDeletePromptArgs, 'promptId'>>;
+  emailInquiryToUsers?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationEmailInquiryToUsersArgs, 'inquiryId' | 'userData'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
   registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;
@@ -798,6 +824,7 @@ export type PromptResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  checkIfUsersRespondedToInquiry?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType, RequireFields<QueryCheckIfUsersRespondedToInquiryArgs, 'inquiryId' | 'userEmails'>>;
   getAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentArgs, 'agentId'>>;
   getAgentWithPrompts?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<QueryGetAgentWithPromptsArgs, 'agentId'>>;
   getAllAgents?: Resolver<Array<ResolversTypes['Agent']>, ParentType, ContextType, Partial<QueryGetAllAgentsArgs>>;
