@@ -61,6 +61,12 @@ export type AgentReasoningInput = {
   variablePassThrough: Scalars['Boolean']['input'];
 };
 
+export type AverageInquiryResponseTime = {
+  __typename?: 'AverageInquiryResponseTime';
+  minutes: Scalars['Float']['output'];
+  responseCount: Scalars['Int']['output'];
+};
+
 export type Capability = {
   __typename?: 'Capability';
   alias: Scalars['String']['output'];
@@ -361,6 +367,7 @@ export type Query = {
   getAllCollections: Array<Collection>;
   getAllModels: Array<Model>;
   getAllPrompts?: Maybe<Array<Maybe<Prompt>>>;
+  getAverageInquiryResponseTime: AverageInquiryResponseTime;
   getCapability?: Maybe<Capability>;
   getCollection?: Maybe<Collection>;
   getInquiries?: Maybe<Array<Inquiry>>;
@@ -405,6 +412,11 @@ export type QueryGetAllCapabilitiesArgs = {
 
 export type QueryGetAllPromptsArgs = {
   logicalCollection?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryGetAverageInquiryResponseTimeArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -582,6 +594,7 @@ export type ResolversTypes = {
   AgentInput: AgentInput;
   AgentReasoning: ResolverTypeWrapper<AgentReasoning>;
   AgentReasoningInput: AgentReasoningInput;
+  AverageInquiryResponseTime: ResolverTypeWrapper<AverageInquiryResponseTime>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Capability: ResolverTypeWrapper<Capability>;
   CapabilityInput: CapabilityInput;
@@ -626,6 +639,7 @@ export type ResolversParentTypes = {
   AgentInput: AgentInput;
   AgentReasoning: AgentReasoning;
   AgentReasoningInput: AgentReasoningInput;
+  AverageInquiryResponseTime: AverageInquiryResponseTime;
   Boolean: Scalars['Boolean']['output'];
   Capability: Capability;
   CapabilityInput: CapabilityInput;
@@ -689,6 +703,12 @@ export type AgentReasoningResolvers<ContextType = any, ParentType extends Resolv
   llmModel?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   prompt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   variablePassThrough?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AverageInquiryResponseTimeResolvers<ContextType = any, ParentType extends ResolversParentTypes['AverageInquiryResponseTime'] = ResolversParentTypes['AverageInquiryResponseTime']> = {
+  minutes?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  responseCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -833,6 +853,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllCollections?: Resolver<Array<ResolversTypes['Collection']>, ParentType, ContextType>;
   getAllModels?: Resolver<Array<ResolversTypes['Model']>, ParentType, ContextType>;
   getAllPrompts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Prompt']>>>, ParentType, ContextType, Partial<QueryGetAllPromptsArgs>>;
+  getAverageInquiryResponseTime?: Resolver<ResolversTypes['AverageInquiryResponseTime'], ParentType, ContextType, RequireFields<QueryGetAverageInquiryResponseTimeArgs, 'id'>>;
   getCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<QueryGetCapabilityArgs, 'capabilityId'>>;
   getCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<QueryGetCollectionArgs, 'collectionId'>>;
   getInquiries?: Resolver<Maybe<Array<ResolversTypes['Inquiry']>>, ParentType, ContextType>;
@@ -872,6 +893,7 @@ export type Resolvers<ContextType = any> = {
   AddMediaAssetResponse?: AddMediaAssetResponseResolvers<ContextType>;
   Agent?: AgentResolvers<ContextType>;
   AgentReasoning?: AgentReasoningResolvers<ContextType>;
+  AverageInquiryResponseTime?: AverageInquiryResponseTimeResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
   Collection?: CollectionResolvers<ContextType>;
   ContactResponse?: ContactResponseResolvers<ContextType>;

@@ -1,6 +1,8 @@
+import dayjs from 'dayjs';
 import templates from '@/assets/templates';
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
 import {
+  AverageInquiryResponseTime,
   InquiryResponseStatus,
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponsesArgs,
@@ -13,7 +15,6 @@ import {
   sendOwnerNotification,
   sendRespondentConfirmation,
 } from '@/utils/emails/types';
-
 import { getUsersById } from './users';
 import { findOrCreateThread } from '@/utils/ai/system';
 
@@ -355,6 +356,38 @@ export async function getInquiryResponse({
   return inquiryResponse;
 }
 
+export async function getAverageInquiryResponseTime(inquiryId: string): Promise<AverageInquiryResponseTime> {
+  const inquiry = await Inquiry.findById({
+    _id: inquiryId,
+  }).populate({
+    path: 'responses',
+  });
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found');
+  }
+
+  if (!inquiry.responses?.length) {
+    return {
+      minutes: 0,
+      responseCount: 0,
+    };
+  }
+
+  const responseTimes = inquiry.responses?.map((response) => {
+    return dayjs(response.updatedAt).diff(dayjs(response.createdAt), 'minute', true);
+  });
+
+
+  const averageResponseTime = responseTimes?.reduce((acc, value) => acc + value, 0) / responseTimes?.length;
+
+  return {
+    minutes: averageResponseTime,
+    responseCount: inquiry.responses.length,
+  };
+
+}
+
 /**
  * Retrieves all responses associated with a specific inquiry ID.
  * @param args The arguments containing id and optional filters
@@ -367,26 +400,26 @@ export async function getInquiryResponses({
   // Transform filters into MongoDB-compatible format
   const filterQuery = filters
     ? createFilterQuery({
-        createdAt: {
-          eq: filters.createdAt?.eq ?? undefined,
-          gt: filters.createdAt?.gt ?? undefined,
-          gte: filters.createdAt?.gte ?? undefined,
-          lt: filters.createdAt?.lt ?? undefined,
-          lte: filters.createdAt?.lte ?? undefined,
-        },
-        'data.userDetails.name': {
-          eq: filters.name?.eq ?? undefined,
-          startsWith: filters.name?.startsWith ?? undefined,
-          contains: filters.name?.contains ?? undefined,
-          endsWith: filters.name?.endsWith ?? undefined,
-        },
-        'data.userDetails.email': {
-          eq: filters.email?.eq ?? undefined,
-          startsWith: filters.email?.startsWith ?? undefined,
-          contains: filters.email?.contains ?? undefined,
-          endsWith: filters.email?.endsWith ?? undefined,
-        },
-      })
+      createdAt: {
+        eq: filters.createdAt?.eq ?? undefined,
+        gt: filters.createdAt?.gt ?? undefined,
+        gte: filters.createdAt?.gte ?? undefined,
+        lt: filters.createdAt?.lt ?? undefined,
+        lte: filters.createdAt?.lte ?? undefined,
+      },
+      'data.userDetails.name': {
+        eq: filters.name?.eq ?? undefined,
+        startsWith: filters.name?.startsWith ?? undefined,
+        contains: filters.name?.contains ?? undefined,
+        endsWith: filters.name?.endsWith ?? undefined,
+      },
+      'data.userDetails.email': {
+        eq: filters.email?.eq ?? undefined,
+        startsWith: filters.email?.startsWith ?? undefined,
+        contains: filters.email?.contains ?? undefined,
+        endsWith: filters.email?.endsWith ?? undefined,
+      },
+    })
     : {};
 
   const inquiry = await Inquiry.findById({
@@ -415,7 +448,7 @@ export async function checkIfUsersRespondedToInquiry(
     _id: id,
   }).populate({
     path: 'responses',
-    match: { "data.userDetails.email": {$in: emails }},
+    match: { "data.userDetails.email": { $in: emails } },
   });
   const respondentEmails = inquiry?.responses?.map(result => result.data.userDetails?.email ?? "").filter(email => !!email);
   return respondentEmails ?? [];
