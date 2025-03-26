@@ -1,6 +1,7 @@
 import {
   deleteInquiry,
   deleteInquiryResponse,
+  getAverageInquiryResponseTime,
   getInquiries,
   getInquiry,
   getInquiryResponse,
@@ -94,7 +95,8 @@ export default {
       getInquiryResponse(args),
     getInquiryResponses: async (_, args: QueryGetInquiryResponsesArgs) =>
       getInquiryResponses(args),
-
+    getAverageInquiryResponseTime: async (_, args: { id: string }) =>
+      getAverageInquiryResponseTime(args.id),
     getInquiryResponseCount: async (
       _,
       args: QueryGetInquiryResponseCountArgs,

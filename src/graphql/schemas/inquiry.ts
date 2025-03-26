@@ -54,6 +54,11 @@ export default `#graphql
         updatedAt: Float!
     }
 
+    type AverageInquiryResponseTime {
+        minutes: Float!
+        responseCount: Int!
+    }
+
     input InquiryResponseFilters {
         createdAt: FloatFilter 
         name: StringFilter    
@@ -67,6 +72,7 @@ export default `#graphql
         getInquiryResponses(id: ID!, filters: InquiryResponseFilters): [InquiryResponse!] @auth
         getInquiryResponseCount(id: ID!): Int! @auth
         getInquiryTemplates: [JSONObject!]! @auth
+        getAverageInquiryResponseTime(id: ID!): AverageInquiryResponseTime! @auth
     }
 
     type Mutation {
