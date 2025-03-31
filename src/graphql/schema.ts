@@ -1,12 +1,12 @@
 import { mergeSchemas } from '@graphql-tools/schema';
+
+import { authDirectiveTypeDefs } from './directives';
 import agent from './schemas/agent';
 import assets from './schemas/assets';
 import audio from './schemas/audio';
 import inquiry from './schemas/inquiry';
 import predictions from './schemas/predictions';
 import users from './schemas/users';
-import { authDirectiveTypeDefs } from './directives';
-import contact from './schemas/contact';
 
 const filters = `#graphql
     input FloatFilter {
@@ -37,7 +37,6 @@ const typeDefs = [
   inquiry,
   predictions,
   users,
-  contact,
 ];
 
 const schema = mergeSchemas({
