@@ -23,18 +23,18 @@ jobs:
     with:
       path: './lambdas/python-executor'
       repository: 'python-executor'
-      role_to_assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
       region: 'us-east-1'
-
+    secrets: inherit
   build-api:
     name: Build API Image
-
     uses: ./.github/workflows/build-container.yml
     with:
       path: './'
       repository: 'magiscribe-api'
-      role_to_assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
       region: 'us-east-1'
+    secrets: inherit
 
   deploy-api:
     name: Deploy API
@@ -47,7 +47,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Get Latest Task Definition
@@ -60,10 +60,10 @@ jobs:
           echo "service=$SERVICE" >> $GITHUB_OUTPUT
           echo "cluster=$CLUSTER" >> $GITHUB_OUTPUT
         env:
-          NAME: magiscribe-api
-          SERVICE: magiscribe-api
-          ECS_TASK_DEFINITION: magiscribe-api
-          CLUSTER: magiscribe-cluster
+          NAME: ${{ secrets.ECS_CONTAINER_NAME }}
+          SERVICE: ${{ secrets.ECS_SERVICE_NAME }}
+          ECS_TASK_DEFINITION: ${{ secrets.ECS_TASK_DEFINITION }}
+          CLUSTER: ${{ secrets.ECS_CLUSTER_NAME }}
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
@@ -104,7 +104,7 @@ jobs:
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ github.ref == 'refs/heads/main' && 'arn:aws:iam::211125562192:role/GitHubAssumeRole' || 'arn:aws:iam::891377366124:role/GitHubAssumeRole' }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Get SSM Parameters
@@ -132,9 +132,9 @@ jobs:
       - name: Add runner IP to MongoDB access list
         shell: bash
         env:
-          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PUBLIC_API_KEY_PROD || secrets.MONGODB_ATLAS_PUBLIC_API_KEY_DEV }}
-          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PRIVATE_API_KEY_PROD || secrets.MONGODB_ATLAS_PRIVATE_API_KEY_DEV }}
-          MONGODB_ATLAS_PROJECT_ID: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PROJECT_ID_PROD || secrets.MONGODB_ATLAS_PROJECT_ID_DEV }}
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
         run: |
           atlas accessLists create ${{ steps.get_gh_runner_ip.outputs.ip_address }} --type ipAddress --projectId $MONGODB_ATLAS_PROJECT_ID --comment "GitHub Actions Runner"
 
@@ -145,13 +145,19 @@ jobs:
 
       - name: Migrate Database
         run: pnpm run db:import
+        env:
+          NODE_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+          # Add any database-specific environment variables here
+          MONGODB_URL: ${{ env.MONGODB_URL }}
+          MONGODB_USER: ${{ env.MONGODB_USER }}
+          MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}
 
       - name: Remove runner IP from MongoDB access list
         if: always()
         shell: bash
         env:
-          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PUBLIC_API_KEY_PROD || secrets.MONGODB_ATLAS_PUBLIC_API_KEY_DEV }}
-          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PRIVATE_API_KEY_PROD || secrets.MONGODB_ATLAS_PRIVATE_API_KEY_DEV }}
-          MONGODB_ATLAS_PROJECT_ID: ${{ github.ref == 'refs/heads/main' && secrets.MONGODB_ATLAS_PROJECT_ID_PROD || secrets.MONGODB_ATLAS_PROJECT_ID_DEV }}
+          MONGODB_ATLAS_PUBLIC_API_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_API_KEY }}
+          MONGODB_ATLAS_PRIVATE_API_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_API_KEY }}
+          MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
         run: |
           atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId $MONGODB_ATLAS_PROJECT_ID --force
