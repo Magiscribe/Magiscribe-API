@@ -5,7 +5,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Analyzes data received by the Inquiry and provides either a conversation summary or a summary for all possible answers to a particular question.",
     "reasoning": null,
-    "capabilities": ["669bee8d6773961cdf4604ae"],
+    "capabilities": [
+      "669bee8d6773961cdf4604ae"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -42,7 +44,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Chooses which node to go to next given the node visit history and graph",
     "reasoning": null,
-    "capabilities": ["66bf8c22a9430d3fa139143a"],
+    "capabilities": [
+      "66bf8c22a9430d3fa139143a"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -61,7 +65,9 @@
       "variablePassThrough": true,
       "_id": "672f8523750dff3bd2bcb50b"
     },
-    "capabilities": ["66c25d95cbd9c2075c1e5f4e"],
+    "capabilities": [
+      "66c25d95cbd9c2075c1e5f4e"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -75,7 +81,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "For a given graph, creates synthetic node visit data",
     "reasoning": null,
-    "capabilities": ["66c0040e525628d5c5861ed8"],
+    "capabilities": [
+      "66c0040e525628d5c5861ed8"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -89,7 +97,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Generates the question to ask next given the node visit history and graph",
     "reasoning": null,
-    "capabilities": ["66c8a9f8d28a5133dd801ab7"],
+    "capabilities": [
+      "66c8a9f8d28a5133dd801ab7"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -103,7 +113,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Generates the information given the node visit history and graph",
     "reasoning": null,
-    "capabilities": ["66c95576ae782803372bd9f8"],
+    "capabilities": [
+      "66c95576ae782803372bd9f8"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -117,7 +129,9 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "This agent takes in an existing graph and a request to modify it and returns a list of nodes to upsert, a list of nodes to delete, a list of edges to add, and a list of edges to delete. Good for making complex modifications to existing graphs.",
     "reasoning": null,
-    "capabilities": ["66fed2ad135939f6d3130fa6"],
+    "capabilities": [
+      "66fed2ad135939f6d3130fa6"
+    ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
@@ -151,65 +165,6 @@
     "outputFilter": "\"description\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-06-17T21:30:42.709Z",
     "updatedAt": "2024-11-09T15:52:14.745Z",
-    "__v": 0
-  },
-  {
-    "_id": "67212067747e6adbb29b1120",
-    "name": "Author",
-    "logicalCollection": "67211aca1648c17f768ea367",
-    "description": "A testing agent for verifying agents are working.",
-    "reasoning": null,
-    "capabilities": ["67211fbe1648c17f768ea387"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-10-29T17:50:31.053Z",
-    "updatedAt": "2024-10-29T17:50:31.053Z",
-    "__v": 0
-  },
-  {
-    "_id": "66ad631ab5b289898ce68de9",
-    "name": "Graph of Thought Agent",
-    "logicalCollection": "67211aca1658c17f768ea367",
-    "description": "Agent that has the ability to expand along and evaluate a graph of thoughts with the initial user input as a root node.",
-    "reasoning": {
-      "llmModel": "CLAUDE_3_5_HAIKU",
-      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\ncapabilityAlias can ONLY be one of the following: ExpandGraphCapability, EvaluateOptionsCapability, CheckCompletionCapability, GenericPythonExecutionCapability, NextStepCapability, BingWebSearchCapability\nDo NOT include any other capabilities.\n\nAnalyze the input and choose the appropriate capability based on these rules:\n1. If the instruction mentions branching or coming up with additional options, use ExpandGraphCapability.\n2. If the instruction mentions evaluating or deciding between options, use EvaluateOptionsCapability.\n3. If the instruction wants to know if the problem has been solved or if the reasoning is complete, use CheckCompletionCapability.\n4. If the instruction mentions to write python to perform an algorithmic search then use GenericPythonExecutionCapability\n5. If the instruction mentions to figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought> use NextStepCapability\n6. If the instruction mentions to search the web for data then use BingWebSearchCapability\n\n<Example1>\n<instruction>Branch off of node 1</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Branch off of node 1\", \"capabilityAlias\": \"ExpandGraphCapability\"},\n  ]}\n```\n<Example/1>\n\n<Example2>\n<instruction>Evaluate nodes 2, 3, 4, 5, 6</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Evaluate nodes 2, 3, 4, 5, 6\", \"capabilityAlias\": \"EvaluateOptionsCapability\"},\n  ]}\n```\n</Example2>\n\n<Example3>\n{\n<instruction>Check to see if the current chain of thought completes the task</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Check to see if the current chain of thought completes the task\", \"capabilityAlias\": \"CheckCompletionCapability\"},\n  ]}\n```\n</Example3>\n\n<Example4>\n<instruction>Execute the current chain of thought using python</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Execute the current chain of thought using python\", \"capabilityAlias\": \"GenericPythonExecutionCapability\"},\n  ]}\n```\n</Example4>\n\n<Example5>\n<instruction>Figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought></instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"figure out the next logical step to take based on the <currentGraph> and <currentChainOfThought>\", \"capabilityAlias\": \"NextStepCapability\"},\n  ]}\n```\n</Example5>\n<Example6>\n<instruction>Use the Bing Web Search capability to execute the task in accordance with the <currentChainOfThought> with sourceNode ${lastChainOfThoughtNodeId}</instruction>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Use python to execute the task in accordance with the <currentChainOfThought> with sourceNode ${lastChainOfThoughtNodeId}\", \"capabilityAlias\": \"BingWebSearchCapability\"},\n  ]}\n```\n</Example6>\n\n<instruction>{{userMessage}}</instruction>",
-      "variablePassThrough": true,
-      "_id": "672f85df750dff3bd2bcb5dd"
-    },
-    "capabilities": [
-      "66ad68b1b5b289898ce68dfe",
-      "66ad7093b5b289898ce68e39",
-      "66ad733cb5b289898ce68e5b",
-      "66ad9cff395f8759f8bd44ab",
-      "66b1605669a8280877a01f47",
-      "66c6acd775e86c38e8cd5107"
-    ],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-02T22:52:10.706Z",
-    "updatedAt": "2024-11-09T15:55:11.862Z",
-    "__v": 0
-  },
-  {
-    "_id": "6781f3bb2bb441a29a7438c2",
-    "name": "Synthetic User Purchase Data",
-    "logicalCollection": "6781f2542bb441a29a74387c",
-    "description": "Takes in a minimum and maximum id. Will enumerate users and their personas from the min to max. These users will be passed down to SyntheticProductDataGenerator capability to make synthetic purchase history.",
-    "reasoning": {
-      "llmModel": "CLAUDE_3_5_SONNET_V2",
-      "prompt": "Give me back a JSON object surrounded by three backticks and the word json\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias, are both strings. \nThe capabilityAlias must always be set to \"SyntheticProductDataGenerator\"\nYou are able to call this capability multiple times with a variety of prompts.\nYou will enumerate from <minId> to <maxId> the correct number of personas\nWe are attempting to generate synthetic conversation data for a test set. Your role is just to call the SyntheticDataGenerationCapability multiple times in a dynamic way so that there is variety in our synthetic data.  The <userMessage> tag will direct you as to which variety of personas to adapt, but ultimately strive to create a variety of outputs. \n\n```json\n{\n \"processingSteps\": [\n   {\n     \"prompt\": \"Tingle Mcgringleberry is a fun guy who loves rock and roll, but recently married, he had a baby with his lovely life and that is his focus now. He still wants to rock but now has adult responsibilities. His customerId is 420\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Sarah Chen is a tech-savvy software developer who works remotely. She's passionate about fitness and wellness, trying to balance her desk job with an active lifestyle. She's also getting into home automation and smart devices. Her customerId is 421\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Robert Washington is a retired military veteran who's taken up gardening and woodworking. He's meticulous about his tools and enjoys teaching his grandchildren about nature. He's also learning to use technology to stay connected with family. His customerId is 422\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Maya Patel is a college student studying environmental science. She's eco-conscious, loves outdoor activities, and tries to maintain a sustainable lifestyle on a budget. She regularly participates in campus activities and outdoor clubs. Her customerId is 423\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Marcus Rodriguez is a professional chef who recently opened his own food truck. He's constantly looking for new kitchen gadgets and ingredients, while also maintaining his food truck equipment. He's active on social media promoting his business. His customerId is 424\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Emma Foster is a single mother of two teenagers who works as a high school teacher. She's budget-conscious but ensures her kids have what they need for school and activities. She enjoys reading and home decoration in her spare time. Her customerId is 425\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Dr. James Wilson is a veterinarian who owns multiple pets. He's passionate about animal care and regularly purchases supplies for both his clinic and his own pets. He enjoys photography and documenting wildlife in his free time. His customerId is 426\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Aisha Mohammed is a fitness instructor who recently started her own online coaching business. She's invested in home gym equipment and digital products for her virtual classes. She follows a strict nutrition plan and loves trying new healthy recipes. Her customerId is 427\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"David Kim is a freelance graphic designer who's also a gaming enthusiast. He splits his purchases between professional equipment for his work and gaming gear. He's recently started collecting vinyl records and vintage gaming consoles. His customerId is 428\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   },\n   {\n     \"prompt\": \"Linda Martinez is a retired elementary school principal who's become a serious amateur photographer. She travels frequently in her RV, documenting national parks. She's learning to edit photos digitally and prints photobooks for her family. Her customerId is 429\",\n     \"capabilityAlias\": \"SyntheticProductDataGenerator\"\n   }\n ]\n}\n```\n\nYour response should only be valid JSON. There should not be additional comments before or after the JSON\n\n<userMessage>\n{{userMessage}}\n</userMessage>\n\n<minId>{{minId}}</minId><maxId>{{maxId}}</maxId>",
-      "variablePassThrough": true,
-      "_id": "6781f3bb2bb441a29a7438c3"
-    },
-    "capabilities": ["6781f34b2bb441a29a7438b3"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2025-01-11T04:29:47.444Z",
-    "updatedAt": "2025-01-11T04:29:47.444Z",
     "__v": 0
   }
 ]
