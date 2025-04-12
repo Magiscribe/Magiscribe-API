@@ -218,6 +218,7 @@ export default async function startServer() {
     // implementation details about your schema.
     // For more information, see https://www.apollographql.com/blog/why-you-should-disable-graphql-introspection-in-production.
     introspection: config.environment !== 'production',
+    playground: config.environment !== 'production',
   });
 
   log.debug('Engines started, ready to launch (starting ApolloServer)...');
