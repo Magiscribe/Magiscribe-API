@@ -44,6 +44,7 @@ https://github.com/user-attachments/assets/908ae6d8-e7e9-4fb1-8964-90411095353e
 - [ ] [AWS CLI](https://aws.amazon.com/cli)
 - [ ] [Terraform CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install)
 - [ ] [Docker](https://www.docker.com/get-started)
+- [ ] [MongoDB](https://www.mongodb.com/products/self-managed/community-edition)
 
 ### General Setup
 
