@@ -58,55 +58,63 @@ export async function makeRequest({
   const message = new HumanMessage({
     content,
   });
-
   log.debug({
     msg: 'Sending AI request...',
     message,
     streaming,
   });
 
+  // Helper function to estimate tokens from text content
+  // Rough estimation: ~4 characters per token (adjustable)
+  const estimateTokens = (text: string, charsPerToken: number = 4): number => {
+    return Math.ceil(text.length / charsPerToken);
+  };
+
+  // Extract all text content from the content array for input token calculation
+  const inputText = content
+    .filter(item => item.type === ContentType.TEXT && item.text)
+    .map(item => item.text)
+    .join(' ');
+
   if (streaming.enabled) {
     if (!streaming.callback) {
       throw new Error('Callback function is required for streaming mode');
-    }
-
+    }    
     return await withExponentialBackoff(async () => {
       const stream = await chat.stream([message]);
       let buffer = '';
-      let totalOutputTokens = 0;
       for await (const chunk of stream) {
         buffer += chunk.content;
-        totalOutputTokens += 1; // Approximate token count for streaming
         await streaming.callback!(chunk.content as string);
         log.debug({ msg: 'AI response chunk received', content: buffer });
       }
+      
+      const inputTokens = estimateTokens(inputText);
+      const outputTokens = estimateTokens(buffer);
+      
       return {
         content: buffer,
         tokenUsage: {
-          inputTokens: message.content.length, // Approximate
-          outputTokens: totalOutputTokens,
-          totalTokens: message.content.length + totalOutputTokens,
+          inputTokens,
+          outputTokens,
+          totalTokens: inputTokens + outputTokens,
         },
       };
     });
-  } else {
+  } else {    
     return await withExponentialBackoff(async () => {
       const completion = await chat.invoke([message]);
       log.debug({ msg: 'AI response received', content: completion.content });
 
-      const usage = {
-        input_tokens: message.content.length, // Approximate
-        output_tokens: (completion.content as string).length, // Approximate
-        total_tokens:
-          message.content.length + (completion.content as string).length,
-      };
+      const inputTokens = estimateTokens(inputText);
+      const outputTokens = estimateTokens(completion.content as string);
 
       return {
         content: completion.content as string,
         tokenUsage: {
-          inputTokens: usage.input_tokens,
-          outputTokens: usage.output_tokens,
-          totalTokens: usage.total_tokens,
+          inputTokens,
+          outputTokens,
+          totalTokens: inputTokens + outputTokens,
         },
       };
     });

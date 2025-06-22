@@ -105,18 +105,6 @@ export type CollectionInput = {
   name: Scalars['String']['input'];
 };
 
-export type ContactInput = {
-  email: Scalars['String']['input'];
-  message: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-};
-
-export type ContactResponse = {
-  __typename?: 'ContactResponse';
-  messageId?: Maybe<Scalars['String']['output']>;
-  success: Scalars['Boolean']['output'];
-};
-
 export type FloatFilter = {
   eq?: InputMaybe<Scalars['Float']['input']>;
   gt?: InputMaybe<Scalars['Float']['input']>;
@@ -203,7 +191,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   addMediaAsset?: Maybe<AddMediaAssetResponse>;
   addPrediction?: Maybe<Scalars['String']['output']>;
-  contact: ContactResponse;
   deleteAgent?: Maybe<Agent>;
   deleteCapability?: Maybe<Capability>;
   deleteCollection?: Maybe<Collection>;
@@ -229,11 +216,6 @@ export type MutationAddPredictionArgs = {
   attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
   subscriptionId: Scalars['ID']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
-};
-
-
-export type MutationContactArgs = {
-  input: ContactInput;
 };
 
 
@@ -600,8 +582,6 @@ export type ResolversTypes = {
   CapabilityInput: CapabilityInput;
   Collection: ResolverTypeWrapper<Collection>;
   CollectionInput: CollectionInput;
-  ContactInput: ContactInput;
-  ContactResponse: ResolverTypeWrapper<ContactResponse>;
   Float: ResolverTypeWrapper<Scalars['Float']['output']>;
   FloatFilter: FloatFilter;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -645,8 +625,6 @@ export type ResolversParentTypes = {
   CapabilityInput: CapabilityInput;
   Collection: Collection;
   CollectionInput: CollectionInput;
-  ContactInput: ContactInput;
-  ContactResponse: ContactResponse;
   Float: Scalars['Float']['output'];
   FloatFilter: FloatFilter;
   ID: Scalars['ID']['output'];
@@ -732,12 +710,6 @@ export type CollectionResolvers<ContextType = any, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ContactResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ContactResponse'] = ResolversParentTypes['ContactResponse']> = {
-  messageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type InquiryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Inquiry'] = ResolversParentTypes['Inquiry']> = {
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['InquiryData'], ParentType, ContextType>;
@@ -807,7 +779,6 @@ export type ModelResolvers<ContextType = any, ParentType extends ResolversParent
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addMediaAsset?: Resolver<Maybe<ResolversTypes['AddMediaAssetResponse']>, ParentType, ContextType>;
   addPrediction?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationAddPredictionArgs, 'agentId' | 'subscriptionId'>>;
-  contact?: Resolver<ResolversTypes['ContactResponse'], ParentType, ContextType, RequireFields<MutationContactArgs, 'input'>>;
   deleteAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationDeleteAgentArgs, 'agentId'>>;
   deleteCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationDeleteCapabilityArgs, 'capabilityId'>>;
   deleteCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<MutationDeleteCollectionArgs, 'collectionId'>>;
@@ -896,7 +867,6 @@ export type Resolvers<ContextType = any> = {
   AverageInquiryResponseTime?: AverageInquiryResponseTimeResolvers<ContextType>;
   Capability?: CapabilityResolvers<ContextType>;
   Collection?: CollectionResolvers<ContextType>;
-  ContactResponse?: ContactResponseResolvers<ContextType>;
   Inquiry?: InquiryResolvers<ContextType>;
   InquiryData?: InquiryDataResolvers<ContextType>;
   InquiryResponse?: InquiryResponseResolvers<ContextType>;
