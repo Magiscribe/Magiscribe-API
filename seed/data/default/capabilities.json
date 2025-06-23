@@ -4,7 +4,7 @@
     "name": "Piechart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -16,7 +16,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2024-11-21T05:39:22.836Z",
+    "updatedAt": "2025-06-22T16:00:32.801Z",
     "__v": 0
   },
   {
@@ -24,7 +24,7 @@
     "name": "Barchart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -36,7 +36,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2024-11-21T05:39:31.133Z",
+    "updatedAt": "2025-06-22T16:00:40.377Z",
     "__v": 0
   },
   {
@@ -44,7 +44,7 @@
     "name": "Summary Generator",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SummaryGeneratorCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -57,7 +57,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2024-11-25T03:08:32.337Z",
+    "updatedAt": "2025-06-22T16:00:47.921Z",
     "__v": 0
   },
   {
@@ -65,7 +65,7 @@
     "name": "Chat Reply Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -78,7 +78,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2024-11-21T05:39:51.037Z",
+    "updatedAt": "2025-06-22T16:00:56.680Z",
     "__v": 0
   },
   {
@@ -86,7 +86,7 @@
     "name": "Graph Generation",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "GraphGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Graph Generation",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -103,7 +103,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-15T18:45:36.954Z",
-    "updatedAt": "2024-11-21T05:41:10.271Z",
+    "updatedAt": "2025-06-22T16:01:04.110Z",
     "__v": 0
   },
   {
@@ -111,7 +111,7 @@
     "name": "Condition Node",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ConditionNodeCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
     "prompts": [
       "66bf8d0aa9430d3fa1391448",
@@ -124,7 +124,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2024-12-15T19:14:56.266Z",
+    "updatedAt": "2025-06-22T16:01:11.061Z",
     "__v": 0
   },
   {
@@ -156,7 +156,7 @@
     "name": "Synthetic Data Generation Level 1",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SyntheticDataGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Synthetic generation of node data",
     "prompts": [
       "66c00af8d0935d6985124266",
@@ -172,7 +172,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
-    "updatedAt": "2024-11-21T05:40:37.255Z",
+    "updatedAt": "2025-06-22T16:01:33.857Z",
     "__v": 0
   },
   {
@@ -180,7 +180,7 @@
     "name": "Dynamic Question Generation",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "DynamicQuestionGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "669541137ceb83a7fb75eb17",
@@ -196,7 +196,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2024-12-15T18:59:27.473Z",
+    "updatedAt": "2025-06-22T16:01:40.588Z",
     "__v": 0
   },
   {
@@ -227,7 +227,7 @@
     "name": "Barchart Chat Reply",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -242,7 +242,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T20:07:37.601Z",
-    "updatedAt": "2024-11-27T20:35:07.411Z",
+    "updatedAt": "2025-06-22T16:01:48.721Z",
     "__v": 0
   },
   {
@@ -250,7 +250,7 @@
     "name": "Piechart Chat Reply",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -265,7 +265,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
-    "updatedAt": "2024-11-21T05:40:04.788Z",
+    "updatedAt": "2025-06-22T16:01:55.918Z",
     "__v": 0
   },
   {
@@ -298,7 +298,7 @@
     "name": "Graph Edit (Sonnet)",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "GraphEditCapability-Sonnet",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Graph edit takes in an existing graph and a request to modify it and returns a list of nodes to upsesrt, a list of nodes to delete, a list of edges to add, and a list of edges to delete. ",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -315,7 +315,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-10-03T17:21:49.205Z",
-    "updatedAt": "2025-01-12T19:20:18.759Z",
+    "updatedAt": "2025-06-22T16:02:02.949Z",
     "__v": 0
   },
   {
@@ -323,7 +323,7 @@
     "name": " Arrow Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "ArrowCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Arrow Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -335,7 +335,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.597Z",
-    "updatedAt": "2024-11-09T15:52:27.881Z",
+    "updatedAt": "2025-06-22T16:05:15.218Z",
     "__v": 0
   },
   {
@@ -343,7 +343,7 @@
     "name": " Function Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "FunctionCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Function Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -355,7 +355,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.617Z",
-    "updatedAt": "2024-11-09T15:52:33.647Z",
+    "updatedAt": "2025-06-22T16:05:24.261Z",
     "__v": 0
   },
   {
@@ -363,7 +363,7 @@
     "name": " Line Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "LineCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Line Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -375,7 +375,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.625Z",
-    "updatedAt": "2024-11-09T15:53:35.356Z",
+    "updatedAt": "2025-06-22T16:05:33.158Z",
     "__v": 0
   },
   {
@@ -383,7 +383,7 @@
     "name": " Point Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "PointCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Point Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -395,7 +395,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.635Z",
-    "updatedAt": "2024-11-09T15:53:50.190Z",
+    "updatedAt": "2025-06-22T16:05:39.477Z",
     "__v": 0
   },
   {
@@ -403,7 +403,7 @@
     "name": " Text Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "TextCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Text Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -415,7 +415,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.645Z",
-    "updatedAt": "2024-11-09T15:53:57.021Z",
+    "updatedAt": "2025-06-22T16:05:46.463Z",
     "__v": 0
   },
   {
@@ -423,7 +423,7 @@
     "name": " Ellipse Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "EllipseCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for  Ellipse Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -435,7 +435,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.650Z",
-    "updatedAt": "2024-11-09T15:54:03.786Z",
+    "updatedAt": "2025-06-22T16:05:52.697Z",
     "__v": 0
   },
   {
@@ -443,7 +443,7 @@
     "name": " Polygon Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "PolygonCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "This is a description for Polygon Capability agent.",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -455,7 +455,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.658Z",
-    "updatedAt": "2024-11-09T15:54:11.195Z",
+    "updatedAt": "2025-06-22T16:05:59.928Z",
     "__v": 0
   },
   {
@@ -463,7 +463,7 @@
     "name": "Freedraw Capability",
     "logicalCollection": "67200e060a342cc6ff42dd22",
     "alias": "FreedrawCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Allows the model to freedraw without going through using a function",
     "prompts": [
       "6670ab02f446b4f1a67b32f6",
@@ -475,7 +475,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-06T00:58:03.553Z",
-    "updatedAt": "2024-11-09T15:54:17.333Z",
+    "updatedAt": "2025-06-22T16:06:06.582Z",
     "__v": 0
   }
 ]
