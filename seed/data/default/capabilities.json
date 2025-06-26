@@ -48,16 +48,16 @@
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
-      "669dae465414a7bb2bbf9e2d",
       "66db4139230520f669c6b5e0",
-      "669bef586773961cdf4604b4",
-      "673ebeedf85550a742a85875"
+      "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
+      "669bef586773961cdf4604b4"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2025-06-22T16:00:47.921Z",
+    "updatedAt": "2025-06-26T02:02:51.348Z",
     "__v": 0
   },
   {
