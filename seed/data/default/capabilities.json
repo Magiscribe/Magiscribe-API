@@ -4,7 +4,7 @@
     "name": "Piechart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -16,7 +16,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2025-06-22T16:00:32.801Z",
+    "updatedAt": "2025-06-29T18:33:28.150Z",
     "__v": 0
   },
   {
@@ -24,7 +24,7 @@
     "name": "Barchart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -36,7 +36,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2025-06-22T16:00:40.377Z",
+    "updatedAt": "2025-06-29T18:35:42.600Z",
     "__v": 0
   },
   {
@@ -44,7 +44,7 @@
     "name": "Summary Generator",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SummaryGeneratorCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -57,7 +57,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2025-06-26T02:02:51.348Z",
+    "updatedAt": "2025-06-29T18:37:21.325Z",
     "__v": 0
   },
   {
@@ -65,7 +65,7 @@
     "name": "Chat Reply Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -78,7 +78,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2025-06-22T16:00:56.680Z",
+    "updatedAt": "2025-06-29T18:36:05.061Z",
     "__v": 0
   },
   {
@@ -111,7 +111,7 @@
     "name": "Condition Node",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ConditionNodeCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
     "prompts": [
       "66bf8d0aa9430d3fa1391448",
@@ -124,7 +124,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2025-06-22T16:01:11.061Z",
+    "updatedAt": "2025-06-29T18:36:16.135Z",
     "__v": 0
   },
   {
@@ -132,7 +132,7 @@
     "name": "Synthetic Data Generation Level 0",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SyntheticDataGenerationCapability_0",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
     "description": "Synthetic generation of node data",
     "prompts": [
       "66c00af8d0935d6985124266",
@@ -148,7 +148,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-17T01:59:42.307Z",
-    "updatedAt": "2024-11-21T05:40:23.086Z",
+    "updatedAt": "2025-06-29T18:36:31.200Z",
     "__v": 0
   },
   {
@@ -156,7 +156,7 @@
     "name": "Synthetic Data Generation Level 1",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SyntheticDataGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
     "description": "Synthetic generation of node data",
     "prompts": [
       "66c00af8d0935d6985124266",
@@ -172,7 +172,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-18T20:46:13.084Z",
-    "updatedAt": "2025-06-22T16:01:33.857Z",
+    "updatedAt": "2025-06-29T18:36:28.967Z",
     "__v": 0
   },
   {
@@ -180,7 +180,7 @@
     "name": "Dynamic Question Generation",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "DynamicQuestionGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "669541137ceb83a7fb75eb17",
@@ -196,7 +196,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T15:25:44.507Z",
-    "updatedAt": "2025-06-22T16:01:40.588Z",
+    "updatedAt": "2025-06-29T18:36:34.472Z",
     "__v": 0
   },
   {
@@ -204,7 +204,7 @@
     "name": "Dynamic Information Generation",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "DynamicInformationGenerationCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
     "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
     "prompts": [
       "66c9558dae782803372bda00",
@@ -219,7 +219,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2024-12-15T18:59:03.364Z",
+    "updatedAt": "2025-06-29T18:37:14.474Z",
     "__v": 0
   },
   {
@@ -227,7 +227,7 @@
     "name": "Barchart Chat Reply",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -242,7 +242,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T20:07:37.601Z",
-    "updatedAt": "2025-06-22T16:01:48.721Z",
+    "updatedAt": "2025-06-29T18:36:44.309Z",
     "__v": 0
   },
   {
@@ -250,7 +250,7 @@
     "name": "Piechart Chat Reply",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Creates the data for a bar chart and does a chat reply",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -265,7 +265,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-23T21:32:32.514Z",
-    "updatedAt": "2025-06-22T16:01:55.918Z",
+    "updatedAt": "2025-06-29T18:36:46.158Z",
     "__v": 0
   },
   {
