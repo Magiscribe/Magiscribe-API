@@ -21,10 +21,10 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "description": "Dynamic back and forth with the user, allowing them to chat with their data",
     "reasoning": {
-      "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+      "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
       "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: ChatReplyCapability, BarchartChatReplyCapability, or PiechartChatReplyCapability\nDo NOT include any other capabilities.\nIf a chart is explicitly requested, reply with either BarchartChatReplyCapability or PiechartChatReplyCapability. If the question can be answered directly with just text use ChatReplyCapability. No more than one capability should ever be selected.\n\n<Example1>\n<UserMessage>What new features are most commonly requested? Include a visualization. </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a pie chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a pie chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"PiechartChatReplyCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>\n\nConsider carefully whether or not you actually need to use following text. It represents PREVIOUS interactions between you and the user. Think of this as an old historical record to be referred to, not to be re-done. \n<ConversationHistory>\n{{history}}\n</ConversationHistory>\n\n<formatting>\nThere should not be additional comments before or after the ```json ``` block as these would break the downstream parser.\n</formatting>",
       "variablePassThrough": true,
-      "_id": "685829160b814e997e601760"
+      "_id": "687705c34cb3cd08a8dbc0b3"
     },
     "capabilities": [
       "669c6a3967c3fed48dee5362",
@@ -35,7 +35,7 @@
     "subscriptionFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "outputFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
     "createdAt": "2024-07-21T01:04:31.420Z",
-    "updatedAt": "2025-06-22T16:02:30.862Z",
+    "updatedAt": "2025-07-16T01:52:03.738Z",
     "__v": 0
   },
   {
