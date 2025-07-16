@@ -4,7 +4,7 @@
     "name": "Piechart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "PiechartCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates Piecharts from data to be rendered",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -16,7 +16,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:17:26.307Z",
-    "updatedAt": "2025-06-29T18:33:28.150Z",
+    "updatedAt": "2025-07-16T01:51:31.931Z",
     "__v": 0
   },
   {
@@ -24,7 +24,7 @@
     "name": "Barchart Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "BarchartCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Creates the data for a bar chart",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -36,7 +36,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-17T01:30:55.765Z",
-    "updatedAt": "2025-06-29T18:35:42.600Z",
+    "updatedAt": "2025-07-16T01:51:29.895Z",
     "__v": 0
   },
   {
@@ -44,7 +44,7 @@
     "name": "Summary Generator",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "SummaryGeneratorCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Provides AI Generated summaries, representative quotes, and anomalous quotes properly cited",
     "prompts": [
       "6695d854888b8bcf4b03be89",
@@ -57,7 +57,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-20T17:06:21.670Z",
-    "updatedAt": "2025-06-29T18:37:21.325Z",
+    "updatedAt": "2025-07-16T01:50:52.657Z",
     "__v": 0
   },
   {
@@ -65,7 +65,7 @@
     "name": "Chat Reply Capability",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ChatReplyCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
+    "llmModel": "REGIONAL_CLAUDE_4_SONNET",
     "description": "Gives a textual description of what the response is",
     "prompts": [
       "669c694867c3fed48dee5343",
@@ -78,7 +78,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-07-21T01:54:01.623Z",
-    "updatedAt": "2025-06-29T18:36:05.061Z",
+    "updatedAt": "2025-07-16T01:51:26.577Z",
     "__v": 0
   },
   {
