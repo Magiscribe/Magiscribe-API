@@ -525,13 +525,12 @@ export function getInquiryTemplates() {
  * @returns An array of MCP tools associated with the inquiry.
  */
 export function getInquiryMCPTools(inquiryId: string) {
-  return Inquiry.findById(inquiryId)
-    .then((inquiry) => {
-      if (!inquiry) {
-        throw new Error('Inquiry not found');
-      }
-      return inquiry.data.mcpTools || [];
-    });
+  return Inquiry.findById(inquiryId).then((inquiry) => {
+    if (!inquiry) {
+      throw new Error('Inquiry not found');
+    }
+    return inquiry.data.mcpTools || [];
+  });
 }
 
 interface Tool {
@@ -539,12 +538,12 @@ interface Tool {
   description: string;
   auth: {
     apiKey: string;
-  }; 
+  };
 }
 
 export async function setInquiryMCPTools(
   inquiryId: string,
-  tools: Tool[]
+  tools: Tool[],
 ): Promise<void> {
   // This function would typically update the inquiry with the provided tools.
   // For now, it does nothing as a placeholder.
@@ -557,7 +556,7 @@ export async function setInquiryMCPTools(
   await Inquiry.findByIdAndUpdate(
     inquiryId,
     { $set: { 'data.mcpTools': tools } },
-    { new: true }
+    { new: true },
   );
 
   log.info({
@@ -573,9 +572,11 @@ export async function setInquiryMCPTools(
  * @param args The arguments to pass to the tool.
  * @returns The result of the executed tool.
  */
-export function executeInquiryMCPTool(
+export async function executeInquiryMCPTool(
   inquiryId: string,
   toolName: string,
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   args: Record<string, any>,
 ) {
   log.info({
@@ -585,6 +586,18 @@ export function executeInquiryMCPTool(
     args,
   });
 
-  const inquiryTools = getInquiryMCPTools(inquiryId);
+  const inquiryTools = await getInquiryMCPTools(inquiryId);
   const tool = inquiryTools.find((t) => t.name === toolName);
+
+  if (!tool) {
+    log.warn({
+      message: 'MCP tool not found',
+      inquiryId,
+      toolName,
+    });
+    throw new Error('MCP tool not found');
+  }
+
+  // Execute the tool with the provided arguments
+  return tool.execute(args);
 }
