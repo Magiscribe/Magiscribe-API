@@ -17,6 +17,7 @@ export default `#graphql
         metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
+        mcpTools: [JSONObject!]!
     }
 
     type Inquiry {

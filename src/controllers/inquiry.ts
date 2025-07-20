@@ -510,3 +510,73 @@ export async function getInquiryResponseCount(
 export function getInquiryTemplates() {
   return templates;
 }
+
+/**
+ * Retrieves the list of MCP tools for a specific inquiry.
+ * @param inquiryId The ID of the inquiry.
+ * @returns An array of MCP tools associated with the inquiry.
+ */
+export function getInquiryMCPTools(inquiryId: string) {
+  return Inquiry.findById(inquiryId)
+    .then((inquiry) => {
+      if (!inquiry) {
+        throw new Error('Inquiry not found');
+      }
+      return inquiry.data.mcpTools || [];
+    });
+}
+
+interface Tool {
+  name: string;
+  description: string;
+  auth: {
+    apiKey: string;
+  }; 
+}
+
+export async function setInquiryMCPTools(
+  inquiryId: string,
+  tools: Tool[]
+): Promise<void> {
+  // This function would typically update the inquiry with the provided tools.
+  // For now, it does nothing as a placeholder.
+  log.info({
+    message: 'Setting MCP tools for inquiry',
+    inquiryId,
+    tools,
+  });
+
+  await Inquiry.findByIdAndUpdate(
+    inquiryId,
+    { $set: { 'data.mcpTools': tools } },
+    { new: true }
+  );
+
+  log.info({
+    message: 'MCP tools set successfully',
+    inquiryId,
+  });
+}
+
+/**
+ * Executes a specific MCP tool for an inquiry.
+ * @param inquiryId The ID of the inquiry.
+ * @param toolName The name of the MCP tool to execute.
+ * @param args The arguments to pass to the tool.
+ * @returns The result of the executed tool.
+ */
+export function executeInquiryMCPTool(
+  inquiryId: string,
+  toolName: string,
+  args: Record<string, any>,
+) {
+  log.info({
+    message: 'Executing MCP tool for inquiry',
+    inquiryId,
+    toolName,
+    args,
+  });
+
+  const inquiryTools = getInquiryMCPTools(inquiryId);
+  const tool = inquiryTools.find((t) => t.name === toolName);
+}

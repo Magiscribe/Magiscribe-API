@@ -58,6 +58,13 @@ const InquirySchema: Schema = new mongoose.Schema(
           lastContacted: { type: Date, required: false },
         }],
       },
+      mcpTools: [{
+        name: { type: String, required: true },
+        description: { type: String, required: true },
+        auth: {
+          apiKey: { type: String, required: true },
+        },
+      }],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },
     },
