@@ -41,6 +41,7 @@
     "@aws-sdk/lib-storage": "^3.750.0",
     "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@clerk/backend": "^1.24.2",
+    "@eslint/js": "^9.31.0",
     "@fastify/cors": "^10.1.0",
     "@graphql-tools/schema": "^10.0.19",
     "@graphql-tools/utils": "^10.8.2",
@@ -81,6 +82,5 @@
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.25.0"
-  },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  }
 }

@@ -356,7 +356,9 @@ export async function getInquiryResponse({
   return inquiryResponse;
 }
 
-export async function getAverageInquiryResponseTime(inquiryId: string): Promise<AverageInquiryResponseTime> {
+export async function getAverageInquiryResponseTime(
+  inquiryId: string,
+): Promise<AverageInquiryResponseTime> {
   const inquiry = await Inquiry.findById({
     _id: inquiryId,
   }).populate({
@@ -375,17 +377,21 @@ export async function getAverageInquiryResponseTime(inquiryId: string): Promise<
   }
 
   const responseTimes = inquiry.responses?.map((response) => {
-    return dayjs(response.updatedAt).diff(dayjs(response.createdAt), 'minute', true);
+    return dayjs(response.updatedAt).diff(
+      dayjs(response.createdAt),
+      'minute',
+      true,
+    );
   });
 
-
-  const averageResponseTime = responseTimes?.reduce((acc, value) => acc + value, 0) / responseTimes?.length;
+  const averageResponseTime =
+    responseTimes?.reduce((acc, value) => acc + value, 0) /
+    responseTimes?.length;
 
   return {
     minutes: averageResponseTime,
     responseCount: inquiry.responses.length,
   };
-
 }
 
 /**
@@ -400,26 +406,26 @@ export async function getInquiryResponses({
   // Transform filters into MongoDB-compatible format
   const filterQuery = filters
     ? createFilterQuery({
-      createdAt: {
-        eq: filters.createdAt?.eq ?? undefined,
-        gt: filters.createdAt?.gt ?? undefined,
-        gte: filters.createdAt?.gte ?? undefined,
-        lt: filters.createdAt?.lt ?? undefined,
-        lte: filters.createdAt?.lte ?? undefined,
-      },
-      'data.userDetails.name': {
-        eq: filters.name?.eq ?? undefined,
-        startsWith: filters.name?.startsWith ?? undefined,
-        contains: filters.name?.contains ?? undefined,
-        endsWith: filters.name?.endsWith ?? undefined,
-      },
-      'data.userDetails.email': {
-        eq: filters.email?.eq ?? undefined,
-        startsWith: filters.email?.startsWith ?? undefined,
-        contains: filters.email?.contains ?? undefined,
-        endsWith: filters.email?.endsWith ?? undefined,
-      },
-    })
+        createdAt: {
+          eq: filters.createdAt?.eq ?? undefined,
+          gt: filters.createdAt?.gt ?? undefined,
+          gte: filters.createdAt?.gte ?? undefined,
+          lt: filters.createdAt?.lt ?? undefined,
+          lte: filters.createdAt?.lte ?? undefined,
+        },
+        'data.userDetails.name': {
+          eq: filters.name?.eq ?? undefined,
+          startsWith: filters.name?.startsWith ?? undefined,
+          contains: filters.name?.contains ?? undefined,
+          endsWith: filters.name?.endsWith ?? undefined,
+        },
+        'data.userDetails.email': {
+          eq: filters.email?.eq ?? undefined,
+          startsWith: filters.email?.startsWith ?? undefined,
+          contains: filters.email?.contains ?? undefined,
+          endsWith: filters.email?.endsWith ?? undefined,
+        },
+      })
     : {};
 
   const inquiry = await Inquiry.findById({
@@ -442,15 +448,17 @@ export async function getInquiryResponses({
 
 export async function checkIfUsersRespondedToInquiry(
   id: string,
-  emails: string[]
+  emails: string[],
 ): Promise<string[]> {
   const inquiry = await Inquiry.findById({
     _id: id,
   }).populate({
     path: 'responses',
-    match: { "data.userDetails.email": { $in: emails } },
+    match: { 'data.userDetails.email': { $in: emails } },
   });
-  const respondentEmails = inquiry?.responses?.map(result => result.data.userDetails?.email ?? "").filter(email => !!email);
+  const respondentEmails = inquiry?.responses
+    ?.map((result) => result.data.userDetails?.email ?? '')
+    .filter((email) => !!email);
   return respondentEmails ?? [];
 }
 
@@ -517,13 +525,12 @@ export function getInquiryTemplates() {
  * @returns An array of MCP tools associated with the inquiry.
  */
 export function getInquiryMCPTools(inquiryId: string) {
-  return Inquiry.findById(inquiryId)
-    .then((inquiry) => {
-      if (!inquiry) {
-        throw new Error('Inquiry not found');
-      }
-      return inquiry.data.mcpTools || [];
-    });
+  return Inquiry.findById(inquiryId).then((inquiry) => {
+    if (!inquiry) {
+      throw new Error('Inquiry not found');
+    }
+    return inquiry.data.mcpTools || [];
+  });
 }
 
 interface Tool {
@@ -531,12 +538,12 @@ interface Tool {
   description: string;
   auth: {
     apiKey: string;
-  }; 
+  };
 }
 
 export async function setInquiryMCPTools(
   inquiryId: string,
-  tools: Tool[]
+  tools: Tool[],
 ): Promise<void> {
   // This function would typically update the inquiry with the provided tools.
   // For now, it does nothing as a placeholder.
@@ -549,7 +556,7 @@ export async function setInquiryMCPTools(
   await Inquiry.findByIdAndUpdate(
     inquiryId,
     { $set: { 'data.mcpTools': tools } },
-    { new: true }
+    { new: true },
   );
 
   log.info({
@@ -565,9 +572,11 @@ export async function setInquiryMCPTools(
  * @param args The arguments to pass to the tool.
  * @returns The result of the executed tool.
  */
-export function executeInquiryMCPTool(
+export async function executeInquiryMCPTool(
   inquiryId: string,
   toolName: string,
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   args: Record<string, any>,
 ) {
   log.info({
@@ -577,6 +586,18 @@ export function executeInquiryMCPTool(
     args,
   });
 
-  const inquiryTools = getInquiryMCPTools(inquiryId);
+  const inquiryTools = await getInquiryMCPTools(inquiryId);
   const tool = inquiryTools.find((t) => t.name === toolName);
+
+  if (!tool) {
+    log.warn({
+      message: 'MCP tool not found',
+      inquiryId,
+      toolName,
+    });
+    throw new Error('MCP tool not found');
+  }
+
+  // Execute the tool with the provided arguments
+  return tool.execute(args);
 }

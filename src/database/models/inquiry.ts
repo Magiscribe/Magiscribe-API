@@ -49,22 +49,26 @@ const InquirySchema: Schema = new mongoose.Schema(
       metadata: {
         images: { type: Object, required: false },
         text: { type: String, require: false },
-        inviteList: [{
-          primaryEmailAddress: { type: String, required: true },
-          firstName: { type: String, required: true },
-          lastName: { type: String, required: false },
-          id: { type: String, required: false },
-          username: { type: String, required: false },
-          lastContacted: { type: Date, required: false },
-        }],
+        inviteList: [
+          {
+            primaryEmailAddress: { type: String, required: true },
+            firstName: { type: String, required: true },
+            lastName: { type: String, required: false },
+            id: { type: String, required: false },
+            username: { type: String, required: false },
+            lastContacted: { type: Date, required: false },
+          },
+        ],
       },
-      mcpTools: [{
-        name: { type: String, required: true },
-        description: { type: String, required: true },
-        auth: {
-          apiKey: { type: String, required: true },
+      mcpTools: [
+        {
+          name: { type: String, required: true },
+          description: { type: String, required: true },
+          auth: {
+            apiKey: { type: String, required: true },
+          },
         },
-      }],
+      ],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },
     },
