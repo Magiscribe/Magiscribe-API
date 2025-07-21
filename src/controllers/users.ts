@@ -6,6 +6,7 @@ import { clerkClient } from '@/utils/clients';
 import { sendInquiryToUsers, sendWelcomeEmail } from '@/utils/emails/types';
 import { User as ClerkUser } from '@clerk/backend';
 import { UserDataInput } from '@/graphql/codegen';
+import config from '@/config';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;
@@ -72,6 +73,23 @@ export async function getUsersById({
   } catch (error) {
     log.error({ error, userIds }, 'Failed to fetch users by IDs');
     throw new Error('Failed to fetch users');
+  }
+}
+
+export async function sendClerkInvite({
+  email,})
+: Promise<string> {
+  try {
+    const result = await clerkClient.invitations.createInvitation({
+      emailAddress: email,
+      ignoreExisting: true,
+      notify: true,
+    });
+    log.info({ result, email }, 'Clerk invite sent successfully');
+    return "Success";
+  } catch (error) {
+    log.error({ error, email }, 'Failed to send Clerk invite');
+    throw new Error('Failed to send Clerk invite');
   }
 }
 

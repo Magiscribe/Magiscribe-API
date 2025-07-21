@@ -136,15 +136,39 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
   });
 
   try {
-    const result = await Inquiry.find({ userId: userId });
+    const resultByUserId = await Inquiry.find({ userId: userId });
 
-    log.info({
-      message: 'User data fetched successfully',
-      userId,
-      count: result.length,
-    });
+    // Inquiries are associated with the user email or the user id.  Fetch the corresponding user email to check if it is in the owner list of any inquiries.
+    const userObject = await getUsersById(
+      { userIds: [userId] },
+    );
 
-    return result;
+    if (!userObject?.length) {
+      log.warn({
+        message: 'User not found',
+        userId,
+      });
+    }
+    else {
+      log.info({
+        message: 'User data fetched successfully',
+        userId
+      });
+
+      const resultByEmail = await Inquiry.find({ ownerEmail: userObject[0].primaryEmailAddress });
+      if (resultByEmail.length) {
+        log.info({
+          message: 'Inquiries fetched by user email',
+          userId,
+          email: userObject[0].primaryEmailAddress,
+        });
+        return resultByUserId.concat(resultByEmail);
+      }
+    }
+
+
+
+    return resultByUserId;
   } catch {
     log.error({
       message: 'Failed to fetch user data',
@@ -162,16 +186,49 @@ export async function getInquiries(userId: string): Promise<TInquiry[]> {
 export async function updateInquiryOwners({
   id,
   userId,
+  userEmail,
   owners,
 }: {
   id: string;
   userId: string;
+  userEmail: string
   owners: string[];
 }): Promise<TInquiry> {
   return await Inquiry.findOneAndUpdate(
+    //{$and: [{_id: id}, {$or: [{ userId, ownerEmail: userEmail }]}]},
     { _id: id, userId },
     {
       $set: { userId: owners },
+    },
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+    },
+  );
+}
+
+/**
+ * Creates a new data object or updates an existing one based on the presence of an ID.
+ * @param data The data object to create or update.
+ * @returns {Promise<TInquiry>} The created or updated data object.
+ */
+export async function updateInquiryOwnerEmails({
+  id,
+  userId,
+  userEmail,
+  ownerEmails,
+}: {
+  id: string;
+  userId: string;
+  userEmail: string;
+  ownerEmails: string[];
+}): Promise<TInquiry> {
+  return await Inquiry.findOneAndUpdate(
+    //{$and: [{_id: id}, {$or: [{ userId, ownerEmail: userEmail }]}]},
+    { _id: id, userId },
+    {
+      $set: { ownerEmail: ownerEmails },
     },
     {
       upsert: true,
