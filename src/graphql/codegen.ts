@@ -313,6 +313,7 @@ export type Prediction = {
   id: Scalars['ID']['output'];
   result?: Maybe<Scalars['String']['output']>;
   subscriptionId: Scalars['ID']['output'];
+  tokenUsage?: Maybe<TokenUsage>;
   type: PredictionType;
 };
 
@@ -475,6 +476,13 @@ export type SubscriptionPredictionAddedArgs = {
   subscriptionId: Scalars['ID']['input'];
 };
 
+export type TokenUsage = {
+  __typename?: 'TokenUsage';
+  inputTokens: Scalars['Int']['output'];
+  outputTokens: Scalars['Int']['output'];
+  totalTokens: Scalars['Int']['output'];
+};
+
 export type UserData = {
   __typename?: 'UserData';
   firstName?: Maybe<Scalars['String']['output']>;
@@ -607,6 +615,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
+  TokenUsage: ResolverTypeWrapper<TokenUsage>;
   UserData: ResolverTypeWrapper<UserData>;
   UserDataInput: UserDataInput;
   Voice: ResolverTypeWrapper<Voice>;
@@ -647,6 +656,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   StringFilter: StringFilter;
   Subscription: {};
+  TokenUsage: TokenUsage;
   UserData: UserData;
   UserDataInput: UserDataInput;
   Voice: Voice;
@@ -802,6 +812,7 @@ export type PredictionResolvers<ContextType = any, ParentType extends ResolversP
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   subscriptionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  tokenUsage?: Resolver<Maybe<ResolversTypes['TokenUsage']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['PredictionType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -844,6 +855,13 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   predictionAdded?: SubscriptionResolver<Maybe<ResolversTypes['Prediction']>, "predictionAdded", ParentType, ContextType, RequireFields<SubscriptionPredictionAddedArgs, 'subscriptionId'>>;
 };
 
+export type TokenUsageResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenUsage'] = ResolversParentTypes['TokenUsage']> = {
+  inputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  outputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserData'] = ResolversParentTypes['UserData']> = {
   firstName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -881,6 +899,7 @@ export type Resolvers<ContextType = any> = {
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  TokenUsage?: TokenUsageResolvers<ContextType>;
   UserData?: UserDataResolvers<ContextType>;
   Voice?: VoiceResolvers<ContextType>;
 };

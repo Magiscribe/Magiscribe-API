@@ -273,7 +273,7 @@ async function executeSteps(
  * @returns A function that publishes prediction events
  */
 function createEventPublisher(eventId: string, subscriptionId: string) {
-  return async (type: PredictionEventType, result?: string) => {
+  return async (type: PredictionEventType, result?: string, tokenUsage?: { inputTokens: number; outputTokens: number; totalTokens: number }) => {
     const contextMap = {
       RECEIVED: 'User prompt received',
       DATA: 'Prediction data received',
@@ -292,6 +292,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
       subscriptionId,
       type,
       result,
+      tokenUsage,
       context: contextMap[type],
     });
     return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
@@ -301,6 +302,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
         result,
         type,
         context: contextMap[type],
+        tokenUsage,
       },
     });
   };
@@ -360,7 +362,7 @@ export async function generatePrediction({
       model,
     } = await executeSteps(steps, attachments, publishEvent);
 
-    await publishEvent(PredictionEventType.SUCCESS, result);
+    await publishEvent(PredictionEventType.SUCCESS, result, tokenUsage);
     await addToThread(
       thread,
       agent.id,

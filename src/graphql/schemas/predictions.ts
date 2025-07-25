@@ -8,11 +8,18 @@ export default `#graphql
     RECEIVED
   }
 
+  type TokenUsage {
+    inputTokens: Int!
+    outputTokens: Int!
+    totalTokens: Int!
+  }
+
   type Prediction {
     id: ID!
     subscriptionId: ID!
     type: PredictionType!
     result: String
+    tokenUsage: TokenUsage
   }
 
   type Mutation {
