@@ -17,6 +17,13 @@ import {
 } from '@/utils/emails/types';
 import { getUsersById } from './users';
 import { findOrCreateThread } from '@/utils/ai/system';
+import { 
+  executeMCPTool, 
+  Integration, 
+  ToolExecutionResult, 
+  listMCPTools, 
+  testMCPConnection 
+} from '@/utils/mcpClient';
 
 /**
  * Creates a new data object or updates an existing one based on the presence of an ID.
@@ -483,7 +490,7 @@ export async function getInquiryResponseCount(
     if (!inquiry) {
       log.warn({
         message: 'Inquiry not found or user does not have permission',
-        inquiryId: id,
+        inquiryId: id, 
         userId,
       });
       throw new Error(
@@ -519,50 +526,81 @@ export function getInquiryTemplates() {
   return templates;
 }
 
+export interface IntegrationExecutionResult {
+  success: boolean;
+  result?: any;
+  error?: string;
+}
+
 /**
  * Retrieves the list of MCP tools for a specific inquiry.
  * @param inquiryId The ID of the inquiry.
  * @returns An array of MCP tools associated with the inquiry.
  */
-export function getInquiryMCPTools(inquiryId: string) {
-  return Inquiry.findById(inquiryId).then((inquiry) => {
-    if (!inquiry) {
-      throw new Error('Inquiry not found');
-    }
-    return inquiry.data.mcpTools || [];
+export async function getInquiryIntegrations(inquiryId: string): Promise<Integration[]> {
+  log.info({
+    message: 'Fetching MCP tools for inquiry',
+    inquiryId,
   });
+
+  const inquiry = await Inquiry.findById(inquiryId);
+  
+  if (!inquiry) {
+    log.warn({
+      message: 'Inquiry not found',
+      inquiryId,
+    });
+    throw new Error('Inquiry not found');
+  }
+
+  const integrations = inquiry.data.integrations || [];
+  
+  log.info({
+    message: 'MCP tools fetched successfully',
+    inquiryId,
+    toolCount: integrations.length,
+  });
+
+  return integrations;
 }
 
-interface Tool {
-  name: string;
-  description: string;
-  auth: {
-    apiKey: string;
-  };
-}
-
-export async function setInquiryMCPTools(
+/**
+ * Sets the MCP tools for a specific inquiry.
+ * @param inquiryId The ID of the inquiry.
+ * @param integrations The array of MCP tools to set.
+ * @returns The updated array of MCP tools.
+ */
+export async function setInquiryIntegrations(
   inquiryId: string,
-  tools: Tool[],
-): Promise<void> {
-  // This function would typically update the inquiry with the provided tools.
-  // For now, it does nothing as a placeholder.
+  integrations: Integration[],
+): Promise<Integration[]> {
   log.info({
     message: 'Setting MCP tools for inquiry',
     inquiryId,
-    tools,
+    integrations,
   });
 
-  await Inquiry.findByIdAndUpdate(
+  const updatedInquiry = await Inquiry.findByIdAndUpdate(
     inquiryId,
-    { $set: { 'data.mcpTools': tools } },
+    { $set: { 'data.integrations': integrations } },
     { new: true },
   );
+
+  if (!updatedInquiry) {
+    log.warn({
+      message: 'Inquiry not found',
+      inquiryId,
+    });
+    throw new Error('Inquiry not found');
+  }
 
   log.info({
     message: 'MCP tools set successfully',
     inquiryId,
+    toolCount: integrations.length,
   });
+
+  return updatedInquiry.data.integrations || [];
 }
 
 /**
@@ -572,13 +610,11 @@ export async function setInquiryMCPTools(
  * @param args The arguments to pass to the tool.
  * @returns The result of the executed tool.
  */
-export async function executeInquiryMCPTool(
+export async function executeInquiryIntegrationTool(
   inquiryId: string,
   toolName: string,
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   args: Record<string, any>,
-) {
+): Promise<ToolExecutionResult> {
   log.info({
     message: 'Executing MCP tool for inquiry',
     inquiryId,
@@ -586,18 +622,131 @@ export async function executeInquiryMCPTool(
     args,
   });
 
-  const inquiryTools = await getInquiryMCPTools(inquiryId);
-  const tool = inquiryTools.find((t) => t.name === toolName);
+  try {
+    const inquiryIntegrations = await getInquiryIntegrations(inquiryId);
+    const integration = inquiryIntegrations.find((t) => t.name === toolName);
 
-  if (!tool) {
-    log.warn({
-      message: 'MCP tool not found',
+    if (!integration) {
+      log.warn({
+        message: 'MCP integration not found',
+        inquiryId,
+        toolName,
+      });
+      return {
+        success: false,
+        error: 'MCP integration not found',
+      };
+    }
+
+    // Use the actual MCP client to execute the tool
+    const result = await executeMCPTool(integration, toolName, args);
+
+    log.info({
+      message: 'MCP tool executed successfully via client',
       inquiryId,
       toolName,
+      result,
     });
-    throw new Error('MCP tool not found');
-  }
 
-  // Execute the tool with the provided arguments
-  return tool.execute(args);
+    return result;
+  } catch (error) {
+    log.error({
+      message: 'Failed to execute MCP tool',
+      inquiryId,
+      toolName,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
+/**
+ * Lists available tools for a specific integration
+ * @param inquiryId The ID of the inquiry
+ * @param integrationName The name of the integration
+ * @returns Promise with available tools
+ */
+export async function getIntegrationTools(inquiryId: string, integrationName: string) {
+  try {
+    const inquiryIntegrations = await getInquiryIntegrations(inquiryId);
+    const integration = inquiryIntegrations.find((i) => i.name === integrationName);
+
+    if (!integration) {
+      throw new Error('Integration not found');
+    }
+
+    const tools = await listMCPTools(integration);
+    
+    log.info({
+      message: 'Integration tools listed successfully',
+      inquiryId,
+      integrationName,
+      toolCount: tools.length,
+    });
+
+    return {
+      success: true,
+      tools,
+    };
+  } catch (error) {
+    log.error({
+      message: 'Failed to list integration tools',
+      inquiryId,
+      integrationName,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
+/**
+ * Tests the connection to an integration
+ * @param inquiryId The ID of the inquiry
+ * @param integrationName The name of the integration to test
+ * @returns Promise with connection test result
+ */
+export async function testIntegrationConnection(inquiryId: string, integrationName: string) {
+  try {
+    const inquiryIntegrations = await getInquiryIntegrations(inquiryId);
+    const integration = inquiryIntegrations.find((i) => i.name === integrationName);
+
+    if (!integration) {
+      throw new Error('Integration not found');
+    }
+
+    const isConnected = await testMCPConnection(integration);
+    
+    log.info({
+      message: 'Integration connection test completed',
+      inquiryId,
+      integrationName,
+      isConnected,
+    });
+
+    return {
+      success: true,
+      connected: isConnected,
+    };
+  } catch (error) {
+    log.error({
+      message: 'Failed to test integration connection',
+      inquiryId,
+      integrationName,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+
+    return {
+      success: false,
+      connected: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
 }
