@@ -17,7 +17,7 @@ export default `#graphql
         metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
-        mcpTools: [JSONObject!]!
+        integrations: [Integration!]!
     }
 
     type Inquiry {
@@ -66,6 +66,37 @@ export default `#graphql
         email: StringFilter   
     }
 
+    type Integration {
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+    }
+
+    input IntegrationInput {
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+    }
+
+    type IntegrationToolsResult {
+        success: Boolean!
+        tools: [JSONObject!]
+        error: String
+    }
+
+    type IntegrationConnectionResult {
+        success: Boolean!
+        error: String
+    }
+
+    type MCPIntegrationExecutionResult {
+        success: Boolean!
+        result: JSONObject
+        error: String
+    }
+
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
@@ -74,6 +105,9 @@ export default `#graphql
         getInquiryResponseCount(id: ID!): Int! @auth
         getInquiryTemplates: [JSONObject!]! @auth
         getAverageInquiryResponseTime(id: ID!): AverageInquiryResponseTime! @auth
+        getInquiryIntegrations(inquiryId: ID!): [Integration!]! @auth
+        getIntegrationTools(inquiryId: ID!, integrationName: String!): IntegrationToolsResult! @auth
+        testIntegrationConnection(inquiryId: ID!, integrationName: String!): IntegrationConnectionResult! @auth
     }
 
     type Mutation {
@@ -83,5 +117,8 @@ export default `#graphql
 
         upsertInquiryResponse(id: ID, inquiryId: ID!, subscriptionId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
         deleteInquiryResponse(id: ID!, inquiryId: ID!): InquiryResponse @auth
+
+        setInquiryIntegrations(inquiryId: ID!, integrations: [IntegrationInput!]!): [Integration!]! @auth
+        executeInquiryIntegrationTool(inquiryId: ID!, toolName: String!, args: JSONObject!): MCPIntegrationExecutionResult! @auth
     }
 `;
