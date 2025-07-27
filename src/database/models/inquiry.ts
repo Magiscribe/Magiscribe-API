@@ -1,7 +1,4 @@
-import {
-  Inquiry as InquiryObject,
-  InquiryResponse as InquiryResponseObject,
-} from '@/graphql/codegen';
+import { Inquiry as InquiryObject, InquiryResponse as InquiryResponseObject } from '@/graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
@@ -60,14 +57,13 @@ const InquirySchema: Schema = new mongoose.Schema(
           },
         ],
       },
-      mcpTools: [
+      integrations: [
         {
           name: { type: String, required: true },
           description: { type: String, required: true },
-          auth: {
-            apiKey: { type: String, required: true },
-          },
-        },
+          type: { type: String, enum: ['MCP'], required: true },
+          config: { type: Object, required: true },
+        }
       ],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },

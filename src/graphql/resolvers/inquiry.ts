@@ -1,13 +1,18 @@
 import {
   deleteInquiry,
   deleteInquiryResponse,
+  executeInquiryIntegrationTool,
   getAverageInquiryResponseTime,
   getInquiries,
   getInquiry,
+  getInquiryIntegrations,
   getInquiryResponse,
   getInquiryResponseCount,
   getInquiryResponses,
   getInquiryTemplates,
+  getIntegrationTools,
+  setInquiryIntegrations,
+  testIntegrationConnection,
   updateInquiryOwners,
   upsertInquiry,
   upsertInquiryResponse,
@@ -16,10 +21,13 @@ import Context from '@/customTypes/context';
 import {
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
+  MutationExecuteInquiryIntegrationToolArgs,
+  MutationSetInquiryIntegrationsArgs,
   MutationUpdateInquiryOwnersArgs,
   MutationUpsertInquiryArgs,
   MutationUpsertInquiryResponseArgs,
   QueryGetInquiryArgs,
+  QueryGetInquiryIntegrationsArgs,
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
@@ -84,6 +92,22 @@ export default {
         inquiryId: args.inquiryId,
         userId: context.auth.sub,
       }),
+
+    setInquiryIntegrations: async (
+      _,
+      args: MutationSetInquiryIntegrationsArgs,
+      context: Context,
+    ) => {
+      return setInquiryIntegrations(args.inquiryId, args.integrations);
+    },
+
+    executeInquiryIntegrationTool: async (
+      _,
+      args: MutationExecuteInquiryIntegrationToolArgs,
+      context: Context,
+    ) => {
+      return executeInquiryIntegrationTool(args.inquiryId, args.toolName, args.args);
+    },
   },
   Query: {
     getInquiries: async (_, _args, context: Context) =>
@@ -104,5 +128,13 @@ export default {
     ) => getInquiryResponseCount(args.id, context.auth.sub),
 
     getInquiryTemplates: () => getInquiryTemplates(),
+
+    getInquiryIntegrations: async (
+      _,
+      args: QueryGetInquiryIntegrationsArgs,
+      context: Context,
+    ) => {
+      return getInquiryIntegrations(args.inquiryId);
+    },
   },
 };
