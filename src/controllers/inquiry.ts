@@ -209,7 +209,7 @@ export async function upsertInquiryResponse({
     throw new Error('Inquiry not found');
   }
 
-  const thread = await findOrCreateThread(subscriptionId);
+  const thread = await findOrCreateThread(subscriptionId, inquiryId);
 
   if (!id) {
     log.info({

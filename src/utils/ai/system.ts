@@ -50,10 +50,15 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
-export async function findOrCreateThread(subscriptionId: string) {
+export async function findOrCreateThread(subscriptionId: string, inquiryId?: string) {
+  const updateData: any = { $setOnInsert: { messages: [] } };
+  if (inquiryId) {
+    updateData.$setOnInsert.inquiryId = inquiryId;
+  }
+  
   return await Thread.findOneAndUpdate(
     { subscriptionId },
-    { $setOnInsert: { messages: [] } },
+    updateData,
     { upsert: true, new: true },
   );
 }
@@ -80,6 +85,7 @@ export async function addToThread(
   tokens?: { inputTokens: number; outputTokens: number; totalTokens: number },
   model?: string,
 ): Promise<void> {
+
   await thread.updateOne({
     $push: {
       messages: {

@@ -11,3 +11,6 @@ tsconfig.tsbuildinfo
 newrelic_agent.log
 debug.log
 coverage
+
+# Generated GraphQL files
+src/graphql

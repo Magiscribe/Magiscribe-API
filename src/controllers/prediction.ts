@@ -104,22 +104,30 @@ async function getSteps(agent: Agent, variables: { [key: string]: string }) {
       ? variables
       : {};
 
-    return (await Promise.all(
-      reasoningResult.processingSteps.map(async (step) => ({
-        ...passThroughVariables,
-        ...step,
-        capability: await getCapability(step.capabilityAlias),
-      })),
-    )) as Array<{ [key: string]: string | Capability }>;
+    return {
+      steps: (await Promise.all(
+        reasoningResult.processingSteps.map(async (step) => ({
+          ...passThroughVariables,
+          ...step,
+          capability: await getCapability(step.capabilityAlias),
+        })),
+      )) as Array<{ [key: string]: string | Capability }>,
+      reasoningTokenUsage: reasoningResult.tokenUsage,
+      reasoningContent: reasoningResult.processingSteps,
+    };
   }
 
   // If no reasoning steps are provided, we need to return an array of steps
   // with the prompt and the capability object. This allows agents to be present
   // that do not require reasoning. We automatically pass all variables through to this.
-  return agent.capabilities.map((capability) => ({
-    ...variables,
-    capability,
-  })) as Array<{ [key: string]: string | Capability }>;
+  return {
+    steps: agent.capabilities.map((capability) => ({
+      ...variables,
+      capability,
+    })) as Array<{ [key: string]: string | Capability }>,
+    reasoningTokenUsage: null,
+    reasoningContent: null,
+  };
 }
 
 /**
@@ -322,12 +330,14 @@ export async function generatePrediction({
   auth,
   subscriptionId,
   agentId,
+  inquiryId,
   variables,
   attachments,
 }: {
   auth?: { sub?: string };
   subscriptionId: string;
   agentId: string;
+  inquiryId?: string;
   variables: Record<string, string>;
   attachments: Array<Content>;
 }): Promise<void> {
@@ -340,7 +350,7 @@ export async function generatePrediction({
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
-    const thread = await findOrCreateThread(subscriptionId);
+    const thread = await findOrCreateThread(subscriptionId, inquiryId);
     await addToThread(thread, auth?.sub, variables, true);
 
     log.debug({
@@ -355,7 +365,20 @@ export async function generatePrediction({
       });
     }
 
-    const steps = await getSteps(agent, variables);
+    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(agent, variables);
+    
+    // If reasoning was performed, add the reasoning token usage to the thread
+    if (reasoningTokenUsage && reasoningContent) {
+      await addToThread(
+        thread,
+        agent.id,
+        reasoningContent,
+        false,
+        reasoningTokenUsage,
+        agent.reasoning?.llmModel,
+      );
+    }
+
     const {
       content: result,
       tokenUsage,
