@@ -31,6 +31,8 @@ import {
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
+  QueryGetIntegrationToolsArgs,
+  QueryTestIntegrationConnectionArgs,
 } from '@/graphql/codegen';
 
 export default {
@@ -135,6 +137,22 @@ export default {
       context: Context,
     ) => {
       return getInquiryIntegrations(args.inquiryId);
+    },
+
+    getIntegrationTools: async (
+      _,
+      args: QueryGetIntegrationToolsArgs,
+      context: Context,
+    ) => {
+      return getIntegrationTools(args.inquiryId, args.integrationName);
+    },
+
+    testIntegrationConnection: async (
+      _,
+      args: QueryTestIntegrationConnectionArgs,
+      context: Context,
+    ) => {
+      return testIntegrationConnection(args.inquiryId, args.integrationName);
     },
   },
 };

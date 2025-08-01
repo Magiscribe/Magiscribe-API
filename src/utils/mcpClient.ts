@@ -137,6 +137,13 @@ export async function executeMCPTool(
 
   try {
     client = await createMCPClient(integration);
+  
+    log.debug({
+      message: 'MCP client created for tool execution',
+      integrationName: integration.name,
+      toolName: toolName,
+      arguments: args,
+    });
     
     const result = await client.callTool({
       name: toolName,

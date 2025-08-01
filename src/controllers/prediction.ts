@@ -14,6 +14,8 @@ import {
 } from '@/utils/ai/system';
 import { pubsubClient } from '@/utils/clients';
 import * as utils from '@/utils/code';
+import { executeMCPTool, Integration, listMCPTools } from '@/utils/mcpClient';
+import { getInquiryIntegrations } from '@/controllers/inquiry';
 import { v4 as uuid } from 'uuid';
 
 enum PredictionEventType {
@@ -243,7 +245,7 @@ async function executeSteps(
   attachments: Array<Content>,
   eventPublisher: (type: PredictionEventType, data?: string) => Promise<void>,
 ): Promise<{
-  content: string;
+  content: string[];
   tokenUsage: {
     inputTokens: number;
     outputTokens: number;
@@ -266,9 +268,7 @@ async function executeSteps(
   );
 
   return {
-    content: JSON.stringify(
-      results.map((r) => r.content).filter((item) => item !== null),
-    ),
+    content: results.map((r) => r.content).filter((item) => item !== null),
     tokenUsage: totalTokenUsage,
     model: results[results.length - 1].model, // Use the last model used in the chain
   };
@@ -332,6 +332,8 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
  * @param {string} params.subscriptionId - The ID of the subscription.
  * @param {string} params.agentId - The ID of the agent to use.
  * @param {Object} params.variables - Key-value pairs of variables for the prediction.
+ * @param {Array} params.attachments - Attachments to include in the prediction.
+ * @param {string} params.inquiryId - Optional inquiry ID to enable MCP integrations.
  * @returns {Promise<void>}
  */
 export async function generatePrediction({
@@ -341,6 +343,7 @@ export async function generatePrediction({
   inquiryId,
   variables,
   attachments,
+  inquiryId,
 }: {
   auth?: { sub?: string };
   subscriptionId: string;
@@ -348,6 +351,7 @@ export async function generatePrediction({
   inquiryId?: string;
   variables: Record<string, string>;
   attachments: Array<Content>;
+  inquiryId?: string;
 }): Promise<void> {
   const publishEvent = createEventPublisher(uuid(), subscriptionId);
 
@@ -373,34 +377,363 @@ export async function generatePrediction({
       });
     }
 
-    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(
-      agent,
-      variables,
-    );
+    // MCP Integration support - if inquiryId is provided, get available tools
+    let mcpTools: Array<{ integration: Integration; tools: any[] }> = [];
+    if (inquiryId) {
+      try {
+        log.debug({
+          msg: 'MCP enabled for inquiry',
+          inquiryId,
+        });
 
-    // If reasoning was performed, add the reasoning token usage to the thread
-    if (reasoningTokenUsage && reasoningContent) {
-      await addToThread(
-        thread,
-        agent.id,
-        reasoningContent,
-        false,
-        reasoningTokenUsage,
-        agent.reasoning?.llmModel,
-      );
+        const availableIntegrations = await getInquiryIntegrations(inquiryId);
+        
+        for (const integration of availableIntegrations) {
+          try {
+            const tools = await listMCPTools(integration);
+            mcpTools.push({ integration, tools });
+            
+            log.debug({
+              msg: 'Listed tools for integration',
+              integrationName: integration.name,
+              toolCount: tools.length,
+            });
+          } catch (error) {
+            log.warn({
+              msg: 'Failed to list tools for integration',
+              integrationName: integration.name,
+              error: error instanceof Error ? error.message : 'Unknown error',
+            });
+          }
+        }
+
+        // Add MCP tools to variables so the AI can see them
+        if (mcpTools.length > 0) {
+          const toolsDescription = mcpTools
+            .map(({ integration, tools }) => 
+              `Integration: ${integration.name}\n` +
+              tools.map(tool => 
+                `  - ${tool.name}: ${tool.description}`
+              ).join('\n')
+            )
+            .join('\n\n');
+
+          variables.mcpTools = `${toolsDescription}
+
+To execute a tool, respond with JSON in this format (enclosed in backticks):
+\`\`\`json
+{
+  "command": "tool_name",
+  "args": {
+    "parameter": "value"
+  }
+}
+\`\`\`
+
+Example:
+\`\`\`json
+{
+  "command": "jira_search", 
+  "args": {
+    "jql": "project = MYPROJ",
+    "limit": 10
+  }
+}
+\`\`\`
+
+Alternatively, you can include the JSON directly in your response:
+{
+  "command": "jira_search", 
+  "args": {
+    "jql": "order by created DESC",
+    "limit": 10
+  }
+}`;
+          
+          log.debug({
+            msg: 'Added MCP tools to variables',
+            toolCount: mcpTools.reduce((sum, t) => sum + t.tools.length, 0),
+          });
+        }
+      } catch (error) {
+        log.warn({
+          msg: 'Failed to setup MCP tools',
+          inquiryId,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
+      }
     }
 
+    const steps = await getSteps(agent, variables);
     const {
       content: result,
       tokenUsage,
       model,
     } = await executeSteps(steps, attachments, publishEvent);
 
-    await publishEvent(PredictionEventType.SUCCESS, result, tokenUsage);
+    // If MCP tools are available, check if the AI wants to execute any tool
+    let finalResult = JSON.stringify(result);
+    if (inquiryId && mcpTools.length > 0) {
+      try {
+        // Try to parse the result to see if it contains MCP tool execution instructions
+        let toolExecutionRequest: {
+          integrationName?: string;
+          toolName?: string;
+          arguments?: Record<string, any>;
+        } | null = null;
+
+        // Helper function to extract tool execution from various formats
+        const extractToolExecution = (content: string): any => {
+          // Try direct JSON parsing first
+          try {
+            return JSON.parse(content);
+          } catch {
+            // Remove newlines and extra whitespace for easier parsing
+            const normalizedContent = content.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+            
+            // Try parsing the normalized content
+            try {
+              return JSON.parse(normalizedContent);
+            } catch {
+              // If that fails, look for JSON objects with proper brace matching
+              const findJsonObject = (text: string): string | null => {
+                let braceCount = 0;
+                let start = -1;
+                
+                for (let i = 0; i < text.length; i++) {
+                  if (text[i] === '{') {
+                    if (start === -1) start = i;
+                    braceCount++;
+                  } else if (text[i] === '}') {
+                    braceCount--;
+                    if (braceCount === 0 && start !== -1) {
+                      return text.substring(start, i + 1);
+                    }
+                  }
+                }
+                return null;
+              };
+              
+              // Look for JSON objects in both original and normalized content
+              const candidates = [content, normalizedContent];
+              
+              for (const candidate of candidates) {
+                const jsonObject = findJsonObject(candidate);
+                if (jsonObject) {
+                  try {
+                    const parsed = JSON.parse(jsonObject);
+                    // Verify it looks like a tool execution request
+                    if (parsed.command || parsed.toolName || parsed.tool_name) {
+                      return parsed;
+                    }
+                  } catch {
+                    continue;
+                  }
+                }
+              }
+              
+              // Last resort: pattern matching with better regex
+              const patterns = [
+                // Look for command pattern with nested args
+                /\{\s*"command"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+                // Look for toolName pattern
+                /\{\s*"toolName"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+                // Look for tool_name pattern
+                /\{\s*"tool_name"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+              ];
+              
+              for (const pattern of patterns) {
+                const matches = normalizedContent.match(pattern);
+                if (matches) {
+                  for (const match of matches) {
+                    try {
+                      const parsed = JSON.parse(match);
+                      if (parsed.command || parsed.toolName || parsed.tool_name) {
+                        return parsed;
+                      }
+                    } catch {
+                      continue;
+                    }
+                  }
+                }
+              }
+              
+              return null;
+            }
+          }
+        };
+
+        // Parse each result item to look for tool execution requests
+        for (const resultItem of result) {
+          const cleanedResult = utils.cleanCodeBlock(resultItem);
+          
+          // First try to parse the cleaned result directly
+          let parsed = extractToolExecution(cleanedResult);
+          
+          // If that fails and the result looks like a JSON array, try to parse each element
+          if (!parsed && cleanedResult.startsWith('[')) {
+            try {
+              const arrayParsed = JSON.parse(cleanedResult);
+              if (Array.isArray(arrayParsed)) {
+                // Look through each array element for tool execution
+                for (const item of arrayParsed) {
+                  if (typeof item === 'string') {
+                    const extracted = extractToolExecution(item);
+                    if (extracted) {
+                      parsed = extracted;
+                      break;
+                    }
+                  } else if (typeof item === 'object' && item !== null) {
+                    if (item.command || item.toolName || item.tool_name) {
+                      parsed = item;
+                      break;
+                    }
+                  }
+                }
+              }
+            } catch {
+              // Continue with other parsing methods
+            }
+          }
+          
+          if (!parsed) {
+            log.debug({
+              msg: 'No tool execution JSON found in result item',
+              cleanedResult: cleanedResult.substring(0, 200),
+            });
+            continue;
+          }
+
+          // Check for different response formats
+          if (parsed && parsed.integrationName && parsed.toolName) {
+            // Format 1: Direct integration/tool specification
+            toolExecutionRequest = parsed;
+            break;
+          } else if (parsed && parsed.command) {
+            // Format 2: Command-based format (what the AI is using)
+            const commandName = parsed.command;
+            
+            // Find which integration contains this tool
+            const foundTool = mcpTools.find(({ tools }) => 
+              tools.some(tool => tool.name === commandName)
+            );
+            
+            if (foundTool) {
+              toolExecutionRequest = {
+                integrationName: foundTool.integration.name,
+                toolName: commandName,
+                arguments: parsed.args || parsed.arguments || {},
+              };
+              break;
+            }
+          } else if (parsed && (parsed.toolName || parsed.tool_name)) {
+            // Format 3: Tool name with optional integration
+            const toolName = parsed.toolName || parsed.tool_name;
+            const integrationName = parsed.integrationName || parsed.integration_name;
+            
+            if (integrationName) {
+              toolExecutionRequest = {
+                integrationName,
+                toolName,
+                arguments: parsed.args || parsed.arguments || {},
+              };
+              break;
+            } else {
+              // Find which integration contains this tool
+              const foundTool = mcpTools.find(({ tools }) => 
+                tools.some(tool => tool.name === toolName)
+              );
+              
+              if (foundTool) {
+                toolExecutionRequest = {
+                  integrationName: foundTool.integration.name,
+                  toolName,
+                  arguments: parsed.args || parsed.arguments || {},
+                };
+                break;
+              }
+            }
+          }
+        }
+
+        // If we found a tool execution request, execute it
+        if (toolExecutionRequest) {
+          await publishEvent(PredictionEventType.DATA, `Executing ${toolExecutionRequest.toolName} on ${toolExecutionRequest.integrationName}...`);
+          
+          // Find the matching integration and tool
+          const matchingTool = mcpTools.find(({ integration, tools }) => 
+            integration.name === toolExecutionRequest!.integrationName &&
+            tools.some(tool => tool.name === toolExecutionRequest!.toolName)
+          );
+
+          if (matchingTool) {
+            const toolResult = await executeMCPTool(
+              matchingTool.integration,
+              toolExecutionRequest.toolName!,
+              toolExecutionRequest.arguments || {}
+            );
+
+            if (toolResult.success) {
+              finalResult = JSON.stringify({
+                originalResponse: result,
+                toolExecution: {
+                  integrationName: toolExecutionRequest.integrationName,
+                  toolName: toolExecutionRequest.toolName,
+                  arguments: toolExecutionRequest.arguments,
+                  result: toolResult.result,
+                },
+              }, null, 2);
+              
+              await publishEvent(PredictionEventType.DATA, 'Tool executed successfully');
+            } else {
+              finalResult = JSON.stringify({
+                originalResponse: result,
+                toolExecution: {
+                  integrationName: toolExecutionRequest.integrationName,
+                  toolName: toolExecutionRequest.toolName,
+                  error: toolResult.error,
+                },
+              }, null, 2);
+              
+              await publishEvent(PredictionEventType.DATA, `Tool execution failed: ${toolResult.error}`);
+            }
+
+            log.info({
+              msg: 'MCP tool execution completed',
+              integrationName: toolExecutionRequest.integrationName,
+              toolName: toolExecutionRequest.toolName,
+              success: toolResult.success,
+            });
+          } else {
+            log.warn({
+              msg: 'Requested MCP tool not found',
+              integrationName: toolExecutionRequest.integrationName,
+              toolName: toolExecutionRequest.toolName,
+              availableTools: mcpTools.map(t => ({ 
+                integration: t.integration.name, 
+                tools: t.tools.map(tool => tool.name) 
+              })),
+            });
+          }
+        } else {
+          log.debug({
+            msg: 'No tool execution request found in AI response',
+            resultCount: result.length,
+          });
+        }
+      } catch (error) {
+        log.warn({
+          msg: 'Failed to process MCP tool execution',
+          error: error instanceof Error ? error.message : 'Unknown error',
+        });
+      }
+    }
+
+    await publishEvent(PredictionEventType.SUCCESS, finalResult);
     await addToThread(
       thread,
       agent.id,
-      utils.applyFilter(result, agent.outputFilter),
+      utils.applyFilter(finalResult, agent.outputFilter),
       false,
       tokenUsage,
       model,
@@ -409,7 +742,7 @@ export async function generatePrediction({
     log.info({
       msg: 'Prediction generation successful',
       auth,
-      result,
+      result: finalResult,
       tokenUsage,
     });
   } catch (error) {

@@ -36,6 +36,13 @@ services:
 
   #================= MCP Server =================
   mcp:
-    image: ghcr.io/sooperset/mcp-atlassian:latest
+    image: docker.io/mcp/atlassian
     ports:
-      - '8080:8080'
+      - '8000:8000'
+    user: root
+    environment:
+      MCP_VERY_VERBOSE: "true"
+      MCP_LOGGING_STDOUT: "true"
+      READ_ONLY_MODE: "false"
+
+      TRANSPORT: "sse"

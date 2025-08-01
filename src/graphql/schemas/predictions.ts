@@ -29,6 +29,7 @@ export default `#graphql
       inquiryId: ID
       variables: JSONObject
       attachments: [JSONObject!]
+      inquiryId: ID
     ): String
   }
 
