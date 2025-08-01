@@ -639,16 +639,7 @@ export async function executeInquiryIntegrationTool(
     }
 
     // Use the actual MCP client to execute the tool
-    const result = await executeMCPTool(integration, toolName, args);
-
-    log.info({
-      message: 'MCP tool executed successfully via client',
-      inquiryId,
-      toolName,
-      result,
-    });
-
-    return result;
+    return await executeMCPTool(integration, toolName, args);
   } catch (error) {
     log.error({
       message: 'Failed to execute MCP tool',

@@ -127,7 +127,7 @@ export type InquiryData = {
   __typename?: 'InquiryData';
   draftGraph?: Maybe<Scalars['JSONObject']['output']>;
   graph?: Maybe<Scalars['JSONObject']['output']>;
-  integrations: Array<Scalars['JSONObject']['output']>;
+  integrations: Array<Integration>;
   metadata?: Maybe<Scalars['JSONObject']['output']>;
   settings: InquirySettings;
 };
@@ -181,20 +181,32 @@ export type InquirySettingsNotifications = {
   recieveEmailOnResponse?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type McpIntegration = {
-  __typename?: 'MCPIntegration';
-  auth: McpIntegrationAuth;
+export type Integration = {
+  __typename?: 'Integration';
+  config: Scalars['JSONObject']['output'];
   description: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  type: Scalars['String']['output'];
 };
 
-export type McpIntegrationAuth = {
-  __typename?: 'MCPIntegrationAuth';
-  apiKey: Scalars['String']['output'];
+export type IntegrationConnectionResult = {
+  __typename?: 'IntegrationConnectionResult';
+  error?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
 };
 
-export type McpIntegrationAuthInput = {
-  apiKey: Scalars['String']['input'];
+export type IntegrationInput = {
+  config: Scalars['JSONObject']['input'];
+  description: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type IntegrationToolsResult = {
+  __typename?: 'IntegrationToolsResult';
+  error?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+  tools?: Maybe<Array<Scalars['JSONObject']['output']>>;
 };
 
 export type McpIntegrationExecutionResult = {
@@ -202,12 +214,6 @@ export type McpIntegrationExecutionResult = {
   error?: Maybe<Scalars['String']['output']>;
   result?: Maybe<Scalars['JSONObject']['output']>;
   success: Scalars['Boolean']['output'];
-};
-
-export type McpIntegrationInput = {
-  auth: McpIntegrationAuthInput;
-  description: Scalars['String']['input'];
-  name: Scalars['String']['input'];
 };
 
 export type Model = {
@@ -232,7 +238,7 @@ export type Mutation = {
   executeInquiryIntegrationTool: McpIntegrationExecutionResult;
   generateAudio?: Maybe<Scalars['String']['output']>;
   registerUser: Scalars['Boolean']['output'];
-  setInquiryIntegrations: Array<McpIntegration>;
+  setInquiryIntegrations: Array<Integration>;
   updateInquiryOwners: Inquiry;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
@@ -309,7 +315,7 @@ export type MutationGenerateAudioArgs = {
 
 export type MutationSetInquiryIntegrationsArgs = {
   inquiryId: Scalars['ID']['input'];
-  integrations: Array<McpIntegrationInput>;
+  integrations: Array<IntegrationInput>;
 };
 
 
@@ -401,17 +407,19 @@ export type Query = {
   getCollection?: Maybe<Collection>;
   getInquiries?: Maybe<Array<Inquiry>>;
   getInquiry?: Maybe<Inquiry>;
-  getInquiryIntegrations: Array<McpIntegration>;
+  getInquiryIntegrations: Array<Integration>;
   getInquiryResponse?: Maybe<InquiryResponse>;
   getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
   getInquiryTemplates: Array<Scalars['JSONObject']['output']>;
+  getIntegrationTools: IntegrationToolsResult;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
   getUserQuota?: Maybe<Quota>;
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
   getUsersById?: Maybe<Array<UserData>>;
   isUserRegistered: Scalars['Boolean']['output'];
+  testIntegrationConnection: IntegrationConnectionResult;
 };
 
 
@@ -487,6 +495,12 @@ export type QueryGetInquiryResponsesArgs = {
 };
 
 
+export type QueryGetIntegrationToolsArgs = {
+  inquiryId: Scalars['ID']['input'];
+  integrationName: Scalars['String']['input'];
+};
+
+
 export type QueryGetMediaAssetArgs = {
   id: Scalars['String']['input'];
 };
@@ -506,15 +520,10 @@ export type QueryGetUsersByIdArgs = {
   userIds: Array<Scalars['String']['input']>;
 };
 
-export type Quota = {
-  __typename?: 'Quota';
-  allowedTokens: Scalars['Int']['output'];
-  createdAt: Scalars['String']['output'];
-  updatedAt: Scalars['String']['output'];
-  usedInputTokens: Scalars['Int']['output'];
-  usedOutputTokens: Scalars['Int']['output'];
-  usedTotalTokens: Scalars['Int']['output'];
-  userId: Scalars['ID']['output'];
+
+export type QueryTestIntegrationConnectionArgs = {
+  inquiryId: Scalars['ID']['input'];
+  integrationName: Scalars['String']['input'];
 };
 
 export enum Role {
@@ -667,12 +676,12 @@ export type ResolversTypes = {
   InquirySettings: ResolverTypeWrapper<InquirySettings>;
   InquirySettingsNotifications: ResolverTypeWrapper<InquirySettingsNotifications>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  Integration: ResolverTypeWrapper<Integration>;
+  IntegrationConnectionResult: ResolverTypeWrapper<IntegrationConnectionResult>;
+  IntegrationInput: IntegrationInput;
+  IntegrationToolsResult: ResolverTypeWrapper<IntegrationToolsResult>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
-  MCPIntegration: ResolverTypeWrapper<McpIntegration>;
-  MCPIntegrationAuth: ResolverTypeWrapper<McpIntegrationAuth>;
-  MCPIntegrationAuthInput: McpIntegrationAuthInput;
   MCPIntegrationExecutionResult: ResolverTypeWrapper<McpIntegrationExecutionResult>;
-  MCPIntegrationInput: McpIntegrationInput;
   Model: ResolverTypeWrapper<Model>;
   Mutation: ResolverTypeWrapper<{}>;
   Prediction: ResolverTypeWrapper<Prediction>;
@@ -716,12 +725,12 @@ export type ResolversParentTypes = {
   InquirySettings: InquirySettings;
   InquirySettingsNotifications: InquirySettingsNotifications;
   Int: Scalars['Int']['output'];
+  Integration: Integration;
+  IntegrationConnectionResult: IntegrationConnectionResult;
+  IntegrationInput: IntegrationInput;
+  IntegrationToolsResult: IntegrationToolsResult;
   JSONObject: Scalars['JSONObject']['output'];
-  MCPIntegration: McpIntegration;
-  MCPIntegrationAuth: McpIntegrationAuth;
-  MCPIntegrationAuthInput: McpIntegrationAuthInput;
   MCPIntegrationExecutionResult: McpIntegrationExecutionResult;
-  MCPIntegrationInput: McpIntegrationInput;
   Model: Model;
   Mutation: {};
   Prediction: Prediction;
@@ -809,7 +818,7 @@ export type InquiryResolvers<ContextType = any, ParentType extends ResolversPare
 export type InquiryDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquiryData'] = ResolversParentTypes['InquiryData']> = {
   draftGraph?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   graph?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
-  integrations?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  integrations?: Resolver<Array<ResolversTypes['Integration']>, ParentType, ContextType>;
   metadata?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   settings?: Resolver<ResolversTypes['InquirySettings'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -852,21 +861,30 @@ export type InquirySettingsNotificationsResolvers<ContextType = any, ParentType 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type IntegrationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Integration'] = ResolversParentTypes['Integration']> = {
+  config?: Resolver<ResolversTypes['JSONObject'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type IntegrationConnectionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['IntegrationConnectionResult'] = ResolversParentTypes['IntegrationConnectionResult']> = {
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type IntegrationToolsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['IntegrationToolsResult'] = ResolversParentTypes['IntegrationToolsResult']> = {
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  tools?: Resolver<Maybe<Array<ResolversTypes['JSONObject']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
-
-export type McpIntegrationResolvers<ContextType = any, ParentType extends ResolversParentTypes['MCPIntegration'] = ResolversParentTypes['MCPIntegration']> = {
-  auth?: Resolver<ResolversTypes['MCPIntegrationAuth'], ParentType, ContextType>;
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type McpIntegrationAuthResolvers<ContextType = any, ParentType extends ResolversParentTypes['MCPIntegrationAuth'] = ResolversParentTypes['MCPIntegrationAuth']> = {
-  apiKey?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
 
 export type McpIntegrationExecutionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MCPIntegrationExecutionResult'] = ResolversParentTypes['MCPIntegrationExecutionResult']> = {
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -896,7 +914,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   executeInquiryIntegrationTool?: Resolver<ResolversTypes['MCPIntegrationExecutionResult'], ParentType, ContextType, RequireFields<MutationExecuteInquiryIntegrationToolArgs, 'args' | 'inquiryId' | 'toolName'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
   registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  setInquiryIntegrations?: Resolver<Array<ResolversTypes['MCPIntegration']>, ParentType, ContextType, RequireFields<MutationSetInquiryIntegrationsArgs, 'inquiryId' | 'integrations'>>;
+  setInquiryIntegrations?: Resolver<Array<ResolversTypes['Integration']>, ParentType, ContextType, RequireFields<MutationSetInquiryIntegrationsArgs, 'inquiryId' | 'integrations'>>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;
   upsertAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationUpsertAgentArgs, 'agent'>>;
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;
@@ -938,17 +956,19 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getCollection?: Resolver<Maybe<ResolversTypes['Collection']>, ParentType, ContextType, RequireFields<QueryGetCollectionArgs, 'collectionId'>>;
   getInquiries?: Resolver<Maybe<Array<ResolversTypes['Inquiry']>>, ParentType, ContextType>;
   getInquiry?: Resolver<Maybe<ResolversTypes['Inquiry']>, ParentType, ContextType, RequireFields<QueryGetInquiryArgs, 'id'>>;
-  getInquiryIntegrations?: Resolver<Array<ResolversTypes['MCPIntegration']>, ParentType, ContextType, RequireFields<QueryGetInquiryIntegrationsArgs, 'inquiryId'>>;
+  getInquiryIntegrations?: Resolver<Array<ResolversTypes['Integration']>, ParentType, ContextType, RequireFields<QueryGetInquiryIntegrationsArgs, 'inquiryId'>>;
   getInquiryResponse?: Resolver<Maybe<ResolversTypes['InquiryResponse']>, ParentType, ContextType, RequireFields<QueryGetInquiryResponseArgs, 'id'>>;
   getInquiryResponseCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QueryGetInquiryResponseCountArgs, 'id'>>;
   getInquiryResponses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType, RequireFields<QueryGetInquiryResponsesArgs, 'id'>>;
   getInquiryTemplates?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  getIntegrationTools?: Resolver<ResolversTypes['IntegrationToolsResult'], ParentType, ContextType, RequireFields<QueryGetIntegrationToolsArgs, 'inquiryId' | 'integrationName'>>;
   getMediaAsset?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetMediaAssetArgs, 'id'>>;
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
   getUserQuota?: Resolver<Maybe<ResolversTypes['Quota']>, ParentType, ContextType>;
   getUsersByEmail?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserData']>>>, ParentType, ContextType, RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>>;
   getUsersById?: Resolver<Maybe<Array<ResolversTypes['UserData']>>, ParentType, ContextType, RequireFields<QueryGetUsersByIdArgs, 'userIds'>>;
   isUserRegistered?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  testIntegrationConnection?: Resolver<ResolversTypes['IntegrationConnectionResult'], ParentType, ContextType, RequireFields<QueryTestIntegrationConnectionArgs, 'inquiryId' | 'integrationName'>>;
 };
 
 export type QuotaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Quota'] = ResolversParentTypes['Quota']> = {
@@ -1003,9 +1023,10 @@ export type Resolvers<ContextType = any> = {
   InquiryResponseUserDetails?: InquiryResponseUserDetailsResolvers<ContextType>;
   InquirySettings?: InquirySettingsResolvers<ContextType>;
   InquirySettingsNotifications?: InquirySettingsNotificationsResolvers<ContextType>;
+  Integration?: IntegrationResolvers<ContextType>;
+  IntegrationConnectionResult?: IntegrationConnectionResultResolvers<ContextType>;
+  IntegrationToolsResult?: IntegrationToolsResultResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
-  MCPIntegration?: McpIntegrationResolvers<ContextType>;
-  MCPIntegrationAuth?: McpIntegrationAuthResolvers<ContextType>;
   MCPIntegrationExecutionResult?: McpIntegrationExecutionResultResolvers<ContextType>;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
