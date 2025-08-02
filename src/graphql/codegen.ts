@@ -214,6 +214,7 @@ export type Mutation = {
 export type MutationAddPredictionArgs = {
   agentId: Scalars['ID']['input'];
   attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
+  inquiryId?: InputMaybe<Scalars['ID']['input']>;
   subscriptionId: Scalars['ID']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
 };
