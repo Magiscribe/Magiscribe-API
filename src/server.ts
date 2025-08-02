@@ -1,5 +1,6 @@
 import config from '@/config';
 import database from '@/database';
+import { updateAllUserQuotas } from '@/database/procedures/quota';
 import { schema } from '@/graphql';
 import log from '@/log';
 import { clerkClient } from '@/utils/clients';
@@ -202,6 +203,30 @@ export default async function startServer() {
   /*=============================== DATABASE ==============================*/
 
   await database.init();
+
+  /*=============================== CRON JOB ==============================*/
+
+  // Schedule quota updates to run every hour at 59 minutes past the hour
+  const scheduleQuotaUpdates = () => {
+    const checkAndRunQuotaUpdate = async () => {
+      const now = new Date();
+      if (now.getMinutes() === 59) {
+        try {
+          log.info('Starting scheduled quota update...');
+          await updateAllUserQuotas();
+          log.info('Scheduled quota update completed successfully');
+        } catch (error) {
+          log.error('Scheduled quota update failed:', error);
+        }
+      }
+    };
+
+    // Check every minute if it's time to run the quota update
+    setInterval(checkAndRunQuotaUpdate, 60 * 1000);
+    log.info('Quota update scheduler initialized - will run at 59 minutes past each hour');
+  };
+
+  scheduleQuotaUpdates();
 
   /*=============================== SERVER ==============================*/
 

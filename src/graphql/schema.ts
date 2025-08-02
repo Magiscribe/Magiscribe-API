@@ -6,6 +6,7 @@ import assets from './schemas/assets';
 import audio from './schemas/audio';
 import inquiry from './schemas/inquiry';
 import predictions from './schemas/predictions';
+import quota from './schemas/quota';
 import users from './schemas/users';
 
 const filters = `#graphql
@@ -36,6 +37,7 @@ const typeDefs = [
   audio,
   inquiry,
   predictions,
+  quota,
   users,
 ];
 
