@@ -3,7 +3,9 @@ import mongoose, { Schema } from 'mongoose';
 export interface IQuota {
   userId: string;           // Primary key
   allowedTokens: number;    // Default: 10,000,000
-  usedTokens: number;       // Aggregated from inquiries
+  usedTotalTokens: number;  // Aggregated from inquiries
+  usedInputTokens: number;  // Aggregated input tokens
+  usedOutputTokens: number; // Aggregated output tokens
 }
 
 const QuotaSchema = new Schema<IQuota>({
@@ -18,7 +20,17 @@ const QuotaSchema = new Schema<IQuota>({
     required: true, 
     default: 10000000 
   },
-  usedTokens: { 
+  usedTotalTokens: { 
+    type: Number, 
+    required: true, 
+    default: 0 
+  },
+  usedInputTokens: { 
+    type: Number, 
+    required: true, 
+    default: 0 
+  },
+  usedOutputTokens: { 
     type: Number, 
     required: true, 
     default: 0 

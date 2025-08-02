@@ -461,7 +461,9 @@ export type Quota = {
   allowedTokens: Scalars['Int']['output'];
   createdAt: Scalars['String']['output'];
   updatedAt: Scalars['String']['output'];
-  usedTokens: Scalars['Int']['output'];
+  usedInputTokens: Scalars['Int']['output'];
+  usedOutputTokens: Scalars['Int']['output'];
+  usedTotalTokens: Scalars['Int']['output'];
   userId: Scalars['ID']['output'];
 };
 
@@ -871,7 +873,9 @@ export type QuotaResolvers<ContextType = any, ParentType extends ResolversParent
   allowedTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  usedTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  usedInputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  usedOutputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  usedTotalTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -51,7 +51,9 @@ export async function getCapability(
 }
 
 export async function findOrCreateThread(subscriptionId: string, inquiryId?: string) {
-  const updateData: any = { $setOnInsert: { messages: [] } };
+  const updateData: { $setOnInsert: { messages: []; inquiryId?: string } } = { 
+    $setOnInsert: { messages: [] } 
+  };
   if (inquiryId) {
     updateData.$setOnInsert.inquiryId = inquiryId;
   }

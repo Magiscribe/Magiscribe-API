@@ -6,9 +6,13 @@ import { Quota, IQuota } from '@/database/models/quota';
  * Calculates the total token usage for a specific user across all inquiries they have access to.
  * 
  * @param userId - The ID of the user to calculate token usage for
- * @returns Promise<number> - Total token usage across all user's inquiries
+ * @returns Promise<{totalTokens: number, inputTokens: number, outputTokens: number}> - Token usage breakdown
  */
-export async function calculateUserTokenUsage(userId: string): Promise<number> {
+export async function calculateUserTokenUsage(userId: string): Promise<{
+  totalTokens: number;
+  inputTokens: number;
+  outputTokens: number;
+}> {
   try {
     // Step 1: Find all inquiries where userId is present in the userId array
     const userInquiries = await Inquiry.find({ 
@@ -16,7 +20,7 @@ export async function calculateUserTokenUsage(userId: string): Promise<number> {
     });
 
     if (userInquiries.length === 0) {
-      return 0; // User has no inquiries
+      return { totalTokens: 0, inputTokens: 0, outputTokens: 0 }; // User has no inquiries
     }
 
     // Step 2: Get inquiry IDs
@@ -28,18 +32,28 @@ export async function calculateUserTokenUsage(userId: string): Promise<number> {
     });
 
     // Step 4: Sum tokens from all messages in all threads
-    const totalTokens = threads.reduce((sum, thread) => {
+    const tokenTotals = threads.reduce((totals, thread) => {
       if (!thread.messages || !Array.isArray(thread.messages)) {
-        return sum;
+        return totals;
       }
       
-      return sum + thread.messages.reduce((messageSum, message) => {
-        // Tokens are stored directly on the message, not in message.response
-        return messageSum + (message.tokens?.totalTokens || 0);
-      }, 0);
-    }, 0);
+      const threadTotals = thread.messages.reduce((messageTotals, message) => {
+        const tokens = message.tokens;
+        return {
+          totalTokens: messageTotals.totalTokens + (tokens?.totalTokens || 0),
+          inputTokens: messageTotals.inputTokens + (tokens?.inputTokens || 0),
+          outputTokens: messageTotals.outputTokens + (tokens?.outputTokens || 0),
+        };
+      }, { totalTokens: 0, inputTokens: 0, outputTokens: 0 });
+      
+      return {
+        totalTokens: totals.totalTokens + threadTotals.totalTokens,
+        inputTokens: totals.inputTokens + threadTotals.inputTokens,
+        outputTokens: totals.outputTokens + threadTotals.outputTokens,
+      };
+    }, { totalTokens: 0, inputTokens: 0, outputTokens: 0 });
 
-    return totalTokens;
+    return tokenTotals;
 
   } catch (error) {
     console.error(`Error calculating token usage for user ${userId}:`, error);
@@ -57,13 +71,15 @@ export async function calculateUserTokenUsage(userId: string): Promise<number> {
 export async function updateUserQuota(userId: string): Promise<IQuota> {
   try {
     // Step 1: Calculate total token usage for the user
-    const totalTokenUsage = await calculateUserTokenUsage(userId);
+    const tokenUsage = await calculateUserTokenUsage(userId);
 
     // Step 2: Find or create quota record for user (with 10M default if new)
     const updatedQuota = await Quota.findOneAndUpdate(
       { userId }, // Find by userId
       { 
-        usedTokens: totalTokenUsage,
+        usedTotalTokens: tokenUsage.totalTokens,
+        usedInputTokens: tokenUsage.inputTokens,
+        usedOutputTokens: tokenUsage.outputTokens,
         // Only set allowedTokens if creating new record
         $setOnInsert: { allowedTokens: 10000000 }
       },
@@ -74,7 +90,7 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
       }
     );
 
-    console.log(`Updated quota for user ${userId}: ${totalTokenUsage} tokens used`);
+    console.log(`Updated quota for user ${userId}: ${tokenUsage.totalTokens} total tokens used (${tokenUsage.inputTokens} input, ${tokenUsage.outputTokens} output)`);
     return updatedQuota;
 
   } catch (error) {
