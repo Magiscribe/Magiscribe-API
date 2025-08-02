@@ -34,7 +34,8 @@ export async function calculateUserTokenUsage(userId: string): Promise<number> {
       }
       
       return sum + thread.messages.reduce((messageSum, message) => {
-        return messageSum + (message.response?.tokens?.totalTokens || 0);
+        // Tokens are stored directly on the message, not in message.response
+        return messageSum + (message.tokens?.totalTokens || 0);
       }, 0);
     }, 0);
 

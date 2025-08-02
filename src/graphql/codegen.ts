@@ -201,6 +201,7 @@ export type Mutation = {
   emailInquiryToUsers?: Maybe<Scalars['String']['output']>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   registerUser: Scalars['Boolean']['output'];
+  runQuotaUpdate?: Maybe<Scalars['String']['output']>;
   updateInquiryOwners: Inquiry;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
@@ -362,6 +363,7 @@ export type Query = {
   getInquiryTemplates: Array<Scalars['JSONObject']['output']>;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
+  getUserQuota?: Maybe<Quota>;
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
   getUsersById?: Maybe<Array<UserData>>;
   isUserRegistered: Scalars['Boolean']['output'];
@@ -452,6 +454,15 @@ export type QueryGetUsersByEmailArgs = {
 
 export type QueryGetUsersByIdArgs = {
   userIds: Array<Scalars['String']['input']>;
+};
+
+export type Quota = {
+  __typename?: 'Quota';
+  allowedTokens: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+  usedTokens: Scalars['Int']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export enum Role {
@@ -612,6 +623,7 @@ export type ResolversTypes = {
   Prompt: ResolverTypeWrapper<Prompt>;
   PromptInput: PromptInput;
   Query: ResolverTypeWrapper<{}>;
+  Quota: ResolverTypeWrapper<Quota>;
   Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
@@ -654,6 +666,7 @@ export type ResolversParentTypes = {
   Prompt: Prompt;
   PromptInput: PromptInput;
   Query: {};
+  Quota: Quota;
   String: Scalars['String']['output'];
   StringFilter: StringFilter;
   Subscription: {};
@@ -800,6 +813,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   emailInquiryToUsers?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationEmailInquiryToUsersArgs, 'inquiryId' | 'userData'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
   registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  runQuotaUpdate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;
   upsertAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationUpsertAgentArgs, 'agent'>>;
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;
@@ -847,9 +861,19 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getInquiryTemplates?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   getMediaAsset?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetMediaAssetArgs, 'id'>>;
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
+  getUserQuota?: Resolver<Maybe<ResolversTypes['Quota']>, ParentType, ContextType>;
   getUsersByEmail?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserData']>>>, ParentType, ContextType, RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>>;
   getUsersById?: Resolver<Maybe<Array<ResolversTypes['UserData']>>, ParentType, ContextType, RequireFields<QueryGetUsersByIdArgs, 'userIds'>>;
   isUserRegistered?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+};
+
+export type QuotaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Quota'] = ResolversParentTypes['Quota']> = {
+  allowedTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  usedTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
@@ -899,6 +923,7 @@ export type Resolvers<ContextType = any> = {
   Prediction?: PredictionResolvers<ContextType>;
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Quota?: QuotaResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   TokenUsage?: TokenUsageResolvers<ContextType>;
   UserData?: UserDataResolvers<ContextType>;

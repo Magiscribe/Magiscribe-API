@@ -16,6 +16,13 @@ interface IMessage {
   userId?: string;
   agentId?: string;
   response: IMessageResponse;
+  model?: string;
+  tokens?: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+  createdAt?: Date;
 }
 
 interface IMessageResponse {
