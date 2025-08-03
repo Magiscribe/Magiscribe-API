@@ -36,16 +36,19 @@ function convertClerkUserToInternalUserModel(user: ClerkUser): UserInternal {
   };
 }
 
-export async function emailInquiryToUsers({userData, inquiryId}: {
-  userData: UserDataInput[], inquiryId: string  
+export async function emailInquiryToUsers({
+  userData,
+  inquiryId,
+}: {
+  userData: UserDataInput[];
+  inquiryId: string;
 }): Promise<string> {
   try {
-  await sendInquiryToUsers({userData, inquiryId});
-  return "Success";
-  }
-  catch (error) {
+    await sendInquiryToUsers({ userData, inquiryId });
+    return 'Success';
+  } catch (error) {
     log.error({ error }, 'Failed to send email with error');
-    return `Failed to send email to users`
+    return `Failed to send email to users`;
   }
 }
 

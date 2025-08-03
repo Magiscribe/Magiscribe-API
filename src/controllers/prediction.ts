@@ -281,7 +281,15 @@ async function executeSteps(
  * @returns A function that publishes prediction events
  */
 function createEventPublisher(eventId: string, subscriptionId: string) {
-  return async (type: PredictionEventType, result?: string, tokenUsage?: { inputTokens: number; outputTokens: number; totalTokens: number }) => {
+  return async (
+    type: PredictionEventType,
+    result?: string,
+    tokenUsage?: {
+      inputTokens: number;
+      outputTokens: number;
+      totalTokens: number;
+    },
+  ) => {
     const contextMap = {
       RECEIVED: 'User prompt received',
       DATA: 'Prediction data received',
@@ -365,8 +373,11 @@ export async function generatePrediction({
       });
     }
 
-    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(agent, variables);
-    
+    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(
+      agent,
+      variables,
+    );
+
     // If reasoning was performed, add the reasoning token usage to the thread
     if (reasoningTokenUsage && reasoningContent) {
       await addToThread(

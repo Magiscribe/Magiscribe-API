@@ -4,7 +4,7 @@ import { Quota, IQuota } from '@/database/models/quota';
 
 /**
  * Calculates the total token usage for a specific user across all inquiries they have access to.
- * 
+ *
  * @param userId - The ID of the user to calculate token usage for
  * @returns Promise<{totalTokens: number, inputTokens: number, outputTokens: number}> - Token usage breakdown
  */
@@ -15,8 +15,8 @@ export async function calculateUserTokenUsage(userId: string): Promise<{
 }> {
   try {
     // Step 1: Find all inquiries where userId is present in the userId array
-    const userInquiries = await Inquiry.find({ 
-      userId: { $in: [userId] } 
+    const userInquiries = await Inquiry.find({
+      userId: { $in: [userId] },
     });
 
     if (userInquiries.length === 0) {
@@ -24,47 +24,57 @@ export async function calculateUserTokenUsage(userId: string): Promise<{
     }
 
     // Step 2: Get inquiry IDs
-    const inquiryIds = userInquiries.map(inquiry => inquiry.id);
+    const inquiryIds = userInquiries.map((inquiry) => inquiry.id);
 
     // Step 3: Find threads for those inquiries
-    const threads = await Thread.find({ 
-      inquiryId: { $in: inquiryIds } 
+    const threads = await Thread.find({
+      inquiryId: { $in: inquiryIds },
     });
 
     // Step 4: Sum tokens from all messages in all threads
-    const tokenTotals = threads.reduce((totals, thread) => {
-      if (!thread.messages || !Array.isArray(thread.messages)) {
-        return totals;
-      }
-      
-      const threadTotals = thread.messages.reduce((messageTotals, message) => {
-        const tokens = message.tokens;
+    const tokenTotals = threads.reduce(
+      (totals, thread) => {
+        if (!thread.messages || !Array.isArray(thread.messages)) {
+          return totals;
+        }
+
+        const threadTotals = thread.messages.reduce(
+          (messageTotals, message) => {
+            const tokens = message.tokens;
+            return {
+              totalTokens:
+                messageTotals.totalTokens + (tokens?.totalTokens || 0),
+              inputTokens:
+                messageTotals.inputTokens + (tokens?.inputTokens || 0),
+              outputTokens:
+                messageTotals.outputTokens + (tokens?.outputTokens || 0),
+            };
+          },
+          { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
+        );
+
         return {
-          totalTokens: messageTotals.totalTokens + (tokens?.totalTokens || 0),
-          inputTokens: messageTotals.inputTokens + (tokens?.inputTokens || 0),
-          outputTokens: messageTotals.outputTokens + (tokens?.outputTokens || 0),
+          totalTokens: totals.totalTokens + threadTotals.totalTokens,
+          inputTokens: totals.inputTokens + threadTotals.inputTokens,
+          outputTokens: totals.outputTokens + threadTotals.outputTokens,
         };
-      }, { totalTokens: 0, inputTokens: 0, outputTokens: 0 });
-      
-      return {
-        totalTokens: totals.totalTokens + threadTotals.totalTokens,
-        inputTokens: totals.inputTokens + threadTotals.inputTokens,
-        outputTokens: totals.outputTokens + threadTotals.outputTokens,
-      };
-    }, { totalTokens: 0, inputTokens: 0, outputTokens: 0 });
+      },
+      { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
+    );
 
     return tokenTotals;
-
   } catch (error) {
     console.error(`Error calculating token usage for user ${userId}:`, error);
-    throw new Error(`Failed to calculate token usage for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Failed to calculate token usage for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
 }
 
 /**
  * Updates the quota record for a specific user with their current token usage.
  * Creates a new quota record if one doesn't exist.
- * 
+ *
  * @param userId - The ID of the user to update quota for
  * @returns Promise<IQuota> - The updated quota object
  */
@@ -76,27 +86,30 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
     // Step 2: Find or create quota record for user (with 10M default if new)
     const updatedQuota = await Quota.findOneAndUpdate(
       { userId }, // Find by userId
-      { 
+      {
         usedTotalTokens: tokenUsage.totalTokens,
         usedInputTokens: tokenUsage.inputTokens,
         usedOutputTokens: tokenUsage.outputTokens,
         updatedAt: new Date(), // Explicitly set updatedAt
         // Only set allowedTokens if creating new record
-        $setOnInsert: { allowedTokens: 10000000 }
+        $setOnInsert: { allowedTokens: 10000000 },
       },
-      { 
-        upsert: true,  // Create if doesn't exist
-        new: true,     // Return updated document
-        runValidators: true
-      }
+      {
+        upsert: true, // Create if doesn't exist
+        new: true, // Return updated document
+        runValidators: true,
+      },
     );
 
-    console.log(`Updated quota for user ${userId}: ${tokenUsage.totalTokens} total tokens used (${tokenUsage.inputTokens} input, ${tokenUsage.outputTokens} output)`);
+    console.log(
+      `Updated quota for user ${userId}: ${tokenUsage.totalTokens} total tokens used (${tokenUsage.inputTokens} input, ${tokenUsage.outputTokens} output)`,
+    );
     return updatedQuota;
-
   } catch (error) {
     console.error(`Error updating quota for user ${userId}:`, error);
-    throw new Error(`Failed to update quota for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Failed to update quota for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
 }
 
@@ -110,12 +123,13 @@ export async function updateAllUserQuotas(): Promise<void> {
 
     // Step 1: Get all unique userIds from inquiry userId arrays
     const uniqueUserIds = await Inquiry.distinct('userId');
-    
+
     // Filter out null/undefined values
-    const validUserIds = uniqueUserIds.filter((userId): userId is string => 
-      userId != null && typeof userId === 'string'
+    const validUserIds = uniqueUserIds.filter(
+      (userId): userId is string =>
+        userId != null && typeof userId === 'string',
     );
-    
+
     if (validUserIds.length === 0) {
       console.log('No valid users found in inquiries, skipping quota update');
       return;
@@ -132,13 +146,16 @@ export async function updateAllUserQuotas(): Promise<void> {
           console.error(`Failed to update quota for user ${userId}:`, error);
           // Individual failures don't stop the batch
         }
-      })
+      }),
     );
 
-    console.log(`Batch quota update completed for ${validUserIds.length} users`);
-
+    console.log(
+      `Batch quota update completed for ${validUserIds.length} users`,
+    );
   } catch (error) {
     console.error(`Batch quota update failed:`, error);
-    throw new Error(`Batch quota update failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(
+      `Batch quota update failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    );
   }
 }

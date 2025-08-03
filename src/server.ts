@@ -223,7 +223,9 @@ export default async function startServer() {
 
     // Check every minute if it's time to run the quota update
     setInterval(checkAndRunQuotaUpdate, 60 * 1000);
-    log.info('Quota update scheduler initialized - will run at 59 minutes past each hour');
+    log.info(
+      'Quota update scheduler initialized - will run at 59 minutes past each hour',
+    );
   };
 
   scheduleQuotaUpdates();

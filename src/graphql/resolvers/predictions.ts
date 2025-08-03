@@ -13,7 +13,8 @@ export default {
 
       // Subscription ID and Agent ID are special fields, everything else is
       // used as context for the agent.
-      const { subscriptionId, agentId, inquiryId, variables, attachments } = props;
+      const { subscriptionId, agentId, inquiryId, variables, attachments } =
+        props;
 
       generatePrediction({
         variables,

@@ -72,14 +72,14 @@ export async function makeRequest({
 
   // Extract all text content from the content array for input token calculation
   const inputText = content
-    .filter(item => item.type === ContentType.TEXT && item.text)
-    .map(item => item.text)
+    .filter((item) => item.type === ContentType.TEXT && item.text)
+    .map((item) => item.text)
     .join(' ');
 
   if (streaming.enabled) {
     if (!streaming.callback) {
       throw new Error('Callback function is required for streaming mode');
-    }    
+    }
     return await withExponentialBackoff(async () => {
       const stream = await chat.stream([message]);
       let buffer = '';
@@ -88,10 +88,10 @@ export async function makeRequest({
         await streaming.callback!(chunk.content as string);
         log.debug({ msg: 'AI response chunk received', content: buffer });
       }
-      
+
       const inputTokens = estimateTokens(inputText);
       const outputTokens = estimateTokens(buffer);
-      
+
       return {
         content: buffer,
         tokenUsage: {
@@ -101,7 +101,7 @@ export async function makeRequest({
         },
       };
     });
-  } else {    
+  } else {
     return await withExponentialBackoff(async () => {
       const completion = await chat.invoke([message]);
       log.debug({ msg: 'AI response received', content: completion.content });

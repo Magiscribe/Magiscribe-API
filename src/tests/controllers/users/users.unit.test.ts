@@ -46,29 +46,35 @@ describe('Users Controller Unit Tests', () => {
 
   describe('emailInquiryToUsers', () => {
     it('should return success when email is sent successfully', async () => {
-      (sendInquiryToUsers as jest.Mock).mockResolvedValueOnce("null");
+      (sendInquiryToUsers as jest.Mock).mockResolvedValueOnce('null');
       const mockUserData: UserDataInput = {
-        primaryEmailAddress: "test@test.com",
-        firstName: "Test"
-      }
+        primaryEmailAddress: 'test@test.com',
+        firstName: 'Test',
+      };
       const mockInquiryId = randomUUID();
-      const result = await emailInquiryToUsers({ userData: [mockUserData], inquiryId: mockInquiryId })
-      expect(result).toEqual("Success")
-    })
+      const result = await emailInquiryToUsers({
+        userData: [mockUserData],
+        inquiryId: mockInquiryId,
+      });
+      expect(result).toEqual('Success');
+    });
 
     it('should return a failure message when email fails to send', async () => {
       (sendInquiryToUsers as jest.Mock).mockRejectedValueOnce(
         new Error('API Error'),
-      );;
+      );
       const mockUserData: UserDataInput = {
-        primaryEmailAddress: "test@test.com",
-        firstName: "Test"
-      }
+        primaryEmailAddress: 'test@test.com',
+        firstName: 'Test',
+      };
       const mockInquiryId = randomUUID();
-      const result = await emailInquiryToUsers({ userData: [mockUserData], inquiryId: mockInquiryId })
-      expect(result).toEqual("Failed to send email to users")
-    })
-  })
+      const result = await emailInquiryToUsers({
+        userData: [mockUserData],
+        inquiryId: mockInquiryId,
+      });
+      expect(result).toEqual('Failed to send email to users');
+    });
+  });
 
   describe('getUserById', () => {
     it('should return user when found', async () => {
