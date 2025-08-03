@@ -12,8 +12,4 @@ export default `#graphql
   type Query {
     getUserQuota: Quota @auth
   }
-
-  type Mutation {
-    runQuotaUpdate: String @auth
-  }
 `;

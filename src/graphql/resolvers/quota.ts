@@ -1,5 +1,5 @@
 import { Quota } from '@/database/models/quota';
-import { updateAllUserQuotas, updateUserQuota } from '@/database/procedures/quota';
+import { updateUserQuota } from '@/database/procedures/quota';
 
 export default {
   Query: {
@@ -19,22 +19,20 @@ export default {
         quota = await Quota.findOne({ userId });
       }
 
-      return quota;
-    },
-  },
-  Mutation: {
-    runQuotaUpdate: async (_, __, context) => {
-      if (!context.auth?.sub) {
-        throw new Error('User not authenticated');
+      if (!quota) {
+        throw new Error('Failed to create or find quota record');
       }
 
-      try {
-        await updateAllUserQuotas();
-        return 'Quota update completed successfully';
-      } catch (error) {
-        console.error('Manual quota update failed:', error);
-        throw new Error('Quota update failed');
+      // Convert to plain object and ensure timestamps are properly formatted as ISO strings
+      const result = quota.toObject() as any;
+      if (result.updatedAt && result.updatedAt instanceof Date) {
+        result.updatedAt = result.updatedAt.toISOString();
       }
+      if (result.createdAt && result.createdAt instanceof Date) {
+        result.createdAt = result.createdAt.toISOString();
+      }
+
+      return result;
     },
   },
 };

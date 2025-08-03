@@ -6,6 +6,8 @@ export interface IQuota {
   usedTotalTokens: number;  // Aggregated from inquiries
   usedInputTokens: number;  // Aggregated input tokens
   usedOutputTokens: number; // Aggregated output tokens
+  createdAt?: Date;         // Timestamp field
+  updatedAt?: Date;         // Timestamp field
 }
 
 const QuotaSchema = new Schema<IQuota>({

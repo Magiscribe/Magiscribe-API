@@ -80,6 +80,7 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
         usedTotalTokens: tokenUsage.totalTokens,
         usedInputTokens: tokenUsage.inputTokens,
         usedOutputTokens: tokenUsage.outputTokens,
+        updatedAt: new Date(), // Explicitly set updatedAt
         // Only set allowedTokens if creating new record
         $setOnInsert: { allowedTokens: 10000000 }
       },
