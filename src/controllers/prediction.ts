@@ -1,5 +1,6 @@
 import config from '@/config';
 import { OutputReturnMode } from '@/database/models/agent';
+import { Integration as IntegrationModel } from '@/database/models/integration';
 import { Agent, Capability } from '@/graphql/codegen';
 import { SubscriptionEvent } from '@/graphql/subscription-events';
 import log from '@/log';
@@ -278,18 +279,11 @@ async function executeSteps(
  * Creates a function for publishing prediction events.
  * @param eventId Unique identifier for the event
  * @param subscriptionId Identifier for the associated subscription
+ * @param correlationId Correlation ID to track this prediction request
  * @returns A function that publishes prediction events
  */
-function createEventPublisher(eventId: string, subscriptionId: string) {
-  return async (
-    type: PredictionEventType,
-    result?: string,
-    tokenUsage?: {
-      inputTokens: number;
-      outputTokens: number;
-      totalTokens: number;
-    },
-  ) => {
+function createEventPublisher(eventId: string, subscriptionId: string, correlationId: string) {
+  return async (type: PredictionEventType, result?: string) => {
     const contextMap = {
       RECEIVED: 'User prompt received',
       DATA: 'Prediction data received',
@@ -306,6 +300,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
       msg: 'Publishing prediction event',
       eventId,
       subscriptionId,
+      correlationId,
       type,
       result,
       tokenUsage,
@@ -315,6 +310,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
       predictionAdded: {
         id: eventId,
         subscriptionId,
+        correlationId,
         result,
         type,
         context: contextMap[type],
@@ -333,7 +329,8 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
  * @param {string} params.agentId - The ID of the agent to use.
  * @param {Object} params.variables - Key-value pairs of variables for the prediction.
  * @param {Array} params.attachments - Attachments to include in the prediction.
- * @param {string} params.inquiryId - Optional inquiry ID to enable MCP integrations.
+ * @param {string} params.integrationId - Optional integration ID to use a specific integration.
+ * @param {string} params.correlationId - Correlation ID to track this prediction request.
  * @returns {Promise<void>}
  */
 export async function generatePrediction({
@@ -343,7 +340,8 @@ export async function generatePrediction({
   inquiryId,
   variables,
   attachments,
-  inquiryId,
+  integrationId,
+  correlationId,
 }: {
   auth?: { sub?: string };
   subscriptionId: string;
@@ -351,9 +349,10 @@ export async function generatePrediction({
   inquiryId?: string;
   variables: Record<string, string>;
   attachments: Array<Content>;
-  inquiryId?: string;
+  integrationId?: string;
+  correlationId: string;
 }): Promise<void> {
-  const publishEvent = createEventPublisher(uuid(), subscriptionId);
+  const publishEvent = createEventPublisher(uuid(), subscriptionId, correlationId);
 
   try {
     await publishEvent(PredictionEventType.RECEIVED);
@@ -377,34 +376,50 @@ export async function generatePrediction({
       });
     }
 
-    // MCP Integration support - if inquiryId is provided, get available tools
-    let mcpTools: Array<{ integration: Integration; tools: any[] }> = [];
-    if (inquiryId) {
+    // MCP Integration support - if integrationId is provided, use it directly
+    const mcpTools: Array<{ integration: Integration; tools: any[] }> = [];
+    if (integrationId) {
       try {
         log.debug({
-          msg: 'MCP enabled for inquiry',
-          inquiryId,
+          msg: 'MCP enabled with integration',
+          integrationId,
         });
 
-        const availableIntegrations = await getInquiryIntegrations(inquiryId);
+        // Get integration details from database
+        const integrationDoc = await IntegrationModel.findById(integrationId);
+        if (!integrationDoc) {
+          throw new Error(`Integration ${integrationId} not found`);
+        }
         
-        for (const integration of availableIntegrations) {
-          try {
-            const tools = await listMCPTools(integration);
-            mcpTools.push({ integration, tools });
-            
-            log.debug({
-              msg: 'Listed tools for integration',
-              integrationName: integration.name,
-              toolCount: tools.length,
-            });
-          } catch (error) {
-            log.warn({
-              msg: 'Failed to list tools for integration',
-              integrationName: integration.name,
-              error: error instanceof Error ? error.message : 'Unknown error',
-            });
-          }
+        log.debug({
+          msg: 'Using specific integration',
+          integrationId,
+          integrationName: (integrationDoc as any).name,
+        });
+        
+        const integration: Integration = {
+          name: (integrationDoc as any).name,
+          description: (integrationDoc as any).description,
+          type: (integrationDoc as any).type,
+          config: (integrationDoc as any).config,
+        };
+        
+        try {
+          const tools = await listMCPTools(integration);
+          mcpTools.push({ integration, tools });
+          
+          log.debug({
+            msg: 'Listed tools for integration',
+            integrationName: integration.name,
+            toolCount: tools.length,
+          });
+        } catch (error) {
+          log.warn({
+            msg: 'Failed to list tools for integration',
+            integrationName: integration.name,
+            error: error instanceof Error ? error.message : 'Unknown error',
+          });
+          throw new Error(`Failed to connect to integration ${integration.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
 
         // Add MCP tools to variables so the AI can see them
@@ -458,7 +473,7 @@ Alternatively, you can include the JSON directly in your response:
       } catch (error) {
         log.warn({
           msg: 'Failed to setup MCP tools',
-          inquiryId,
+          integrationId,
           error: error instanceof Error ? error.message : 'Unknown error',
         });
       }
@@ -473,7 +488,16 @@ Alternatively, you can include the JSON directly in your response:
 
     // If MCP tools are available, check if the AI wants to execute any tool
     let finalResult = JSON.stringify(result);
-    if (inquiryId && mcpTools.length > 0) {
+    if (integrationId && mcpTools.length > 0) {
+      log.debug({
+        msg: 'Starting MCP tool execution check',
+        availableIntegrations: mcpTools.map(({ integration, tools }) => ({
+          integration: integration.name,
+          toolCount: tools.length,
+          tools: tools.map(t => ({ name: t.name, description: t.description }))
+        }))
+      });
+      
       try {
         // Try to parse the result to see if it contains MCP tool execution instructions
         let toolExecutionRequest: {
@@ -488,62 +512,66 @@ Alternatively, you can include the JSON directly in your response:
           try {
             return JSON.parse(content);
           } catch {
-            // Remove newlines and extra whitespace for easier parsing
-            const normalizedContent = content.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
-            
-            // Try parsing the normalized content
+            // Step 1: Handle escaped JSON strings by unescaping them
+            let unescapedContent = content;
             try {
-              return JSON.parse(normalizedContent);
+              // If the content looks like an escaped JSON string, unescape it
+              if (content.includes('\\"') || content.includes('\\n')) {
+                unescapedContent = content.replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
+              }
             } catch {
-              // If that fails, look for JSON objects with proper brace matching
-              const findJsonObject = (text: string): string | null => {
-                let braceCount = 0;
-                let start = -1;
-                
-                for (let i = 0; i < text.length; i++) {
-                  if (text[i] === '{') {
-                    if (start === -1) start = i;
-                    braceCount++;
-                  } else if (text[i] === '}') {
-                    braceCount--;
-                    if (braceCount === 0 && start !== -1) {
-                      return text.substring(start, i + 1);
-                    }
-                  }
-                }
-                return null;
-              };
+              // If unescaping fails, continue with original content
+            }
+            
+            // Step 2: Look for JSON objects with proper brace matching in both escaped and unescaped content
+            const findJsonObject = (text: string): string | null => {
+              let braceCount = 0;
+              let start = -1;
               
-              // Look for JSON objects in both original and normalized content
-              const candidates = [content, normalizedContent];
-              
-              for (const candidate of candidates) {
-                const jsonObject = findJsonObject(candidate);
-                if (jsonObject) {
-                  try {
-                    const parsed = JSON.parse(jsonObject);
-                    // Verify it looks like a tool execution request
-                    if (parsed.command || parsed.toolName || parsed.tool_name) {
-                      return parsed;
-                    }
-                  } catch {
-                    continue;
+              for (let i = 0; i < text.length; i++) {
+                if (text[i] === '{') {
+                  if (start === -1) start = i;
+                  braceCount++;
+                } else if (text[i] === '}') {
+                  braceCount--;
+                  if (braceCount === 0 && start !== -1) {
+                    return text.substring(start, i + 1);
                   }
                 }
               }
+              return null;
+            };
+            
+            // Check both original and unescaped content
+            const candidates = [content, unescapedContent];
+            
+            for (const candidate of candidates) {
+              // Try to find JSON objects
+              const jsonObject = findJsonObject(candidate);
+              if (jsonObject) {
+                try {
+                  const parsed = JSON.parse(jsonObject);
+                  // Verify it looks like a tool execution request
+                  if (parsed.command || parsed.toolName || parsed.tool_name) {
+                    return parsed;
+                  }
+                } catch {
+                  continue;
+                }
+              }
               
-              // Last resort: pattern matching with better regex
+              // Also try regex patterns for more complex nested JSON
               const patterns = [
-                // Look for command pattern with nested args
-                /\{\s*"command"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+                // Look for command pattern with nested args - handle multi-line and escaped quotes
+                /\{\s*"command"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/gs,
                 // Look for toolName pattern
-                /\{\s*"toolName"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+                /\{\s*"toolName"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/gs,
                 // Look for tool_name pattern
-                /\{\s*"tool_name"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/g,
+                /\{\s*"tool_name"\s*:\s*"[^"]+"\s*,\s*"args"\s*:\s*\{[^}]*\}\s*\}/gs,
               ];
               
               for (const pattern of patterns) {
-                const matches = normalizedContent.match(pattern);
+                const matches = candidate.match(pattern);
                 if (matches) {
                   for (const match of matches) {
                     try {
@@ -557,15 +585,21 @@ Alternatively, you can include the JSON directly in your response:
                   }
                 }
               }
-              
-              return null;
             }
+              
+            return null;
           }
         };
 
         // Parse each result item to look for tool execution requests
         for (const resultItem of result) {
           const cleanedResult = utils.cleanCodeBlock(resultItem);
+          
+          log.debug({
+            msg: 'Processing result item for tool execution',
+            resultItem: resultItem.substring(0, 200),
+            cleanedResult: cleanedResult.substring(0, 200),
+          });
           
           // First try to parse the cleaned result directly
           let parsed = extractToolExecution(cleanedResult);
@@ -578,6 +612,7 @@ Alternatively, you can include the JSON directly in your response:
                 // Look through each array element for tool execution
                 for (const item of arrayParsed) {
                   if (typeof item === 'string') {
+                    // Try to extract tool execution from string content
                     const extracted = extractToolExecution(item);
                     if (extracted) {
                       parsed = extracted;
@@ -596,6 +631,11 @@ Alternatively, you can include the JSON directly in your response:
             }
           }
           
+          // If still no parsed result, try extracting from the original result item
+          if (!parsed) {
+            parsed = extractToolExecution(resultItem);
+          }
+          
           if (!parsed) {
             log.debug({
               msg: 'No tool execution JSON found in result item',
@@ -604,14 +644,29 @@ Alternatively, you can include the JSON directly in your response:
             continue;
           }
 
+          log.debug({
+            msg: 'Found potential tool execution',
+            parsed,
+          });
+
           // Check for different response formats
           if (parsed && parsed.integrationName && parsed.toolName) {
             // Format 1: Direct integration/tool specification
             toolExecutionRequest = parsed;
+            log.debug({ msg: 'Matched format 1: direct integration/tool specification' });
             break;
           } else if (parsed && parsed.command) {
             // Format 2: Command-based format (what the AI is using)
             const commandName = parsed.command;
+            
+            log.debug({
+              msg: 'Trying to find tool for command',
+              commandName,
+              availableTools: mcpTools.map(({ integration, tools }) => ({
+                integration: integration.name,
+                tools: tools.map(t => t.name)
+              }))
+            });
             
             // Find which integration contains this tool
             const foundTool = mcpTools.find(({ tools }) => 
@@ -624,7 +679,18 @@ Alternatively, you can include the JSON directly in your response:
                 toolName: commandName,
                 arguments: parsed.args || parsed.arguments || {},
               };
+              log.debug({ 
+                msg: 'Matched format 2: command-based format',
+                foundTool: foundTool.integration.name,
+                toolName: commandName
+              });
               break;
+            } else {
+              log.debug({
+                msg: 'Command not found in available tools',
+                commandName,
+                availableToolNames: mcpTools.flatMap(({ tools }) => tools.map(t => t.name))
+              });
             }
           } else if (parsed && (parsed.toolName || parsed.tool_name)) {
             // Format 3: Tool name with optional integration
@@ -751,4 +817,59 @@ Alternatively, you can include the JSON directly in your response:
     log.warn({ msg: 'Prediction generation failed', error: errorMessage });
     await publishEvent(PredictionEventType.ERROR, errorMessage);
   }
+}
+
+/**
+ * Generates a prediction with inquiry validation for MCP integrations.
+ * @param {Object} params - The parameters for prediction generation.
+ * @param {Object} params.auth - Authentication information.
+ * @param {string} params.auth.sub - The subject (user ID) from the auth token.
+ * @param {string} params.subscriptionId - The ID of the subscription.
+ * @param {string} params.agentId - The ID of the agent to use.
+ * @param {Object} params.variables - Key-value pairs of variables for the prediction.
+ * @param {Array} params.attachments - Attachments to include in the prediction.
+ * @param {string} params.inquiryId - Inquiry ID to validate integration access.
+ * @param {string} params.integrationId - Integration ID to use for the prediction.
+ * @param {string} params.correlationId - Correlation ID to track this prediction request.
+ * @returns {Promise<void>}
+ */
+export async function generatePredictionWithInquiry({
+  auth,
+  subscriptionId,
+  agentId,
+  variables,
+  attachments,
+  inquiryId,
+  integrationId,
+  correlationId,
+}: {
+  auth?: { sub?: string };
+  subscriptionId: string;
+  agentId: string;
+  variables: Record<string, string>;
+  attachments: Array<Content>;
+  inquiryId: string;
+  integrationId: string;
+  correlationId: string;
+}): Promise<void> {
+  // Validate that the integration belongs to the inquiry
+  const availableIntegrations = await getInquiryIntegrations(inquiryId);
+  const allowedIntegration = availableIntegrations.find(
+    (integration: any) => integration._id.toString() === integrationId
+  );
+  
+  if (!allowedIntegration) {
+    throw new Error(`Integration ${integrationId} is not allowed for inquiry ${inquiryId}`);
+  }
+
+  // Call the main generatePrediction function
+  return generatePrediction({
+    auth,
+    subscriptionId,
+    agentId,
+    variables,
+    attachments,
+    integrationId,
+    correlationId,
+  });
 }
