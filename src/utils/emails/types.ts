@@ -30,25 +30,30 @@ export const sendOwnerNotification = async ({
   });
 };
 
-export const sendInquiryToUsers = async ({userData, inquiryId}: {
-  userData: UserDataInput[], inquiryId: string  
+export const sendInquiryToUsers = async ({
+  userData,
+  inquiryId,
+}: {
+  userData: UserDataInput[];
+  inquiryId: string;
 }): Promise<void> => {
-  Promise.all(userData.map(async user => {
-    await sendEmail({
-      recipientEmails: [user.primaryEmailAddress],
-      subject: `Inquiry Invitation | Magiscribe`,
-      templateData: {
-        title: `Congratulations ${user.firstName}, you have been invited to participate in a Magiscribe Inquiry!`,
-        content: [
-          `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}?email=${user.primaryEmailAddress}&name=${user.firstName}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
-          `<br />`,
-          `<br />`,
-        ].join('\n\n'),
-      },
-    });
-  }))
-
-}
+  Promise.all(
+    userData.map(async (user) => {
+      await sendEmail({
+        recipientEmails: [user.primaryEmailAddress],
+        subject: `Inquiry Invitation | Magiscribe`,
+        templateData: {
+          title: `Congratulations ${user.firstName}, you have been invited to participate in a Magiscribe Inquiry!`,
+          content: [
+            `Click <a href="${config.email.baseURL}/inquiry/${inquiryId}?email=${user.primaryEmailAddress}&name=${user.firstName}" target="_blank">here</a> to participate in an exclusive magiscribe inquiry.`,
+            `<br />`,
+            `<br />`,
+          ].join('\n\n'),
+        },
+      });
+    }),
+  );
+};
 
 /**
  * Sends confirmation email to respondent

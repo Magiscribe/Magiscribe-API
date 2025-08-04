@@ -29,23 +29,28 @@ describe('Email Integration Tests', () => {
 
   it('should send inquiry invite email to user', async () => {
     const userData: UserDataInput = {
-      firstName: "Test",
-      primaryEmailAddress: config.email.testEmailTo!
+      firstName: 'Test',
+      primaryEmailAddress: config.email.testEmailTo!,
     };
 
     const mockInquiryId = randomUUID();
 
-    await sendInquiryToUsers({userData: [userData], inquiryId: mockInquiryId});
+    await sendInquiryToUsers({
+      userData: [userData],
+      inquiryId: mockInquiryId,
+    });
   });
 
   it('should throw error when sending inquiry invite to an invalid email', async () => {
     const userData: UserDataInput = {
-      firstName: "Test",
-      primaryEmailAddress: 'invalid-email'
+      firstName: 'Test',
+      primaryEmailAddress: 'invalid-email',
     };
 
     const mockInquiryId = randomUUID();
 
-    await expect(sendInquiryToUsers({userData: [userData], inquiryId: mockInquiryId})).rejects.toThrow();
+    await expect(
+      sendInquiryToUsers({ userData: [userData], inquiryId: mockInquiryId }),
+    ).rejects.toThrow();
   });
 });

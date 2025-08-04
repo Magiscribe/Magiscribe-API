@@ -104,22 +104,30 @@ async function getSteps(agent: Agent, variables: { [key: string]: string }) {
       ? variables
       : {};
 
-    return (await Promise.all(
-      reasoningResult.processingSteps.map(async (step) => ({
-        ...passThroughVariables,
-        ...step,
-        capability: await getCapability(step.capabilityAlias),
-      })),
-    )) as Array<{ [key: string]: string | Capability }>;
+    return {
+      steps: (await Promise.all(
+        reasoningResult.processingSteps.map(async (step) => ({
+          ...passThroughVariables,
+          ...step,
+          capability: await getCapability(step.capabilityAlias),
+        })),
+      )) as Array<{ [key: string]: string | Capability }>,
+      reasoningTokenUsage: reasoningResult.tokenUsage,
+      reasoningContent: reasoningResult.processingSteps,
+    };
   }
 
   // If no reasoning steps are provided, we need to return an array of steps
   // with the prompt and the capability object. This allows agents to be present
   // that do not require reasoning. We automatically pass all variables through to this.
-  return agent.capabilities.map((capability) => ({
-    ...variables,
-    capability,
-  })) as Array<{ [key: string]: string | Capability }>;
+  return {
+    steps: agent.capabilities.map((capability) => ({
+      ...variables,
+      capability,
+    })) as Array<{ [key: string]: string | Capability }>,
+    reasoningTokenUsage: null,
+    reasoningContent: null,
+  };
 }
 
 /**
@@ -273,7 +281,15 @@ async function executeSteps(
  * @returns A function that publishes prediction events
  */
 function createEventPublisher(eventId: string, subscriptionId: string) {
-  return async (type: PredictionEventType, result?: string) => {
+  return async (
+    type: PredictionEventType,
+    result?: string,
+    tokenUsage?: {
+      inputTokens: number;
+      outputTokens: number;
+      totalTokens: number;
+    },
+  ) => {
     const contextMap = {
       RECEIVED: 'User prompt received',
       DATA: 'Prediction data received',
@@ -292,6 +308,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
       subscriptionId,
       type,
       result,
+      tokenUsage,
       context: contextMap[type],
     });
     return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
@@ -301,6 +318,7 @@ function createEventPublisher(eventId: string, subscriptionId: string) {
         result,
         type,
         context: contextMap[type],
+        tokenUsage,
       },
     });
   };
@@ -320,12 +338,14 @@ export async function generatePrediction({
   auth,
   subscriptionId,
   agentId,
+  inquiryId,
   variables,
   attachments,
 }: {
   auth?: { sub?: string };
   subscriptionId: string;
   agentId: string;
+  inquiryId?: string;
   variables: Record<string, string>;
   attachments: Array<Content>;
 }): Promise<void> {
@@ -338,7 +358,7 @@ export async function generatePrediction({
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
-    const thread = await findOrCreateThread(subscriptionId);
+    const thread = await findOrCreateThread(subscriptionId, inquiryId);
     await addToThread(thread, auth?.sub, variables, true);
 
     log.debug({
@@ -353,14 +373,30 @@ export async function generatePrediction({
       });
     }
 
-    const steps = await getSteps(agent, variables);
+    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(
+      agent,
+      variables,
+    );
+
+    // If reasoning was performed, add the reasoning token usage to the thread
+    if (reasoningTokenUsage && reasoningContent) {
+      await addToThread(
+        thread,
+        agent.id,
+        reasoningContent,
+        false,
+        reasoningTokenUsage,
+        agent.reasoning?.llmModel,
+      );
+    }
+
     const {
       content: result,
       tokenUsage,
       model,
     } = await executeSteps(steps, attachments, publishEvent);
 
-    await publishEvent(PredictionEventType.SUCCESS, result);
+    await publishEvent(PredictionEventType.SUCCESS, result, tokenUsage);
     await addToThread(
       thread,
       agent.id,

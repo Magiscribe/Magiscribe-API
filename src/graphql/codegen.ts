@@ -214,6 +214,7 @@ export type Mutation = {
 export type MutationAddPredictionArgs = {
   agentId: Scalars['ID']['input'];
   attachments?: InputMaybe<Array<Scalars['JSONObject']['input']>>;
+  inquiryId?: InputMaybe<Scalars['ID']['input']>;
   subscriptionId: Scalars['ID']['input'];
   variables?: InputMaybe<Scalars['JSONObject']['input']>;
 };
@@ -313,6 +314,7 @@ export type Prediction = {
   id: Scalars['ID']['output'];
   result?: Maybe<Scalars['String']['output']>;
   subscriptionId: Scalars['ID']['output'];
+  tokenUsage?: Maybe<TokenUsage>;
   type: PredictionType;
 };
 
@@ -360,6 +362,7 @@ export type Query = {
   getInquiryTemplates: Array<Scalars['JSONObject']['output']>;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
+  getUserQuota?: Maybe<Quota>;
   getUsersByEmail?: Maybe<Array<Maybe<UserData>>>;
   getUsersById?: Maybe<Array<UserData>>;
   isUserRegistered: Scalars['Boolean']['output'];
@@ -452,6 +455,17 @@ export type QueryGetUsersByIdArgs = {
   userIds: Array<Scalars['String']['input']>;
 };
 
+export type Quota = {
+  __typename?: 'Quota';
+  allowedTokens: Scalars['Int']['output'];
+  createdAt: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+  usedInputTokens: Scalars['Int']['output'];
+  usedOutputTokens: Scalars['Int']['output'];
+  usedTotalTokens: Scalars['Int']['output'];
+  userId: Scalars['ID']['output'];
+};
+
 export enum Role {
   Admin = 'admin',
   Default = 'default',
@@ -473,6 +487,13 @@ export type Subscription = {
 
 export type SubscriptionPredictionAddedArgs = {
   subscriptionId: Scalars['ID']['input'];
+};
+
+export type TokenUsage = {
+  __typename?: 'TokenUsage';
+  inputTokens: Scalars['Int']['output'];
+  outputTokens: Scalars['Int']['output'];
+  totalTokens: Scalars['Int']['output'];
 };
 
 export type UserData = {
@@ -603,10 +624,12 @@ export type ResolversTypes = {
   Prompt: ResolverTypeWrapper<Prompt>;
   PromptInput: PromptInput;
   Query: ResolverTypeWrapper<{}>;
+  Quota: ResolverTypeWrapper<Quota>;
   Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   StringFilter: StringFilter;
   Subscription: ResolverTypeWrapper<{}>;
+  TokenUsage: ResolverTypeWrapper<TokenUsage>;
   UserData: ResolverTypeWrapper<UserData>;
   UserDataInput: UserDataInput;
   Voice: ResolverTypeWrapper<Voice>;
@@ -644,9 +667,11 @@ export type ResolversParentTypes = {
   Prompt: Prompt;
   PromptInput: PromptInput;
   Query: {};
+  Quota: Quota;
   String: Scalars['String']['output'];
   StringFilter: StringFilter;
   Subscription: {};
+  TokenUsage: TokenUsage;
   UserData: UserData;
   UserDataInput: UserDataInput;
   Voice: Voice;
@@ -802,6 +827,7 @@ export type PredictionResolvers<ContextType = any, ParentType extends ResolversP
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   result?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   subscriptionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  tokenUsage?: Resolver<Maybe<ResolversTypes['TokenUsage']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['PredictionType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -835,13 +861,32 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getInquiryTemplates?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   getMediaAsset?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetMediaAssetArgs, 'id'>>;
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
+  getUserQuota?: Resolver<Maybe<ResolversTypes['Quota']>, ParentType, ContextType>;
   getUsersByEmail?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserData']>>>, ParentType, ContextType, RequireFields<QueryGetUsersByEmailArgs, 'userEmails'>>;
   getUsersById?: Resolver<Maybe<Array<ResolversTypes['UserData']>>, ParentType, ContextType, RequireFields<QueryGetUsersByIdArgs, 'userIds'>>;
   isUserRegistered?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
+export type QuotaResolvers<ContextType = any, ParentType extends ResolversParentTypes['Quota'] = ResolversParentTypes['Quota']> = {
+  allowedTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  usedInputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  usedOutputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  usedTotalTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   predictionAdded?: SubscriptionResolver<Maybe<ResolversTypes['Prediction']>, "predictionAdded", ParentType, ContextType, RequireFields<SubscriptionPredictionAddedArgs, 'subscriptionId'>>;
+};
+
+export type TokenUsageResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenUsage'] = ResolversParentTypes['TokenUsage']> = {
+  inputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  outputTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  totalTokens?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserData'] = ResolversParentTypes['UserData']> = {
@@ -880,7 +925,9 @@ export type Resolvers<ContextType = any> = {
   Prediction?: PredictionResolvers<ContextType>;
   Prompt?: PromptResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Quota?: QuotaResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  TokenUsage?: TokenUsageResolvers<ContextType>;
   UserData?: UserDataResolvers<ContextType>;
   Voice?: VoiceResolvers<ContextType>;
 };

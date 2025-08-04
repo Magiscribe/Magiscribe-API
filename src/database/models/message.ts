@@ -8,6 +8,7 @@ export enum MessageResponseTypes {
 
 export interface IThread {
   subscriptionId: string;
+  inquiryId?: string;
   messages: IMessage[];
 }
 
@@ -15,6 +16,13 @@ interface IMessage {
   userId?: string;
   agentId?: string;
   response: IMessageResponse;
+  model?: string;
+  tokens?: {
+    inputTokens: number;
+    outputTokens: number;
+    totalTokens: number;
+  };
+  createdAt?: Date;
 }
 
 interface IMessageResponse {
@@ -30,6 +38,7 @@ interface IMessageResponse {
 
 const ThreadSchema = new Schema<IThread>({
   subscriptionId: String,
+  inquiryId: { type: String, required: false },
   messages: [
     {
       userId: String,

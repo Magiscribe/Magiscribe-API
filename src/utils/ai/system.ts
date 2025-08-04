@@ -50,12 +50,21 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
-export async function findOrCreateThread(subscriptionId: string) {
-  return await Thread.findOneAndUpdate(
-    { subscriptionId },
-    { $setOnInsert: { messages: [] } },
-    { upsert: true, new: true },
-  );
+export async function findOrCreateThread(
+  subscriptionId: string,
+  inquiryId?: string,
+) {
+  const updateData: { $setOnInsert: { messages: []; inquiryId?: string } } = {
+    $setOnInsert: { messages: [] },
+  };
+  if (inquiryId) {
+    updateData.$setOnInsert.inquiryId = inquiryId;
+  }
+
+  return await Thread.findOneAndUpdate({ subscriptionId }, updateData, {
+    upsert: true,
+    new: true,
+  });
 }
 
 /**
