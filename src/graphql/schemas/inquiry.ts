@@ -1,4 +1,14 @@
 export default `#graphql
+    type Integration {
+        id: ID!
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+        createdAt: Float!
+        updatedAt: Float!
+    }
+
     type InquirySettingsNotifications {
         recieveEmailOnResponse: Boolean
     }
@@ -17,7 +27,7 @@ export default `#graphql
         metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
-        integrations: [Integration!]!
+        integrations: [ID!]!
     }
 
     type Inquiry {
@@ -67,6 +77,7 @@ export default `#graphql
     }
 
     type Integration {
+        id: ID!
         name: String!
         description: String!
         type: String!
@@ -80,20 +91,8 @@ export default `#graphql
         config: JSONObject!
     }
 
-    type IntegrationToolsResult {
-        success: Boolean!
-        tools: [JSONObject!]
-        error: String
-    }
-
     type IntegrationConnectionResult {
         success: Boolean!
-        error: String
-    }
-
-    type MCPIntegrationExecutionResult {
-        success: Boolean!
-        result: JSONObject
         error: String
     }
 
@@ -106,8 +105,9 @@ export default `#graphql
         getInquiryTemplates: [JSONObject!]! @auth
         getAverageInquiryResponseTime(id: ID!): AverageInquiryResponseTime! @auth
         getInquiryIntegrations(inquiryId: ID!): [Integration!]! @auth
-        getIntegrationTools(inquiryId: ID!, integrationName: String!): IntegrationToolsResult! @auth
-        testIntegrationConnection(inquiryId: ID!, integrationName: String!): IntegrationConnectionResult! @auth
+        
+        # MCP Integration testing
+        testMCPIntegration(integration: IntegrationInput!): IntegrationConnectionResult! @auth
     }
 
     type Mutation {
@@ -118,7 +118,9 @@ export default `#graphql
         upsertInquiryResponse(id: ID, inquiryId: ID!, subscriptionId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
         deleteInquiryResponse(id: ID!, inquiryId: ID!): InquiryResponse @auth
 
+        # Integration management for inquiries
+        addIntegrationToInquiry(inquiryId: ID!, integrationId: ID!): Inquiry! @auth
+        removeIntegrationFromInquiry(inquiryId: ID!, integrationId: ID!): Inquiry! @auth
         setInquiryIntegrations(inquiryId: ID!, integrations: [IntegrationInput!]!): [Integration!]! @auth
-        executeInquiryIntegrationTool(inquiryId: ID!, toolName: String!, args: JSONObject!): MCPIntegrationExecutionResult! @auth
     }
 `;

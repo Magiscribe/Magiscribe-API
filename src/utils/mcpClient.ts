@@ -8,8 +8,13 @@ export interface Integration {
   type: string;
   config: {
     serverUrl: string;
-    auth?: {
-      apiKey?: string;
+    // JSON-based configuration support
+    mcpConfig?: {
+      [key: string]: any;
+    };
+    // Environment variables for MCP server
+    environment?: {
+      [key: string]: string;
     };
   };
 }
@@ -38,14 +43,29 @@ export async function createMCPClient(integration: Integration): Promise<Client>
   });
 
   try {
-    // Only SSE transport is supported
-    const transport = new SSEClientTransport(new URL(integration.config.serverUrl));
+    // Parse the server URL
+    const url = new URL(integration.config.serverUrl);
 
+    log.debug({
+      message: 'Creating MCP client with URL',
+      integrationName: integration.name,
+      url: url.toString(),
+      hasJsonConfig: !!(integration.config.mcpConfig && Object.keys(integration.config.mcpConfig).length > 0),
+      hasEnvironment: !!(integration.config.environment && Object.keys(integration.config.environment).length > 0),
+    });
+
+    // Create SSE transport
+    const transport = new SSEClientTransport(url);
+
+    // Create client with integration-specific configuration
     const client = new Client({
       name: integration.name,
       version: '1.0.0',
     }, {
-      capabilities: {}
+      capabilities: {
+        // Add any client capabilities here if needed
+        ...(integration.config.mcpConfig?.capabilities || {}),
+      }
     });
 
     await client.connect(transport);

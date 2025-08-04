@@ -59,10 +59,8 @@ const InquirySchema: Schema = new mongoose.Schema(
       },
       integrations: [
         {
-          name: { type: String, required: true },
-          description: { type: String, required: true },
-          type: { type: String, enum: ['MCP'], required: true },
-          config: { type: Object, required: true },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Integration',
         }
       ],
       graph: { type: Object, required: false },

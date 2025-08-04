@@ -46,3 +46,5 @@ services:
       READ_ONLY_MODE: "false"
 
       TRANSPORT: "sse"
+
+      ENABLED_TOOLS: "confluence_search,jira_get_issue,jira_search,jira_update_issue,jira_add_comment"

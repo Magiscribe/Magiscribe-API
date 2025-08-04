@@ -1,7 +1,7 @@
 import {
+  addIntegrationToInquiry,
   deleteInquiry,
   deleteInquiryResponse,
-  executeInquiryIntegrationTool,
   getAverageInquiryResponseTime,
   getInquiries,
   getInquiry,
@@ -10,18 +10,22 @@ import {
   getInquiryResponseCount,
   getInquiryResponses,
   getInquiryTemplates,
-  getIntegrationTools,
+  removeIntegrationFromInquiry,
   setInquiryIntegrations,
-  testIntegrationConnection,
   updateInquiryOwners,
   upsertInquiry,
   upsertInquiryResponse,
 } from '@/controllers/inquiry';
+import { 
+  testMCPConnection,
+  Integration as MCPIntegration
+} from '@/utils/mcpClient';
 import Context from '@/customTypes/context';
 import {
+  MutationAddIntegrationToInquiryArgs,
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
-  MutationExecuteInquiryIntegrationToolArgs,
+  MutationRemoveIntegrationFromInquiryArgs,
   MutationSetInquiryIntegrationsArgs,
   MutationUpdateInquiryOwnersArgs,
   MutationUpsertInquiryArgs,
@@ -31,8 +35,6 @@ import {
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
-  QueryGetIntegrationToolsArgs,
-  QueryTestIntegrationConnectionArgs,
 } from '@/graphql/codegen';
 
 export default {
@@ -95,21 +97,38 @@ export default {
         userId: context.auth.sub,
       }),
 
+    addIntegrationToInquiry: async (
+      _,
+      args: MutationAddIntegrationToInquiryArgs,
+      context: Context,
+    ) =>
+      addIntegrationToInquiry(
+        args.inquiryId,
+        args.integrationId,
+        context.auth.sub
+      ),
+
+    removeIntegrationFromInquiry: async (
+      _,
+      args: MutationRemoveIntegrationFromInquiryArgs,
+      context: Context,
+    ) =>
+      removeIntegrationFromInquiry(
+        args.inquiryId,
+        args.integrationId,
+        context.auth.sub
+      ),
+
     setInquiryIntegrations: async (
       _,
       args: MutationSetInquiryIntegrationsArgs,
       context: Context,
-    ) => {
-      return setInquiryIntegrations(args.inquiryId, args.integrations);
-    },
-
-    executeInquiryIntegrationTool: async (
-      _,
-      args: MutationExecuteInquiryIntegrationToolArgs,
-      context: Context,
-    ) => {
-      return executeInquiryIntegrationTool(args.inquiryId, args.toolName, args.args);
-    },
+    ) =>
+      setInquiryIntegrations(
+        args.inquiryId,
+        args.integrations,
+        context.auth.sub
+      ),
   },
   Query: {
     getInquiries: async (_, _args, context: Context) =>
@@ -135,24 +154,22 @@ export default {
       _,
       args: QueryGetInquiryIntegrationsArgs,
       context: Context,
-    ) => {
-      return getInquiryIntegrations(args.inquiryId);
-    },
+    ) => getInquiryIntegrations(args.inquiryId),
 
-    getIntegrationTools: async (
-      _,
-      args: QueryGetIntegrationToolsArgs,
-      context: Context,
-    ) => {
-      return getIntegrationTools(args.inquiryId, args.integrationName);
-    },
-
-    testIntegrationConnection: async (
-      _,
-      args: QueryTestIntegrationConnectionArgs,
-      context: Context,
-    ) => {
-      return testIntegrationConnection(args.inquiryId, args.integrationName);
+    testMCPIntegration: async (_, args: { integration: any }) => {
+      try {
+        const integration: MCPIntegration = args.integration;
+        const success = await testMCPConnection(integration);
+        return {
+          success,
+          error: success ? null : 'Failed to connect to MCP server',
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+      }
     },
   },
 };
