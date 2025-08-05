@@ -303,7 +303,6 @@ function createEventPublisher(eventId: string, subscriptionId: string, correlati
       correlationId,
       type,
       result,
-      tokenUsage,
       context: contextMap[type],
     });
     return pubsubClient.publish(SubscriptionEvent.PREDICTION_ADDED, {
@@ -314,7 +313,6 @@ function createEventPublisher(eventId: string, subscriptionId: string, correlati
         result,
         type,
         context: contextMap[type],
-        tokenUsage,
       },
     });
   };
@@ -479,7 +477,22 @@ Alternatively, you can include the JSON directly in your response:
       }
     }
 
-    const steps = await getSteps(agent, variables);
+    const { steps, reasoningTokenUsage, reasoningContent } = await getSteps(
+      agent,
+      variables,
+    );
+
+    if (reasoningTokenUsage && reasoningContent) {
+      await addToThread(
+        thread,
+        agent.id,
+        reasoningContent,
+        false,
+        reasoningTokenUsage,
+        agent.reasoning?.llmModel,
+      );
+    }
+
     const {
       content: result,
       tokenUsage,
@@ -854,11 +867,26 @@ export async function generatePredictionWithInquiry({
 }): Promise<void> {
   // Validate that the integration belongs to the inquiry
   const availableIntegrations = await getInquiryIntegrations(inquiryId);
+  log.debug({
+    msg: 'Available integrations for inquiry',
+    inquiryId,
+    availableIntegrations: availableIntegrations.map((int: any) => ({
+      id: int._id?.toString(),
+      name: int.name,
+    })),
+  });
+
   const allowedIntegration = availableIntegrations.find(
     (integration: any) => integration._id.toString() === integrationId
   );
   
   if (!allowedIntegration) {
+    log.warn({
+      msg: 'Integration not found in inquiry',
+      integrationId,
+      inquiryId,
+      availableIntegrationIds: availableIntegrations.map((int: any) => int._id?.toString()),
+    });
     throw new Error(`Integration ${integrationId} is not allowed for inquiry ${inquiryId}`);
   }
 
