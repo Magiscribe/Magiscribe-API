@@ -25,6 +25,7 @@
     "db:import": "tsx seed/import.ts",
     "db:export": "tsx seed/export.ts",
     "db:clean": "tsx seed/clean.ts",
+    "migrate:inquiry-threads": "tsx scripts/migrate-inquiry-threads.ts",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "engines": {
@@ -81,5 +82,6 @@
     "tsx": "^4.20.3",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0"
-  }
+  },
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
 }
