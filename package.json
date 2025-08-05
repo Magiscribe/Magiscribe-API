@@ -25,6 +25,7 @@
     "db:import": "tsx seed/import.ts",
     "db:export": "tsx seed/export.ts",
     "db:clean": "tsx seed/clean.ts",
+    "db:script": "tsx seed/${SCRIPT}.ts",
     "migrate:inquiry-threads": "tsx scripts/migrate-inquiry-threads.ts",
     "codegen": "graphql-codegen --config codegen.ts"
   },

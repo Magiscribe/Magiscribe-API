@@ -1,4 +1,3 @@
-#!/usr/bin/env ts-node
 /**
  * Migration Runner Script for Inquiry Thread Migration
  * 
@@ -23,89 +22,104 @@ async function main() {
   const isDryRun = !shouldApply;
 
   try {
-    console.log('🚀 Starting Inquiry Thread Migration');
-    console.log(`Mode: ${isDryRun ? 'DRY RUN' : 'APPLY CHANGES'}`);
-    console.log('=====================================\n');
+    log.info({ message: 'Starting Inquiry Thread Migration' });
+    log.info({ message: `Mode: ${isDryRun ? 'DRY RUN' : 'APPLY CHANGES'}` });
 
     // Initialize database connection
     await database.init();
     log.info({ message: 'Database connection established' });
 
     // Step 1: Validate current state
-    console.log('📊 Current State Validation');
-    console.log('---------------------------');
+    log.info({ message: 'Current State Validation' });
     const validation = await validateThreadInquiryRelationships();
     
-    console.log(`Total threads: ${validation.totalThreads}`);
-    console.log(`Threads with inquiryId: ${validation.threadsWithInquiryId}`);
-    console.log(`Threads missing inquiryId: ${validation.threadsWithMissingInquiryId}`);
-    console.log(`Threads with InquiryResponses (can be migrated): ${validation.threadsWithInquiryResponses}`);
-    console.log(`Orphaned threads (no InquiryResponse): ${validation.orphanedThreads}`);
+    log.info({ 
+      message: 'Thread validation results',
+      totalThreads: validation.totalThreads,
+      threadsWithInquiryId: validation.threadsWithInquiryId,
+      threadsWithMissingInquiryId: validation.threadsWithMissingInquiryId,
+      threadsWithInquiryResponses: validation.threadsWithInquiryResponses,
+      orphanedThreads: validation.orphanedThreads
+    });
     
     if (validation.inconsistentRelationships.length > 0) {
-      console.log('\n⚠️  Inconsistent relationships found:');
-      validation.inconsistentRelationships.forEach(rel => console.log(`  - ${rel}`));
+      log.warn({ 
+        message: 'Inconsistent relationships found',
+        inconsistentRelationships: validation.inconsistentRelationships
+      });
     }
 
     // Step 2: Run migration
-    console.log(`\n🔄 ${isDryRun ? 'Dry Run' : 'Applying'} Migration`);
-    console.log('---------------------------');
+    log.info({ message: `${isDryRun ? 'Dry Run' : 'Applying'} Migration` });
     
     const migrationResult = await migrateInquiryThreads(isDryRun);
     
-    console.log(`\n📈 Migration Results:`);
-    console.log(`Total threads checked: ${migrationResult.totalThreadsChecked}`);
-    console.log(`Threads with missing inquiryId: ${migrationResult.threadsWithMissingInquiryId}`);
-    console.log(`Threads with InquiryResponses: ${migrationResult.threadsWithInquiryResponses}`);
-    console.log(`${isDryRun ? 'Would migrate' : 'Successfully migrated'}: ${isDryRun ? migrationResult.threadsWithInquiryResponses : migrationResult.successfulMigrations}`);
-    console.log(`Skipped threads: ${migrationResult.skippedThreads}`);
+    log.info({ 
+      message: 'Migration Results',
+      totalThreadsChecked: migrationResult.totalThreadsChecked,
+      threadsWithMissingInquiryId: migrationResult.threadsWithMissingInquiryId,
+      threadsWithInquiryResponses: migrationResult.threadsWithInquiryResponses,
+      migratedOrWouldMigrate: isDryRun ? migrationResult.threadsWithInquiryResponses : migrationResult.successfulMigrations,
+      skippedThreads: migrationResult.skippedThreads
+    });
     
     if (migrationResult.errors.length > 0) {
-      console.log('\n❌ Errors encountered:');
-      migrationResult.errors.forEach(error => console.log(`  - ${error}`));
+      log.error({ 
+        message: 'Errors encountered during migration',
+        errors: migrationResult.errors
+      });
     }
 
     // Step 3: Final validation (if changes were applied)
     if (!isDryRun && migrationResult.successfulMigrations > 0) {
-      console.log('\n🔍 Post-Migration Validation');
-      console.log('----------------------------');
+      log.info({ message: 'Post-Migration Validation' });
       
       const postValidation = await validateThreadInquiryRelationships();
-      console.log(`Remaining threads missing inquiryId: ${postValidation.threadsWithMissingInquiryId}`);
-      console.log(`Migration reduced missing inquiryId threads by: ${validation.threadsWithMissingInquiryId - postValidation.threadsWithMissingInquiryId}`);
+      log.info({ 
+        message: 'Post-migration validation results',
+        remainingThreadsMissingInquiryId: postValidation.threadsWithMissingInquiryId,
+        threadsFixed: validation.threadsWithMissingInquiryId - postValidation.threadsWithMissingInquiryId
+      });
     }
 
     // Step 4: Summary and next steps
-    console.log('\n✅ Migration Complete');
-    console.log('====================');
+    log.info({ message: 'Migration Complete' });
     
     if (isDryRun) {
-      console.log('This was a DRY RUN - no changes were made.');
+      log.info({ message: 'This was a DRY RUN - no changes were made.' });
       if (migrationResult.threadsWithInquiryResponses > 0) {
-        console.log(`\n📋 Next Steps:`);
-        console.log(`1. Review the migration plan above`);
-        console.log(`2. Create a database backup`);
-        console.log(`3. Run with --apply flag to execute the migration:`);
-        console.log(`   npm run migrate:inquiry-threads --apply`);
+        log.info({ 
+          message: 'Migration plan ready',
+          nextSteps: [
+            'Review the migration plan above',
+            'Create a database backup',
+            'Run with --apply flag to execute the migration'
+          ]
+        });
       } else {
-        console.log('\n🎉 No migration needed - all threads already have proper inquiryId values.');
+        log.info({ message: 'No migration needed - all threads already have proper inquiryId values.' });
       }
     } else {
-      console.log(`✨ Successfully migrated ${migrationResult.successfulMigrations} threads!`);
-      console.log('\n📋 Recommended Next Steps:');
-      console.log('1. Verify token usage calculations are now accurate');
-      console.log('2. Test inquiry analysis features');
-      console.log('3. Monitor for any issues in production');
+      log.info({ 
+        message: 'Migration completed successfully',
+        threadsUpdated: migrationResult.successfulMigrations,
+        nextSteps: [
+          'Verify token usage calculations are now accurate',
+          'Test inquiry analysis features',
+          'Monitor for any issues in production'
+        ]
+      });
       
       if (validation.orphanedThreads > 0) {
-        console.log(`\n📝 Note: ${validation.orphanedThreads} threads remain without inquiryId.`);
-        console.log('These are likely from agent playground or other non-inquiry contexts.');
-        console.log('This is expected and normal.');
+        log.info({ 
+          message: 'Note: Some threads remain without inquiryId',
+          orphanedThreads: validation.orphanedThreads,
+          reason: 'These are likely from agent playground or other non-inquiry contexts. This is expected and normal.'
+        });
       }
     }
 
   } catch (error) {
-    console.error('\n💥 Migration failed:', error);
     log.error({
       message: 'Migration script failed',
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -120,12 +134,20 @@ async function main() {
 
 // Handle uncaught errors
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  log.error({ 
+    message: 'Unhandled Rejection',
+    reason: reason,
+    promise: promise
+  });
   process.exit(1);
 });
 
 process.on('uncaughtException', (error) => {
-  console.error('Uncaught Exception:', error);
+  log.error({ 
+    message: 'Uncaught Exception',
+    error: error.message,
+    stack: error.stack
+  });
   process.exit(1);
 });
 
