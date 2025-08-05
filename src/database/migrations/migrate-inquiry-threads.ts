@@ -17,17 +17,19 @@ interface MigrationResult {
  * Migrates threads to include inquiryId based on direct InquiryResponse relationships.
  * This migration only handles threads that have a direct, verifiable connection to an inquiry
  * through an InquiryResponse document.
- * 
+ *
  * Safe Migration Strategy:
  * 1. Find threads with missing inquiryId
  * 2. Find InquiryResponse documents that reference these threads
  * 3. Find Inquiry documents that contain these responses
  * 4. Update threads with the correct inquiryId
- * 
+ *
  * @param dryRun - If true, only reports what would be migrated without making changes
  * @returns Migration results summary
  */
-export async function migrateInquiryThreads(dryRun: boolean = true): Promise<MigrationResult> {
+export async function migrateInquiryThreads(
+  dryRun: boolean = true,
+): Promise<MigrationResult> {
   const result: MigrationResult = {
     totalThreadsChecked: 0,
     threadsWithMissingInquiryId: 0,
@@ -35,7 +37,7 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
     successfulMigrations: 0,
     skippedThreads: 0,
     errors: [],
-    migrationsByInquiry: {}
+    migrationsByInquiry: {},
   };
 
   try {
@@ -44,8 +46,8 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
       $or: [
         { inquiryId: { $exists: false } },
         { inquiryId: null },
-        { inquiryId: undefined }
-      ]
+        { inquiryId: undefined },
+      ],
     });
 
     result.totalThreadsChecked = await Thread.countDocuments();
@@ -53,8 +55,8 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
 
     // Step 2: Process threads with missing inquiryId (parallelized with controlled concurrency)
     const BATCH_SIZE = 10; // Process 10 threads concurrently to avoid overwhelming the database
-    const threadBatches: typeof threadsWithMissingInquiryId[] = [];
-    
+    const threadBatches: (typeof threadsWithMissingInquiryId)[] = [];
+
     // Split threads into batches for parallel processing
     for (let i = 0; i < threadsWithMissingInquiryId.length; i += BATCH_SIZE) {
       threadBatches.push(threadsWithMissingInquiryId.slice(i, i + BATCH_SIZE));
@@ -68,8 +70,8 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
       const batchPromises = batch.map(async (thread) => {
         try {
           // Find InquiryResponse that references this thread
-          const inquiryResponse = await InquiryResponse.findOne({ 
-            threadId: thread._id 
+          const inquiryResponse = await InquiryResponse.findOne({
+            threadId: thread._id,
           });
 
           if (!inquiryResponse) {
@@ -81,7 +83,7 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
 
           // Find Inquiry that contains this response
           const inquiry = await Inquiry.findOne({
-            responses: inquiryResponse._id
+            responses: inquiryResponse._id,
           });
 
           if (!inquiry) {
@@ -101,17 +103,17 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
             }
             result.migrationsByInquiry[inquiryTitle]++;
 
-            return { 
-              type: 'dry-run', 
-              threadId: thread._id, 
+            return {
+              type: 'dry-run',
+              threadId: thread._id,
               inquiryId: inquiry._id,
-              inquiryTitle: inquiry.data?.settings?.title || 'Untitled'
+              inquiryTitle: inquiry.data?.settings?.title || 'Untitled',
             };
           } else {
             // Perform the actual migration
             await Thread.updateOne(
               { _id: thread._id },
-              { $set: { inquiryId: inquiry._id.toString() } }
+              { $set: { inquiryId: inquiry._id.toString() } },
             );
 
             // Track the migration by inquiry title
@@ -122,15 +124,14 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
             result.migrationsByInquiry[inquiryTitle]++;
 
             result.successfulMigrations++;
-            
-            return { 
-              type: 'migrated', 
-              threadId: thread._id, 
+
+            return {
+              type: 'migrated',
+              threadId: thread._id,
               inquiryId: inquiry._id,
-              inquiryTitle: inquiry.data?.settings?.title || 'Untitled'
+              inquiryTitle: inquiry.data?.settings?.title || 'Untitled',
             };
           }
-
         } catch (error) {
           const errorMessage = `Error processing thread ${thread._id}: ${error instanceof Error ? error.message : 'Unknown error'}`;
           result.errors.push(errorMessage);
@@ -149,8 +150,15 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
         $or: [
           { inquiryId: { $exists: false } },
           { inquiryId: null },
-          { inquiryId: undefined }
-        ]
+          { inquiryId: undefined },
+        ],
+      });
+
+      log.info({
+        message: 'Post-migration validation',
+        remainingThreadsWithMissingInquiryId,
+        expectedRemaining:
+          result.threadsWithMissingInquiryId - result.successfulMigrations,
       });
     }
 
@@ -158,25 +166,24 @@ export async function migrateInquiryThreads(dryRun: boolean = true): Promise<Mig
     log.info({
       message: 'Migration completed',
       dryRun,
-      result
+      result,
     });
 
     // Display inquiry-specific summary
     if (Object.keys(result.migrationsByInquiry).length > 0) {
       log.info({
         message: 'Migrations by inquiry title',
-        migrationsByInquiry: result.migrationsByInquiry
+        migrationsByInquiry: result.migrationsByInquiry,
       });
     }
 
     return result;
-
   } catch (error) {
     const errorMessage = `Migration failed: ${error instanceof Error ? error.message : 'Unknown error'}`;
     result.errors.push(errorMessage);
     log.error({
       message: 'Migration failed with critical error',
-      error: errorMessage
+      error: errorMessage,
     });
     throw error;
   }
@@ -195,17 +202,17 @@ export async function validateThreadInquiryRelationships(): Promise<{
   inconsistentRelationships: string[];
 }> {
   const totalThreads = await Thread.countDocuments();
-  
+
   const threadsWithInquiryId = await Thread.countDocuments({
-    inquiryId: { $exists: true, $ne: null }
+    inquiryId: { $exists: true, $ne: null },
   });
 
   const threadsWithMissingInquiryId = await Thread.countDocuments({
     $or: [
       { inquiryId: { $exists: false } },
       { inquiryId: null },
-      { inquiryId: undefined }
-    ]
+      { inquiryId: undefined },
+    ],
   });
 
   // Count threads that have InquiryResponse relationships but missing inquiryId
@@ -215,30 +222,32 @@ export async function validateThreadInquiryRelationships(): Promise<{
         $or: [
           { inquiryId: { $exists: false } },
           { inquiryId: null },
-          { inquiryId: undefined }
-        ]
-      }
+          { inquiryId: undefined },
+        ],
+      },
     },
     {
       $lookup: {
         from: 'inquiryresponses',
         localField: '_id',
         foreignField: 'threadId',
-        as: 'responses'
-      }
+        as: 'responses',
+      },
     },
     {
       $match: {
-        'responses.0': { $exists: true }
-      }
+        'responses.0': { $exists: true },
+      },
     },
     {
-      $count: 'threadsWithInquiryResponses'
-    }
+      $count: 'threadsWithInquiryResponses',
+    },
   ]);
 
-  const threadsWithInquiryResponses = threadsWithResponses[0]?.threadsWithInquiryResponses || 0;
-  const orphanedThreads = threadsWithMissingInquiryId - threadsWithInquiryResponses;
+  const threadsWithInquiryResponses =
+    threadsWithResponses[0]?.threadsWithInquiryResponses || 0;
+  const orphanedThreads =
+    threadsWithMissingInquiryId - threadsWithInquiryResponses;
 
   // Check for inconsistent relationships
   const inconsistentRelationships: string[] = [];
@@ -247,24 +256,24 @@ export async function validateThreadInquiryRelationships(): Promise<{
   const threadsWithPossibleInconsistencies = await Thread.aggregate([
     {
       $match: {
-        inquiryId: { $exists: true, $ne: null }
-      }
+        inquiryId: { $exists: true, $ne: null },
+      },
     },
     {
       $lookup: {
         from: 'inquiryresponses',
         localField: '_id',
         foreignField: 'threadId',
-        as: 'responses'
-      }
+        as: 'responses',
+      },
     },
     {
       $lookup: {
         from: 'inquiries',
         localField: 'responses._id',
         foreignField: 'responses',
-        as: 'inquiries'
-      }
+        as: 'inquiries',
+      },
     },
     {
       $match: {
@@ -272,16 +281,21 @@ export async function validateThreadInquiryRelationships(): Promise<{
           $and: [
             { $gt: [{ $size: '$responses' }, 0] },
             { $gt: [{ $size: '$inquiries' }, 0] },
-            { $ne: ['$inquiryId', { $toString: { $arrayElemAt: ['$inquiries._id', 0] } }] }
-          ]
-        }
-      }
-    }
+            {
+              $ne: [
+                '$inquiryId',
+                { $toString: { $arrayElemAt: ['$inquiries._id', 0] } },
+              ],
+            },
+          ],
+        },
+      },
+    },
   ]);
 
   for (const thread of threadsWithPossibleInconsistencies) {
     inconsistentRelationships.push(
-      `Thread ${thread._id} has inquiryId ${thread.inquiryId} but InquiryResponse points to inquiry ${thread.inquiries[0]?._id}`
+      `Thread ${thread._id} has inquiryId ${thread.inquiryId} but InquiryResponse points to inquiry ${thread.inquiries[0]?._id}`,
     );
   }
 
@@ -291,7 +305,7 @@ export async function validateThreadInquiryRelationships(): Promise<{
     threadsWithMissingInquiryId,
     threadsWithInquiryResponses,
     orphanedThreads,
-    inconsistentRelationships
+    inconsistentRelationships,
   };
 }
 
@@ -299,7 +313,7 @@ export async function validateThreadInquiryRelationships(): Promise<{
 export async function runMigration() {
   try {
     await database.init();
-    
+
     // First, validate current state
     console.log('=== Current State Validation ===');
     const validation = await validateThreadInquiryRelationships();
@@ -313,9 +327,10 @@ export async function runMigration() {
     // Display inquiry breakdown in a readable format
     if (Object.keys(dryRunResult.migrationsByInquiry).length > 0) {
       console.log('\n📊 Threads to migrate by inquiry:');
-      const sortedInquiries = Object.entries(dryRunResult.migrationsByInquiry)
-        .sort(([,a], [,b]) => b - a); // Sort by count descending
-      
+      const sortedInquiries = Object.entries(
+        dryRunResult.migrationsByInquiry,
+      ).sort(([, a], [, b]) => b - a); // Sort by count descending
+
       for (const [title, count] of sortedInquiries) {
         console.log(`  • ${title}: ${count} thread${count === 1 ? '' : 's'}`);
       }
@@ -323,12 +338,15 @@ export async function runMigration() {
 
     // Ask for confirmation before actual migration
     if (dryRunResult.threadsWithInquiryResponses > 0) {
-      console.log(`\n⚠️  Migration would update ${dryRunResult.threadsWithInquiryResponses} threads`);
-      console.log('To run the actual migration, call migrateInquiryThreads(false)');
+      console.log(
+        `\n⚠️  Migration would update ${dryRunResult.threadsWithInquiryResponses} threads`,
+      );
+      console.log(
+        'To run the actual migration, call migrateInquiryThreads(false)',
+      );
     } else {
       console.log('\n✅ No threads found that need migration');
     }
-
   } catch (error) {
     console.error('Migration failed:', error);
     process.exit(1);

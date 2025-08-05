@@ -103,7 +103,7 @@ jobs:
             echo "❌ Script file 'scripts/${{ inputs.script_name }}.ts' not found"
             exit 1
           fi
-          
+
           echo "✅ Script validation passed"
 
       - name: Run Migration Script (Dry Run)
@@ -114,7 +114,7 @@ jobs:
           pnpm run db:script
         env:
           NODE_ENV: ${{ inputs.environment }}
-          SCRIPT: "scripts/${{ inputs.script_name }}"
+          SCRIPT: 'scripts/${{ inputs.script_name }}'
           MONGODB_URL: ${{ env.MONGODB_URL }}
           MONGODB_USER: ${{ env.MONGODB_USER }}
           MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}
@@ -128,7 +128,7 @@ jobs:
           echo "✅ Script execution completed successfully"
         env:
           NODE_ENV: ${{ inputs.environment }}
-          SCRIPT: "scripts/${{ inputs.script_name }}"
+          SCRIPT: 'scripts/${{ inputs.script_name }}'
           MONGODB_URL: ${{ env.MONGODB_URL }}
           MONGODB_USER: ${{ env.MONGODB_USER }}
           MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}

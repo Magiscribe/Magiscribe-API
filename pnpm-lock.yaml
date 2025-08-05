@@ -38,6 +38,9 @@ importers:
       '@clerk/backend':
         specifier: ^2.6.2
         version: 2.6.2(react@18.3.1)
+      '@eslint/js':
+        specifier: ^9.32.0
+        version: 9.32.0
       '@fastify/cors':
         specifier: ^11.1.0
         version: 11.1.0
@@ -9305,7 +9308,7 @@ snapshots:
   axios@1.7.4(debug@4.4.1):
     dependencies:
       follow-redirects: 1.15.11(debug@4.4.1)
-      form-data: 4.0.0
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -10571,7 +10574,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4(debug@4.4.1))
+      retry-axios: 2.6.0(axios@1.7.4)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -12124,7 +12127,7 @@ snapshots:
 
   ret@0.5.0: {}
 
-  retry-axios@2.6.0(axios@1.7.4(debug@4.4.1)):
+  retry-axios@2.6.0(axios@1.7.4):
     dependencies:
       axios: 1.7.4(debug@4.4.1)
 
