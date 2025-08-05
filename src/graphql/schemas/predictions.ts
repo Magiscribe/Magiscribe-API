@@ -32,7 +32,6 @@ export default `#graphql
     addPrediction(
       subscriptionId: ID!
       agentId: ID!
-      inquiryId: ID
       variables: JSONObject
       attachments: [JSONObject!]
       inquiryId: ID

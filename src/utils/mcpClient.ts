@@ -1,6 +1,6 @@
 import log from '@/log';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
 export interface Integration {
   name: string;
@@ -8,12 +8,8 @@ export interface Integration {
   type: string;
   config: {
     serverUrl: string;
-    // JSON-based configuration support
-    mcpConfig?: {
-      [key: string]: any;
-    };
-    // Environment variables for MCP server
-    environment?: {
+    // Headers to pass with requests to the MCP server
+    headers?: {
       [key: string]: string;
     };
   };
@@ -46,29 +42,26 @@ export async function createMCPClient(integration: Integration): Promise<Client>
     // Parse the server URL
     const url = new URL(integration.config.serverUrl);
 
-    log.debug({
-      message: 'Creating MCP client with URL',
-      integrationName: integration.name,
-      url: url.toString(),
-      hasJsonConfig: !!(integration.config.mcpConfig && Object.keys(integration.config.mcpConfig).length > 0),
-      hasEnvironment: !!(integration.config.environment && Object.keys(integration.config.environment).length > 0),
-    });
+  log.debug({
+    message: 'Creating MCP client with URL',
+    integrationName: integration.name,
+    url: url.toString(),
+    headers: integration.config.headers || {},
+  });
 
-    // Create SSE transport
-    const transport = new SSEClientTransport(url);
+  const transport = new StreamableHTTPClientTransport(url, {
+    requestInit: {
+      headers: integration.config.headers || {},
+    }
+  });
 
-    // Create client with integration-specific configuration
-    const client = new Client({
-      name: integration.name,
-      version: '1.0.0',
-    }, {
-      capabilities: {
-        // Add any client capabilities here if needed
-        ...(integration.config.mcpConfig?.capabilities || {}),
-      }
-    });
+  // Create client with integration-specific configuration
+  const client = new Client({
+    name: integration.name,
+    version: '1.0.0',
+  });
 
-    await client.connect(transport);
+  await client.connect(transport);
 
     log.info({
       message: 'MCP client connected successfully',
