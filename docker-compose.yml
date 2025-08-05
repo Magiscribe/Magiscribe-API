@@ -45,6 +45,12 @@ services:
       MCP_LOGGING_STDOUT: "true"
       READ_ONLY_MODE: "false"
 
-      TRANSPORT: "sse"
+      TRANSPORT: "streamable-http"
 
-      ENABLED_TOOLS: "confluence_search,jira_get_issue,jira_search,jira_update_issue,jira_add_comment"
+      JIRA_URL: "https://kyle-lierer.atlassian.net"
+      JIRA_USERNAME: "liererkt@gmail.com"
+      JIRA_API_TOKEN: "<token>"
+
+      CONFLUENCE_URL: "https://kyle-lierer.atlassian.net/wiki"
+      CONFLUENCE_USERNAME: "liererkt@gmail.com"
+      CONFLUENCE_API_TOKEN: "<token>"

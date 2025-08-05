@@ -85,6 +85,7 @@ export default `#graphql
     }
 
     input IntegrationInput {
+        id: ID
         name: String!
         description: String!
         type: String!
@@ -93,6 +94,18 @@ export default `#graphql
 
     type IntegrationConnectionResult {
         success: Boolean!
+        error: String
+    }
+
+    type MCPTool {
+        name: String!
+        description: String!
+        inputSchema: JSONObject
+    }
+
+    type MCPToolsResult {
+        success: Boolean!
+        tools: [MCPTool!]!
         error: String
     }
 
@@ -106,8 +119,9 @@ export default `#graphql
         getAverageInquiryResponseTime(id: ID!): AverageInquiryResponseTime! @auth
         getInquiryIntegrations(inquiryId: ID!): [Integration!]! @auth
         
-        # MCP Integration testing
+        # MCP Integration testing and tools
         testMCPIntegration(integration: IntegrationInput!): IntegrationConnectionResult! @auth
+        getMCPIntegrationTools(integrationId: ID!): MCPToolsResult! @auth
     }
 
     type Mutation {

@@ -18,8 +18,10 @@ import {
 } from '@/controllers/inquiry';
 import { 
   testMCPConnection,
+  listMCPTools,
   Integration as MCPIntegration
 } from '@/utils/mcpClient';
+import { Integration as IntegrationModel } from '@/database/models/integration';
 import Context from '@/customTypes/context';
 import {
   MutationAddIntegrationToInquiryArgs,
@@ -35,6 +37,7 @@ import {
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
+  QueryGetMcpIntegrationToolsArgs,
 } from '@/graphql/codegen';
 
 export default {
@@ -167,6 +170,47 @@ export default {
       } catch (error) {
         return {
           success: false,
+          error: error instanceof Error ? error.message : 'Unknown error',
+        };
+      }
+    },
+
+    getMCPIntegrationTools: async (_, args: QueryGetMcpIntegrationToolsArgs) => {
+      try {
+        // Get the integration from the database
+        const integrationDoc = await IntegrationModel.findById(args.integrationId);
+        if (!integrationDoc) {
+          return {
+            success: false,
+            tools: [],
+            error: 'Integration not found',
+          };
+        }
+
+        // Convert to MCP integration format
+        const integration: MCPIntegration = {
+          name: (integrationDoc as any).name,
+          description: (integrationDoc as any).description,
+          type: (integrationDoc as any).type,
+          config: (integrationDoc as any).config,
+        };
+
+        // List available tools
+        const tools = await listMCPTools(integration);
+        
+        return {
+          success: true,
+          tools: tools.map(tool => ({
+            name: tool.name,
+            description: tool.description,
+            inputSchema: tool.inputSchema || null,
+          })),
+          error: null,
+        };
+      } catch (error) {
+        return {
+          success: false,
+          tools: [],
           error: error instanceof Error ? error.message : 'Unknown error',
         };
       }
