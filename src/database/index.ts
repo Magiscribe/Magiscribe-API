@@ -25,13 +25,13 @@ const init = async () => {
 
   return new Promise((resolve, reject) => {
     connection.on('open', () => {
-      log.info(`Connected to MongoDB at ${config.mongodb.url}`);
+      log.info(`Connected to MongoDB`);
       resolve(undefined);
     });
 
     connection.on('error', (error) => {
       log.error(
-        `Error connecting to MongoDB at ${config.mongodb.url}: ${error.message}`,
+        `Error connecting to MongoDB: ${error.message}`,
       );
       reject(error);
     });
