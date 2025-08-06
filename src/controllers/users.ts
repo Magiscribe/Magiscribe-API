@@ -6,7 +6,6 @@ import { clerkClient } from '@/utils/clients';
 import { sendInquiryToUsers, sendWelcomeEmail } from '@/utils/emails/types';
 import { User as ClerkUser } from '@clerk/backend';
 import { UserDataInput } from '@/graphql/codegen';
-import config from '@/config';
 
 /** Maximum page size for Clerk user list requests */
 export const USER_LIST_PAGE_SIZE = 501;

@@ -52,6 +52,24 @@ export async function upsertInquiry({
       fields,
     });
 
+
+    const userObject = await getUsersById(
+      { userIds: [userId] },
+    );
+
+    if (!userObject?.length) {
+      log.warn({
+        message: 'User not found',
+        userId,
+      });
+    }
+    else {
+      log.info({
+        message: 'User data fetched successfully:' + userObject[0].primaryEmailAddress,
+        userId
+      })
+    };
+
     const updateData = createNestedUpdateObject({
       data,
       prefix: 'data',
@@ -63,8 +81,18 @@ export async function upsertInquiry({
       updateData,
     });
 
+    const emailToSearch = userObject ? userObject[0].primaryEmailAddress : "";
+    log.info({message: 'Email to search for', emailToSearch});
+
+    // Find the inquiry by ID and update it if the userId or ownerEmail matches
+    // This allows the user to update their own inquiries or inquiries they own.
     const result = await Inquiry.findOneAndUpdate(
-      { _id: id, userId },
+      {
+        _id: id, $or: [
+          { userId: userId },
+          { ownerEmail: emailToSearch },
+        ]
+      },
       {
         $set: updateData,
       },
@@ -194,18 +222,55 @@ export async function updateInquiryOwners({
   userEmail: string
   owners: string[];
 }): Promise<TInquiry> {
-  return await Inquiry.findOneAndUpdate(
+
+  // TODO: Pass user email from frontend
+  console.log("User email:", userEmail);
+  const userObject = await getUsersById(
+    { userIds: [userId] },
+  );
+
+  if (!userObject?.length) {
+    log.warn({
+      message: 'User not found',
+      userId,
+    });
+  }
+  else {
+    log.info({
+      message: 'User data fetched successfully',
+      userId
+    })
+  };
+
+  const result = await Inquiry.findOneAndUpdate(
     //{$and: [{_id: id}, {$or: [{ userId, ownerEmail: userEmail }]}]},
-    { _id: id, userId },
+    {
+      _id: id, $or: [
+        { userId: userId },
+        { ownerEmail: userObject ? userObject[0].primaryEmailAddress : "" },
+      ]
+    },
     {
       $set: { userId: owners },
     },
     {
-      upsert: true,
       new: true,
       setDefaultsOnInsert: true,
     },
   );
+
+  if (!result) {
+    log.warn({
+      message: 'Inquiry not found or user does not have permission',
+      inquiryId: id,
+      userId,
+    });
+    throw new Error(
+      'Inquiry not found or you do not have permission to access it',
+    );
+  }
+
+  return result;
 }
 
 /**
@@ -223,19 +288,55 @@ export async function updateInquiryOwnerEmails({
   userId: string;
   userEmail: string;
   ownerEmails: string[];
-}): Promise<TInquiry> {
-  return await Inquiry.findOneAndUpdate(
-    //{$and: [{_id: id}, {$or: [{ userId, ownerEmail: userEmail }]}]},
-    { _id: id, userId },
+}): Promise<TInquiry> { 
+  // TODO: Pass user email from frontend
+  console.log("User email:", userEmail);
+
+  const userObject = await getUsersById(
+    { userIds: [userId] },
+  );
+
+  if (!userObject?.length) {
+    log.warn({
+      message: 'User not found',
+      userId,
+    });
+  }
+  else {
+    log.info({
+      message: 'User data fetched successfully',
+      userId
+    })
+  };
+
+  const result = await Inquiry.findOneAndUpdate(
+    {
+      _id: id, $or: [
+        { userId: userId },
+        { ownerEmail: userObject ? userObject[0].primaryEmailAddress : "" },
+      ]
+    },
     {
       $set: { ownerEmail: ownerEmails },
     },
     {
-      upsert: true,
       new: true,
       setDefaultsOnInsert: true,
     },
   );
+
+  if (!result) {
+    log.warn({
+      message: 'Inquiry not found or user does not have permission',
+      inquiryId: id,
+      userId,
+    });
+    throw new Error(
+      'Inquiry not found or you do not have permission to access it',
+    );
+  }
+
+  return result;
 }
 
 /**
