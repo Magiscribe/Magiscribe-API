@@ -274,195 +274,173 @@ async function validateThreadInquiryRelationships(): Promise<{
   };
 }
 
-async function main() {
+async function runStandaloneValidation() {
+  await database.init();
+
+  console.log('=== Current State Validation ===');
+  const validation = await validateThreadInquiryRelationships();
+  console.log(JSON.stringify(validation, null, 2));
+
+  console.log('\n=== Dry Run Migration ===');
+  const dryRunResult = await migrateInquiryThreads(true);
+
+  console.log({
+    totalThreadsChecked: dryRunResult.totalThreadsChecked,
+    threadsWithMissingInquiryId: dryRunResult.threadsWithMissingInquiryId,
+    threadsWithInquiryResponses: dryRunResult.threadsWithInquiryResponses,
+    skippedThreads: dryRunResult.skippedThreads,
+    errorCount: dryRunResult.errors.length,
+  });
+
+  if (Object.keys(dryRunResult.migrationsByInquiry).length > 0) {
+    console.log('\nThreads to migrate by inquiry:');
+    const sortedInquiries = Object.entries(
+      dryRunResult.migrationsByInquiry,
+    ).sort(([, a], [, b]) => b - a);
+
+    for (const [title, count] of sortedInquiries) {
+      console.log(`  • ${title}: ${count} thread${count === 1 ? '' : 's'}`);
+    }
+  }
+
+  if (dryRunResult.threadsWithInquiryResponses > 0) {
+    console.log(
+      `\nMigration would update ${dryRunResult.threadsWithInquiryResponses} threads`,
+    );
+    console.log(
+      'To run the actual migration, use: npm run migrate:inquiry-threads --apply',
+    );
+  } else {
+    console.log('\nNo threads found that need migration');
+  }
+}
+
+(async () => {
   const args = process.argv.slice(2);
   const shouldApply = args.includes('--apply');
   const isDryRun = !shouldApply;
 
   try {
-    log.info({ message: 'Starting Inquiry Thread Migration' });
-    log.info({ message: `Mode: ${isDryRun ? 'DRY RUN' : 'APPLY CHANGES'}` });
-
     await database.init();
-    log.info({ message: 'Database connection established' });
 
-    log.info({ message: 'Current State Validation' });
-    const validation = await validateThreadInquiryRelationships();
+    if (process.argv.length === 2) {
+      await runStandaloneValidation();
+      log.info('Standalone validation completed');
+    } else {
+      log.info({ message: 'Starting Inquiry Thread Migration' });
+      log.info({ message: `Mode: ${isDryRun ? 'DRY RUN' : 'APPLY CHANGES'}` });
 
-    log.info({
-      message: 'Thread validation results',
-      totalThreads: validation.totalThreads,
-      threadsWithInquiryId: validation.threadsWithInquiryId,
-      threadsWithMissingInquiryId: validation.threadsWithMissingInquiryId,
-      threadsWithInquiryResponses: validation.threadsWithInquiryResponses,
-      orphanedThreads: validation.orphanedThreads,
-    });
+      log.info({ message: 'Database connection established' });
 
-    if (validation.inconsistentRelationships > 0) {
-      log.warn({
-        message: 'Inconsistent relationships found',
-        inconsistentRelationshipsCount: validation.inconsistentRelationships,
-      });
-    }
+      log.info({ message: 'Current State Validation' });
+      const validation = await validateThreadInquiryRelationships();
 
-    log.info({ message: `${isDryRun ? 'Dry Run' : 'Applying'} Migration` });
-
-    const migrationResult = await migrateInquiryThreads(isDryRun);
-
-    log.info({
-      message: 'Migration Results',
-      totalThreadsChecked: migrationResult.totalThreadsChecked,
-      threadsWithMissingInquiryId: migrationResult.threadsWithMissingInquiryId,
-      threadsWithInquiryResponses: migrationResult.threadsWithInquiryResponses,
-      migratedOrWouldMigrate: isDryRun
-        ? migrationResult.threadsWithInquiryResponses
-        : migrationResult.successfulMigrations,
-      skippedThreads: migrationResult.skippedThreads,
-    });
-
-    if (migrationResult.errors.length > 0) {
-      log.error({
-        message: 'Errors encountered during migration',
-        errorCount: migrationResult.errors.length,
-      });
-    }
-
-    if (Object.keys(migrationResult.migrationsByInquiry).length > 0) {
       log.info({
-        message: 'Migrations by inquiry',
-        migrationsByInquiry: migrationResult.migrationsByInquiry,
+        message: 'Thread validation results',
+        totalThreads: validation.totalThreads,
+        threadsWithInquiryId: validation.threadsWithInquiryId,
+        threadsWithMissingInquiryId: validation.threadsWithMissingInquiryId,
+        threadsWithInquiryResponses: validation.threadsWithInquiryResponses,
+        orphanedThreads: validation.orphanedThreads,
       });
-    }
 
-    if (!isDryRun && migrationResult.successfulMigrations > 0) {
-      log.info({ message: 'Post-Migration Validation' });
-
-      const postValidation = await validateThreadInquiryRelationships();
-      log.info({
-        message: 'Post-migration validation results',
-        remainingThreadsMissingInquiryId:
-          postValidation.threadsWithMissingInquiryId,
-        threadsFixed:
-          validation.threadsWithMissingInquiryId -
-          postValidation.threadsWithMissingInquiryId,
-      });
-    }
-
-    log.info({ message: 'Migration Complete' });
-
-    if (isDryRun) {
-      log.info({ message: 'This was a DRY RUN - no changes were made.' });
-      if (migrationResult.threadsWithInquiryResponses > 0) {
-        log.info({
-          message: 'Migration plan ready',
-          nextSteps: [
-            'Review the migration plan above',
-            'Create a database backup',
-            'Run with --apply flag to execute the migration',
-          ],
+      if (validation.inconsistentRelationships > 0) {
+        log.warn({
+          message: 'Inconsistent relationships found',
+          inconsistentRelationshipsCount: validation.inconsistentRelationships,
         });
+      }
+
+      log.info({ message: `${isDryRun ? 'Dry Run' : 'Applying'} Migration` });
+
+      const migrationResult = await migrateInquiryThreads(isDryRun);
+
+      log.info({
+        message: 'Migration Results',
+        totalThreadsChecked: migrationResult.totalThreadsChecked,
+        threadsWithMissingInquiryId: migrationResult.threadsWithMissingInquiryId,
+        threadsWithInquiryResponses: migrationResult.threadsWithInquiryResponses,
+        migratedOrWouldMigrate: isDryRun
+          ? migrationResult.threadsWithInquiryResponses
+          : migrationResult.successfulMigrations,
+        skippedThreads: migrationResult.skippedThreads,
+      });
+
+      if (migrationResult.errors.length > 0) {
+        log.error({
+          message: 'Errors encountered during migration',
+          errorCount: migrationResult.errors.length,
+        });
+      }
+
+      if (Object.keys(migrationResult.migrationsByInquiry).length > 0) {
+        log.info({
+          message: 'Migrations by inquiry',
+          migrationsByInquiry: migrationResult.migrationsByInquiry,
+        });
+      }
+
+      if (!isDryRun && migrationResult.successfulMigrations > 0) {
+        log.info({ message: 'Post-Migration Validation' });
+
+        const postValidation = await validateThreadInquiryRelationships();
+        log.info({
+          message: 'Post-migration validation results',
+          remainingThreadsMissingInquiryId:
+            postValidation.threadsWithMissingInquiryId,
+          threadsFixed:
+            validation.threadsWithMissingInquiryId -
+            postValidation.threadsWithMissingInquiryId,
+        });
+      }
+
+      log.info({ message: 'Migration Complete' });
+
+      if (isDryRun) {
+        log.info({ message: 'This was a DRY RUN - no changes were made.' });
+        if (migrationResult.threadsWithInquiryResponses > 0) {
+          log.info({
+            message: 'Migration plan ready',
+            nextSteps: [
+              'Review the migration plan above',
+              'Create a database backup',
+              'Run with --apply flag to execute the migration',
+            ],
+          });
+        } else {
+          log.info({
+            message:
+              'No migration needed - all threads already have proper inquiryId values.',
+          });
+        }
       } else {
         log.info({
-          message:
-            'No migration needed - all threads already have proper inquiryId values.',
+          message: 'Migration completed successfully',
+          threadsUpdated: migrationResult.successfulMigrations,
+          nextSteps: [
+            'Verify token usage calculations are now accurate',
+            'Test inquiry analysis features',
+            'Monitor for any issues in production',
+          ],
         });
-      }
-    } else {
-      log.info({
-        message: 'Migration completed successfully',
-        threadsUpdated: migrationResult.successfulMigrations,
-        nextSteps: [
-          'Verify token usage calculations are now accurate',
-          'Test inquiry analysis features',
-          'Monitor for any issues in production',
-        ],
-      });
 
-      if (validation.orphanedThreads > 0) {
-        log.info({
-          message: 'Note: Some threads remain without inquiryId',
-          orphanedThreads: validation.orphanedThreads,
-          reason:
-            'These are likely from agent playground or other non-inquiry contexts. This is expected and normal.',
-        });
+        if (validation.orphanedThreads > 0) {
+          log.info({
+            message: 'Note: Some threads remain without inquiryId',
+            orphanedThreads: validation.orphanedThreads,
+            reason:
+              'These are likely from agent playground or other non-inquiry contexts. This is expected and normal.',
+          });
+        }
       }
     }
-  } catch {
+  } catch (error) {
     log.error({
       message: 'Migration script failed',
+      error: error instanceof Error ? error.message : 'Unknown error',
     });
     process.exit(1);
-  } finally {
-    process.exit(0);
   }
-}
 
-process.on('unhandledRejection', () => {
-  log.error({
-    message: 'Unhandled Rejection',
-  });
-  process.exit(1);
-});
-
-process.on('uncaughtException', () => {
-  log.error({
-    message: 'Uncaught Exception',
-  });
-  process.exit(1);
-});
-
-async function runStandaloneValidation() {
-  try {
-    await database.init();
-
-    console.log('=== Current State Validation ===');
-    const validation = await validateThreadInquiryRelationships();
-    console.log(JSON.stringify(validation, null, 2));
-
-    console.log('\n=== Dry Run Migration ===');
-    const dryRunResult = await migrateInquiryThreads(true);
-
-    console.log({
-      totalThreadsChecked: dryRunResult.totalThreadsChecked,
-      threadsWithMissingInquiryId: dryRunResult.threadsWithMissingInquiryId,
-      threadsWithInquiryResponses: dryRunResult.threadsWithInquiryResponses,
-      skippedThreads: dryRunResult.skippedThreads,
-      errorCount: dryRunResult.errors.length,
-    });
-
-    if (Object.keys(dryRunResult.migrationsByInquiry).length > 0) {
-      console.log('\nThreads to migrate by inquiry:');
-      const sortedInquiries = Object.entries(
-        dryRunResult.migrationsByInquiry,
-      ).sort(([, a], [, b]) => b - a);
-
-      for (const [title, count] of sortedInquiries) {
-        console.log(`  • ${title}: ${count} thread${count === 1 ? '' : 's'}`);
-      }
-    }
-
-    if (dryRunResult.threadsWithInquiryResponses > 0) {
-      console.log(
-        `\nMigration would update ${dryRunResult.threadsWithInquiryResponses} threads`,
-      );
-      console.log(
-        'To run the actual migration, use: npm run migrate:inquiry-threads --apply',
-      );
-    } else {
-      console.log('\nNo threads found that need migration');
-    }
-  } catch {
-    console.error('Migration validation failed:');
-    process.exit(1);
-  }
-}
-
-if (require.main === module) {
-  if (process.argv.length === 2) {
-    runStandaloneValidation();
-  } else {
-    main();
-  }
-} else {
-  main();
-}
+  process.exit(0);
+})();
