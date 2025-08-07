@@ -1,4 +1,4 @@
-name: Deploy Script 🚀
+name: Deploy Script 🗒️
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ on:
         description: 'Perform a dry run (preview changes only)'
         required: false
         type: boolean
-        default: false
+        default: true
 
 permissions:
   id-token: write
@@ -108,27 +108,16 @@ jobs:
       - name: Run Migration Script
         if: ${{ inputs.dry_run == false }}
         run: |
-          echo "🚀 Executing script: ${{ inputs.script_name }}"
+          echo "Executing script: ${{ inputs.script_name }}"
           echo "Applying changes to database..."
           pnpm run db:script -- --apply
-          echo "✅ Script execution completed successfully"
+          echo "Script execution completed successfully"
         env:
           NODE_ENV: ${{ inputs.environment }}
           SCRIPT: ${{ inputs.script_name }}
           MONGODB_URL: ${{ env.MONGODB_URL }}
           MONGODB_USER: ${{ env.MONGODB_USER }}
           MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}
-
-      - name: Post-execution Summary
-        if: always()
-        run: |
-          echo "📊 Execution Summary"
-          echo "==================="
-          echo "Script: ${{ inputs.script_name }}"
-          echo "Environment: ${{ inputs.environment }}"
-          echo "Dry Run: ${{ inputs.dry_run }}"
-          echo "Status: ${{ job.status }}"
-          echo "Timestamp: $(date -u)"
 
       - name: Remove runner IP from MongoDB access list
         if: always()
@@ -139,11 +128,3 @@ jobs:
           MONGODB_ATLAS_PROJECT_ID: ${{ secrets.MONGODB_ATLAS_PROJECT_ID }}
         run: |
           atlas accessLists delete ${{ steps.get_gh_runner_ip.outputs.ip_address }} --projectId $MONGODB_ATLAS_PROJECT_ID --force
-
-      - name: Notify on Failure
-        if: failure()
-        run: |
-          echo "❌ Script execution failed!"
-          echo "Please check the logs above for error details."
-          echo "Script: ${{ inputs.script_name }}"
-          echo "Environment: ${{ inputs.environment }}"
