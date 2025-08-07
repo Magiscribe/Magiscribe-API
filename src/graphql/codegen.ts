@@ -118,6 +118,7 @@ export type Inquiry = {
   createdAt: Scalars['Float']['output'];
   data: InquiryData;
   id: Scalars['ID']['output'];
+  ownerEmail?: Maybe<Array<Scalars['String']['output']>>;
   responses?: Maybe<Array<InquiryResponse>>;
   updatedAt: Scalars['Float']['output'];
   userId?: Maybe<Array<Scalars['ID']['output']>>;
@@ -201,6 +202,8 @@ export type Mutation = {
   emailInquiryToUsers?: Maybe<Scalars['String']['output']>;
   generateAudio?: Maybe<Scalars['String']['output']>;
   registerUser: Scalars['Boolean']['output'];
+  sendClerkInvite?: Maybe<Scalars['String']['output']>;
+  updateInquiryOwnerEmails: Inquiry;
   updateInquiryOwners: Inquiry;
   upsertAgent?: Maybe<Agent>;
   upsertCapability?: Maybe<Capability>;
@@ -265,6 +268,17 @@ export type MutationEmailInquiryToUsersArgs = {
 export type MutationGenerateAudioArgs = {
   text: Scalars['String']['input'];
   voice: Scalars['String']['input'];
+};
+
+
+export type MutationSendClerkInviteArgs = {
+  userEmail: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateInquiryOwnerEmailsArgs = {
+  id: Scalars['ID']['input'];
+  ownerEmails: Array<Scalars['String']['input']>;
 };
 
 
@@ -739,6 +753,7 @@ export type InquiryResolvers<ContextType = any, ParentType extends ResolversPare
   createdAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['InquiryData'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  ownerEmail?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   responses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<Maybe<Array<ResolversTypes['ID']>>, ParentType, ContextType>;
@@ -814,6 +829,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   emailInquiryToUsers?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationEmailInquiryToUsersArgs, 'inquiryId' | 'userData'>>;
   generateAudio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationGenerateAudioArgs, 'text' | 'voice'>>;
   registerUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  sendClerkInvite?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<MutationSendClerkInviteArgs, 'userEmail'>>;
+  updateInquiryOwnerEmails?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnerEmailsArgs, 'id' | 'ownerEmails'>>;
   updateInquiryOwners?: Resolver<ResolversTypes['Inquiry'], ParentType, ContextType, RequireFields<MutationUpdateInquiryOwnersArgs, 'id' | 'owners'>>;
   upsertAgent?: Resolver<Maybe<ResolversTypes['Agent']>, ParentType, ContextType, RequireFields<MutationUpsertAgentArgs, 'agent'>>;
   upsertCapability?: Resolver<Maybe<ResolversTypes['Capability']>, ParentType, ContextType, RequireFields<MutationUpsertCapabilityArgs, 'capability'>>;

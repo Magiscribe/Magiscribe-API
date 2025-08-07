@@ -4,11 +4,13 @@ import {
   getUsersByEmail,
   getUsersById,
   registerUser,
+  sendClerkInvite,
 } from '@/controllers/users';
 import Context from '@/customTypes/context';
 import { User } from '@/database/models/user';
 import {
   MutationEmailInquiryToUsersArgs,
+  MutationSendClerkInviteArgs,
   QueryCheckIfUsersRespondedToInquiryArgs,
   QueryGetUsersByEmailArgs,
   QueryGetUsersByIdArgs,
@@ -48,6 +50,13 @@ export default {
       { userData, inquiryId }: MutationEmailInquiryToUsersArgs,
     ) => {
       const result = emailInquiryToUsers({ userData, inquiryId });
+      return result;
+    },
+    sendClerkInvite: async (
+      _,
+      { userEmail }: MutationSendClerkInviteArgs,
+    ) => {
+      const result = sendClerkInvite({ email: userEmail });
       return result;
     },
   },
