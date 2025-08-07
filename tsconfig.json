@@ -38,5 +38,5 @@
     "seed",
     "jest.config.js"
   ],
-  "exclude": ["node_modules", "dist", "seed", "./codegen.ts"]
+  "exclude": ["node_modules", "dist", "seed", "scripts", "./codegen.ts"]
 }
