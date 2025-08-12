@@ -3,9 +3,9 @@ import mongoose, { Schema } from 'mongoose';
 const IntegrationSchema: Schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    description: { type: String, required: true },
     type: { type: String, enum: ['MCP'], required: true },
-    config: { type: Object, required: true },
+    description: { type: String, required: false },
+    config: { type: Object, required: false },
     userId: { type: String, ref: 'User', required: true },
   },
   { timestamps: true },
