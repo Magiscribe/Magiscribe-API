@@ -1,4 +1,7 @@
-import { Inquiry as InquiryObject, InquiryResponse as InquiryResponseObject } from '@/graphql/codegen';
+import {
+  Inquiry as InquiryObject,
+  InquiryResponse as InquiryResponseObject,
+} from '@/graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
 const InquiryResponseSchema: Schema = new mongoose.Schema(
@@ -61,7 +64,7 @@ const InquirySchema: Schema = new mongoose.Schema(
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Integration',
-        }
+        },
       ],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },

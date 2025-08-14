@@ -45,11 +45,11 @@ services:
       - '8000:8000'
     user: root
     environment:
-      MCP_VERY_VERBOSE: "true"
-      MCP_LOGGING_STDOUT: "true"
-      READ_ONLY_MODE: "false"
-    
-      TRANSPORT: "streamable-http"
+      MCP_VERY_VERBOSE: 'true'
+      MCP_LOGGING_STDOUT: 'true'
+      READ_ONLY_MODE: 'false'
+
+      TRANSPORT: 'streamable-http'
 
     # UNCOMMENT AND SET VALUES FOR YOUR JIRA INSTANCE
     #

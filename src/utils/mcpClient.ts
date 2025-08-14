@@ -17,14 +17,14 @@ export interface Integration {
 
 export interface ToolExecutionResult {
   success: boolean;
-  result?: any;
+  result?: object;
   error?: string;
 }
 
 export interface MCPTool {
   name: string;
   description: string;
-  inputSchema: any;
+  inputSchema: object;
 }
 
 /**
@@ -32,7 +32,9 @@ export interface MCPTool {
  * @param integration The integration configuration
  * @returns Promise<Client> The MCP client instance
  */
-export async function createMCPClient(integration: Integration): Promise<Client> {
+export async function createMCPClient(
+  integration: Integration,
+): Promise<Client> {
   log.info({
     message: 'Creating MCP client',
     integrationName: integration.name,
@@ -42,26 +44,26 @@ export async function createMCPClient(integration: Integration): Promise<Client>
     // Parse the server URL
     const url = new URL(integration.config.serverUrl);
 
-  log.debug({
-    message: 'Creating MCP client with URL',
-    integrationName: integration.name,
-    url: url.toString(),
-    headers: integration.config.headers || {},
-  });
-
-  const transport = new StreamableHTTPClientTransport(url, {
-    requestInit: {
+    log.debug({
+      message: 'Creating MCP client with URL',
+      integrationName: integration.name,
+      url: url.toString(),
       headers: integration.config.headers || {},
-    }
-  });
+    });
 
-  // Create client with integration-specific configuration
-  const client = new Client({
-    name: integration.name,
-    version: '1.0.0',
-  });
+    const transport = new StreamableHTTPClientTransport(url, {
+      requestInit: {
+        headers: integration.config.headers || {},
+      },
+    });
 
-  await client.connect(transport);
+    // Create client with integration-specific configuration
+    const client = new Client({
+      name: integration.name,
+      version: '1.0.0',
+    });
+
+    await client.connect(transport);
 
     log.info({
       message: 'MCP client connected successfully',
@@ -84,15 +86,17 @@ export async function createMCPClient(integration: Integration): Promise<Client>
  * @param integration The integration configuration
  * @returns Promise<MCPTool[]> Array of available tools
  */
-export async function listMCPTools(integration: Integration): Promise<MCPTool[]> {
+export async function listMCPTools(
+  integration: Integration,
+): Promise<MCPTool[]> {
   let client: Client | null = null;
 
   try {
     client = await createMCPClient(integration);
-    
+
     const toolsResponse = await client.listTools();
-    
-    const tools = toolsResponse.tools.map(tool => ({
+
+    const tools = toolsResponse.tools.map((tool) => ({
       name: tool.name,
       description: tool.description || '',
       inputSchema: tool.inputSchema || {},
@@ -120,7 +124,10 @@ export async function listMCPTools(integration: Integration): Promise<MCPTool[]>
         log.warn({
           message: 'Failed to disconnect MCP client',
           integrationName: integration.name,
-          error: disconnectError instanceof Error ? disconnectError.message : 'Unknown error',
+          error:
+            disconnectError instanceof Error
+              ? disconnectError.message
+              : 'Unknown error',
         });
       }
     }
@@ -137,7 +144,7 @@ export async function listMCPTools(integration: Integration): Promise<MCPTool[]>
 export async function executeMCPTool(
   integration: Integration,
   toolName: string,
-  args: Record<string, any>
+  args: Record<string, object>,
 ): Promise<ToolExecutionResult> {
   let client: Client | null = null;
 
@@ -150,14 +157,14 @@ export async function executeMCPTool(
 
   try {
     client = await createMCPClient(integration);
-  
+
     log.debug({
       message: 'MCP client created for tool execution',
       integrationName: integration.name,
       toolName: toolName,
       arguments: args,
     });
-    
+
     const result = await client.callTool({
       name: toolName,
       arguments: args,
@@ -172,7 +179,7 @@ export async function executeMCPTool(
 
     return {
       success: true,
-      result: result.content,
+      result: result.content as object,
     };
   } catch (error) {
     log.error({
@@ -194,7 +201,10 @@ export async function executeMCPTool(
         log.warn({
           message: 'Failed to disconnect MCP client',
           integrationName: integration.name,
-          error: disconnectError instanceof Error ? disconnectError.message : 'Unknown error',
+          error:
+            disconnectError instanceof Error
+              ? disconnectError.message
+              : 'Unknown error',
         });
       }
     }
@@ -206,12 +216,14 @@ export async function executeMCPTool(
  * @param integration The integration configuration
  * @returns Promise<boolean> Whether the connection was successful
  */
-export async function testMCPConnection(integration: Integration): Promise<boolean> {
+export async function testMCPConnection(
+  integration: Integration,
+): Promise<boolean> {
   let client: Client | null = null;
 
   try {
     client = await createMCPClient(integration);
-    
+
     // Try to list tools as a connection test
     await client.listTools();
 
@@ -237,7 +249,10 @@ export async function testMCPConnection(integration: Integration): Promise<boole
         log.warn({
           message: 'Failed to close MCP client during test',
           integrationName: integration.name,
-          error: disconnectError instanceof Error ? disconnectError.message : 'Unknown error',
+          error:
+            disconnectError instanceof Error
+              ? disconnectError.message
+              : 'Unknown error',
         });
       }
     }

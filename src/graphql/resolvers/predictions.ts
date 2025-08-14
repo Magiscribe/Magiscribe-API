@@ -1,4 +1,7 @@
-import { generatePrediction, generatePredictionWithInquiry } from '@/controllers/prediction';
+import {
+  generatePrediction,
+  generatePredictionWithInquiry,
+} from '@/controllers/prediction';
 import { MutationAddPredictionArgs } from '@/graphql/codegen';
 import { SubscriptionEvent } from '@/graphql/subscription-events';
 import { pubsubClient } from '@/utils/clients';
@@ -17,7 +20,14 @@ export default {
 
       // Subscription ID and Agent ID are special fields, everything else is
       // used as context for the agent.
-      const { subscriptionId, agentId, variables, attachments, inquiryId, integrationId } = props;
+      const {
+        subscriptionId,
+        agentId,
+        variables,
+        attachments,
+        inquiryId,
+        integrationId,
+      } = props;
 
       // If inquiryId is provided, use the inquiry validation function
       if (inquiryId && integrationId) {

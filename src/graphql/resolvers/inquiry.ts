@@ -16,14 +16,15 @@ import {
   upsertInquiry,
   upsertInquiryResponse,
 } from '@/controllers/inquiry';
-import { 
+import {
   testMCPConnection,
   listMCPTools,
-  Integration as MCPIntegration
+  Integration as MCPIntegration,
 } from '@/utils/mcpClient';
 import { Integration as IntegrationModel } from '@/database/models/integration';
 import Context from '@/customTypes/context';
 import {
+  Integration,
   MutationAddIntegrationToInquiryArgs,
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
@@ -108,7 +109,7 @@ export default {
       addIntegrationToInquiry(
         args.inquiryId,
         args.integrationId,
-        context.auth.sub
+        context.auth.sub,
       ),
 
     removeIntegrationFromInquiry: async (
@@ -119,7 +120,7 @@ export default {
       removeIntegrationFromInquiry(
         args.inquiryId,
         args.integrationId,
-        context.auth.sub
+        context.auth.sub,
       ),
 
     setInquiryIntegrations: async (
@@ -130,7 +131,7 @@ export default {
       setInquiryIntegrations(
         args.inquiryId,
         args.integrations,
-        context.auth.sub
+        context.auth.sub,
       ),
   },
   Query: {
@@ -153,13 +154,10 @@ export default {
 
     getInquiryTemplates: () => getInquiryTemplates(),
 
-    getInquiryIntegrations: async (
-      _,
-      args: QueryGetInquiryIntegrationsArgs,
-      context: Context,
-    ) => getInquiryIntegrations(args.inquiryId),
+    getInquiryIntegrations: async (_, args: QueryGetInquiryIntegrationsArgs) =>
+      getInquiryIntegrations(args.inquiryId),
 
-    testMCPIntegration: async (_, args: { integration: any }) => {
+    testMCPIntegration: async (_, args: { integration: Integration }) => {
       try {
         const integration: MCPIntegration = args.integration;
         const success = await testMCPConnection(integration);
@@ -175,11 +173,14 @@ export default {
       }
     },
 
-    getMCPIntegrationTools: async (_, args: QueryGetMcpIntegrationToolsArgs) => {
+    getMCPIntegrationTools: async (
+      _,
+      args: QueryGetMcpIntegrationToolsArgs,
+    ) => {
       try {
         // Get the integration from the database
-        const integrationDoc = await IntegrationModel.findById(args.integrationId);
-        if (!integrationDoc) {
+        const integration = await IntegrationModel.findById(args.integrationId);
+        if (!integration) {
           return {
             success: false,
             tools: [],
@@ -187,20 +188,12 @@ export default {
           };
         }
 
-        // Convert to MCP integration format
-        const integration: MCPIntegration = {
-          name: (integrationDoc as any).name,
-          description: (integrationDoc as any).description,
-          type: (integrationDoc as any).type,
-          config: (integrationDoc as any).config,
-        };
-
         // List available tools
         const tools = await listMCPTools(integration);
-        
+
         return {
           success: true,
-          tools: tools.map(tool => ({
+          tools: tools.map((tool) => ({
             name: tool.name,
             description: tool.description,
             inputSchema: tool.inputSchema || null,

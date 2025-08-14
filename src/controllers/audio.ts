@@ -72,10 +72,13 @@ export async function generateAudio(
       s3Key,
     });
 
-    const audioStream = await client.textToSpeech.convert(VOICES[voice].voiceId, {
-      text,
-      modelId: VOICES[voice].modelId,
-    });
+    const audioStream = await client.textToSpeech.convert(
+      VOICES[voice].voiceId,
+      {
+        text,
+        modelId: VOICES[voice].modelId,
+      },
+    );
 
     // Upload to S3 with optimized settings
     const upload = new Upload({
