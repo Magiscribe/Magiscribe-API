@@ -1,6 +1,7 @@
+import { Integration as IIntegration } from '@/graphql/codegen';
 import mongoose, { Schema } from 'mongoose';
 
-const IntegrationSchema: Schema = new mongoose.Schema(
+const IntegrationSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
     type: { type: String, enum: ['MCP'], required: true },
@@ -11,4 +12,7 @@ const IntegrationSchema: Schema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Integration = mongoose.model('Integration', IntegrationSchema);
+export const Integration = mongoose.model<IIntegration>(
+  'Integration',
+  IntegrationSchema,
+);

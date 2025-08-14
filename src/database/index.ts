@@ -30,9 +30,7 @@ const init = async () => {
     });
 
     connection.on('error', (error) => {
-      log.error(
-        `Error connecting to MongoDB: ${error.message}`,
-      );
+      log.error(`Error connecting to MongoDB: ${error.message}`);
       reject(error);
     });
   });
