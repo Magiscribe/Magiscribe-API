@@ -35,8 +35,12 @@ services:
   #     REDIS_PASSWORD: redis_password
 
   #================= MCP Server =================
+  #
+  # Setup Information: https://github.com/sooperset/mcp-atlassian
+  #
+
   mcp:
-    image: docker.io/mcp/atlassian
+    image: ghcr.io/sooperset/mcp-atlassian:latest
     ports:
       - '8000:8000'
     user: root
@@ -44,13 +48,15 @@ services:
       MCP_VERY_VERBOSE: "true"
       MCP_LOGGING_STDOUT: "true"
       READ_ONLY_MODE: "false"
-
+    
       TRANSPORT: "streamable-http"
 
-      JIRA_URL: "https://kyle-lierer.atlassian.net"
-      JIRA_USERNAME: "liererkt@gmail.com"
-      JIRA_API_TOKEN: "<token>"
-
-      CONFLUENCE_URL: "https://kyle-lierer.atlassian.net/wiki"
-      CONFLUENCE_USERNAME: "liererkt@gmail.com"
-      CONFLUENCE_API_TOKEN: "<token>"
+    # UNCOMMENT AND SET VALUES FOR YOUR JIRA INSTANCE
+    #
+    #   JIRA_URL: "<your-jira-url>"
+    #   JIRA_USERNAME: "<your-jira-username>"
+    #   JIRA_API_TOKEN: "<your-jira-api-token>"
+    #
+    #   CONFLUENCE_URL: "<your-confluence-url>"
+    #   CONFLUENCE_USERNAME: "<your-confluence-username>"
+    #   CONFLUENCE_API_TOKEN: "<your-confluence-api-token>"
