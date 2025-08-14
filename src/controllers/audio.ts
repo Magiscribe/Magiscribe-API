@@ -1,12 +1,12 @@
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { Upload } from '@aws-sdk/lib-storage';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import config from '@/config';
 import { Audio } from '@/database/models/audio';
 import log from '@/log';
 import { s3Client } from '@/utils/clients';
 import { VOICES } from '@/utils/voices';
-import { ElevenLabsClient } from 'elevenlabs';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
 import { v4 as uuid } from 'uuid';
 
 /**
@@ -72,12 +72,13 @@ export async function generateAudio(
       s3Key,
     });
 
-    const audioStream = await client.generate({
-      stream: true,
-      text,
-      voice: VOICES[voice].voiceId,
-      model_id: VOICES[voice].modelId,
-    });
+    const audioStream = await client.textToSpeech.convert(
+      VOICES[voice].voiceId,
+      {
+        text,
+        modelId: VOICES[voice].modelId,
+      },
+    );
 
     // Upload to S3 with optimized settings
     const upload = new Upload({

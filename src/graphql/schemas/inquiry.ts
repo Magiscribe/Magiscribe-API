@@ -1,4 +1,14 @@
 export default `#graphql
+    type Integration {
+        id: ID!
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+        createdAt: Float!
+        updatedAt: Float!
+    }
+
     type InquirySettingsNotifications {
         recieveEmailOnResponse: Boolean
     }
@@ -17,6 +27,7 @@ export default `#graphql
         metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
+        integrations: [ID!]!
     }
 
     type Inquiry {
@@ -65,6 +76,39 @@ export default `#graphql
         email: StringFilter   
     }
 
+    type Integration {
+        id: ID!
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+    }
+
+    input IntegrationInput {
+        id: ID
+        name: String!
+        description: String!
+        type: String!
+        config: JSONObject!
+    }
+
+    type IntegrationConnectionResult {
+        success: Boolean!
+        error: String
+    }
+
+    type MCPTool {
+        name: String!
+        description: String!
+        inputSchema: JSONObject
+    }
+
+    type MCPToolsResult {
+        success: Boolean!
+        tools: [MCPTool!]!
+        error: String
+    }
+
     type Query {
         getInquiries: [Inquiry!] @auth
         getInquiry(id: ID!): Inquiry
@@ -73,6 +117,11 @@ export default `#graphql
         getInquiryResponseCount(id: ID!): Int! @auth
         getInquiryTemplates: [JSONObject!]! @auth
         getAverageInquiryResponseTime(id: ID!): AverageInquiryResponseTime! @auth
+        getInquiryIntegrations(inquiryId: ID!): [Integration!]! @auth
+        
+        # MCP Integration testing and tools
+        testMCPIntegration(integration: IntegrationInput!): IntegrationConnectionResult! @auth
+        getMCPIntegrationTools(integrationId: ID!): MCPToolsResult! @auth
     }
 
     type Mutation {
@@ -82,5 +131,10 @@ export default `#graphql
 
         upsertInquiryResponse(id: ID, inquiryId: ID!, subscriptionId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
         deleteInquiryResponse(id: ID!, inquiryId: ID!): InquiryResponse @auth
+
+        # Integration management for inquiries
+        addIntegrationToInquiry(inquiryId: ID!, integrationId: ID!): Inquiry! @auth
+        removeIntegrationFromInquiry(inquiryId: ID!, integrationId: ID!): Inquiry! @auth
+        setInquiryIntegrations(inquiryId: ID!, integrations: [IntegrationInput!]!): [Integration!]! @auth
     }
 `;

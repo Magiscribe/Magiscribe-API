@@ -1,103 +1,5 @@
 [
   {
-    "_id": "669714d6d2a052885450d6ef",
-    "name": "Summary Generator",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "Analyzes data received by the Inquiry and provides either a conversation summary or a summary for all possible answers to a particular question.",
-    "reasoning": null,
-    "capabilities": ["669bee8d6773961cdf4604ae"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-07-17T00:48:22.792Z",
-    "updatedAt": "2025-06-22T16:02:17.212Z",
-    "__v": 0
-  },
-  {
-    "_id": "669c5e9f67c3fed48dee52ea",
-    "name": "Chat Analysis",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "Dynamic back and forth with the user, allowing them to chat with their data",
-    "reasoning": {
-      "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
-      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: ChatReplyCapability, BarchartChatReplyCapability, or PiechartChatReplyCapability\nDo NOT include any other capabilities.\nIf a chart is explicitly requested, reply with either BarchartChatReplyCapability or PiechartChatReplyCapability. If the question can be answered directly with just text use ChatReplyCapability. No more than one capability should ever be selected.\n\n<Example1>\n<UserMessage>What new features are most commonly requested? Include a visualization. </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a pie chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a pie chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"PiechartChatReplyCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>\n\nConsider carefully whether or not you actually need to use following text. It represents PREVIOUS interactions between you and the user. Think of this as an old historical record to be referred to, not to be re-done. \n<ConversationHistory>\n{{history}}\n</ConversationHistory>\n\n<formatting>\nThere should not be additional comments before or after the ```json ``` block as these would break the downstream parser.\n</formatting>",
-      "variablePassThrough": true,
-      "_id": "687705c34cb3cd08a8dbc0b3"
-    },
-    "capabilities": [
-      "669c6a3967c3fed48dee5362",
-      "66c8ec09e952d5c0a4dbdb34",
-      "66c8fff0e952d5c0a4dbdc91"
-    ],
-    "memoryEnabled": true,
-    "subscriptionFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
-    "outputFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
-    "createdAt": "2024-07-21T01:04:31.420Z",
-    "updatedAt": "2025-07-16T01:52:03.738Z",
-    "__v": 0
-  },
-  {
-    "_id": "66bf8be9a9430d3fa139142b",
-    "name": "Condition Node",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "Chooses which node to go to next given the node visit history and graph",
-    "reasoning": null,
-    "capabilities": ["66bf8c22a9430d3fa139143a"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-16T17:27:05.199Z",
-    "updatedAt": "2024-08-18T02:26:52.784Z",
-    "__v": 0
-  },
-  {
-    "_id": "66c003fb525628d5c5861ed0",
-    "name": "Synthetic Data Generator (Reasoning)",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "For a given graph, creates synthetic node visit data",
-    "reasoning": {
-      "llmModel": "REGIONAL_CLAUDE_4_SONNET",
-      "prompt": "Give me back a JSON object surrounded by three backticks and the word json\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias, are both strings. \nThe capabilityAlias must always be set to :SyntheticDataGenerationCapability\"\nYou are able to call this capability multiple times with a variety of prompts.\nWe are attempting to generate synthetic conversation data for a test set. Your role is just to call the SyntheticDataGenerationCapability multiple times in a dynamic way so that there is variety in our synthetic data.  The <userMessage> tag will direct you as to which variety of personas to adapt, but ultimately strive to create a variety of outputs. \n\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"This person loves the company and is their biggest brand supporter\", \"capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person is apathetic towards the company and does not want to participate\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person hates the company and wants to rant about their problems with it\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n  ]}\n```\n\nYour response should only be valid JSON. There should not be additional comments before or after the JSON\n\n<userMessage>\n{{userMessage}}\n</userMessage>",
-      "variablePassThrough": true,
-      "_id": "6858291e0b814e997e60176d"
-    },
-    "capabilities": ["66c25d95cbd9c2075c1e5f4e"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-17T01:59:23.045Z",
-    "updatedAt": "2025-06-22T16:02:38.961Z",
-    "__v": 0
-  },
-  {
-    "_id": "66c0e685f815cac5b72f4d0e",
-    "name": "Synthetic Data Generator",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "For a given graph, creates synthetic node visit data",
-    "reasoning": null,
-    "capabilities": ["66c0040e525628d5c5861ed8"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-17T18:05:57.006Z",
-    "updatedAt": "2024-08-17T18:06:27.905Z",
-    "__v": 0
-  },
-  {
-    "_id": "66c8ac40d28a5133dd801ad1",
-    "name": "Dynamic Question Generation",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "description": "Generates the question to ask next given the node visit history and graph",
-    "reasoning": null,
-    "capabilities": ["66c8a9f8d28a5133dd801ab7"],
-    "memoryEnabled": false,
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2024-08-23T15:35:28.963Z",
-    "updatedAt": "2024-08-23T15:36:04.244Z",
-    "__v": 0
-  },
-  {
     "_id": "66c955faae782803372bda0f",
     "name": "Dynamic Information Generation",
     "logicalCollection": "67200e060a342cc6ff42ddee",
@@ -123,6 +25,29 @@
     "outputFilter": null,
     "createdAt": "2024-10-03T17:20:35.205Z",
     "updatedAt": "2025-06-22T16:02:49.930Z",
+    "__v": 0
+  },
+  {
+    "_id": "669c5e9f67c3fed48dee52ea",
+    "name": "Chat Analysis",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Dynamic back and forth with the user, allowing them to chat with their data",
+    "reasoning": {
+      "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
+      "prompt": "Give me back a JSON object surrounded by three backticks and the word json.\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias are strings.\n\ncapabilityAlias can ONLY be one of the following: ChatReplyCapability, BarchartChatReplyCapability, or PiechartChatReplyCapability\nDo NOT include any other capabilities.\nIf a chart is explicitly requested, reply with either BarchartChatReplyCapability or PiechartChatReplyCapability. If the question can be answered directly with just text use ChatReplyCapability. No more than one capability should ever be selected.\n\n<Example1>\n<UserMessage>What new features are most commonly requested? Include a visualization. </UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What new features are most commonly requested? Aggregate the responses into high level concepts\", \"capabilityAlias\": \"BarchartChatReplyCapability\"},\n  ]}\n```\n</Example1>\n<Example2>\n<UserMessage>Describe the sentiment around our artistic style</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Describe the sentiment around our artistic style\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example2>\n<Example3>\n<UserMessage>What were the biggest pain points our users described?</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"What were the biggest pain points expressed by users?\", \"capabilityAlias\": \"ChatReplyCapability\"},\n  ]}\n```\n</Example3>\n<Example4>\n<UserMessage>Make a pie chart of the ethnicity demographics of our users</UserMessage>\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"Make a pie chart of the ethnicity demographics of our users\", \"capabilityAlias\": \"PiechartChatReplyCapability\"},\n  ]}\n```\n</Example4>\n\n<UserMessage>\n{{userMessage}}\n</UserMessage>\n\nConsider carefully whether or not you actually need to use following text. It represents PREVIOUS interactions between you and the user. Think of this as an old historical record to be referred to, not to be re-done. \n<ConversationHistory>\n{{history}}\n</ConversationHistory>\n\n<formatting>\nThere should not be additional comments before or after the ```json ``` block as these would break the downstream parser.\n</formatting>",
+      "variablePassThrough": true,
+      "_id": "687705c34cb3cd08a8dbc0b3"
+    },
+    "capabilities": [
+      "669c6a3967c3fed48dee5362",
+      "66c8ec09e952d5c0a4dbdb34",
+      "66c8fff0e952d5c0a4dbdc91"
+    ],
+    "memoryEnabled": true,
+    "subscriptionFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
+    "outputFilter": "\"textResponse\"\\s*:\\s*\"((?:\\\\.|[^\"\\\\])*?)\"",
+    "createdAt": "2024-07-21T01:04:31.420Z",
+    "updatedAt": "2025-07-16T01:52:03.738Z",
     "__v": 0
   },
   {
@@ -152,5 +77,94 @@
     "createdAt": "2024-06-17T21:30:42.709Z",
     "updatedAt": "2025-06-22T16:03:01.253Z",
     "__v": 0
+  },
+  {
+    "_id": "66bf8be9a9430d3fa139142b",
+    "name": "Condition Node",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Chooses which node to go to next given the node visit history and graph",
+    "reasoning": null,
+    "capabilities": ["66bf8c22a9430d3fa139143a"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-16T17:27:05.199Z",
+    "updatedAt": "2024-08-18T02:26:52.784Z",
+    "__v": 0
+  },
+  {
+    "_id": "669714d6d2a052885450d6ef",
+    "name": "Summary Generator",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Analyzes data received by the Inquiry and provides either a conversation summary or a summary for all possible answers to a particular question.",
+    "reasoning": null,
+    "capabilities": ["669bee8d6773961cdf4604ae"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-07-17T00:48:22.792Z",
+    "updatedAt": "2025-06-22T16:02:17.212Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c8ac40d28a5133dd801ad1",
+    "name": "Dynamic Question Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Generates the question to ask next given the node visit history and graph",
+    "reasoning": null,
+    "capabilities": ["66c8a9f8d28a5133dd801ab7"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-23T15:35:28.963Z",
+    "updatedAt": "2024-08-23T15:36:04.244Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c0e685f815cac5b72f4d0e",
+    "name": "Synthetic Data Generator",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "For a given graph, creates synthetic node visit data",
+    "reasoning": null,
+    "capabilities": ["66c0040e525628d5c5861ed8"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T18:05:57.006Z",
+    "updatedAt": "2024-08-17T18:06:27.905Z",
+    "__v": 0
+  },
+  {
+    "_id": "66c003fb525628d5c5861ed0",
+    "name": "Synthetic Data Generator (Reasoning)",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "For a given graph, creates synthetic node visit data",
+    "reasoning": {
+      "llmModel": "REGIONAL_CLAUDE_4_SONNET",
+      "prompt": "Give me back a JSON object surrounded by three backticks and the word json\nThe top of the JSON object should contain a key called processingSteps that is an array of objects.\nStructure: The processingSteps JSON is an array of objects that contain a prompt and a capabilityAlias. The prompt and capabilityAlias, are both strings. \nThe capabilityAlias must always be set to :SyntheticDataGenerationCapability\"\nYou are able to call this capability multiple times with a variety of prompts.\nWe are attempting to generate synthetic conversation data for a test set. Your role is just to call the SyntheticDataGenerationCapability multiple times in a dynamic way so that there is variety in our synthetic data.  The <userMessage> tag will direct you as to which variety of personas to adapt, but ultimately strive to create a variety of outputs. \n\n```json\n  {\"processingSteps\": [\n    { \"prompt\": \"This person loves the company and is their biggest brand supporter\", \"capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person is apathetic towards the company and does not want to participate\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n    { \"prompt\": \"This person hates the company and wants to rant about their problems with it\", capabilityAlias\": \"SyntheticDataGenerationCapability\"},\n  ]}\n```\n\nYour response should only be valid JSON. There should not be additional comments before or after the JSON\n\n<userMessage>\n{{userMessage}}\n</userMessage>",
+      "variablePassThrough": true,
+      "_id": "6858291e0b814e997e60176d"
+    },
+    "capabilities": ["66c25d95cbd9c2075c1e5f4e"],
+    "memoryEnabled": false,
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2024-08-17T01:59:23.045Z",
+    "updatedAt": "2025-06-22T16:02:38.961Z",
+    "__v": 0
+  },
+  {
+    "_id": "688c5730132361f9b7b40d97",
+    "name": "Integration Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "description": "Generates the information given the node visit history and graph",
+    "capabilities": ["66c95576ae782803372bd9f8"],
+    "memoryEnabled": false,
+    "createdAt": "2025-08-01T05:57:04.260Z",
+    "updatedAt": "2025-08-01T05:57:15.215Z",
+    "__v": 0,
+    "outputFilter": null,
+    "reasoning": null,
+    "subscriptionFilter": null
   }
 ]

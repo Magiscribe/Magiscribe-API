@@ -150,9 +150,7 @@ export async function updateAllUserQuotas(): Promise<void> {
       }),
     );
 
-    log.info(
-      `Batch quota update completed for ${validUserIds.length} users`,
-    );
+    log.info(`Batch quota update completed for ${validUserIds.length} users`);
   } catch (error) {
     log.error(`Batch quota update failed:`, error);
     throw new Error(
