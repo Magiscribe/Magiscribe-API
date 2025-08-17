@@ -27,7 +27,7 @@ export default `#graphql
         metadata: JSONObject
         graph: JSONObject
         draftGraph: JSONObject
-        integrations: [ID!]!
+        integrations: [Integration!]!
     }
 
     type Inquiry {

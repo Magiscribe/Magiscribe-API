@@ -919,7 +919,7 @@ export async function generatePredictionWithInquiry({
   });
 
   const allowedIntegration = availableIntegrations.find(
-    (integration) => integration === integrationId,
+    (integration) => integration.id == integrationId,
   );
 
   if (!allowedIntegration) {

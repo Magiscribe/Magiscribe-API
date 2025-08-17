@@ -133,7 +133,7 @@ export type InquiryData = {
   __typename?: 'InquiryData';
   draftGraph?: Maybe<Scalars['JSONObject']['output']>;
   graph?: Maybe<Scalars['JSONObject']['output']>;
-  integrations: Array<Scalars['ID']['output']>;
+  integrations: Array<Integration>;
   metadata?: Maybe<Scalars['JSONObject']['output']>;
   settings: InquirySettings;
 };
@@ -853,7 +853,7 @@ export type InquiryResolvers<ContextType = any, ParentType extends ResolversPare
 export type InquiryDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['InquiryData'] = ResolversParentTypes['InquiryData']> = {
   draftGraph?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   graph?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
-  integrations?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
+  integrations?: Resolver<Array<ResolversTypes['Integration']>, ParentType, ContextType>;
   metadata?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   settings?: Resolver<ResolversTypes['InquirySettings'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
