@@ -36,6 +36,7 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 const InquirySchema: Schema = new mongoose.Schema(
   {
     userId: [{ type: String, ref: 'User', required: true }],
+    ownerEmail: [{ type: String, required: true }],
     data: {
       settings: {
         title: { type: String, required: true },
