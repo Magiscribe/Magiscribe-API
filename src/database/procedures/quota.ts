@@ -1,6 +1,7 @@
 import { Inquiry } from '@/database/models/inquiry';
 import { Thread } from '@/database/models/message';
 import { Quota, IQuota } from '@/database/models/quota';
+import log from '@/log';
 
 /**
  * Calculates the total token usage for a specific user across all inquiries they have access to.
@@ -64,7 +65,7 @@ export async function calculateUserTokenUsage(userId: string): Promise<{
 
     return tokenTotals;
   } catch (error) {
-    console.error(`Error calculating token usage for user ${userId}:`, error);
+    log.error(`Error calculating token usage for user ${userId}:`, error);
     throw new Error(
       `Failed to calculate token usage for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
@@ -101,12 +102,12 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
       },
     );
 
-    console.log(
+    log.info(
       `Updated quota for user ${userId}: ${tokenUsage.totalTokens} total tokens used (${tokenUsage.inputTokens} input, ${tokenUsage.outputTokens} output)`,
     );
     return updatedQuota;
   } catch (error) {
-    console.error(`Error updating quota for user ${userId}:`, error);
+    log.error(`Error updating quota for user ${userId}:`, error);
     throw new Error(
       `Failed to update quota for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
@@ -119,7 +120,7 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
  */
 export async function updateAllUserQuotas(): Promise<void> {
   try {
-    console.log('Starting batch quota update for all users...');
+    log.info('Starting batch quota update for all users...');
 
     // Step 1: Get all unique userIds from inquiry userId arrays
     const uniqueUserIds = await Inquiry.distinct('userId');
@@ -131,11 +132,11 @@ export async function updateAllUserQuotas(): Promise<void> {
     );
 
     if (validUserIds.length === 0) {
-      console.log('No valid users found in inquiries, skipping quota update');
+      log.info('No valid users found in inquiries, skipping quota update');
       return;
     }
 
-    console.log(`Processing ${validUserIds.length} users in parallel...`);
+    log.info(`Processing ${validUserIds.length} users in parallel...`);
 
     // Step 2: Process all users in parallel
     await Promise.allSettled(
@@ -149,11 +150,11 @@ export async function updateAllUserQuotas(): Promise<void> {
       }),
     );
 
-    console.log(
+    log.info(
       `Batch quota update completed for ${validUserIds.length} users`,
     );
   } catch (error) {
-    console.error(`Batch quota update failed:`, error);
+    log.error(`Batch quota update failed:`, error);
     throw new Error(
       `Batch quota update failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
