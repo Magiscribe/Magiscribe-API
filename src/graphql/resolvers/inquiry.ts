@@ -8,7 +8,6 @@ import {
   getInquiryResponseCount,
   getInquiryResponses,
   getInquiryTemplates,
-  updateInquiryOwnerEmails,
   updateInquiryOwners,
   upsertInquiry,
   upsertInquiryResponse,
@@ -17,7 +16,6 @@ import Context from '@/customTypes/context';
 import {
   MutationDeleteInquiryArgs,
   MutationDeleteInquiryResponseArgs,
-  MutationUpdateInquiryOwnerEmailsArgs,
   MutationUpdateInquiryOwnersArgs,
   MutationUpsertInquiryArgs,
   MutationUpsertInquiryResponseArgs,
@@ -37,22 +35,7 @@ export default {
       updateInquiryOwners({
         id: args.id ?? undefined,
         userId: context.auth.sub,
-        userEmail: "", // TODO: Store email of signed-in user in context.auth.  
-        // Until this is done, users invited to an inquiry before they created an account will not be able to update the inquiry owners.
         owners: args.owners,
-      }),
-
-    updateInquiryOwnerEmails: async (
-      _,
-      args: MutationUpdateInquiryOwnerEmailsArgs,
-      context: Context,
-    ) =>
-      updateInquiryOwnerEmails({
-        id: args.id ?? undefined,
-        userId: context.auth.sub,
-        userEmail: "", // TODO: Store email of signed-in user in context.auth.
-        // Until this is done, users invited to an inquiry before they created an account will not be able to update the inquiry owners.
-        ownerEmails: args.ownerEmails,
       }),
 
     upsertInquiry: async (

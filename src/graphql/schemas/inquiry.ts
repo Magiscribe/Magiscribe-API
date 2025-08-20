@@ -22,7 +22,6 @@ export default `#graphql
     type Inquiry {
         id: ID!
         userId: [ID!]
-        ownerEmail: [String!]
         data: InquiryData!
         responses: [InquiryResponse!]
         createdAt: Float!
@@ -79,7 +78,6 @@ export default `#graphql
     type Mutation {
         upsertInquiry(id: ID, data: JSONObject!, fields: [String!]): Inquiry! @auth
         updateInquiryOwners(id: ID!, owners: [String!]!): Inquiry! @auth
-        updateInquiryOwnerEmails(id: ID!, ownerEmails: [String!]!): Inquiry! @auth
         deleteInquiry(id: ID!): Inquiry @auth
 
         upsertInquiryResponse(id: ID, inquiryId: ID!, subscriptionId: ID! data: JSONObject!, fields: [String!]): InquiryResponse!
