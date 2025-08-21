@@ -16,13 +16,8 @@ import {
   upsertInquiry,
   upsertInquiryResponse,
 } from '@/controllers/inquiry';
-import {
-  testMCPConnection,
-  listMCPTools,
-  Integration as MCPIntegration,
-} from '@/utils/mcpClient';
-import { Integration as IntegrationModel } from '@/database/models/integration';
 import Context from '@/customTypes/context';
+import { Integration as IntegrationModel } from '@/database/models/integration';
 import {
   Integration,
   MutationAddIntegrationToInquiryArgs,
@@ -38,8 +33,12 @@ import {
   QueryGetInquiryResponseArgs,
   QueryGetInquiryResponseCountArgs,
   QueryGetInquiryResponsesArgs,
-  QueryGetMcpIntegrationToolsArgs,
 } from '@/graphql/codegen';
+import {
+  listMCPTools,
+  Integration as MCPIntegration,
+  testMCPConnection,
+} from '@/utils/mcpClient';
 
 export default {
   Mutation: {
@@ -157,38 +156,50 @@ export default {
     getInquiryIntegrations: async (_, args: QueryGetInquiryIntegrationsArgs) =>
       getInquiryIntegrations(args.inquiryId),
 
-    testMCPIntegration: async (_, args: { integration: Integration }) => {
-      try {
-        const integration: MCPIntegration = args.integration;
-        const success = await testMCPConnection(integration);
-        return {
-          success,
-          error: success ? null : 'Failed to connect to MCP server',
-        };
-      } catch (error) {
-        return {
-          success: false,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        };
-      }
-    },
-
-    getMCPIntegrationTools: async (
+    testMCPIntegration: async (
       _,
-      args: QueryGetMcpIntegrationToolsArgs,
+      args: { integration?: Integration; integrationId?: string },
     ) => {
       try {
-        // Get the integration from the database
-        const integration = await IntegrationModel.findById(args.integrationId);
-        if (!integration) {
+        let integration: MCPIntegration;
+
+        if (args.integration) {
+          // Use the provided integration object directly
+          integration = args.integration;
+        } else if (args.integrationId) {
+          // Get the integration from the database
+          const savedIntegration = await IntegrationModel.findById(
+            args.integrationId,
+          );
+          if (!savedIntegration) {
+            return {
+              success: false,
+              tools: [],
+              error: 'Integration not found',
+            };
+          }
+          integration = savedIntegration;
+        } else {
           return {
             success: false,
             tools: [],
-            error: 'Integration not found',
+            error:
+              'Either integration object or integrationId must be provided',
           };
         }
 
-        // List available tools
+        // Test the connection
+        const connectionSuccess = await testMCPConnection(integration);
+
+        if (!connectionSuccess) {
+          return {
+            success: false,
+            tools: [],
+            error: 'Failed to connect to MCP server',
+          };
+        }
+
+        // If connection is successful, get the available tools
         const tools = await listMCPTools(integration);
 
         return {

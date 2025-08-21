@@ -202,6 +202,7 @@ export type IntegrationConnectionResult = {
   __typename?: 'IntegrationConnectionResult';
   error?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
+  tools: Array<McpTool>;
 };
 
 export type IntegrationInput = {
@@ -217,13 +218,6 @@ export type McpTool = {
   description: Scalars['String']['output'];
   inputSchema?: Maybe<Scalars['JSONObject']['output']>;
   name: Scalars['String']['output'];
-};
-
-export type McpToolsResult = {
-  __typename?: 'MCPToolsResult';
-  error?: Maybe<Scalars['String']['output']>;
-  success: Scalars['Boolean']['output'];
-  tools: Array<McpTool>;
 };
 
 export type Model = {
@@ -430,7 +424,6 @@ export type Query = {
   getInquiryResponseCount: Scalars['Int']['output'];
   getInquiryResponses?: Maybe<Array<InquiryResponse>>;
   getInquiryTemplates: Array<Scalars['JSONObject']['output']>;
-  getMCPIntegrationTools: McpToolsResult;
   getMediaAsset?: Maybe<Scalars['String']['output']>;
   getPrompt?: Maybe<Prompt>;
   getUserQuota?: Maybe<Quota>;
@@ -510,11 +503,6 @@ export type QueryGetInquiryResponseCountArgs = {
 export type QueryGetInquiryResponsesArgs = {
   filters?: InputMaybe<InquiryResponseFilters>;
   id: Scalars['ID']['input'];
-};
-
-
-export type QueryGetMcpIntegrationToolsArgs = {
-  integrationId: Scalars['ID']['input'];
 };
 
 
@@ -709,7 +697,6 @@ export type ResolversTypes = {
   IntegrationInput: IntegrationInput;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']['output']>;
   MCPTool: ResolverTypeWrapper<McpTool>;
-  MCPToolsResult: ResolverTypeWrapper<McpToolsResult>;
   Model: ResolverTypeWrapper<Model>;
   Mutation: ResolverTypeWrapper<{}>;
   Prediction: ResolverTypeWrapper<Prediction>;
@@ -759,7 +746,6 @@ export type ResolversParentTypes = {
   IntegrationInput: IntegrationInput;
   JSONObject: Scalars['JSONObject']['output'];
   MCPTool: McpTool;
-  MCPToolsResult: McpToolsResult;
   Model: Model;
   Mutation: {};
   Prediction: Prediction;
@@ -910,6 +896,7 @@ export type IntegrationResolvers<ContextType = any, ParentType extends Resolvers
 export type IntegrationConnectionResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['IntegrationConnectionResult'] = ResolversParentTypes['IntegrationConnectionResult']> = {
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  tools?: Resolver<Array<ResolversTypes['MCPTool']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -921,13 +908,6 @@ export type McpToolResolvers<ContextType = any, ParentType extends ResolversPare
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inputSchema?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type McpToolsResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MCPToolsResult'] = ResolversParentTypes['MCPToolsResult']> = {
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  tools?: Resolver<Array<ResolversTypes['MCPTool']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1001,7 +981,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getInquiryResponseCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<QueryGetInquiryResponseCountArgs, 'id'>>;
   getInquiryResponses?: Resolver<Maybe<Array<ResolversTypes['InquiryResponse']>>, ParentType, ContextType, RequireFields<QueryGetInquiryResponsesArgs, 'id'>>;
   getInquiryTemplates?: Resolver<Array<ResolversTypes['JSONObject']>, ParentType, ContextType>;
-  getMCPIntegrationTools?: Resolver<ResolversTypes['MCPToolsResult'], ParentType, ContextType, RequireFields<QueryGetMcpIntegrationToolsArgs, 'integrationId'>>;
   getMediaAsset?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetMediaAssetArgs, 'id'>>;
   getPrompt?: Resolver<Maybe<ResolversTypes['Prompt']>, ParentType, ContextType, RequireFields<QueryGetPromptArgs, 'promptId'>>;
   getUserQuota?: Resolver<Maybe<ResolversTypes['Quota']>, ParentType, ContextType>;
@@ -1068,7 +1047,6 @@ export type Resolvers<ContextType = any> = {
   IntegrationConnectionResult?: IntegrationConnectionResultResolvers<ContextType>;
   JSONObject?: GraphQLScalarType;
   MCPTool?: McpToolResolvers<ContextType>;
-  MCPToolsResult?: McpToolsResultResolvers<ContextType>;
   Model?: ModelResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Prediction?: PredictionResolvers<ContextType>;
