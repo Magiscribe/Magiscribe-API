@@ -65,7 +65,7 @@ export async function calculateUserTokenUsage(userId: string): Promise<{
 
     return tokenTotals;
   } catch (error) {
-    log.error(`Error calculating token usage for user ${userId}:`, error);
+    log.error({ error, userId }, `Error calculating token usage for user ${userId}`);
     throw new Error(
       `Failed to calculate token usage for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
@@ -107,7 +107,7 @@ export async function updateUserQuota(userId: string): Promise<IQuota> {
     );
     return updatedQuota;
   } catch (error) {
-    log.error(`Error updating quota for user ${userId}:`, error);
+    log.error({ error, userId }, `Error updating quota for user ${userId}`);
     throw new Error(
       `Failed to update quota for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
@@ -152,7 +152,7 @@ export async function updateAllUserQuotas(): Promise<void> {
 
     log.info(`Batch quota update completed for ${validUserIds.length} users`);
   } catch (error) {
-    log.error(`Batch quota update failed:`, error);
+    log.error({ error }, 'Batch quota update failed');
     throw new Error(
       `Batch quota update failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
