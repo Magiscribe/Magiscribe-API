@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import templates from '@/assets/templates';
 import { Inquiry, InquiryResponse } from '@/database/models/inquiry';
+import { Integration } from '@/database/models/integration';
 import {
   AverageInquiryResponseTime,
   InquiryResponseStatus,
@@ -8,6 +9,7 @@ import {
   QueryGetInquiryResponsesArgs,
   Inquiry as TInquiry,
   InquiryResponse as TInquiryResponse,
+  IntegrationInput,
 } from '@/graphql/codegen';
 import log from '@/log';
 import { createFilterQuery, createNestedUpdateObject } from '@/utils/database';
@@ -517,4 +519,238 @@ export async function getInquiryResponseCount(
  */
 export function getInquiryTemplates() {
   return templates;
+}
+
+/**
+ * Gets integrations associated with an inquiry
+ * @param inquiryId The inquiry ID
+ * @param userId The user ID
+ * @returns Promise with integrations
+ */
+export async function getInquiryIntegrations(inquiryId: string) {
+  log.info({
+    message: 'Fetching integrations for inquiry',
+    inquiryId,
+  });
+
+  const inquiry = await Inquiry.findOne({ _id: inquiryId }).populate(
+    'data.integrations',
+  );
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found or unauthorized');
+  }
+
+  log.info({
+    message: 'Integrations fetched successfully',
+    inquiryId,
+    count: inquiry.data.integrations?.length || 0,
+  });
+
+  return inquiry.data.integrations || [];
+}
+
+/**
+ * Adds an integration to an inquiry
+ * @param inquiryId The inquiry ID
+ * @param integrationId The integration ID
+ * @param userId The user ID
+ * @returns The updated inquiry
+ */
+export async function addIntegrationToInquiry(
+  inquiryId: string,
+  integrationId: string,
+  userId: string,
+) {
+  log.info({
+    message: 'Adding integration to inquiry',
+    inquiryId,
+    integrationId,
+    userId,
+  });
+
+  const inquiry = await Inquiry.findOneAndUpdate(
+    { _id: inquiryId, userId },
+    { $addToSet: { 'data.integrations': integrationId } },
+    { new: true },
+  );
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found or unauthorized');
+  }
+
+  log.info({
+    message: 'Integration added to inquiry successfully',
+    inquiryId,
+    integrationId,
+  });
+
+  return inquiry;
+}
+
+/**
+ * Removes an integration from an inquiry
+ * @param inquiryId The inquiry ID
+ * @param integrationId The integration ID
+ * @param userId The user ID
+ * @returns The updated inquiry
+ */
+export async function removeIntegrationFromInquiry(
+  inquiryId: string,
+  integrationId: string,
+  userId: string,
+) {
+  log.info({
+    message: 'Removing integration from inquiry',
+    inquiryId,
+    integrationId,
+    userId,
+  });
+
+  const inquiry = await Inquiry.findOneAndUpdate(
+    { _id: inquiryId, userId },
+    { $pull: { 'data.integrations': integrationId } },
+    { new: true },
+  );
+
+  if (!inquiry) {
+    throw new Error('Inquiry not found or unauthorized');
+  }
+
+  log.info({
+    message: 'Integration removed from inquiry successfully',
+    inquiryId,
+    integrationId,
+  });
+
+  return inquiry;
+}
+
+/**
+ * Sets all integrations for an inquiry (creates new and updates existing integrations)
+ * @param inquiryId The inquiry ID
+ * @param integrations Array of integration inputs
+ * @param userId The user ID
+ * @returns Array of created/updated integrations
+ */
+export async function setInquiryIntegrations(
+  inquiryId: string,
+  integrations: Array<IntegrationInput>,
+  userId: string,
+) {
+  log.info({
+    message: 'Setting integrations for inquiry',
+    inquiryId,
+    integrationCount: integrations.length,
+    userId,
+  });
+
+  // Verify the inquiry exists and user has access
+  const inquiry = await Inquiry.findOne({ _id: inquiryId, userId });
+  if (!inquiry) {
+    throw new Error('Inquiry not found or unauthorized');
+  }
+
+  const existingIntegrationIds = new Set(
+    inquiry.data.integrations?.map((id) => id.toString()) || [],
+  );
+  const incomingIntegrationIds = new Set(
+    integrations.map((i) => i.id).filter(Boolean),
+  );
+
+  // Separate integrations into update and create buckets
+  const { toUpdate, toCreate } = integrations.reduce(
+    (acc, integration) => {
+      if (integration.id && existingIntegrationIds.has(integration.id)) {
+        acc.toUpdate.push(integration);
+      } else {
+        acc.toCreate.push(integration);
+      }
+      return acc;
+    },
+    {
+      toUpdate: [] as typeof integrations,
+      toCreate: [] as typeof integrations,
+    },
+  );
+
+  // Identify integrations to remove
+  const toRemove = Array.from(existingIntegrationIds).filter(
+    (id) => !incomingIntegrationIds.has(id),
+  );
+
+  // Execute operations in parallel
+  const [updatedIntegrations, createdIntegrations] = await Promise.all([
+    // Update existing integrations
+    Promise.all(
+      toUpdate.map((integration) =>
+        Integration.findOneAndUpdate(
+          { _id: integration.id, userId },
+          {
+            name: integration.name,
+            description: integration.description,
+            type: integration.type,
+            config: integration.config,
+          },
+          { new: true },
+        ).then((result) => {
+          if (!result) {
+            throw new Error(
+              `Integration ${integration.id} not found or unauthorized`,
+            );
+          }
+          return result;
+        }),
+      ),
+    ),
+
+    // Create new integrations
+    Integration.create(
+      toCreate.map((integration) => ({
+        name: integration.name,
+        description: integration.description,
+        type: integration.type,
+        config: integration.config,
+        userId,
+      })),
+    ),
+  ]);
+
+  // Remove unused integrations
+  if (toRemove.length > 0) {
+    await Integration.deleteMany({
+      _id: { $in: toRemove },
+      userId,
+    });
+  }
+
+  // Combine all processed integrations
+  const allProcessedIntegrations = [
+    ...updatedIntegrations,
+    ...createdIntegrations,
+  ];
+  const finalIntegrationIds = allProcessedIntegrations.map(
+    (integration) => integration._id,
+  );
+
+  // Update the inquiry with the final list of integration IDs
+  await Inquiry.findOneAndUpdate(
+    { _id: inquiryId, userId },
+    { $set: { 'data.integrations': finalIntegrationIds } },
+    { new: true },
+  );
+
+  log.info({
+    message: 'Integrations set for inquiry successfully',
+    inquiryId,
+    operations: {
+      updated: updatedIntegrations.length,
+      created: createdIntegrations.length,
+      removed: toRemove.length,
+    },
+    finalCount: allProcessedIntegrations.length,
+    finalIntegrationIds: finalIntegrationIds.map((id) => id.toString()),
+  });
+
+  return allProcessedIntegrations;
 }

@@ -33,3 +33,30 @@ services:
   #     - '6379:6379'
   #   environment:
   #     REDIS_PASSWORD: redis_password
+
+  #================= MCP Server =================
+  #
+  # Setup Information: https://github.com/sooperset/mcp-atlassian
+  #
+
+  mcp:
+    image: ghcr.io/sooperset/mcp-atlassian:latest
+    ports:
+      - '8000:8000'
+    user: root
+    environment:
+      MCP_VERY_VERBOSE: 'true'
+      MCP_LOGGING_STDOUT: 'true'
+      READ_ONLY_MODE: 'false'
+
+      TRANSPORT: 'streamable-http'
+
+    # UNCOMMENT AND SET VALUES FOR YOUR JIRA INSTANCE
+    #
+    #   JIRA_URL: "<your-jira-url>"
+    #   JIRA_USERNAME: "<your-jira-username>"
+    #   JIRA_API_TOKEN: "<your-jira-api-token>"
+    #
+    #   CONFLUENCE_URL: "<your-confluence-url>"
+    #   CONFLUENCE_USERNAME: "<your-confluence-username>"
+    #   CONFLUENCE_API_TOKEN: "<your-confluence-api-token>"

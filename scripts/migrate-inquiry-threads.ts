@@ -358,8 +358,10 @@ async function runStandaloneValidation() {
       log.info({
         message: 'Migration Results',
         totalThreadsChecked: migrationResult.totalThreadsChecked,
-        threadsWithMissingInquiryId: migrationResult.threadsWithMissingInquiryId,
-        threadsWithInquiryResponses: migrationResult.threadsWithInquiryResponses,
+        threadsWithMissingInquiryId:
+          migrationResult.threadsWithMissingInquiryId,
+        threadsWithInquiryResponses:
+          migrationResult.threadsWithInquiryResponses,
         migratedOrWouldMigrate: isDryRun
           ? migrationResult.threadsWithInquiryResponses
           : migrationResult.successfulMigrations,

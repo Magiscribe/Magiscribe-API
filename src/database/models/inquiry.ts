@@ -60,6 +60,12 @@ const InquirySchema: Schema = new mongoose.Schema(
           },
         ],
       },
+      integrations: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Integration',
+        },
+      ],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },
     },

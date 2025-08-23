@@ -1,0 +1,18 @@
+import { Integration as IIntegration } from '@/graphql/codegen';
+import mongoose, { Schema } from 'mongoose';
+
+const IntegrationSchema: Schema = new Schema(
+  {
+    name: { type: String, required: true },
+    type: { type: String, enum: ['MCP'], required: true },
+    description: { type: String, required: false },
+    config: { type: Object, required: false },
+    userId: { type: String, ref: 'User', required: true },
+  },
+  { timestamps: true },
+);
+
+export const Integration = mongoose.model<IIntegration>(
+  'Integration',
+  IntegrationSchema,
+);
