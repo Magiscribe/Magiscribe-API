@@ -73,7 +73,7 @@ export function applyFilter(
  * @returns {Promise<string> | Error} The result of the Python code execution.
  */
 export async function executePythonCode(code: string): Promise<string> {
-  log.trace('Executing Python code', { msg: code });
+  log.trace({ msg: code }, 'Executing Python code');
   if (!config.lambda.pythonExecutorName) {
     throw new Error('No executor Lambda function defined.');
   }

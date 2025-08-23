@@ -216,7 +216,7 @@ export default async function startServer() {
           await updateAllUserQuotas();
           log.info('Scheduled quota update completed successfully');
         } catch (error) {
-          log.error('Scheduled quota update failed:', error);
+          log.error({ error }, 'Scheduled quota update failed');
         }
       }
     };
