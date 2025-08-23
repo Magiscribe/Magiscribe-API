@@ -78,23 +78,6 @@ export async function getUsersById({
   }
 }
 
-export async function sendClerkInvite({
-  email,})
-: Promise<string> {
-  try {
-    const result = await clerkClient.invitations.createInvitation({
-      emailAddress: email,
-      ignoreExisting: true,
-      notify: true,
-    });
-    log.info({ result, email }, 'Clerk invite sent successfully');
-    return "Success";
-  } catch (error) {
-    log.error({ error, email }, 'Failed to send Clerk invite');
-    throw new Error('Failed to send Clerk invite');
-  }
-}
-
 /**
  * Retrieves a single user by ID
  * @param userId - User ID to fetch

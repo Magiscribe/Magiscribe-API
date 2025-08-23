@@ -26,7 +26,5 @@ export default `#graphql
   type Mutation {
     registerUser: Boolean! @auth
     emailInquiryToUsers(userData: [UserDataInput!]!, inquiryId: String!): String
-    emailInquiryToUsers(userData: [UserDataInput!]!, inquiryId: String!): String
-    sendClerkInvite(userEmail: String!): String
   }
 `;

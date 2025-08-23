@@ -19,17 +19,24 @@ export default `#graphql
     subscriptionId: ID!
     type: PredictionType!
     result: String
+    correlationId: String
     tokenUsage: TokenUsage
+  }
+
+  type AddPredictionResponse {
+    status: String!
+    correlationId: String!
   }
 
   type Mutation {
     addPrediction(
       subscriptionId: ID!
       agentId: ID!
-      inquiryId: ID
       variables: JSONObject
       attachments: [JSONObject!]
-    ): String
+      inquiryId: ID
+      integrationId: ID
+    ): AddPredictionResponse!
   }
 
   type Subscription {

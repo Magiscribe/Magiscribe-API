@@ -36,7 +36,6 @@ const InquiryResponseSchema: Schema = new mongoose.Schema(
 const InquirySchema: Schema = new mongoose.Schema(
   {
     userId: [{ type: String, ref: 'User', required: true }],
-    ownerEmail: [{ type: String, required: true }],
     data: {
       settings: {
         title: { type: String, required: true },
@@ -61,6 +60,12 @@ const InquirySchema: Schema = new mongoose.Schema(
           },
         ],
       },
+      integrations: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Integration',
+        },
+      ],
       graph: { type: Object, required: false },
       draftGraph: { type: Object, required: false },
     },
