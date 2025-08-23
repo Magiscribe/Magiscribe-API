@@ -44,7 +44,7 @@
     "name": "Condition Node",
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "ConditionNodeCapability",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET",
+    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
     "description": "Decide how to proceed depending on the instructions in the graph and node visit history",
     "prompts": [
       "66bf8d0aa9430d3fa1391448",
@@ -57,7 +57,7 @@
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-16T17:28:02.815Z",
-    "updatedAt": "2025-06-29T18:36:16.135Z",
+    "updatedAt": "2025-08-23T22:51:17.091Z",
     "__v": 0
   },
   {
@@ -181,18 +181,18 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "alias": "IntegrationGeneration",
     "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
-    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
+    "description": "Decide what MCP action to take depending on the instructions in the graph and node visit history",
     "prompts": [
       "675f26e482eb4e2c7a85d891",
-      "6695d854888b8bcf4b03be89",
       "66bf8ccba9430d3fa1391445",
+      "6695d854888b8bcf4b03be89",
       "688c57bf132361f9b7b40dda"
     ],
     "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:37:26.531Z",
-    "updatedAt": "2025-08-01T06:01:21.592Z",
+    "updatedAt": "2025-08-23T22:52:30.942Z",
     "__v": 0
   },
   {
@@ -473,30 +473,6 @@
     "outputFilter": null,
     "createdAt": "2024-06-17T21:30:42.645Z",
     "updatedAt": "2025-06-22T16:05:46.463Z",
-    "__v": 0
-  },
-  {
-    "_id": "688c574d132361f9b7b40dad",
-    "name": "Dynamic Question Generation Copy 1754027853876",
-    "logicalCollection": "67200e060a342cc6ff42ddee",
-    "alias": "DynamicQuestionGenerationCapabilityCopy_1754027853876",
-    "llmModel": "REGIONAL_CLAUDE_3_5_SONNET_V2",
-    "description": "Decide what question to ask depending on the instructions in the graph and node visit history",
-    "prompts": [
-      "669541137ceb83a7fb75eb17",
-      "6695d854888b8bcf4b03be89",
-      "66db4139230520f669c6b5e0",
-      "66e38eeae162aa12d1a799fb",
-      "66e0be6d9337a12aa64c0bc1",
-      "673ebeedf85550a742a85875",
-      "675f26e482eb4e2c7a85d891",
-      "66bf8ccba9430d3fa1391445"
-    ],
-    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
-    "subscriptionFilter": null,
-    "outputFilter": null,
-    "createdAt": "2025-08-01T05:57:33.977Z",
-    "updatedAt": "2025-08-01T05:57:33.977Z",
     "__v": 0
   }
 ]

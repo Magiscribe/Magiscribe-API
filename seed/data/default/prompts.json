@@ -68,7 +68,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<userDetails>\n{{userDetails}}\n</userDetails>",
     "createdAt": "2024-12-15T18:58:44.010Z",
-    "updatedAt": "2025-08-01T06:01:21.459Z",
+    "updatedAt": "2025-08-23T22:52:30.791Z",
     "__v": 0
   },
   {
@@ -176,7 +176,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<conversationHistory>\n{{conversationHistory}}\n</conversationHistory>",
     "createdAt": "2024-08-16T17:30:51.882Z",
-    "updatedAt": "2025-08-01T06:01:21.469Z",
+    "updatedAt": "2025-08-23T22:52:30.734Z",
     "__v": 0
   },
   {
@@ -302,7 +302,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<userMessage>\n{{userMessage}}\n</userMessage>",
     "createdAt": "2024-07-16T02:17:56.228Z",
-    "updatedAt": "2025-08-01T06:01:21.476Z",
+    "updatedAt": "2025-08-23T22:52:30.823Z",
     "__v": 0
   },
   {
@@ -365,7 +365,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<MCPTools>{{mcpTools}}</MCPTools>",
     "createdAt": "2025-08-01T05:59:27.055Z",
-    "updatedAt": "2025-08-01T06:01:21.469Z",
+    "updatedAt": "2025-08-23T22:52:30.746Z",
     "__v": 0
   }
 ]
