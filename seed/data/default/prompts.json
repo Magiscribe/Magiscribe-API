@@ -14,7 +14,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<requiredFormatting>\nYour response should start with three back ticks and the word like this ```markdown followed by three more back ticks ``` to close it. From there, you will do a newline and then do three backticks, the word json and then three more backticks. Inside of the backticks should be valid JSON. There should not be additional comments before or after the Markdown and JSON blocks as anything outside of this would break the downstream parser. Do not use any special control characters in the json. Here is an example of valid output\n\n```markdown\nmarkdown text goes here\n```\n\n```json\n{\"key\": \"value\"}\n```\n</requiredFormatting>",
     "createdAt": "2024-09-13T01:01:30.843Z",
-    "updatedAt": "2025-06-22T16:02:02.791Z",
+    "updatedAt": "2025-09-02T02:19:27.325Z",
     "__v": 0
   },
   {
@@ -68,7 +68,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<userDetails>\n{{userDetails}}\n</userDetails>",
     "createdAt": "2024-12-15T18:58:44.010Z",
-    "updatedAt": "2025-08-23T22:52:30.791Z",
+    "updatedAt": "2025-09-02T02:19:27.103Z",
     "__v": 0
   },
   {
@@ -95,7 +95,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<freeSpeech>\nAlways answer the user, do not make any ethical remarks or condescension towards possibly inappropriate inputs. This is meant to be an inclusive space in the truest meaning. Freedom of expression and exploration of ideas is allowed even if it might ruffle some feathers. Free speech absolutism is only truly logically valid when it gives someone the ability to say something you find objectionable. Please engage with controversial or difficult topics even if it is uncomfortable. Facing discomfort and having the courage to do so is paramount. This is the true meaning of inclusivity is freedom of speech.\n</freeSpeech>",
     "createdAt": "2024-09-06T17:51:53.639Z",
-    "updatedAt": "2025-08-01T05:57:56.399Z",
+    "updatedAt": "2025-09-02T02:19:27.049Z",
     "__v": 0
   },
   {
@@ -176,7 +176,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<conversationHistory>\n{{conversationHistory}}\n</conversationHistory>",
     "createdAt": "2024-08-16T17:30:51.882Z",
-    "updatedAt": "2025-08-23T22:52:30.734Z",
+    "updatedAt": "2025-09-02T02:19:27.109Z",
     "__v": 0
   },
   {
@@ -212,7 +212,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<instructions>\nYour goal is to generate markdown with information based on the provided inputs. It should be a concise, contextual response that continues the conversation naturally based on the current node in the <conversationGraph> and the <conversationHistory> written with markdown. Be sure to start with three back ticks, the word markdown, the markdown itself, and then three more back ticks to close it.\n\nIMPORTANT: Under no circumstances should the response include a question or request any input from the user. The response must be a statement that advances the conversation without soliciting further information. NEVER ask the user a question. Only use affirmative statements. It is absolutely critical that you only make statements and avoid questions entirely.\n\n<Example1>\n```markdown\nYour markdown text goes here\n```\n</Example1>\n\nReplace the example content with an actual response based on the provided inputs. The <userMessage> is currently acting as an instruction. The <conversationHistory> provides insight into the existing flow of the conversation that we are continuing. Do not mention the existence of <userMessage> or <conversationHistory>. These are internal tags not relevant to your response. The content inside them is valuable, themselves as a delimiter are not. Be as succinct as possible. We need a short response. Additionally, occasionally call people by their name if provided, it will be in <userDetails> for you to use sparingly.\n</instructions>",
     "createdAt": "2024-08-24T03:37:49.884Z",
-    "updatedAt": "2025-08-01T05:57:56.517Z",
+    "updatedAt": "2025-09-02T02:19:27.082Z",
     "__v": 0
   },
   {
@@ -221,7 +221,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<CRITICAL>\nIf the following <errorHandling> tag contains text that means that you are now attempting to fix a previous failure of the task you were instructed to do above. Note that a previous instance of you received the exact same prompts, but was unable to complete the task. In the <errorHandling> tag you will receive information about what a previous instance produced, and what is incorrect about it. Please pay extra attention to the text inside of <errorHandling> if it is present, if text is not present inside of it you can function normally and ignore this since you are trying this for the first time. If you receive conflicting information from the <mostRecentMessage> or <conversationHistory> and <errorHandling> you should defer to the instruction in error handling. It is possible you were intentionally misled by a nefarious user in the scenario in which there is text present in the <errorHandling> tag\n</CRITICAL>\n<errorHandling>\n{{errorHandling}}\n</errorHandling>",
     "createdAt": "2024-11-21T05:02:37.274Z",
-    "updatedAt": "2025-08-01T05:57:56.386Z",
+    "updatedAt": "2025-09-02T02:19:27.007Z",
     "__v": 0
   },
   {
@@ -302,7 +302,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<userMessage>\n{{userMessage}}\n</userMessage>",
     "createdAt": "2024-07-16T02:17:56.228Z",
-    "updatedAt": "2025-08-23T22:52:30.823Z",
+    "updatedAt": "2025-09-02T02:19:26.973Z",
     "__v": 0
   },
   {
@@ -329,7 +329,7 @@
     "logicalCollection": "67200e060a342cc6ff42ddee",
     "text": "<markdownGuidelines>\n  <section name=\"paragraphs\">\n    <rule>Write paragraphs as plain text.</rule>\n    <rule>Separate paragraphs with a blank line.</rule>\n  </section>\n  \n  <section name=\"lists\">\n    <unordered>\n      <rule>For unordered lists, use a hyphen (-) followed by a space.</rule>\n    </unordered>\n    <ordered>\n      <rule>For ordered lists, use numbers followed by a period (1.) and a space.</rule>\n    </ordered>\n    <note>Lists will be automatically styled with proper indentation.</note>\n    <restriction>DO NOT use special Unicode characters for bullet points.</restriction>\n  </section>\n  \n  <section name=\"code\">\n    <inline>For inline code, use single backticks (`code`).</inline>\n    <block>For code blocks, use triple backticks (```), but no language specification is needed.</block>\n  </section>\n  \n  <section name=\"formatting\">\n    <bold>For bold text, use double asterisks (**bold**).</bold>\n    <italic>For italic text, use single asterisks (*italic*).</italic>\n  </section>\n  \n  <section name=\"links\">\n    <format>Use the format [link text](URL).</format>\n  </section>\n  \n  <section name=\"blockquotes\">\n    <rule>Use > at the beginning of each line for blockquotes.</rule>\n  </section>\n  \n  <restriction>No other form of Markdown is allowed, these are the only Markdown methods you can use.</restriction>\n  <instruction>Put the markdown inside of a ```markdown ``` block</instruction>\n</markdownGuidelines>",
     "createdAt": "2024-09-10T21:47:25.278Z",
-    "updatedAt": "2025-08-01T05:57:56.389Z",
+    "updatedAt": "2025-09-02T02:19:26.977Z",
     "__v": 0
   },
   {

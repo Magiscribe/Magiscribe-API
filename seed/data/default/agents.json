@@ -6,13 +6,13 @@
     "description": "Generates the information given the node visit history and graph",
     "reasoning": null,
     "capabilities": [
-      "66c95576ae782803372bd9f8"
+      "68b6542f873e1debe91487bc"
     ],
     "memoryEnabled": false,
     "subscriptionFilter": null,
     "outputFilter": null,
     "createdAt": "2024-08-24T03:39:38.864Z",
-    "updatedAt": "2024-08-24T03:39:57.669Z",
+    "updatedAt": "2025-09-02T02:19:49.087Z",
     "__v": 0
   },
   {
