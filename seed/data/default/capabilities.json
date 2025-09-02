@@ -474,5 +474,29 @@
     "createdAt": "2024-06-17T21:30:42.645Z",
     "updatedAt": "2025-06-22T16:05:46.463Z",
     "__v": 0
+  },
+  {
+    "_id": "68b6542f873e1debe91487bc",
+    "name": "Dynamic Information Generation",
+    "logicalCollection": "67200e060a342cc6ff42ddee",
+    "alias": "dynamicInformationGeneration",
+    "llmModel": "REGIONAL_CLAUDE_3_5_HAIKU",
+    "description": "Generate information node content",
+    "prompts": [
+      "66c9558dae782803372bda00",
+      "6695d854888b8bcf4b03be89",
+      "66db4139230520f669c6b5e0",
+      "66e38eeae162aa12d1a799fb",
+      "66e0be6d9337a12aa64c0bc1",
+      "673ebeedf85550a742a85875",
+      "675f26e482eb4e2c7a85d891",
+      "66bf8ccba9430d3fa1391445"
+    ],
+    "outputMode": "SYNCHRONOUS_PASSTHROUGH_AGGREGATE",
+    "subscriptionFilter": null,
+    "outputFilter": null,
+    "createdAt": "2025-09-02T02:19:27.488Z",
+    "updatedAt": "2025-09-02T02:19:27.488Z",
+    "__v": 0
   }
 ]
