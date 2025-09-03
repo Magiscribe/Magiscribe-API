@@ -344,7 +344,7 @@ export async function generatePrediction({
   auth,
   subscriptionId,
   agentId,
-  inquiryId,
+  threadLookups,
   variables,
   attachments,
   integrationId,
@@ -353,7 +353,7 @@ export async function generatePrediction({
   auth?: { sub?: string };
   subscriptionId: string;
   agentId: string;
-  inquiryId?: string;
+  threadLookups?: Map<string, string>;
   variables: Record<string, string>;
   attachments: Array<Content>;
   integrationId?: string;
@@ -372,7 +372,7 @@ export async function generatePrediction({
     const agent = await getAgent(agentId);
     if (!agent) throw new Error(`No agent found for ID: ${agentId}`);
 
-    const thread = await findOrCreateThread(subscriptionId, inquiryId);
+    const thread = await findOrCreateThread(subscriptionId, threadLookups);
     await addToThread(thread, auth?.sub, variables, true);
 
     log.debug({
@@ -942,5 +942,9 @@ export async function generatePredictionWithInquiry({
     attachments,
     integrationId,
     correlationId,
+    threadLookups: new Map([
+      ['inquiryId', inquiryId],
+      ['userId', auth?.sub ?? ''],
+    ]),
   });
 }
