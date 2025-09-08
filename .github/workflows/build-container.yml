@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Assume AWS Role
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ inputs.role_to_assume }}
           aws-region: ${{ inputs.region }}

@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Assume AWS Role
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
@@ -67,7 +67,7 @@ jobs:
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@64aefa8f68c9083d24d230e3099d046d5964bcba
+        uses: aws-actions/amazon-ecs-render-task-definition@5cb8c74c1b1ecaec4c8ea82eff82c009333509ce
         with:
           task-definition: ${{ steps.get-task-def.outputs.definition }}
           container-name: ${{ steps.get-task-def.outputs.name }}
@@ -90,7 +90,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'pnpm'
@@ -100,7 +100,7 @@ jobs:
         run: pnpm install
 
       - name: Assume AWS Role
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
