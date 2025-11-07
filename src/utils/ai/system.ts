@@ -50,15 +50,21 @@ export async function getCapability(
   return await Capability.findOne({ alias }).populate('prompts');
 }
 
+/**
+ * Finds or creates a thread for a subscription.
+ * @param subscriptionId {string} - The ID of the subscription.
+ * @param threadLookups {Map<string, string>} - A map of values that can be used to look up the thread (e.g., userId, inquiryId).
+ * @returns {Promise<IThread>} - The found or created thread.
+ */
 export async function findOrCreateThread(
   subscriptionId: string,
-  inquiryId?: string,
+  threadLookups?: Map<string, string>,
 ) {
-  const updateData: { $setOnInsert: { messages: []; inquiryId?: string } } = {
+  const updateData = {
     $setOnInsert: { messages: [] },
   };
-  if (inquiryId) {
-    updateData.$setOnInsert.inquiryId = inquiryId;
+  for (const [key, value] of threadLookups?.entries() || []) {
+    updateData.$setOnInsert[key] = value;
   }
 
   return await Thread.findOneAndUpdate({ subscriptionId }, updateData, {

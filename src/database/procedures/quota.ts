@@ -65,7 +65,10 @@ export async function calculateUserTokenUsage(userId: string): Promise<{
 
     return tokenTotals;
   } catch (error) {
-    log.error({ error, userId }, `Error calculating token usage for user ${userId}`);
+    log.error(
+      { error, userId },
+      `Error calculating token usage for user ${userId}`,
+    );
     throw new Error(
       `Failed to calculate token usage for user ${userId}: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
