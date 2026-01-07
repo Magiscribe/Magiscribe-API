@@ -1,0 +1,63 @@
+name: 'Build and Push Container'
+description: 'Build and push a Docker container to AWS ECR'
+
+inputs:
+  path:
+    description: 'The path to the Dockerfile to build and push'
+    required: true
+  repository:
+    description: 'The repository to push the image to'
+    required: true
+  role_to_assume:
+    description: 'The ARN of the role to assume'
+    required: true
+  region:
+    description: 'The AWS region to use'
+    required: true
+
+outputs:
+  image:
+    description: 'The image URI of the pushed image'
+    value: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ github.sha }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
+
+    - name: Assume AWS Role
+      uses: aws-actions/configure-aws-credentials@v5
+      with:
+        role-to-assume: ${{ inputs.role_to_assume }}
+        aws-region: ${{ inputs.region }}
+
+    - name: Login to AWS ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        mask-password: 'true'
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        platforms: linux/arm64
+        context: ${{ inputs.path }}
+        push: true
+        provenance: false
+        cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache
+        cache-to: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:cache,mode=max,image-manifest=true
+        tags: |
+          ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:latest
+          ${{ steps.login-ecr.outputs.registry }}/${{ inputs.repository }}:${{ github.sha }}
+        labels: |
+          org.opencontainers.image.created=${{ github.event.head_commit.timestamp }}
+          org.opencontainers.image.revision=${{ github.sha }}
+          org.opencontainers.image.title=${{ inputs.repository }}
+          org.opencontainers.image.platform=linux/arm64
