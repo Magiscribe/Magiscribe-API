@@ -1,10 +1,10 @@
-name: Deploy Script 🗒️
+name: Run Migration Script 🗒️
 
 on:
   workflow_dispatch:
     inputs:
       script_name:
-        description: 'Select migration script to deploy'
+        description: 'Select migration script to run'
         required: true
         type: choice
         options:
