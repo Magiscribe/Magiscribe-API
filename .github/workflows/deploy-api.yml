@@ -19,22 +19,33 @@ concurrency:
 jobs:
   build-lambda:
     name: Build Lambda Image
-    uses: ./.github/workflows/build-container.yml
-    with:
-      path: './lambdas/python-executor'
-      repository: 'python-executor'
-      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
-      region: 'us-east-1'
-    secrets: inherit
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build-container.outputs.image }}
+    steps:
+      - name: Build and Push Container
+        id: build-container
+        uses: ./.github/actions/build-container
+        with:
+          path: './lambdas/python-executor'
+          repository: 'python-executor'
+          role_to_assume: ${{ vars.AWS_ROLE_ARN }}
+          region: 'us-east-1'
+
   build-api:
     name: Build API Image
-    uses: ./.github/workflows/build-container.yml
-    with:
-      path: './'
-      repository: 'magiscribe-api'
-      role_to_assume: ${{ vars.AWS_ROLE_ARN }}
-      region: 'us-east-1'
-    secrets: inherit
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.build-container.outputs.image }}
+    steps:
+      - name: Build and Push Container
+        id: build-container
+        uses: ./.github/actions/build-container
+        with:
+          path: './'
+          repository: 'magiscribe-api'
+          role_to_assume: ${{ vars.AWS_ROLE_ARN }}
+          region: 'us-east-1'
 
   deploy-api:
     name: Deploy API
