@@ -37,9 +37,9 @@ jobs:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@main
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v5
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: 'pnpm'
@@ -49,7 +49,7 @@ jobs:
         run: pnpm install
 
       - name: Assume AWS Role
-        uses: aws-actions/configure-aws-credentials@v5
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
@@ -74,7 +74,7 @@ jobs:
           echo "ip_address=$(curl https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
 
       - name: Setup MongoDB Atlas cli
-        uses: mongodb/atlas-github-action@v0.2.1
+        uses: mongodb/atlas-github-action@v0.2.2
 
       - name: Add runner IP to MongoDB access list
         shell: bash
